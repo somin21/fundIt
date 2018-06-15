@@ -45,12 +45,12 @@ div#nav div#nav-login{
 }
 div#nav div#nav-login img{
 	width: 35px;
-    top: 5px;
+    /* top: 5px; */
     position: relative;
 }
 div#nav div#nav-menu img{
 	width: 20px;
-    top: 5px;
+    /* top: 5px; */
     position: relative;
 }
 .menu-click:hover, .profile-click:hover{
@@ -62,7 +62,7 @@ div#nav div#menu-click-div{
 	background: rgba(255,255,255,0.8); 
     position: fixed;
     top: 55px;
-    left: 15%;
+    left: 15.5%;
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
     box-sizing: border-box;
@@ -84,39 +84,6 @@ div#profile-click-div hr{
 	border: 0.5px dashed gray;
 }
 
-@media ( max-width: 1300px ){
-	div#nav span.menu-click{
-		display: none;
-	}
-}
-@media ( max-width: 1020px ){
-	div#nav span{
-		display: none;
-	}
-}
-@media ( max-width: 460px ){
-	div#nav div{
-		padding-top:10px;
-	}
-	div#nav div#nav-title{
-		font-size: 1em;
-	}
-	div#nav div#nav-login{
-		width: 30%;
-	}
-	div#nav div#nav-login img{
-		width: 20px;
-	}
-}
-@media ( max-width: 248px ){
-	div#nav div#nav-login img{
-		top: -15px;
-	}
-	div#nav div#nav-title{
-		top: -10px;
-	}	
-}
-	
 /**************************** content-container ****************************/
 div#content-container{
 	margin: 55px auto 0;
@@ -157,7 +124,39 @@ div#footer p#copyright{
 	color: gray;
 	font-size: 0.8em;
 }
-@media ( max-width: 248px ){
+
+/**************************** 반응형 ****************************/
+@media ( max-width: 1300px ){
+	div#nav span.menu-click{
+		display: none;
+	}
+}
+@media ( max-width: 900px ){
+	div#nav span{
+		display: none;
+	}
+	div#nav{
+		padding: 5px 10%;
+	}
+	div#nav div#nav-login{
+		width: 30%;
+	}
+	div#nav-login img{ 
+		right: -40%;
+	}
+	div#nav div#menu-click-div {
+    	left: 6%;
+	}
+	div#nav div#profile-click-div {
+    	right: 5%;
+	}
+	div#content-container{
+		width: 90%;
+	}
+	div#footer p{
+		width: 90%;
+		padding-left: 10px;
+	}
 	button#messageToAdmin{
 		width: 52px;
 	}
