@@ -14,6 +14,7 @@
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.3.1.js"></script>
 
 <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Shadows+Into+Light" rel="stylesheet">
+
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/style-index.css" />
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
@@ -67,15 +68,15 @@ $(function(){
 		
 		<!-- 로그인X -->
 		<span>
-		<a href="">로그인</a>
-		/
+		<a href="${pageContext.request.contextPath }/member/login.do">로그인</a>
+		
 		<a href="">회원가입</a>
 		</span>
 		
 		&nbsp;
-		<!-- <a href=""> -->
-			<img src="${pageContext.request.contextPath }/resources/images/profile.png" class="profile-click" />
-		<!-- </a> -->
+		<a href="${pageContext.request.contextPath }/member/login.do">
+			<img src="${pageContext.request.contextPath }/resources/images/profile.png" />
+		</a>
 		
 		<!-- 로그인O --><!-- 
 		<span class="profile-click">
