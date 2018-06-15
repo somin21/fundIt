@@ -5,11 +5,11 @@
 body{
 	user-select: none;
 }
+
 div#nav a, div#nav a:link, div#nav a:visited, div#nav a:active, div#nav a:hover{
 	text-decoration: none;
 	color: black;
 }
-
 div#nav{
 	width: 110%;
     height: 60px;
@@ -19,6 +19,7 @@ div#nav{
     position: fixed;
     left: -5%;
     top: -5px;
+    z-index: 100;
 }
 div#nav div{
 	display: inline-block;
@@ -45,7 +46,7 @@ div#nav div#nav-login{
 }
 div#nav div#nav-login img{
 	width: 35px;
-    /* top: 5px; */
+    top: -4px;
     position: relative;
 }
 div#nav div#nav-menu img{
@@ -87,9 +88,10 @@ div#profile-click-div hr{
 /**************************** content-container ****************************/
 div#content-container{
 	margin: 55px auto 0;
-	width: 70%;
+	width: 100%;
 	min-height: 900px;
 	box-sizing: border-box;
+	position : relative;
 }
 
 /**************************** footer ****************************/
@@ -130,6 +132,9 @@ div#footer p#copyright{
 	div#nav span.menu-click{
 		display: none;
 	}
+	div#slide-project img{
+		height: 400px;
+	}
 }
 @media ( max-width: 900px ){
 	div#nav span{
@@ -162,5 +167,8 @@ div#footer p#copyright{
 	}
 	button#messageToAdmin span{
 		display: none;
+	}
+	div#slide-project img{
+		height: 300px;
 	}
 }
