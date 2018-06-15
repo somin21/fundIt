@@ -12,7 +12,7 @@
 	<!-- Add Code : Database -->
 	<bean id="dataSource-origin" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
-		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
+		<property name="url" value="jdbc:oracle:thin:@khq.iptime.org:1521:xe"/>
 		<property name="username" value="fundit"/>
 		<property name="password" value="fundit"/>
 	</bean>
