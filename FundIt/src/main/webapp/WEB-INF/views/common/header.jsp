@@ -14,7 +14,7 @@
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.3.1.js"></script>
 
 <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Shadows+Into+Light" rel="stylesheet">
-<link rel="stylesheet" href="./resources/css/style-header.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/style-header.css" />
 
 <script>
 $(function(){
@@ -32,7 +32,7 @@ $(function(){
 
 <div id="nav">
 	<div id="nav-menu">
-		<img src="./resources/images/menu.png" class="menu-click" />
+		<img src="${pageContext.request.contextPath }/resources/images/menu.png" class="menu-click" />
 		<span class="menu-click">
 			프로젝트 둘러보기
 		</span>
@@ -63,11 +63,11 @@ $(function(){
 		
 		<!-- 로그인X -->
 		<span>
-		<a href="">로그인</a>
-		/
+		<a href="${pageContext.request.contextPath }/member/login.do">로그인</a>
+		
 		<a href="">회원가입</a>
 		</span>
-		<img src="./resources/images/profile.png" class="profile-click" />
+		<img src="${pageContext.request.contextPath }/resources/images/profile.png" class="profile-click" />
 		
 		<!-- 로그인O --><!-- 
 		<span class="profile-click">
