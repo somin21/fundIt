@@ -71,7 +71,10 @@ $(function(){
 		/
 		<a href="">회원가입</a>
 		</span>
-		<img src="${pageContext.request.contextPath }/resources/images/profile.png" class="profile-click" />
+		
+		<a href="">
+			<img src="${pageContext.request.contextPath }/resources/images/profile.png" />
+		</a>
 		
 		<!-- 로그인O --><!-- 
 		<span class="profile-click">
