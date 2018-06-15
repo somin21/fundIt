@@ -13,7 +13,7 @@ div#nav a, div#nav a:link, div#nav a:visited, div#nav a:active, div#nav a:hover{
 div#nav{
 	width: 110%;
     height: 60px;
-    padding: 5px 10% 0;
+    padding: 5px 20% 0;
     box-sizing: border-box;
     background: rgba(255,255,255,0.8);
     position: fixed;
@@ -62,7 +62,7 @@ div#nav div#menu-click-div{
 	background: rgba(255,255,255,0.8); 
     position: fixed;
     top: 55px;
-    left: 5%;
+    left: 15%;
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
     box-sizing: border-box;
@@ -74,7 +74,7 @@ div#nav div#profile-click-div{
 	background: rgba(255,255,255,0.8); 
     position: fixed;
     top: 55px;
-    right: 8%;
+    right: 17%;
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
     box-sizing: border-box;
@@ -84,6 +84,11 @@ div#profile-click-div hr{
 	border: 0.5px dashed gray;
 }
 
+@media ( max-width: 1300px ){
+	div#nav span.menu-click{
+		display: none;
+	}
+}
 @media ( max-width: 1020px ){
 	div#nav span{
 		display: none;
@@ -115,7 +120,8 @@ div#profile-click-div hr{
 /**************************** content-container ****************************/
 div#content-container{
 	margin: 55px auto 0;
-	width: 90%;
+	width: 70%;
+	min-height: 900px;
 	box-sizing: border-box;
 }
 
@@ -128,8 +134,10 @@ div#footer{
     box-shadow: 0px 15px 80px lightgrey;
 }
 div#footer p{
-	text-align: right;
-	width: 90%;
+    text-align: right;
+    width: 80%;
+    box-sizing: border-box;
+    padding-left: 10%;
 }
 div#footer span#help a{
     float: left;
