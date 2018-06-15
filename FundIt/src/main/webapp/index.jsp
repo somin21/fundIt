@@ -6,8 +6,6 @@
 
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
 
-<div id="content-container">
 꺆꺆꺆꺆
-</div>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
