@@ -14,7 +14,11 @@
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.3.1.js"></script>
 
 <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Shadows+Into+Light" rel="stylesheet">
-<link rel="stylesheet" href="./resources/css/style-header.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/style-index.css" />
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+
 
 <script>
 $(function(){
@@ -32,7 +36,7 @@ $(function(){
 
 <div id="nav">
 	<div id="nav-menu">
-		<img src="./resources/images/menu.png" class="menu-click" />
+		<img src="${pageContext.request.contextPath }/resources/images/menu.png" class="menu-click" />
 		<span class="menu-click">
 			프로젝트 둘러보기
 		</span>
@@ -67,7 +71,7 @@ $(function(){
 		/
 		<a href="">회원가입</a>
 		</span>
-		<img src="./resources/images/profile.png" class="profile-click" />
+		<img src="${pageContext.request.contextPath }/resources/images/profile.png" class="profile-click" />
 		
 		<!-- 로그인O --><!-- 
 		<span class="profile-click">

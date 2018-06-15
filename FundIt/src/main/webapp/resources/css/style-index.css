@@ -1,10 +1,11 @@
 @charset "UTF-8";
 
+
+/**************************** header ****************************/
 body{
 	user-select: none;
-	background: lightblue;
 }
-a, a:link, a:visited, a:active, a:hover{
+div#nav a, div#nav a:link, div#nav a:visited, div#nav a:active, div#nav a:hover{
 	text-decoration: none;
 	color: black;
 }
@@ -25,6 +26,7 @@ div#nav div{
 	font-family: 'Do Hyeon', sans-serif;
 	position: relative;
    	box-sizing: border-box;
+   	color: black;
 }
 div#nav div#nav-menu{
 	text-align: left;
@@ -107,4 +109,52 @@ div#profile-click-div hr{
 	}
 	div#nav div#nav-title{
 		top: -10px;
+	}	
+}
+	
+/**************************** content-container ****************************/
+div#content-container{
+	margin: 55px auto 0;
+	width: 90%;
+	box-sizing: border-box;
+	height: 1000px;
+}
+
+/**************************** footer ****************************/
+div#footer{
+	margin: 0 auto;
+	width: 110%;
+	box-sizing: border-box;
+    padding: 20px 5%;
+    box-shadow: 0px 15px 80px lightgrey;
+}
+div#footer p{
+	text-align: right;
+	width: 90%;
+}
+div#footer span#help a{
+    float: left;
+    font-weight: bold;
+    font-size: 1.2em;
+    color: gray;
+}
+button#messageToAdmin img{
+	width: 25px;
+}
+div#footer a, div#footer a:link, div#footer a:visited, div#footer a:active, div#footer a:hover{
+	text-decoration: none;
+	color: black;
+}
+div#footer p#copyright{
+	text-align: left;
+	color: gray;
+	font-size: 0.8em;
+}
+@media ( max-width: 248px ){
+	button#messageToAdmin{
+		width: 52px;
 	}
+	button#messageToAdmin span{
+		display: none;
+	}
+}
