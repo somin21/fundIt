@@ -47,7 +47,7 @@ public class MemberController {
 	
 	
 	@RequestMapping("/member/findPwdSendLink.do")
-	public void findPwdSendLink(@RequestParam final String email, HttpServletRequest request) {
+	public String findPwdSendLink(@RequestParam final String email, HttpServletRequest request) {
 	     System.out.println("email = "+ email);
 	     
 	     final MimeMessagePreparator preparator = new MimeMessagePreparator() {
@@ -62,6 +62,8 @@ public class MemberController {
 	     };
 
 	     mailSender.send(preparator);
+	     
+	     return "member/login";
 
 	   
 	     
