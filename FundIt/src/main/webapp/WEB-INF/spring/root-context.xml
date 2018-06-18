@@ -12,7 +12,7 @@
 	<!-- Add Code : Database -->
 	<bean id="dataSource-origin" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
-		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
+		<property name="url" value="jdbc:oracle:thin:@khq.iptime.org:1521:xe"/>
 		<property name="username" value="fundit"/>
 		<property name="password" value="fundit"/>
 	</bean>
@@ -27,7 +27,7 @@
 		</property>
 	</bean>
 	
-	<bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
+<!-- 	<bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"/>
 		<property name="mapperLocations" value="classpath*:mapper/**/*.xml"/>
 		<property name="configLocation" value="classpath:mybatis-config.xml"/>
@@ -35,7 +35,7 @@
 	
 	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg index="0" ref="sqlSessionFactoryBean"/>
-	</bean>
+	</bean> -->
 	
 	<!-- Add Code : Transaction -->
 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
@@ -53,5 +53,24 @@
    		<aop:pointcut expression="execution(* com.kh.spring..*ServiceImpl.*(..))" id="serviceMethod"/>
    		<aop:advisor advice-ref="txAdvice" pointcut-ref="serviceMethod"/>
    	</aop:config> -->
+   	
+   	
+   	<!-- 메일 관련 -->
+   	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+    <property name="host" value="smtp.gmail.com" />
+    <property name="port" value="587" />
+    <property name="username" value="flyingboy147@gmail.com" />
+    <property name="password" value="!kim284828" />
+    <property name="javaMailProperties">
+        <props>
+            <prop key="mail.smtp.auth">true</prop>
+            <prop key="mail.smtp.starttls.enable">true</prop>
+        </props>
+    </property>
+	</bean>
+   	
+
+   	
+   	
    	
 </beans>
