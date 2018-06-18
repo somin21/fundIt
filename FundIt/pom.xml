@@ -24,6 +24,9 @@
 	
 	<dependencies>
 		<!-- Spring -->
+		<!-- naver -->
+	
+		<!-- naver -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>

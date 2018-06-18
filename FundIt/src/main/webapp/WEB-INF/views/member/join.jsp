@@ -42,7 +42,7 @@ color: red;
 }
 
 </style>
-	<br /><br />zkzk
+	<br /><br />
 	<div>
 	<table id="join-table">
 	<tr>
