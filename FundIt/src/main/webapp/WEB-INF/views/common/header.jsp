@@ -67,28 +67,30 @@ $(function(){
 	<div id="nav-login">
 		
 		<!-- 로그인X -->
-		<span>
-		<a href="${pageContext.request.contextPath }/member/login.do">로그인</a>
-		
-		<a href="">회원가입</a>
-		</span>
-		
-		&nbsp;
-		<a href="${pageContext.request.contextPath }/member/login.do">
-			<img src="${pageContext.request.contextPath }/resources/images/profile.png" />
-		</a>
-		
-		<!-- 로그인O --><!-- 
-		<span class="profile-click">
-			${memberLoggedIn.name}
-		</span>
-		<c:if test="${memberLoggedIn.profileImage ne null}">
-			<img src="./resources/images/${memberLoggedIn.profileImage}" class="profile-click" />
+		<c:if test="${memberLoggedIn eq null }">
+			<span>
+			<a href="${pageContext.request.contextPath }/member/login.do">로그인</a>
+			/
+			<a href="">회원가입</a>
+			</span>
+			&nbsp;
+			<a href="${pageContext.request.contextPath }/member/login.do">
+				<img src="${pageContext.request.contextPath }/resources/images/profile.png" />
+			</a>
 		</c:if>
-		<c:if test= "${memberLoggedIn.profileImage eq null}">
-			<img src="./resources/images/profile.png" class="profile-click" />
+		
+		<!-- 로그인O -->
+		<c:if test="${memberLoggedIn ne null }">
+			<span class="profile-click">
+				${memberLoggedIn.name}
+			</span>
+			<c:if test="${memberLoggedIn.profileImage ne null}">
+				<img src="./resources/images/${memberLoggedIn.profileImage}" class="profile-click" />
+			</c:if>
+			<c:if test= "${memberLoggedIn.profileImage eq null}">
+				<img src="./resources/images/profile.png" class="profile-click" />
+			</c:if>
 		</c:if>
-		-->
 	</div>
 	
 	<div id="profile-click-div">
@@ -101,6 +103,8 @@ $(function(){
 		<hr />
 		<p><a href="">계정 설정</a></p>
 		<p><a href="">프로필 설정</a></p>
+		<hr />
+		<p><a href="">로그아웃</a></p>
 	</div>
 </div>
 
