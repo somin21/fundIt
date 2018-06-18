@@ -20,4 +20,11 @@ public class MemberController {
 		return "member/join";
 	}
 	
+	
+	@RequestMapping("/member/emailjoin.do")
+	public String memberEmailjoin() {
+	
+		return "member/emailjoin";
+	}
+	
 }
