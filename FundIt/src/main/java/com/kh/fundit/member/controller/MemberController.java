@@ -57,7 +57,7 @@ public class MemberController {
 	             helper.setFrom("flyingboy147@naver.com");
 	             helper.setTo(email);
 	             helper.setSubject("fundit에서 비밀번호 링크를 보내드립니다.");
-	             helper.setText("메일보내기 태스트");
+	             helper.setText("메일보내기 태스트 Test");
 	         }
 	     };
 
