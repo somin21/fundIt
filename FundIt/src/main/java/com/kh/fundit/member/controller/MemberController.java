@@ -23,6 +23,7 @@ public class MemberController {
 	@Autowired
 	private JavaMailSenderImpl mailSender;
 	
+//	영준
 	@RequestMapping("/member/login.do")
 		public String memberLogin() {
 		
@@ -30,13 +31,14 @@ public class MemberController {
 		
 	}
 	
+//	영준
 	@RequestMapping("/member/join.do")
 	public String memberJoin() {
 	
 		return "member/join";
 	}
 	
-	
+//	태윤
 	@RequestMapping("/member/findPwd.do")
 	public String findPwd() {
 		ModelAndView mav = new ModelAndView();
@@ -44,8 +46,7 @@ public class MemberController {
 		return "member/findPwdEnd";
 	}
 	
-	
-	
+//	태윤
 	@RequestMapping("/member/findPwdSendLink.do")
 	public String findPwdSendLink(@RequestParam final String email, HttpServletRequest request) {
 	     System.out.println("email = "+ email);
@@ -63,11 +64,7 @@ public class MemberController {
 
 	     mailSender.send(preparator);
 	     
-	     return "member/login";
-
-	   
-	     
-	    
+	     return "member/login"; 
 	}
 	
 }

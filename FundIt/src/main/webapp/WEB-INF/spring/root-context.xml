@@ -27,7 +27,7 @@
 		</property>
 	</bean>
 	
-<!-- 	<bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
+ 	<bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"/>
 		<property name="mapperLocations" value="classpath*:mapper/**/*.xml"/>
 		<property name="configLocation" value="classpath:mybatis-config.xml"/>
@@ -35,7 +35,7 @@
 	
 	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg index="0" ref="sqlSessionFactoryBean"/>
-	</bean> -->
+	</bean>
 	
 	<!-- Add Code : Transaction -->
 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
@@ -55,7 +55,7 @@
    	</aop:config> -->
    	
    	
-   	<!-- 메일 관련 -->
+   	<!-- Mail -->
    	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
     <property name="host" value="smtp.gmail.com" />
     <property name="port" value="587" />

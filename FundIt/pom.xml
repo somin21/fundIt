@@ -221,8 +221,7 @@
 	        <version>2.9.5</version>
 	    </dependency>
 	    
-	    
-	   <!-- 메일 과나련  --> 
+	   <!-- Mail  --> 
 	   <dependency>
     		<groupId>org.springframework</groupId>
     		<artifactId>spring-context-support</artifactId>
