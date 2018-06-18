@@ -38,6 +38,14 @@ public class MemberController {
 		return "member/join";
 	}
 	
+//	영준
+	@RequestMapping("/member/emailjoin.do")
+	public String memberEmailjoin() {
+	
+		return "member/emailjoin";
+	}
+	
+	
 //	태윤
 	@RequestMapping("/member/findPwd.do")
 	public String findPwd() {
@@ -64,7 +72,7 @@ public class MemberController {
 
 	     mailSender.send(preparator);
 	     
-	     return "member/login"; 
+	     return "member/login";
 	}
 	
 }
