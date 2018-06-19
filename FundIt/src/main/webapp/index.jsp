@@ -6,8 +6,12 @@
 
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
 
-
 <script>
+
+var popularPage = 1;
+var newPage = 1;
+var deadlinePage = 1;
+
 $(function(){
 	
 	/* slideImage */
@@ -187,31 +191,71 @@ function numberWithCommas(x){
 	</div>
 </div>
 	
-<style>
+<script>
 
-</style>
+function ToPrevAjax(urlMapping, page){
+	
+	console.log(page);
+	
+	if(page > 1){
+
+		popularPage = popularPage-1;
+		
+		$.ajax({
+			url : urlMapping,
+			data : {page : page},
+			success : function(data){
+				console.log(data);
+				
+		    	var div_name = $("#popularProjects");
+				div_name.html("");
+				
+		    	for(var i = 0; i < data.length; i++){	    		
+		    		htmlAppend(data[i], div_name);
+				}
+		    	
+		    	if(data.length < 4){
+		    		htmlAppendNone(data.length+1, div_name);
+		    	}
+			},
+			error : function(jqxhr,textStatus,errorThrown){
+				console.log("ajax실패");
+			}
+		});
+	}
+}
+</script>
 
 <div id="index-container">
 	
 	<!-- 카테고리별 인기 프로젝트 12개 -->
-	<div class="index-project" id="popularProjects">
-		<p class="title">
-			분야별 인기 프로젝트
-		</p>
+	<div class="index-project">
+		<div class="title">
+			<img src="${pageContext.request.contextPath }/resources/images/left-arrow.png" id="popularPrevImg" onclick="popularToPrevAjax();"/ />
+			&nbsp;&nbsp;&nbsp;&nbsp;분야별 인기 프로젝트&nbsp;&nbsp;&nbsp;&nbsp;
+			<img src="${pageContext.request.contextPath }/resources/images/right-arrow.png" id="popularNextImg" onclick="popularToNextAjax();"/>
+		</div>
+		<div class="project-group" id="popularProjects"></div>
 	</div>
 	
 	<!-- 새로운 프로젝트 12개 -->
-	<div class="index-project" id="newProjects">
-		<p class="title">
-			새로운 프로젝트
-		</p>
+	<div class="index-project">
+		<div class="title">
+			<img src="${pageContext.request.contextPath }/resources/images/left-arrow.png" />
+			&nbsp;&nbsp;&nbsp;&nbsp;새로운 프로젝트&nbsp;&nbsp;&nbsp;&nbsp;
+			<img src="${pageContext.request.contextPath }/resources/images/right-arrow.png" />
+		</div>
+		<div class="project-group" id="newProjects"></div>
 	</div>
 	
 	<!-- 마감 앞둔 프로젝트 12개 -->
-	<div class="index-project" id="deadlineProjects">
-		<p class="title">
-			마감 앞둔 프로젝트
-		</p>
+	<div class="index-project">
+		<div class="title">
+			<img src="${pageContext.request.contextPath }/resources/images/left-arrow.png" />
+			&nbsp;&nbsp;&nbsp;&nbsp;마감 앞둔 프로젝트&nbsp;&nbsp;&nbsp;&nbsp;
+			<img src="${pageContext.request.contextPath }/resources/images/right-arrow.png" />
+		</div>
+		 <div class="project-group" id="deadlineProjects"></div>
 	</div>
 </div>
 

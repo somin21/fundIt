@@ -85,7 +85,7 @@ $(function(){
 			<span class="profile-click">
 				${memberLoggedIn.name}
 			</span>
-			<img src="${pageContext.request.contextPath }/resources/images/profile.png" />
+			<img src="${pageContext.request.contextPath }/resources/images/profile.png" class="profile-click" />
 			<%-- <c:if test="${memberLoggedIn.profileImage ne null}">
 				<img src="./resources/images/${memberLoggedIn.profileImage}" class="profile-click" />
 			</c:if>
@@ -103,10 +103,10 @@ $(function(){
 		<p><a href="">선물 배송리스트</a></p>
 		<p><a href="">내가 만든 프로젝트</a></p>
 		<hr />
-		<p><a href="${pageContext.request.contextPath }/member/memberView.do?email=suzy@naver.com">계정 설정</a></p>
-		<p><a href="${pageContext.request.contextPath }/member/profileView.do?email=suzy@naver.com">프로필 설정</a></p>
+		<p><a href="${pageContext.request.contextPath }/member/memberView.do?email=${memberLoggedIn.email }">계정 설정</a></p>
+		<p><a href="${pageContext.request.contextPath }/member/profileView.do?email=${memberLoggedIn.email }">프로필 설정</a></p>
 		<hr />
-		<p><a href="">로그아웃</a></p>
+		<p><a href="${pageContext.request.contextPath }/member/memberLogout.do">로그아웃</a></p>
 	</div>
 </div>
 

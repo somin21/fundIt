@@ -33,7 +33,7 @@ public class ProjectController {
 //	소민
 	@RequestMapping("selectIndexPopularProject")
 	@ResponseBody
-	public List<ListProjectView> selectIndexPopularProject(@RequestParam(value="popularProjectPage", required=false, defaultValue="1") int popularProjectPage, HttpServletResponse response) {
+	public List<ListProjectView> selectIndexPopularProject(@RequestParam(value="page", required=false, defaultValue="1") int popularProjectPage, HttpServletResponse response) {
 		
 		int numPerpage = 4;
 		List<ListProjectView> list = projectService.selectIndexPopularProject(popularProjectPage, numPerpage);
@@ -44,7 +44,7 @@ public class ProjectController {
 //	소민
 	@RequestMapping("selectIndexNewProject")
 	@ResponseBody
-	public List<ListProjectView> selectIndexNewProject(@RequestParam(value="newProjectPage", required=false, defaultValue="1") int newProjectPage, HttpServletResponse response) {
+	public List<ListProjectView> selectIndexNewProject(@RequestParam(value="page", required=false, defaultValue="1") int newProjectPage, HttpServletResponse response) {
 		
 		int numPerpage = 4;
 		List<ListProjectView> list = projectService.selectIndexNewProject(newProjectPage, numPerpage);
@@ -55,7 +55,7 @@ public class ProjectController {
 //	소민
 	@RequestMapping("selectIndexDeadlineProject")
 	@ResponseBody
-	public List<ListProjectView> selectIndexDeadlineProject(@RequestParam(value="deadlineProjectPage", required=false, defaultValue="1") int deadlineProjectPage, HttpServletResponse response) {
+	public List<ListProjectView> selectIndexDeadlineProject(@RequestParam(value="page", required=false, defaultValue="1") int deadlineProjectPage, HttpServletResponse response) {
 		
 		int numPerpage = 4;
 		List<ListProjectView> list = projectService.selectIndexDeadlineProject(deadlineProjectPage, numPerpage);
