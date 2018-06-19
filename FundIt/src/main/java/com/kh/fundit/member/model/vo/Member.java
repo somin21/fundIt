@@ -3,7 +3,6 @@ package com.kh.fundit.member.model.vo;
 import java.sql.Date;
 
 public class Member {
-	
 	private String email;
 	private String password;
 	private String name;
@@ -24,6 +23,11 @@ public class Member {
 		this.adminyn = adminyn;
 		this.enrollDate = enrollDate;
 		this.naveryn = naveryn;
+	}
+
+	public Member(String email, String newsyn) {
+		this.email = email;
+		this.newsyn = newsyn;
 	}
 
 	public String getEmail() {
@@ -74,19 +78,9 @@ public class Member {
 		this.enrollDate = enrollDate;
 	}
 
-	public String getNaveryn() {
-		return naveryn;
-	}
-
-	public void setNaveryn(String naveryn) {
-		this.naveryn = naveryn;
-	}
-
 	@Override
 	public String toString() {
 		return "Member [email=" + email + ", password=" + password + ", name=" + name + ", newsyn=" + newsyn
 				+ ", adminyn=" + adminyn + ", enrollDate=" + enrollDate + ", naveryn=" + naveryn + "]";
 	}
-
-	
 }

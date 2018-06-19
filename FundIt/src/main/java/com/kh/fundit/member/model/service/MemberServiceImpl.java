@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.fundit.member.model.dao.MemberDAO;
 import com.kh.fundit.member.model.vo.Member;
+import com.kh.fundit.member.model.vo.Profile;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -22,6 +23,21 @@ public class MemberServiceImpl implements MemberService {
 	public int updateMemberPwd(Member member) {
 		// TODO Auto-generated method stub
 		return memberDAO.updateMemberPwd(member);
+	}
+	
+	@Override
+	public Member selectMember(String email) {
+		return memberDAO.selectMember(email);
+	}
+
+	@Override
+	public int updateMember(Member member) {
+		return memberDAO.updateMember(member);
+	}
+
+	@Override
+	public int updateProfile(Profile profile) {
+		return memberDAO.updateProfile(profile);
 	}
 
 }
