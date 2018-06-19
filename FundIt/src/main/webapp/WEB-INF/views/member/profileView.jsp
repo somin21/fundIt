@@ -63,6 +63,12 @@ div#around2{
 var file;
 $(document).ready(function(){
 	$("#file1").on("change",handleImgFileSelect);
+	
+	$("textarea[name=profileIntroduce]").keyup(function(){
+		var textLength = $(this).val().length;
+		
+		$("#byteCheck").text(textLength);
+	});
 });
 function handleImgFileSelect(e){
 	var files = e.target.files;
@@ -83,6 +89,7 @@ function handleImgFileSelect(e){
 		reader.readAsDataURL(f);
 	});
 }
+
 </script>
 <div id="profile-container1">
 	<div id="profile-inner-container1">
@@ -135,12 +142,14 @@ function handleImgFileSelect(e){
 		<hr />
 		<div id="profile-local" class="form-group row">
 			<label for="introduce" class="col-form-label col-sm-3">소개</label>
-		 	<textarea name="profileIntroduce" class="form-control col-6" id="introduce" rows="4"></textarea>
+		 	<textarea name="profileIntroduce" class="form-control col-6" id="introduce" rows="4" placeholder="100자이내"></textarea> <br />
+		 	<span id="byteCheck">0</span>/200byte
 		</div>
+		 	
 		<hr />
 		<div id="profile-local" class="form-group row">
 			<label for="phoneNum" class="col-form-label col-sm-3">전화번호</label>
-			<input type="text" name="phoneNum" id="phoneNum" class="col-sm-5 form-control"/>
+			<input type="text" name="phoneNum" id="phoneNum" class="col-sm-5 form-control" maxlength="11" placeholder="'-'없을 제외한 전화번호"/>
 		</div>
 		
 		<hr />
