@@ -25,6 +25,15 @@ public class ProjectDAOImpl implements ProjectDAO {
 
 //	소민
 	@Override
+	public List<ListProjectView> selectIndexPopularProject(int popularProjectPage, int numPerpage) {
+		
+		RowBounds rowBounds = new RowBounds(numPerpage*(popularProjectPage-1), numPerpage);
+		
+		return sqlSession.selectList("project.selectIndexPopularProject", null, rowBounds);
+	}
+	
+//	소민
+	@Override
 	public List<ListProjectView> selectIndexNewProject(int newProjectPage, int numPerpage) {
 
 		RowBounds rowBounds = new RowBounds(numPerpage*(newProjectPage-1), numPerpage);
@@ -40,5 +49,6 @@ public class ProjectDAOImpl implements ProjectDAO {
 		
 		return sqlSession.selectList("project.selectIndexDeadlineProject", null, rowBounds);
 	}
+
 
 }

@@ -24,6 +24,13 @@ public class ProjectServiceImpl implements ProjectService {
 
 //	소민
 	@Override
+	public List<ListProjectView> selectIndexPopularProject(int popularProjectPage, int numPerpage) {
+		
+		return projectDAO.selectIndexPopularProject(popularProjectPage, numPerpage);
+	}
+	
+//	소민
+	@Override
 	public List<ListProjectView> selectIndexNewProject(int newProjectPage, int numPerpage) {
 		
 		return projectDAO.selectIndexNewProject(newProjectPage, numPerpage);
@@ -35,5 +42,6 @@ public class ProjectServiceImpl implements ProjectService {
 
 		return projectDAO.selectIndexDeadlineProject(deadlineProjectPage, numPerpage);
 	}
+
 
 }

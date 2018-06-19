@@ -33,32 +33,9 @@ $(function(){
 		}
 	});
 	
-	/* 분야별 인기 프로젝트 12개 */
-	/* $.ajax({
-		url : "selectIndexProject",
-		success : function(data){
-			console.log(data);
-			for(var i = 0; i < data.length; i++){
-				var html = '';
-				if(i == 1){
-					html += '<div class="carousel-item active">';	
-				} else {
-					html += '<div class="carousel-item">';
-				}
-			    html += '<img class="d-block w-100" src="${pageContext.request.contextPath }/resources/images/projects/'+data[i].projectImage+'" />';
-			    html += '</div>';
-			    
-			    $(".carousel-inner").append(html);
-			}
-		},
-		error : function(jqxhr,textStatus,errorThrown){
-			console.log("ajax실패");
-		}
-	}); */
-
-	/* 새로운 프로젝트 12개 */
+	/* 분야별 인기 프로젝트 12개 *//* 새로운 프로젝트 12개 *//* 마감 앞둔 프로젝트 12개 */
 	$.ajax({
-		url : "selectIndexNewProject",
+		url : "selectIndexProjectsList",
 		success : function(data){
 			console.log(data);
 			
@@ -124,7 +101,7 @@ $(function(){
 	});
 
 	/* 마감 앞둔 프로젝트 12개 */
-	$.ajax({
+	/* $.ajax({
 		url : "selectIndexDeadlineProject",
 		success : function(data){
 			console.log(data);
@@ -188,7 +165,7 @@ $(function(){
 		error : function(jqxhr,textStatus,errorThrown){
 			console.log("ajax실패");
 		}
-	});
+	}); */
 });
 
 function numberWithCommas(x){

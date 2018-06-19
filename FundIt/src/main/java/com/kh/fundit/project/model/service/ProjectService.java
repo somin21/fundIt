@@ -13,4 +13,6 @@ public interface ProjectService {
 
 	List<ListProjectView> selectIndexDeadlineProject(int deadlineProjectPage, int numPerpage);
 
+	List<ListProjectView> selectIndexPopularProject(int popularProjectPage, int numPerpage);
+
 }
