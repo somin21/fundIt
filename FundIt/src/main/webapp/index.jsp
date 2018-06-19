@@ -166,27 +166,6 @@ function numberWithCommas(x){
 </script>
 
 
-<style>
-div#slide-project{
-    width: 100%;
-}
-div#slide-project img{
-	height: 500px;
-}
-
-@media ( max-width: 1300px ){
-	div#slide-project img{
-		height: 400px;
-	}
-}
-@media ( max-width: 900px ){
-	div#slide-project img{
-		height: 300px;
-	}
-}
-</style>
-
-
 <div id="slide-project">
 	<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
 	  <ol class="carousel-indicators">

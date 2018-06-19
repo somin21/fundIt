@@ -94,6 +94,25 @@ div#content-container{
 	position : relative;
 }
 
+/**************************** slide-project-image ****************************/
+div#slide-project{
+    width: 100%;
+}
+div#slide-project img{
+	height: 500px;
+}
+
+@media ( max-width: 1300px ){
+	div#slide-project img{
+		height: 400px;
+	}
+}
+@media ( max-width: 900px ){
+	div#slide-project img{
+		height: 300px;
+	}
+}
+
 /**************************** footer ****************************/
 div#footer{
 	margin: 0 auto;
