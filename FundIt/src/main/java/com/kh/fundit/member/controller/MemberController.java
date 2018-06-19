@@ -121,12 +121,12 @@ public class MemberController {
 //영준
 	@RequestMapping("/member/checkEmailDuplicate.do")
 	@ResponseBody
-	public Map<String,Object> checkEmailDuplicate(@RequestParam String Email)  {
-		logger.debug("ResponseBody-javaob ajax:"+Email);
+	public Map<String,Object> checkEmailDuplicate(@RequestParam String email)  {
+		logger.debug("ResponseBody-javaob ajax:"+email);
 		Map<String,Object> map = new HashMap<>(); 
 		
 		//업무로직
-				int count = memberService.checkEmailDuplicate(Email);
+				int count = memberService.checkEmailDuplicate(email);
 				boolean isUsable = count==0?true:false;
 				
 				//jsonString 변환

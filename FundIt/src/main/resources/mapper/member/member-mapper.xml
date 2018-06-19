@@ -11,7 +11,7 @@
 	</update>
 	
 	<!-- 김효정  -->
-	<select id="selectMember" resultMap="memberMap">
+<!-- 	<select id="selectMember" resultMap="memberMap">
 		select * from member where email=#{email}
 	</select>
 	<resultMap type="member" id="memberMap">
@@ -21,7 +21,7 @@
 		<result column="newsyn" property="newsyn"/>
 		<result column="adminyn" property="adminyn"/>
 		<result column="enrolldate" property="enrollDate"/>
-	</resultMap>
+	</resultMap> -->
 	
 	<update id="updateMember">
 	update member set newsyn= #{newsyn} where email=#{email}
@@ -32,7 +32,7 @@
 	</update>
 	
 	<insert id="insertMember">
-	insert into member values(#{Email},#{Password},#{Name},'Y','N',default,'N')
+	insert into member values(#{email},#{password},#{name},'Y','N',default,'N')
 	</insert>
 	
 	
@@ -44,13 +44,13 @@
 	select * from member where email = #{email}
 	</select>
 		<resultMap type="com.kh.fundit.member.model.vo.Member" id="memberMap">
-		<result column="email" property="Email" />
-		<result column="password" property="Password" />
-		<result column="name" property="Name" />
-		<result column="newsyn" property="Newsyn" />
-		<result column="adminyn" property="Adminyn" />
+		<result column="email" property="email" />
+		<result column="password" property="password" />
+		<result column="name" property="name" />
+		<result column="newsyn" property="newsyn" />
+		<result column="adminyn" property="adminyn" />
 		<result column="enrolldate" property="enrollDate" />
-		<result column="naveryn" property="Naveryn" />
+		<result column="naveryn" property="naveryn" />
 	</resultMap>
 	
 </mapper>
