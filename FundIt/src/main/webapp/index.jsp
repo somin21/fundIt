@@ -6,11 +6,200 @@
 
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
 
+
+<script>
+$(function(){
+	
+	/* slideImage */
+	$.ajax({
+		url : "selectIndexProject",
+		success : function(data){
+			console.log(data);
+			for(var i = 0; i < data.length; i++){
+				var html = '';
+				if(i == 1){
+					html += '<div class="carousel-item active">';
+				} else {
+					html += '<div class="carousel-item">';
+				}
+			    html += '<img class="d-block w-100" src="${pageContext.request.contextPath }/resources/images/projects/'+data[i].projectImage+'" />';
+			    html += '</div>';
+			    
+			    $(".carousel-inner").append(html);
+			}
+		},
+		error : function(jqxhr,textStatus,errorThrown){
+			console.log("ajax실패");
+		}
+	});
+	
+	/* 분야별 인기 프로젝트 12개 */
+	/* $.ajax({
+		url : "selectIndexProject",
+		success : function(data){
+			console.log(data);
+			for(var i = 0; i < data.length; i++){
+				var html = '';
+				if(i == 1){
+					html += '<div class="carousel-item active">';	
+				} else {
+					html += '<div class="carousel-item">';
+				}
+			    html += '<img class="d-block w-100" src="${pageContext.request.contextPath }/resources/images/projects/'+data[i].projectImage+'" />';
+			    html += '</div>';
+			    
+			    $(".carousel-inner").append(html);
+			}
+		},
+		error : function(jqxhr,textStatus,errorThrown){
+			console.log("ajax실패");
+		}
+	}); */
+
+	/* 새로운 프로젝트 12개 */
+	$.ajax({
+		url : "selectIndexNewProject",
+		success : function(data){
+			console.log(data);
+			
+			for(var i = 0; i < data.length; i++){
+				var html = '';
+				
+				html += '<div class="project">';
+				html += '<img src="${pageContext.request.contextPath }/resources/images/projects/'+data[i].projectImage+'" />';
+				html += '<div class="summary">';
+				html += '<p>'+data[i].projectTitle+'</p>';
+				html += '<p>'+data[i].name+'</p>';
+				html += '<div class="progress">';
+				
+				if(data[i].supportPercent < 100){
+					html += '<div class="progress-bar bg-danger" role="progressbar" style="width: '+data[i].supportPercent+'%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>';
+				} else {
+					html += '<div class="progress-bar bg-danger" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>';
+				}
+				
+				html += '</div>';
+				html += '<br />';
+				html += '<div class="days">';
+				html += '<img src="${pageContext.request.contextPath }/resources/images/calendar.png"/>';
+				html += '&nbsp;'+data[i].deadlineDay+'일 남음';
+				html += '</div>';
+				html += '<div class="support">';
+				html += '<img src="${pageContext.request.contextPath }/resources/images/money.png"/>';
+				
+				var supportMoney = numberWithCommas(data[i].supportMoney);
+				html += '&nbsp;'+supportMoney+'&nbsp;('+data[i].supportPercent+'%)';
+				
+				html += '</div>';
+				html += '</div>';
+				html += '</div>';
+			    
+			    $("#newProjects").append(html);
+			}
+			
+			if(data.length < 4){
+				for(var i = data.length+1; i <= 4; i++){
+					
+					var html = '<div class="project">';
+					html += '<div class="project-img">';
+					html += '<img src="${pageContext.request.contextPath }/resources/images/empty.png" />';
+					html += '</div>';
+					html += '<div class="summary">';
+					html += '<p>';
+					html += '<span class="no-project">';
+					html += '<br />&nbsp;&nbsp;';
+					html += '등록된 프로젝트가 없습니다';
+					html += '</span>';
+					html += '</p>';
+					html += '</div>'; 
+					html += '</div>';
+					
+					$("#newProjects").append(html);	
+				}
+			}
+		},
+		error : function(jqxhr,textStatus,errorThrown){
+			console.log("ajax실패");
+		}
+	});
+
+	/* 마감 앞둔 프로젝트 12개 */
+	$.ajax({
+		url : "selectIndexDeadlineProject",
+		success : function(data){
+			console.log(data);
+			
+			for(var i = 0; i < data.length; i++){
+				var html = '';
+				
+				html += '<div class="project">';
+				html += '<img src="${pageContext.request.contextPath }/resources/images/projects/'+data[i].projectImage+'" />';
+				html += '<div class="summary">';
+				html += '<p>'+data[i].projectTitle+'</p>';
+				html += '<p>'+data[i].name+'</p>';
+				html += '<div class="progress">';
+				
+				if(data[i].supportPercent < 100){
+					html += '<div class="progress-bar bg-danger" role="progressbar" style="width: '+data[i].supportPercent+'%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>';
+				} else {
+					html += '<div class="progress-bar bg-danger" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>';
+				}
+				
+				html += '</div>';
+				html += '<br />';
+				html += '<div class="days">';
+				html += '<img src="${pageContext.request.contextPath }/resources/images/calendar.png"/>';
+				html += '&nbsp;'+data[i].deadlineDay+'일 남음';
+				html += '</div>';
+				html += '<div class="support">';
+				html += '<img src="${pageContext.request.contextPath }/resources/images/money.png"/>';
+				
+				var supportMoney = numberWithCommas(data[i].supportMoney);
+				html += '&nbsp;'+supportMoney+'&nbsp;('+data[i].supportPercent+'%)';
+				
+				html += '</div>';
+				html += '</div>';
+				html += '</div>';
+			    
+			    $("#deadlineProjects").append(html);
+			}
+			
+			if(data.length < 4){
+				for(var i = data.length+1; i <= 4; i++){
+					
+					var html = '<div class="project" >';
+					html += '<div class="project-img">';
+					html += '<img src="${pageContext.request.contextPath }/resources/images/empty.png" />';
+					html += '</div>';
+					html += '<div class="summary">';
+					html += '<p>';
+					html += '<span class="no-project">';
+					html += '<br />&nbsp;&nbsp;';
+					html += '등록된 프로젝트가 없습니다';
+					html += '</span>';
+					html += '</p>';
+					html += '</div>'; 
+					html += '</div>';
+					
+					$("#deadlineProjects").append(html);	
+				}
+			}
+		},
+		error : function(jqxhr,textStatus,errorThrown){
+			console.log("ajax실패");
+		}
+	});
+});
+
+function numberWithCommas(x){
+	return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g,",");
+}
+</script>
+
+
 <style>
 div#slide-project{
-    width: 145%;
-    position: relative;
-    left: -22%;
+    width: 100%;
 }
 div#slide-project img{
 	height: 500px;
@@ -28,6 +217,7 @@ div#slide-project img{
 }
 </style>
 
+
 <div id="slide-project">
 	<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
 	  <ol class="carousel-indicators">
@@ -37,18 +227,6 @@ div#slide-project img{
 	    <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
 	  </ol>
 	  <div class="carousel-inner">
-	    <div class="carousel-item active">
-	      <img class="d-block w-100" src="${pageContext.request.contextPath }/resources/images/projects/example (1).jpg" alt="First slide">
-	    </div>
-	    <div class="carousel-item">
-	      <img class="d-block w-100" src="${pageContext.request.contextPath }/resources/images/projects/example (2).jpg" alt="Second slide">
-	    </div>
-	    <div class="carousel-item">
-	      <img class="d-block w-100" src="${pageContext.request.contextPath }/resources/images/projects/example (3).jpg" alt="Third slide">
-	    </div>
-	    <div class="carousel-item">
-	      <img class="d-block w-100" src="${pageContext.request.contextPath }/resources/images/projects/example (4).jpg" alt="Forth slide">
-	    </div>
 	  </div>
 	  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
 	    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -84,6 +262,7 @@ div.project:hover{
     top: -3px;
     left: -3px;
     box-shadow: 5px 5px 15px lightgrey;
+    pointer: cursor;
 }
 div.project img{
 	width: 240px;
@@ -104,6 +283,7 @@ div.project div.summary{
 	height: 150px;
 	padding: 15px;
 	box-sizing: border-box;
+	position: relative;
 }
 div.project div.summary p:first-of-type{
 	font-weight: bold;
@@ -113,15 +293,18 @@ div.project div.summary p:last-of-type{
     margin-top: -10px;
 }
 div.project div.summary div.progress{
-    width: 110%;
-    height: 5%;
-    margin-left: -10px;
+    width: 95%;
+    height: 5%;    
+    position: absolute;
+    bottom: 45px;
+    left: 2.5%;
 }
 div.project div.summary div.days {
 	display: inline-block;
 	float: left;
 	font-size: 11px;
-    margin: -10px 0 10px;
+    position: absolute;
+    bottom: 13px;
 }
 div.project div.summary div.days img{
     width: 15px;
@@ -132,7 +315,9 @@ div.project div.summary div.support{
 	display: inline-block;
 	float: right;
 	font-size: 11px;
-    margin: -10px 0 10px;
+    position: absolute;
+    bottom: 13px;
+    right: 10px;
 }
 div.project div.summary div.support img{
     width: 15px;
@@ -167,9 +352,9 @@ div.project div.summary span.no-project{
 		padding: 8px;
 	}
 	div.project div.summary div.progress{
-	    margin-left: -1.5%;
-	    width: 104%;
+	    width: 95%;
 	    height: 3%;
+        bottom: 38px;
 	}
 }
 @media (max-width: 925px){
@@ -179,7 +364,7 @@ div.project div.summary span.no-project{
 
 <div id="index-container">
 	
-	<!-- 카테고리별 인기 프로젝트 6개 -->
+	<!-- 카테고리별 인기 프로젝트 12개 -->
 	<div class="index-project" >
 		<p class="title">
 			분야별 인기 프로젝트
@@ -210,30 +395,14 @@ div.project div.summary span.no-project{
 	</div>
 	
 	<!-- 새로운 프로젝트 12개 -->
-	<div class="index-project" >
+	<div class="index-project" id="newProjects">
 		<p class="title">
 			새로운 프로젝트
 		</p>
-		
-		<c:forEach var="i" begin="1" end="4" step="1">
-			<div class="project">
-				<div class="project-img">
-					<img src="${pageContext.request.contextPath }/resources/images/empty.png" />
-				</div>
-				<div class="summary">
-					<p>
-						<span class="no-project">
-							<br />&nbsp;&nbsp;
-							등록된 프로젝트가 없습니다
-						</span>
-					</p>
-				</div>
-			</div>
-		</c:forEach>
 	</div>
 	
 	<!-- 마감 앞둔 프로젝트 12개 -->
-	<div class="index-project" >
+	<div class="index-project" id="deadlineProjects">
 		<p class="title">
 			마감 앞둔 프로젝트
 		</p>
