@@ -84,12 +84,13 @@ $(function(){
 			<span class="profile-click">
 				${memberLoggedIn.name}
 			</span>
-			<c:if test="${memberLoggedIn.profileImage ne null}">
+			<img src="${pageContext.request.contextPath }/resources/images/profile.png" />
+			<%-- <c:if test="${memberLoggedIn.profileImage ne null}">
 				<img src="./resources/images/${memberLoggedIn.profileImage}" class="profile-click" />
 			</c:if>
 			<c:if test= "${memberLoggedIn.profileImage eq null}">
 				<img src="./resources/images/profile.png" class="profile-click" />
-			</c:if>
+			</c:if> --%>
 		</c:if>
 	</div>
 	
