@@ -56,8 +56,8 @@ color:red;
 	<table id="login-table">
 	<tr>
 		<td>
-			<input type="email" id="email"  name="Email" placeholder="이메일 주소 입력" /> 
-			<input type="password" id="pwd" name="Password" placeholder="비밀번호 입력 주소 입력" />
+			<input type="email" id="email"  name="email" placeholder="이메일 주소 입력" /> 
+			<input type="password" id="pwd" name="password" placeholder="비밀번호 입력 주소 입력" />
 		</td>
 	</tr>
 	<tr>

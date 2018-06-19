@@ -70,12 +70,12 @@ $(function(){
 		<!-- 로그인X -->
 		<c:if test="${memberLoggedIn eq null }">
 			<span>
-			<a href="${pageContext.request.contextPath }/member/login.do">로그인</a>
+			<a href="${pageContext.request.contextPath }/login.do">로그인</a>
 			/
-			<a href="">회원가입</a>
+			<a href="${pageContext.request.contextPath }/member/join.do">회원가입</a>
 			</span>
 			&nbsp;
-			<a href="${pageContext.request.contextPath }/member/login.do">
+			<a href="${pageContext.request.contextPath }/login.do">
 				<img src="${pageContext.request.contextPath }/resources/images/profile.png" />
 			</a>
 		</c:if>
