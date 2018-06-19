@@ -106,33 +106,33 @@ color:red;
 	 
 	$(".check").on("keyup",function(){
 		
-		var Email2= $("#join-email_").val();
-		var Email = $("#join-email").val();
-	console.log(Email);
-	console.log(Email2);
+		var email2= $("#join-email_").val();
+		var email = $("#join-email").val();
+		console.log(email);
+		console.log(email2);
 	
 			
 		
 		
 		$.ajax({
 			url : "checkEmailDuplicate.do",
-			data:{Email:Email},
+			data:{email:email},
 			dataType:"json",
 			success:function(data){
 				console.log(data);
-				if(data.isUsable==true && Email == Email2){
+				if(data.isUsable==true && email == email2){
 					 $(".guide.error").hide();
 						$(".guide.ok2").hide();
 					$(".guide.ok").show();
 					$("EmailDuplicateCheck").val(1); 
 				}
-				else if(data.isUsable==true && Email != Email2){
+				else if(data.isUsable==true && email != email2){
 					 $(".guide.error").hide();
 					 $(".guide.ok2").show();
 					 $(".guide.ok").hide();
 					 $("EmailDuplicateCheck").val(0); 
 				}
-				else if(data.isUsable==false && Email != Email2){
+				else if(data.isUsable==false && email != email2){
 					$(".guide.error").hide();
 					$(".guide.ok2").show();
 					$(".guide.ok").hide();
@@ -168,14 +168,14 @@ color:red;
 	<tr>
 	<td>
 		<p>이름</p>
-			<input type="text" id="join-name" name="Name" placeholder="이름을 입력하세요" required /> <br />
+			<input type="text" id="join-name" name="name" placeholder="이름을 입력하세요" required /> <br />
 		</td>
 	</tr>
 	
 	<tr>
 		<td>
 		<p>이메일</p>
-			<input type="email" class="check" id="join-email_" name="Email" placeholder="이메일 주소를 입력해주세요" required /> <br /> 
+			<input type="email" class="check" id="join-email_" name="email" placeholder="이메일 주소를 입력해주세요" required /> <br /> 
 			<input type="email" class="check"  id="join-email" placeholder="이메일 주소를 확인합니다" required /> <br />
 			<span class="guide ok">이 이메일는 사용 가능합니다.</span> <br />
 		<span class="guide error">이 이메일는 사용중 입니다..</span><br />
@@ -189,7 +189,7 @@ color:red;
 	<tr>
 		<td>
 		<p>비밀번호</p>
-			<input type="password" id="join-pwd_"  class="check-pwd" name="Password" placeholder="비밀번호를 입력해주세요" required /> <br />
+			<input type="password" id="join-pwd_"  class="check-pwd" name="password" placeholder="비밀번호를 입력해주세요" required /> <br />
 			<input type="password" id="join-pwd" class="check-pwd" placeholder="비밀번호를 확인합니다" required /> <br />
 			<span class="guide pwdError">패스워드가 일치하지 않습니다.</span> <br />
 		</td>

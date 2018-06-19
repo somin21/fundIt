@@ -121,24 +121,24 @@ public class MemberController {
 //영준
 	@RequestMapping("/member/checkEmailDuplicate.do")
 	@ResponseBody
-	public Map<String,Object> checkEmailDuplicate(@RequestParam String Email)  {
-		logger.debug("ResponseBody-javaob ajax:"+Email);
+	public Map<String,Object> checkEmailDuplicate(@RequestParam String email)  {
+		logger.debug("ResponseBody-javaob ajax:"+email);
 		Map<String,Object> map = new HashMap<>(); 
 		
 		//업무로직
-				int count = memberService.checkEmailDuplicate(Email);
-				boolean isUsable = count==0?true:false;
-				
-				//jsonString 변환
-				map.put("isUsable",isUsable);
-				
-				return map;
-				}
+		int count = memberService.checkEmailDuplicate(email);
+		boolean isUsable = count==0?true:false;
+		
+		//jsonString 변환
+		map.put("isUsable",isUsable);
+		
+		return map;
+	}
 			
 	//영준
 		@RequestMapping("/member/memberLogin.do")
-		public ModelAndView memberLogin(@RequestParam String Email,
-								  @RequestParam String Password) {
+		public ModelAndView memberLogin(@RequestParam String email,
+								  @RequestParam String password) {
 			
 			if(logger.isDebugEnabled()) // 성정된 레벨에서 디버그를 출력해?
 				logger.debug("로그인 요청");
@@ -147,7 +147,7 @@ public class MemberController {
 			ModelAndView mav = new ModelAndView();
 			
 			// 업무 로직
-			Member m = memberService.selectMemberByEmail(Email);
+			Member m = memberService.selectMemberByEmail(email);
 			
 			String msg = "";
 			String loc = "/";
@@ -155,7 +155,7 @@ public class MemberController {
 			if(m == null) {
 				msg = "존재하지 않는 아이디 입니다.";
 			} else {
-				if(bcryptPasswordEncoder.matches(Password, m.getPassword())) {
+				if(bcryptPasswordEncoder.matches(password, m.getPassword())) {
 					msg = m.getName() + "님, 환영합니다!";
 					mav.addObject("memberLoggedIn", m);
 					
@@ -286,7 +286,6 @@ public class MemberController {
 	  //태윤
 	   @RequestMapping("/member/findPwd.do")
 	   public String findPwd() {
-	      ModelAndView mav = new ModelAndView();
 	      
 	      return "member/findPwdEnd";
 	   }
