@@ -15,4 +15,10 @@ public interface MemberDAO {
 
 	int updateProfile(Profile profile);
 
+	int insertMember(Member member);
+
+	int checkEmailDuplicate(String email);
+
+	Member selectMemberByEmail(String email);
+
 }

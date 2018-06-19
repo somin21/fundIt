@@ -21,7 +21,7 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public int updateMemberPwd(Member member) {
-		// TODO Auto-generated method stub
+
 		return memberDAO.updateMemberPwd(member);
 	}
 	
@@ -38,6 +38,22 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int updateProfile(Profile profile) {
 		return memberDAO.updateProfile(profile);
+	}
+	
+	@Override
+	public int insertMember(Member member) {
+	
+		return memberDAO.insertMember(member); 
+	}
+
+	@Override
+	public int checkEmailDuplicate(String email) {
+		return memberDAO.checkEmailDuplicate(email);
+	}
+
+	@Override
+	public Member selectMemberByEmail(String email) {
+		return memberDAO.selectMemberByEmail(email);
 	}
 
 }

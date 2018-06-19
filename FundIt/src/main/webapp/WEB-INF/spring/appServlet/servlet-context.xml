@@ -21,6 +21,9 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
+		<!-- NaverLoginBO Class에 대한 Bean설정 추가 -->
+	<beans:bean id="naverLoginBO" class="com.kh.fundit.naver.model.bo.NaverLoginBO" /> 
+	
 	<context:component-scan base-package="com.kh.fundit" />
 	
 	<!-- #10.1 파일업로드를 처리할 Resolver클래스 빈등록(빈이름 주의) -->

@@ -31,4 +31,26 @@
 	update profile set profileimage=#{profileImage}, profileintroduce=#{profileIntroduce}, localcode=#{localCode},phone=#{phone} where email=#{email}
 	</update>
 	
+	<insert id="insertMember">
+	insert into member values(#{Email},#{Password},#{Name},'Y','N',default,'N')
+	</insert>
+	
+	
+	<select id="checkEmailDuplicate" resultType="_int">
+	select count(*) from member where email = #{email}
+	</select>
+	
+	<select id="selectMemberByEmail" resultMap="memberMap">
+	select * from member where email = #{email}
+	</select>
+		<resultMap type="com.kh.fundit.member.model.vo.Member" id="memberMap">
+		<result column="email" property="Email" />
+		<result column="password" property="Password" />
+		<result column="name" property="Name" />
+		<result column="newsyn" property="Newsyn" />
+		<result column="adminyn" property="Adminyn" />
+		<result column="enrolldate" property="enrollDate" />
+		<result column="naveryn" property="Naveryn" />
+	</resultMap>
+	
 </mapper>

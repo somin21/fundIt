@@ -45,5 +45,20 @@ public class MemberDAOImpl implements MemberDAO {
 		System.out.println("DAOImPle = "+result);
 		return result;
 	}
+	
+	@Override
+	public int insertMember(Member member) {
+		return sqlSession.insert("member.insertMember", member);
+	}
+
+	@Override
+	public int checkEmailDuplicate(String email) {
+		return sqlSession.selectOne("member.checkEmailDuplicate",email);
+	}
+
+	@Override
+	public Member selectMemberByEmail(String email) {
+		return sqlSession.selectOne("member.selectMemberByEmail",email);
+	}
 
 }
