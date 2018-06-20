@@ -30,6 +30,7 @@ div.project:hover{
     top: -3px;
     left: -3px;
     box-shadow: 5px 5px 15px lightgrey;
+    cursor: pointer;
 }
 div.project img{
 	width: 240px;
@@ -50,6 +51,7 @@ div.project div.summary{
 	height: 150px;
 	padding: 15px;
 	box-sizing: border-box;
+	position: relative;
 }
 div.project div.summary p:first-of-type{
 	font-weight: bold;
@@ -59,15 +61,18 @@ div.project div.summary p:last-of-type{
     margin-top: -10px;
 }
 div.project div.summary div.progress{
-    width: 110%;
-    height: 5%;
-    margin-left: -10px;
+    width: 95%;
+    height: 5%;    
+    position: absolute;
+    bottom: 45px;
+    left: 2.5%;
 }
 div.project div.summary div.days {
 	display: inline-block;
 	float: left;
 	font-size: 11px;
-    margin: -10px 0 10px;
+    position: absolute;
+    bottom: 13px;
 }
 div.project div.summary div.days img{
     width: 15px;
@@ -78,7 +83,9 @@ div.project div.summary div.support{
 	display: inline-block;
 	float: right;
 	font-size: 11px;
-    margin: -10px 0 10px;
+    position: absolute;
+    bottom: 13px;
+    right: 10px;
 }
 div.project div.summary div.support img{
     width: 15px;
@@ -113,37 +120,116 @@ div.project div.summary span.no-project{
 		padding: 8px;
 	}
 	div.project div.summary div.progress{
-	    margin-left: -1.5%;
-	    width: 104%;
+	    width: 95%;
 	    height: 3%;
+        bottom: 38px;
 	}
 }
-@media (max-width: 925px){
+@media (max-width: 2070px){
+	div#index-container{text-align: center;}
+	div.maincontainer{text-align: center; padding: 80px;}
+	div.maincontainer2{text-align: left; padding: 7px 10px 7px 16.1%;}
+}
+@media (max-width: 500px){
+	div.maincontainer{padding:70px 70px 70px 50px; width:360px; height: 210px; text-align: center;}
+	h1{font-size: 30px;}
+	div.maincontainer2{text-align: left; padding: 10%; border: 1px solid;}
+}
 
+select#select {
+  width: 130px;
+  font-family: inherit;
+  background: url(https://farm1.staticflickr.com/379/19928272501_4ef877c265_t.jpg) no-repeat 95% 50%;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: 1px solid white;
+  border-radius: 0px;
 }
 </style>
-<!-- 새로운 프로젝트 12개 -->
-	<div class="index-project" >
-		<p class="title">
-			새로운 프로젝트
-		</p>
+    <!-- 프로젝트 -->
+    <hr />
+    <div class="maincontainer">
+        <h1>
+        <c:if test="${empty categoryCode }">
+        	모든프로젝트
+        </c:if>
+        <c:if test="${categoryCode eq 'C1' }">
+        	게임
+        </c:if>
+        <c:if test="${categoryCode eq 'C2' }">
+        	푸드
+        </c:if>
+        <c:if test="${categoryCode eq 'C3' }">
+        	예술
+        </c:if>
+        <c:if test="${categoryCode eq 'C4' }">
+        	패션
+        </c:if>
+        <c:if test="${categoryCode eq 'C5' }">
+        	출판
+        </c:if>
+        <c:if test="${categoryCode eq 'C6' }">
+        	테크놀리지
+        </c:if>
+       	
+        </h1>
+    </div>
+    <hr />
+    <div class="maincontainer2">
+        <div id="selectList">
+        <select name="" id="select">
+            <option value="">최다 후원순</option>
+            <option value="">최다 금액순</option>
+            <option value="">마감 임박순</option>
+            <option value="">최신순</option>
+        </select>
+        </div>
+    </div>
+    <hr />
+    
+	<div id="index-container">
+		<!-- 프로젝트 리스트 -->
+		<c:if test="${not empty list }">
+		<c:forEach var="i" items="${ list}">
 		
-		<c:forEach var="i" begin="1" end="4" step="1">
 			<div class="project">
-				<div class="project-img">
-					<img src="${pageContext.request.contextPath }/resources/images/empty.png" />
-				</div>
+			<input type="hidden" value="${i.projectNo }" id="projectNo"/>
+				<img src="${pageContext.request.contextPath }/resources/images/projects/${i.projectImage}" />
 				<div class="summary">
-					<p>
-						<span class="no-project">
-							<br />&nbsp;&nbsp;
-							등록된 프로젝트가 없습니다
-						</span>
-					</p>
+					<p>${i.projectTitle }</p>
+					<p>${i.name }</p>
+					<div class="progress">
+						<div class="progress-bar bg-danger" role="progressbar" style="width:${i.supportPercent }%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+					</div>
+					<br />
+					<div class="days">
+						<img src="${pageContext.request.contextPath }/resources/images/calendar.png"/>
+						${i.deadlineDay }일 남음
+					</div>
+					<div class="support">
+						<img src="${pageContext.request.contextPath }/resources/images/money.png"/>
+						<fmt:formatNumber>${i.supportMoney }</fmt:formatNumber>
+						(${i.supportPercent }%)
+					</div>
 				</div>
 			</div>
 		</c:forEach>
+		</c:if>
+		<c:if test="${empty list }">
+			<h1>아직 프로젝트가 등록되지 않았습니다~~~~ㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎ</h1>
+		</c:if>
 	</div>
+<script>
+	$(function(){
+		$(".project").click(function(){
+			var projectNo = $(this).children("#projectNo").val();
+			console.log(projectNo);
+			location.href="${pageContext.request.contextPath}/project/projectView.do?projectNo="+projectNo;
+		});
+	});
+</script>
+
 
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />

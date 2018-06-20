@@ -1,6 +1,7 @@
 package com.kh.fundit.project.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.fundit.project.model.vo.ListProjectView;
 import com.kh.fundit.project.model.vo.ProjectOutline;
+import com.kh.fundit.project.model.vo.ProjectView;
 
 @Repository
 public class ProjectDAOImpl implements ProjectDAO {
@@ -39,6 +41,18 @@ public class ProjectDAOImpl implements ProjectDAO {
 		RowBounds rowBounds = new RowBounds(numPerpage*(deadlineProjectPage-1), numPerpage);
 		
 		return sqlSession.selectList("project.selectIndexDeadlineProject", null, rowBounds);
+	}
+
+	@Override
+	public List<ListProjectView> projectList(Map<String, String> map) {
+		
+		return sqlSession.selectList("project.projectList", map);
+	}
+
+	@Override
+	public List<ProjectView> projectView(Map<String, Integer> map) {
+		
+		return sqlSession.selectList("project.projectView", map);
 	}
 
 }
