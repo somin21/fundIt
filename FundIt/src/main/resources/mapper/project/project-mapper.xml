@@ -45,4 +45,48 @@
 	 ]]>
 	</select>
 	
+	<!-- 태윤  -->
+	<select id="selectMyProjectYet" resultType = "list_project_view">
+	select *
+	from
+		(select p.projectno, p.projecttitle, p.projectimage,  
+			    (select name from member m where p.email = m.email) name,
+			    (select trunc(deadlinedate - sysdate) from project_funding f where p.projectno = f.projectno) deadlineday,
+			     s.supportmoney, s.supportpercent
+		from (select * from project_outline where projectconfirmyn = null and  email = #{email} order by projectdate desc) p join project_summary s on p.projectno = s.projectno
+		order by deadlineday)
+	
+	</select>
+	
+	<!-- 태윤  -->
+	<select id="selectMyProjectYes" resultType = "list_project_view">
+	select *
+	from
+		(select p.projectno, p.projecttitle, p.projectimage,  
+			    (select name from member m where p.email = m.email) name,
+			    (select trunc(deadlinedate - sysdate) from project_funding f where p.projectno = f.projectno) deadlineday,
+			     s.supportmoney, s.supportpercent
+		from (select * from project_outline where projectconfirmyn = 'Y' and  email = #{email} order by projectdate desc) p join project_summary s on p.projectno = s.projectno
+		order by deadlineday)
+	
+	</select>
+	
+	<!-- 태윤  -->
+	<select id="selectMyProjectNo" resultType = "list_project_view">
+	select *
+	from
+		(select p.projectno, p.projecttitle, p.projectimage,  
+			    (select name from member m where p.email = m.email) name,
+			    (select trunc(deadlinedate - sysdate) from project_funding f where p.projectno = f.projectno) deadlineday,
+			     s.supportmoney, s.supportpercent
+		from (select * from project_outline where projectconfirmyn = 'N' and  email = #{email} order by projectdate desc) p join project_summary s on p.projectno = s.projectno
+		order by deadlineday)
+	
+	</select>
+	<!--태윤  -->
+	<select id="selectMyProjectCnt" resultType = "_int">
+	 select count(*) from project_outline where and email = #{email}
+	</select>
+	
+	
 </mapper>

@@ -61,4 +61,11 @@ public class MemberDAOImpl implements MemberDAO {
 		return sqlSession.selectOne("member.selectMemberByEmail",email);
 	}
 
+//  태윤
+	@Override
+	public String selectProfileImg(Profile profile) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("profile.selectProfileImg",profile);
+	}
+
 }

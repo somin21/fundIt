@@ -45,5 +45,6 @@
 	<select id="selectMemberByEmail" resultMap="memberMap">
 	select * from member where email = #{email}
 	</select>
+
 	
 </mapper>

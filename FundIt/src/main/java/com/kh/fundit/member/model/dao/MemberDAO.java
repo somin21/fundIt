@@ -21,4 +21,6 @@ public interface MemberDAO {
 
 	Member selectMemberByEmail(String email);
 
+	String selectProfileImg(Profile profile);
+
 }
