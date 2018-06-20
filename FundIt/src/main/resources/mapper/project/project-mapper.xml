@@ -85,7 +85,7 @@
 	</select>
 	<!--태윤  -->
 	<select id="selectMyProjectCnt" resultType = "_int">
-	 select count(*) from project_outline where and email = #{email}
+	 select count(*) from project_outline where email = #{email}
 	</select>
 	
 	
