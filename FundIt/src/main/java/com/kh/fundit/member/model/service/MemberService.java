@@ -22,4 +22,6 @@ public interface MemberService {
 	Member selectMemberByEmail(String email);
 
 	String selectProfileImg(Profile profile);
+	
+	Profile selectProfile(String email);
 }

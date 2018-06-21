@@ -49,10 +49,10 @@
    			<tx:method name="delete*" rollback-for="Exception"/>
    		</tx:attributes>
    	</tx:advice>
-	<!-- <aop:config>
-   		<aop:pointcut expression="execution(* com.kh.spring..*ServiceImpl.*(..))" id="serviceMethod"/>
+	<aop:config>
+   		<aop:pointcut expression="execution(* com.kh.fundit..*ServiceImpl.*(..))" id="serviceMethod"/>
    		<aop:advisor advice-ref="txAdvice" pointcut-ref="serviceMethod"/>
-   	</aop:config> -->
+   	</aop:config>
    	
    	
    	<!-- Mail -->

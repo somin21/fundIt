@@ -46,5 +46,17 @@
 	select * from member where email = #{email}
 	</select>
 
+    <resultMap type="profile" id="profileMap">
+      <result column="email" property="email"/>
+      <result column="profileimage" property="profileImage"/>
+      <result column="profileintroduce" property="profileIntroduce"/>
+      <result column="localcode" property="localCode"/>
+      <result column="localname" property="localName"/>
+      <result column="phone" property="phone"/>
+   </resultMap>
+   
+   <select id="selectProfile" resultMap="profileMap">
+   select * from profile where email = #{email}
+   </select>
 	
 </mapper>
