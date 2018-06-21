@@ -100,7 +100,7 @@ $(function(){
 		<hr />
 		<p><a href="">관심 프로젝트</a></p>
 		<p><a href="">후원 현황</a></p>
-		<p><a href="${pageContext.request.contextPath}/project/giftDeliveryList.do?email="+${memberLoggedIn.email}>선물 배송리스트</a></p>
+		<p><a href="${pageContext.request.contextPath}/gift/giftDeliveryList.do?email="+${memberLoggedIn.email}>선물 배송리스트</a></p>
 		<p><a href="${pageContext.request.contextPath}/project/myProject.do?email=?"+${memberLoggedIn.email}>내가 만든 프로젝트</a></p>
 		<hr />
 		<p><a href="${pageContext.request.contextPath }/member/memberView.do?email=${memberLoggedIn.email }">계정 설정</a></p>
