@@ -2,6 +2,7 @@ package com.kh.fundit.project.model.dao;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.fundit.member.model.vo.Member;
 import com.kh.fundit.project.model.vo.ListProjectView;
 import com.kh.fundit.project.model.vo.ProjectOutline;
+import com.kh.fundit.project.model.vo.ProjectView;
 
 @Repository
 public class ProjectDAOImpl implements ProjectDAO {
@@ -55,27 +57,42 @@ public class ProjectDAOImpl implements ProjectDAO {
 // 태윤
 	@Override
 	public List<ListProjectView> selectMyProjectYet(Member member) {
-		// TODO Auto-generated method stub
+		
 		return sqlSession.selectList("project.selectMyProjectYet", member);
 	}
+	
 // 태윤
 	@Override
 	public List<ListProjectView> selectMyProjectYes(Member member) {
-		// TODO Auto-generated method stub
+		
 		return sqlSession.selectList("project.selectMyProjectYes", member);
 	}
+	
 	// 태윤
 	@Override
 	public List<ListProjectView> selectMyProjectNo(Member member) {
-		// TODO Auto-generated method stub
+		
 		return sqlSession.selectList("project.selectMyProjectNo", member);
 	}
 // 태윤
 	@Override
 	public int selectMyProjectCnt(Member member) {
-		// TODO Auto-generated method stub
+		
 		return sqlSession.selectOne("project.selectMyProjectCnt",member);
 	}
 
+//	희영
+	@Override
+	public List<ListProjectView> projectList(Map<String, String> map) {
+		
+		return sqlSession.selectList("project.projectList", map);
+	}
+
+//	희영
+	@Override
+	public List<ProjectView> projectView(Map<String, Integer> map) {
+		
+		return sqlSession.selectList("project.projectView", map);
+	}
 
 }
