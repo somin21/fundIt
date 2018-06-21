@@ -8,8 +8,12 @@
 
 
 <div id="make-project">
+	<div id="make-project-btn">
+		<button type="button">미리보기</button>
+		<button type="button">검토 요청하기</button>
+	</div>
 	<div id="make-project-title">
-		<div id="title">
+		<div id="section-title">
 			<span></span>
 			프로젝트 개요
 		</div>
