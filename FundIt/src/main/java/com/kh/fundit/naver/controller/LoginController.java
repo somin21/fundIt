@@ -54,11 +54,11 @@ public class LoginController {
 		System.out.println("여기는 callback");
 		OAuth2AccessToken oauthToken;
         oauthToken = naverLoginBO.getAccessToken(session, code, state);
-        //로그인 사용자 정보를 읽어온다.
+        //aa로그인 사용자 정보를 읽어온다.
 	    apiResult = naverLoginBO.getUserProfile(oauthToken);
 	    
 		model.addAttribute("result", apiResult);
-
+		
         /* 네이버 로그인 성공 페이지 View 호출 */
 		return "naverSuccess";
 	}
