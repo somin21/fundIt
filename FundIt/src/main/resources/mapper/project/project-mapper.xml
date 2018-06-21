@@ -123,7 +123,7 @@
         where p.email = #{email }
 	</select>
 	
-		<select id="interestList" resultType="list_project_view">
+	<select id="interestList" resultType="list_project_view">
 		select p.projectno, p.projectimage, p.projecttitle, 
 	        (select name from member m where p.email = m.email) name,
 	        (select trunc(deadlinedate - sysdate) from project_funding f where p.projectno = f.projectno) deadlineday,
@@ -133,5 +133,12 @@
 		
 	</select>
 	
+	<insert id="interestInsert">
+		insert into interest values(${no},'${email}')
+	</insert>
+	
+	<select id="interestCnt" resultType="_int">
+		select count(*) from interest where projectNo=${no} and EMAIL='${email}'
+	</select>
 	
 </mapper>

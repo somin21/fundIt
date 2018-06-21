@@ -38,4 +38,8 @@ public interface ProjectService {
 
 	List<ListProjectView> interestList(String email);
 
+	int interestInsert(Map<String, Object> map);
+
+	int interestCnt(Map<String, Object> map);
+
 }

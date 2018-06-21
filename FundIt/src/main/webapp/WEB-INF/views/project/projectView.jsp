@@ -9,9 +9,126 @@
 </jsp:include>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <!-- 창작자문의 메세지이모티콘 링크 --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
+<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
 
 <style>
+/**************************** header ****************************/
+body{
+	user-select: none;
+	overflow-x: hidden;
+}
+
+div#nav a, div#nav a:link, div#nav a:visited, div#nav a:active, div#nav a:hover{
+	text-decoration: none;
+	color: black;
+}
+div#nav{
+	width: 110%;
+    height: 60px;
+    padding: 6.5px 20% 0;
+    box-sizing: border-box;
+    background: rgba(255,255,255,0.8);
+    position: fixed;
+    left: -5%;
+    top: -5px;
+    z-index: 100;
+    font-size: 16px;
+}
+div#nav div{
+	display: inline-block;
+	width: 30%;
+	font-family: 'Do Hyeon', sans-serif;
+	position: relative;
+   	box-sizing: border-box;
+   	color: black;
+}
+div#nav div#nav-menu{
+	text-align: left;
+	padding-left: 20px;
+}
+div#nav div#nav-title{
+	text-align: center;
+	font-family: 'Shadows Into Light', cursive;
+	font-size: 2em;
+    padding-left: 10%;
+}
+div#nav div#nav-login{
+	width: 37%;
+	text-align: right;
+	padding-right: 20px;
+}
+div#nav div#nav-login img{
+	width: 35px;
+    top: -4px;
+    position: relative;
+    cursor: pointer;
+}
+div#nav div#nav-menu img{
+	width: 20px;
+    /* top: 5px; */
+    position: relative;
+}
+.menu-click:hover, .profile-click:hover{
+	cursor: pointer;
+}
+div#nav div#menu-click-div{
+	display: none;
+	width: 170px;
+	background: rgba(255,255,255,0.8); 
+    position: fixed;
+    top: 55px;
+    left: 15.5%;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    box-sizing: border-box;
+    padding: 10px;
+}
+div#nav div#profile-click-div{
+	display: none;
+	width: 160px;
+	background: rgba(255,255,255,0.8); 
+    position: fixed;
+    top: 55px;
+    right: 17%;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    box-sizing: border-box;
+    padding: 10px;
+}
+div#profile-click-div hr{
+	border: 0.5px dashed gray;
+}
+
+/**************************** content-container ****************************/
+div#content-container{
+	margin: 55px auto 0;
+	width: 100%;
+	min-height: 900px;
+	box-sizing: border-box;
+	position : relative;
+}
+
+/**************************** slide-project-image ****************************/
+div#slide-project{
+    width: 100%;
+}
+div#slide-project img{
+	height: 500px;
+}
+
+@media ( max-width: 1300px ){
+	div#slide-project img{
+		height: 400px;
+	}
+}
+@media ( max-width: 900px ){
+	div#slide-project img{
+		height: 300px;
+	}
+}
+
+
+
 /* body{background-color:#cce2ff; } */
 div.ground{background-color: #faf8f8;} 
 div.mainDIV{text-align: center;}
@@ -128,8 +245,12 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
 .button4:hover {background-color: #e7e7e7;}
 .button3:hover {background-color: #d9d9d9; color:black;}
 /* 담기버튼 끝*/
+
+@media (max-width: 800px){
+	img.mainImg{display: block; padding-bottom: 20px; }
+	div.mainTitle{width: 500px;}
+}
 </style>
-<br />
 <hr />
 	
     <div class="mainDIV">
@@ -189,7 +310,23 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
                 </c:if>
                 
                 </div>
-                <button class="button" style="vertical-align:middle"><span>후원하기 </span></button><button class="button2 button4"><span class="glyphicon glyphicon-shopping-cart"></span>담아두기</button>
+                <button class="button" style="vertical-align:middle"><span>후원하기 </span></button>
+                <script>
+                function fn_interest(no){
+        	    	/* console.log(no); */
+        	    	var user = '${memberLoggedIn}';
+        	    	if(user==''){
+        	    		alert("로그인이 필요한 서비스입니다.");
+        	    	}else{
+        		    	var email = '${memberLoggedIn.email }';
+        		    	location.href="${pageContext.request.contextPath}/project/interestInsert.do?no="+no+"&email="+email;        	    		
+        	    	}
+        	    }
+                </script>
+                <button class="button2 button4" onclick="fn_interest('${i.projectNo}');">
+                	<span class="glyphicon glyphicon-shopping-cart"></span>
+                	담아두기
+                </button>
             </div>
         </div>
 	</c:forEach>
@@ -275,7 +412,10 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
             $(".communityDiv").hide();
             $(".changeDiv").show();
         });
+        
+	    
     });
+    
     </script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />

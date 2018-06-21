@@ -38,4 +38,8 @@ public interface ProjectDAO {
 
 	List<ProjectView> oriProjectList(Map<String, String> map);
 
+	int interestInsert(Map<String, Object> map);
+
+	int interestCnt(Map<String, Object> map);
+
 }

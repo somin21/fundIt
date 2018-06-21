@@ -106,4 +106,14 @@ public class ProjectServiceImpl implements ProjectService {
 		return projectDAO.oriProjectList(map);
 	}
 
+	@Override
+	public int interestInsert(Map<String, Object> map) {
+		return projectDAO.interestInsert(map);
+	}
+
+	@Override
+	public int interestCnt(Map<String, Object> map) {
+		return projectDAO.interestCnt(map);
+	}
+
 }

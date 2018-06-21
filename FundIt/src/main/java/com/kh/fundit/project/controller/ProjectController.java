@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.Session;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.fundit.member.model.vo.Member;
@@ -240,6 +243,45 @@ public class ProjectController {
 		mav.setViewName("project/originatorView");
 		
 		return mav;
+	}
+//	희영
+	@RequestMapping("/project/interestInsert.do")
+	public ModelAndView interestInsert(@RequestParam String no,@RequestParam String email) {
+		ModelAndView mav = new ModelAndView();
+		System.out.println("email@controll"+email);
+		
+		Map<String,Object> map = new HashMap<>();
+		map.put("no",no);
+		map.put("email",email);
+		
+		//관심프로젝트 체크
+		int cnt = projectService.interestCnt(map);
+		
+		String loc = "/";
+		String msg = "";
+		
+		if(cnt==0) {
+			//관심프로젝트 등록하기
+			int result = projectService.interestInsert(map);
+			
+			
+			if(result>0) {
+				msg = "관심등록 성공! 마이페이지에서 확인하세요.";
+				loc = "/project/projectView.do?projectNo="+no;
+			}else {
+				msg = "관심등록 실패";
+			}
+		}else if(cnt>0) {
+			msg = "이미 관심등록이 되어있습니다. 마이페이지에서 확인하세요.";
+			loc = "/project/projectView.do?projectNo="+no;
+		}
+		
+		mav.addObject("msg",msg);
+		mav.addObject("loc",loc);
+		mav.setViewName("common/msg");
+		
+		return mav;
+	
 	}
 	
 
