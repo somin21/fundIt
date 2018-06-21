@@ -4,7 +4,9 @@
 	<typeAliases>
 		<typeAlias type="com.kh.fundit.project.model.vo.ProjectOutline" alias="project_outline" />
 		<typeAlias type="com.kh.fundit.project.model.vo.ListProjectView" alias="list_project_view" />
+		<typeAlias type="com.kh.fundit.member.model.vo.Member" alias="member"/>
+		<typeAlias type="com.kh.fundit.member.model.vo.Profile" alias="profile"/>
 		<typeAlias type="com.kh.fundit.project.model.vo.ProjectView" alias="projectView" />
-		<typeAlias type="com.kh.fundit.project.model.vo.Profile" alias="profile" />
+		<typeAlias type="com.kh.fundit.project.model.vo.Profile" alias="profile2" />
 	</typeAliases>
 </configuration>

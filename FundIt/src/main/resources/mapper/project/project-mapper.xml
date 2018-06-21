@@ -6,6 +6,20 @@
 	select * from project_outline where projectconfirmyn='Y' and projectindexyn='Y' and projectdeadlineyn='N'
 	</select>
 	
+	<select id="selectIndexPopularProject" resultType="list_project_view">
+	<![CDATA[
+		select *
+		from
+			(select p.projectno, p.projecttitle, p.projectimage,
+			        (select name from member m where p.email = m.email) name,
+			        (select trunc(deadlinedate - sysdate) from project_funding f where p.projectno = f.projectno) deadlineday,
+			        s.supportmoney, s.supportpercent
+			from (select * from project_outline where projectconfirmyn='Y' and projectdeadlineyn='N' order by projectdate desc) p join project_summary s on p.projectno = s.projectno
+			order by s.supportmoney)
+		where rownum <= 12
+	 ]]>
+	</select>
+	
 	<select id="selectIndexNewProject" resultType="list_project_view">
 	<![CDATA[
 		select p.projectno, p.projectimage, p.projecttitle, 
@@ -13,7 +27,7 @@
 	        (select trunc(deadlinedate - sysdate) from project_funding f where p.projectno = f.projectno) deadlineday,
 	        s.supportmoney, s.supportpercent
 		from (select * from project_outline where projectconfirmyn='Y' and projectdeadlineyn='N' order by projectdate desc) p join project_summary s on p.projectno = s.projectno
-		 where rownum <= 3
+		 where rownum <= 12
 	 ]]>
 	</select>
 	
@@ -27,8 +41,48 @@
 	        s.supportmoney, s.supportpercent
 		from (select * from project_outline where projectconfirmyn='Y' and projectdeadlineyn='N' order by projectdate desc) p join project_summary s on p.projectno = s.projectno
 		order by deadlineday)
-	where rownum <= 3
+	where rownum <= 12
 	 ]]>
+	</select>
+	
+	<select id="selectMyProjectYet" resultType = "list_project_view">
+	select *
+	from
+		(select p.projectno, p.projecttitle, p.projectimage,  
+			    (select name from member m where p.email = m.email) name,
+			    (select trunc(deadlinedate - sysdate) from project_funding f where p.projectno = f.projectno) deadlineday,
+			     s.supportmoney, s.supportpercent
+		from (select * from project_outline where projectconfirmyn = null and  email = #{email} order by projectdate desc) p join project_summary s on p.projectno = s.projectno
+		order by deadlineday)
+	
+	</select>
+	
+	<select id="selectMyProjectYes" resultType = "list_project_view">
+	select *
+	from
+		(select p.projectno, p.projecttitle, p.projectimage,  
+			    (select name from member m where p.email = m.email) name,
+			    (select trunc(deadlinedate - sysdate) from project_funding f where p.projectno = f.projectno) deadlineday,
+			     s.supportmoney, s.supportpercent
+		from (select * from project_outline where projectconfirmyn = 'Y' and  email = #{email} order by projectdate desc) p join project_summary s on p.projectno = s.projectno
+		order by deadlineday)
+	
+	</select>
+	
+	<select id="selectMyProjectNo" resultType = "list_project_view">
+	select *
+	from
+		(select p.projectno, p.projecttitle, p.projectimage,  
+			    (select name from member m where p.email = m.email) name,
+			    (select trunc(deadlinedate - sysdate) from project_funding f where p.projectno = f.projectno) deadlineday,
+			     s.supportmoney, s.supportpercent
+		from (select * from project_outline where projectconfirmyn = 'N' and  email = #{email} order by projectdate desc) p join project_summary s on p.projectno = s.projectno
+		order by deadlineday)
+	
+	</select>
+	
+	<select id="selectMyProjectCnt" resultType = "_int">
+	 select count(*) from project_outline where email = #{email}
 	</select>
 	
 	<select id="projectList" resultType="list_project_view">
@@ -54,8 +108,19 @@
         where p.projectno = ${projectNo}
 	</select>
 	
-	<select id="profileUser" resultType="profile">
+	<select id="profileUser" resultType="profile2">
 		select * from profile where email = #{userEmail}
+	</select>
+	
+	<select id="oriProjectList" resultType="projectView">
+		select rownum,p.projectno, p.email, p.projectimage, p.projecttitle, 
+        	(select name from member m where p.email = m.email) name,
+        	(select trunc(deadlinedate - sysdate) from project_funding f where p.projectno = f.projectno) deadlineday,
+        	(select supportgoal from project_funding f where p.projectno = f.projectno) supportgoal,
+            (select CALCULATEDUEDATE from project_funding f where p.projectno = f.projectno) calculatedueddate,
+            s.supportmoney, s.supportpercent, s.supportor, p.categorycode
+		from (select * from project_outline where projectconfirmyn='Y' and projectdeadlineyn='N' order by projectdate desc) p join project_summary s on p.projectno = s.projectno
+        where p.email = #{email }
 	</select>
 	
 </mapper>

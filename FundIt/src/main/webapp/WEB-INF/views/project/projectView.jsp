@@ -8,6 +8,7 @@
 	<jsp:param value="" name="pageTitle"/>
 </jsp:include>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<!-- 창작자문의 메세지이모티콘 링크 --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
 
 <style>
@@ -49,6 +50,9 @@ a#tagA:link {color:#757575;}
 a#tagA:visited {color:#757575;}
 a#tagA:hover {color:black; text-decoration: none;}
 
+a#tagA2:link {color:black;}
+a#tagA2:visited {color:black;}
+a#tagA2:hover {color:#757575; text-decoration: none;}
 /* 후원버튼 시작*/
 .button {
   display: inline-block;
@@ -106,6 +110,15 @@ a#tagA:hover {color:black; text-decoration: none;}
     transition-duration: 0.4s;
     cursor: pointer;
 }
+.button3 {
+    background-color: #e7e7e7;
+    color: rgba(50,100,100,100);
+    border: 2px solid #e7e7e7;
+    padding: 8px 8px;
+    width: 100%;
+    font-weight: bold;
+}
+
 .button4 {
     background-color: white;
     color: black;
@@ -113,6 +126,7 @@ a#tagA:hover {color:black; text-decoration: none;}
 }
 
 .button4:hover {background-color: #e7e7e7;}
+.button3:hover {background-color: #d9d9d9; color:black;}
 /* 담기버튼 끝*/
 </style>
 <br />
@@ -194,11 +208,11 @@ a#tagA:hover {color:black; text-decoration: none;}
 	        <div class="originator">
 	            <span id="originatorStory">창작자 소개</span>
 	            <div>
- 	                <%-- <img src="${pageContext.request.contextPath }/resources/images/projects/${p.profileImage }" alt="프로필" class="originatorImg"> --%>
- 	                <img src="${pageContext.request.contextPath }/resources/images/profile.png" alt="프로필" class="originatorImg">
-	                <span class="sp">${p.email }</span>
+ 	                <img src="${pageContext.request.contextPath }/resources/upload/profileImg/${p.profileImage != null ? p.profileImage: 'profile.png' }" alt="프로필" class="originatorImg">
+	                <span class="sp"><a id="tagA2" href="${pageContext.request.contextPath }/project/originatorView.do?email=${p.email}" >${p.email }</a></span>
 	                <p class="originContext">${p.profileIntroduce }</p>
-	                <button>창작자에게 문의하기</button>
+	                <hr />
+	                <button class="button2 button3"><i style="font-size:24px" class="fa">&#xf0e0;</i> 창작자에게 문의하기</button>
 	            </div>
 	        </div>
 		</div>

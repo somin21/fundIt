@@ -16,6 +16,7 @@
 <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Shadows+Into+Light" rel="stylesheet">
 
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/style-index.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/style-project.css" />
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
@@ -69,12 +70,12 @@ $(function(){
 		<!-- 로그인X -->
 		<c:if test="${memberLoggedIn eq null }">
 			<span>
-			<a href="${pageContext.request.contextPath }/member/login.do">로그인</a>
+			<a href="${pageContext.request.contextPath }/login.do">로그인</a>
 			/
-			<a href="">회원가입</a>
+			<a href="${pageContext.request.contextPath }/member/join.do">회원가입</a>
 			</span>
 			&nbsp;
-			<a href="${pageContext.request.contextPath }/member/login.do">
+			<a href="${pageContext.request.contextPath }/login.do">
 				<img src="${pageContext.request.contextPath }/resources/images/profile.png" />
 			</a>
 		</c:if>
@@ -84,12 +85,13 @@ $(function(){
 			<span class="profile-click">
 				${memberLoggedIn.name}
 			</span>
-			<c:if test="${memberLoggedIn.profileImage ne null}">
+			<img src="${pageContext.request.contextPath }/resources/images/profile.png" class="profile-click" />
+			<%-- <c:if test="${memberLoggedIn.profileImage ne null}">
 				<img src="./resources/images/${memberLoggedIn.profileImage}" class="profile-click" />
 			</c:if>
 			<c:if test= "${memberLoggedIn.profileImage eq null}">
 				<img src="./resources/images/profile.png" class="profile-click" />
-			</c:if>
+			</c:if> --%>
 		</c:if>
 	</div>
 	
@@ -98,13 +100,13 @@ $(function(){
 		<hr />
 		<p><a href="">관심 프로젝트</a></p>
 		<p><a href="">후원 현황</a></p>
-		<p><a href="">선물 배송리스트</a></p>
-		<p><a href="">내가 만든 프로젝트</a></p>
+		<p><a href="${pageContext.request.contextPath}/gift/giftDeliveryList.do?email="+${memberLoggedIn.email}>선물 배송리스트</a></p>
+		<p><a href="${pageContext.request.contextPath}/project/myProject.do?email=?"+${memberLoggedIn.email}>내가 만든 프로젝트</a></p>
 		<hr />
-		<p><a href="">계정 설정</a></p>
-		<p><a href="">프로필 설정</a></p>
+		<p><a href="${pageContext.request.contextPath }/member/memberView.do?email=${memberLoggedIn.email }">계정 설정</a></p>
+		<p><a href="${pageContext.request.contextPath }/member/profileView.do?email=${memberLoggedIn.email }">프로필 설정</a></p>
 		<hr />
-		<p><a href="">로그아웃</a></p>
+		<p><a href="${pageContext.request.contextPath }/member/memberLogout.do">로그아웃</a></p>
 	</div>
 </div>
 

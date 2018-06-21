@@ -6,8 +6,12 @@
 
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
 
-
 <script>
+
+var popularPage = 1;
+var newPage = 1;
+var deadlinePage = 1;
+
 $(function(){
 	
 	/* slideImage */
@@ -34,188 +38,136 @@ $(function(){
 	});
 	
 	/* 분야별 인기 프로젝트 12개 */
-	/* $.ajax({
-		url : "selectIndexProject",
+	$.ajax({
+		url : "selectIndexPopularProject",
 		success : function(data){
 			console.log(data);
-			for(var i = 0; i < data.length; i++){
-				var html = '';
-				if(i == 1){
-					html += '<div class="carousel-item active">';	
-				} else {
-					html += '<div class="carousel-item">';
-				}
-			    html += '<img class="d-block w-100" src="${pageContext.request.contextPath }/resources/images/projects/'+data[i].projectImage+'" />';
-			    html += '</div>';
-			    
-			    $(".carousel-inner").append(html);
+			
+	    	var div_name = $("#popularProjects");
+			
+	    	for(var i = 0; i < data.length; i++){
+	    		
+	    		htmlAppend(data[i], div_name);
+
 			}
+	    	
+	    	if(data.length < 4){
+	    		htmlAppendNone(data.length+1, div_name);
+	    	}
 		},
 		error : function(jqxhr,textStatus,errorThrown){
 			console.log("ajax실패");
 		}
-	}); */
-
+	});
+	
 	/* 새로운 프로젝트 12개 */
 	$.ajax({
 		url : "selectIndexNewProject",
 		success : function(data){
 			console.log(data);
 			
-			for(var i = 0; i < data.length; i++){
-				var html = '';
-				
-				html += '<div class="project">';
-				html += '<img src="${pageContext.request.contextPath }/resources/images/projects/'+data[i].projectImage+'" />';
-				html += '<div class="summary">';
-				html += '<p>'+data[i].projectTitle+'</p>';
-				html += '<p>'+data[i].name+'</p>';
-				html += '<div class="progress">';
-				
-				if(data[i].supportPercent < 100){
-					html += '<div class="progress-bar bg-danger" role="progressbar" style="width: '+data[i].supportPercent+'%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>';
-				} else {
-					html += '<div class="progress-bar bg-danger" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>';
-				}
-				
-				html += '</div>';
-				html += '<br />';
-				html += '<div class="days">';
-				html += '<img src="${pageContext.request.contextPath }/resources/images/calendar.png"/>';
-				html += '&nbsp;'+data[i].deadlineDay+'일 남음';
-				html += '</div>';
-				html += '<div class="support">';
-				html += '<img src="${pageContext.request.contextPath }/resources/images/money.png"/>';
-				
-				var supportMoney = numberWithCommas(data[i].supportMoney);
-				html += '&nbsp;'+supportMoney+'&nbsp;('+data[i].supportPercent+'%)';
-				
-				html += '</div>';
-				html += '</div>';
-				html += '</div>';
-			    
-			    $("#newProjects").append(html);
-			}
+	    	var div_name = $("#newProjects");
 			
-			if(data.length < 4){
-				for(var i = data.length+1; i <= 4; i++){
-					
-					var html = '<div class="project">';
-					html += '<div class="project-img">';
-					html += '<img src="${pageContext.request.contextPath }/resources/images/empty.png" />';
-					html += '</div>';
-					html += '<div class="summary">';
-					html += '<p>';
-					html += '<span class="no-project">';
-					html += '<br />&nbsp;&nbsp;';
-					html += '등록된 프로젝트가 없습니다';
-					html += '</span>';
-					html += '</p>';
-					html += '</div>'; 
-					html += '</div>';
-					
-					$("#newProjects").append(html);	
-				}
+	    	for(var i = 0; i < data.length; i++){
+	    		
+	    		htmlAppend(data[i], div_name);
+
 			}
+	    	
+	    	if(data.length < 4){
+	    		htmlAppendNone(data.length+1, div_name);
+	    	}
 		},
 		error : function(jqxhr,textStatus,errorThrown){
 			console.log("ajax실패");
 		}
 	});
-
+	
 	/* 마감 앞둔 프로젝트 12개 */
 	$.ajax({
 		url : "selectIndexDeadlineProject",
 		success : function(data){
 			console.log(data);
 			
-			for(var i = 0; i < data.length; i++){
-				var html = '';
-				
-				html += '<div class="project">';
-				html += '<img src="${pageContext.request.contextPath }/resources/images/projects/'+data[i].projectImage+'" />';
-				html += '<div class="summary">';
-				html += '<p>'+data[i].projectTitle+'</p>';
-				html += '<p>'+data[i].name+'</p>';
-				html += '<div class="progress">';
-				
-				if(data[i].supportPercent < 100){
-					html += '<div class="progress-bar bg-danger" role="progressbar" style="width: '+data[i].supportPercent+'%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>';
-				} else {
-					html += '<div class="progress-bar bg-danger" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>';
-				}
-				
-				html += '</div>';
-				html += '<br />';
-				html += '<div class="days">';
-				html += '<img src="${pageContext.request.contextPath }/resources/images/calendar.png"/>';
-				html += '&nbsp;'+data[i].deadlineDay+'일 남음';
-				html += '</div>';
-				html += '<div class="support">';
-				html += '<img src="${pageContext.request.contextPath }/resources/images/money.png"/>';
-				
-				var supportMoney = numberWithCommas(data[i].supportMoney);
-				html += '&nbsp;'+supportMoney+'&nbsp;('+data[i].supportPercent+'%)';
-				
-				html += '</div>';
-				html += '</div>';
-				html += '</div>';
-			    
-			    $("#deadlineProjects").append(html);
-			}
+	    	var div_name = $("#deadlineProjects");
 			
-			if(data.length < 4){
-				for(var i = data.length+1; i <= 4; i++){
-					
-					var html = '<div class="project" >';
-					html += '<div class="project-img">';
-					html += '<img src="${pageContext.request.contextPath }/resources/images/empty.png" />';
-					html += '</div>';
-					html += '<div class="summary">';
-					html += '<p>';
-					html += '<span class="no-project">';
-					html += '<br />&nbsp;&nbsp;';
-					html += '등록된 프로젝트가 없습니다';
-					html += '</span>';
-					html += '</p>';
-					html += '</div>'; 
-					html += '</div>';
-					
-					$("#deadlineProjects").append(html);	
-				}
+	    	for(var i = 0; i < data.length; i++){
+	    		
+	    		htmlAppend(data[i], div_name);
+
 			}
+	    	
+	    	if(data.length < 4){
+	    		htmlAppendNone(data.length+1, div_name);
+	    	}
 		},
 		error : function(jqxhr,textStatus,errorThrown){
 			console.log("ajax실패");
 		}
 	});
+	
 });
+
+function htmlAppend(project, div_name){
+	var html = '';
+	
+	html += '<div class="project">';
+	html += '<img src="${pageContext.request.contextPath }/resources/images/projects/'+project.projectImage+'" />';
+	html += '<div class="summary">';
+	html += '<p>'+project.projectTitle+'</p>';
+	html += '<p>'+project.name+'</p>';
+	html += '<div class="progress">';
+	
+	if(project.supportPercent < 100){
+		html += '<div class="progress-bar bg-danger" role="progressbar" style="width: '+project.supportPercent+'%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>';
+	} else {
+		html += '<div class="progress-bar bg-danger" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>';
+	}
+	
+	html += '</div>';
+	html += '<br />';
+	html += '<div class="days">';
+	html += '<img src="${pageContext.request.contextPath }/resources/images/calendar.png"/>';
+	html += '&nbsp;'+project.deadlineDay+'일 남음';
+	html += '</div>';
+	html += '<div class="support">';
+	html += '<img src="${pageContext.request.contextPath }/resources/images/money.png"/>';
+	
+	var supportMoney = numberWithCommas(project.supportMoney);
+	html += '&nbsp;'+supportMoney+'&nbsp;('+project.supportPercent+'%)';
+	
+	html += '</div>';
+	html += '</div>';
+	html += '</div>';
+    
+    div_name.append(html);
+}
+
+function htmlAppendNone(startIndex, div_name){
+	for(var i = startIndex; i <= 4; i++){
+		
+		var html = '<div class="project">';
+		html += '<div class="project-img">';
+		html += '<img src="${pageContext.request.contextPath }/resources/images/empty.png" />';
+		html += '</div>';
+		html += '<div class="summary">';
+		html += '<p>';
+		html += '<span class="no-project">';
+		html += '<br />&nbsp;&nbsp;';
+		html += '등록된 프로젝트가 없습니다';
+		html += '</span>';
+		html += '</p>';
+		html += '</div>'; 
+		html += '</div>';
+		
+		div_name.append(html);	
+	}
+}
 
 function numberWithCommas(x){
 	return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g,",");
 }
 </script>
-
-
-<style>
-div#slide-project{
-    width: 100%;
-}
-div#slide-project img{
-	height: 500px;
-}
-
-@media ( max-width: 1300px ){
-	div#slide-project img{
-		height: 400px;
-	}
-}
-@media ( max-width: 900px ){
-	div#slide-project img{
-		height: 300px;
-	}
-}
-</style>
 
 
 <div id="slide-project">
@@ -239,173 +191,144 @@ div#slide-project img{
 	</div>
 </div>
 	
-<style>
-div.index-project{
-    margin-top: 50px;
-    text-align: center;
-}
-div.index-project p.title{
-	font-size: 1.5em;
-	font-family: 'Do Hyeon', sans-serif;	
-}
-div.project{
-	width: 240px;
-	border: 1.5px solid #eaeaea;
-	border-radius: 3px;
-	overflow: hidden;
-	display: inline-block;
-	margin: 0 10px;
-	text-align: left;
-}
-div.project:hover{
-	position: relative;
-    top: -3px;
-    left: -3px;
-    box-shadow: 5px 5px 15px lightgrey;
-    pointer: cursor;
-}
-div.project img{
-	width: 240px;
-	height: 180px;
-}
-div.project div.project-img{
-	background: lightgray;
-	width: 240px;
-	height: 180px;
-	text-align: center;
-}
-div.project div.project-img img{
-	width: 100px;
-	height: 100px;
-    margin-top: 40px;
-}
-div.project div.summary{
-	height: 150px;
-	padding: 15px;
-	box-sizing: border-box;
-	position: relative;
-}
-div.project div.summary p:first-of-type{
-	font-weight: bold;
-}
-div.project div.summary p:last-of-type{
-    font-size: 11px;
-    margin-top: -10px;
-}
-div.project div.summary div.progress{
-    width: 95%;
-    height: 5%;    
-    position: absolute;
-    bottom: 45px;
-    left: 2.5%;
-}
-div.project div.summary div.days {
-	display: inline-block;
-	float: left;
-	font-size: 11px;
-    position: absolute;
-    bottom: 13px;
-}
-div.project div.summary div.days img{
-    width: 15px;
-    height: 15px;
-    margin-top: -3px;
-}
-div.project div.summary div.support{
-	display: inline-block;
-	float: right;
-	font-size: 11px;
-    position: absolute;
-    bottom: 13px;
-    right: 10px;
-}
-div.project div.summary div.support img{
-    width: 15px;
-    height: 15px;
-    margin-top: -3px;
-}
-div.project div.summary span.no-project{
-	font-weight: normal;
-    margin-top: 0;
-	font-size: 13px;
-	color: red;
-	
-}
-@media (max-width: 1070px){
-	div.project{
-		width: 200px;
-	}
-	div.project img{
-		width: 200px;
-		height: 140px;
-	}
-	div.project div.project-img{
-		width: 200px;
-		height: 140px;
-	}
-	div.project div.project-img img{
-		width: 80px;
-		height: 80px;
-		margin-top: 30px;
-	}
-	div.project div.summary{
-		padding: 8px;
-	}
-	div.project div.summary div.progress{
-	    width: 95%;
-	    height: 3%;
-        bottom: 38px;
-	}
-}
-@media (max-width: 925px){
+<script>
 
+function toPrevAjax(urlMapping, pageName, div_name){
+	
+	var page;
+	
+	if(pageName == 'popularPage'){
+		page = popularPage;
+	} else if(pageName == 'newPage'){
+		page = newPage;
+	} else if(pageName == 'deadlinePage'){
+		page = deadlinePage;
+	}
+
+	console.log(pageName +" : "+ page);
+	
+	if(page > 1 && page <= 3){
+
+		if(pageName == 'popularPage'){
+			page = popularPage-1;
+			popularPage = page;
+		} else if(pageName == 'newPage'){
+			page = newPage-1;
+			newPage = page;
+		} else if(pageName == 'deadlinePage'){
+			page = deadlinePage-1;
+			deadlinePage = page;
+		}
+
+		console.log(page);
+		
+		$.ajax({
+			url : urlMapping,
+			data : {page : page},
+			success : function(data){
+				console.log(data);
+				
+		    	var appendDiv = $("#"+div_name);
+		    	appendDiv.html("");
+				
+		    	for(var i = 0; i < data.length; i++){	    		
+		    		htmlAppend(data[i], appendDiv);
+				}
+		    	
+		    	if(data.length < 4){
+		    		htmlAppendNone(data.length+1, appendDiv);
+		    	}
+			},
+			error : function(jqxhr,textStatus,errorThrown){
+				console.log("ajax실패");
+			}
+		});
+	}
 }
-</style>
+
+function toNextAjax(urlMapping, pageName, div_name){
+	
+	var page;
+	
+	if(pageName == 'popularPage'){
+		page = popularPage;
+	} else if(pageName == 'newPage'){
+		page = newPage;
+	} else if(pageName == 'deadlinePage'){
+		page = deadlinePage;
+	}
+	
+	console.log(pageName +" : "+ page);
+	
+	if(page >= 1 && page < 3){
+
+		if(pageName == 'popularPage'){
+			page = popularPage+1;
+			popularPage = page;
+		} else if(pageName == 'newPage'){
+			page = newPage+1;
+			newPage = page;
+		} else if(pageName == 'deadlinePage'){
+			page = deadlinePage+1;
+			deadlinePage = page;
+		}
+
+		console.log(page);
+		$.ajax({
+			url : urlMapping,
+			data : {page : page},
+			success : function(data){
+				console.log(data);
+				
+		    	var appendDiv = $("#"+div_name);
+		    	appendDiv.html("");
+				
+		    	for(var i = 0; i < data.length; i++){	    		
+		    		htmlAppend(data[i], appendDiv);
+				}
+		    	
+		    	if(data.length < 4){
+		    		htmlAppendNone(data.length+1, appendDiv);
+		    	}
+			},
+			error : function(jqxhr,textStatus,errorThrown){
+				console.log("ajax실패");
+			}
+		});
+	}
+}
+</script>
 
 <div id="index-container">
 	
 	<!-- 카테고리별 인기 프로젝트 12개 -->
-	<div class="index-project" >
-		<p class="title">
-			분야별 인기 프로젝트
-		</p>
-		
-		<c:forEach var="i" begin="1" end="4" step="1">
-			<div class="project">
-				<img src="${pageContext.request.contextPath }/resources/images/projects/example (${i }).jpg" />
-				<div class="summary">
-					<p>코타키나발루에 다녀왓어요 겁나 조아요 또 가고 싶어요</p>
-					<p>소민</p>
-					<div class="progress">
-						<div class="progress-bar bg-danger" role="progressbar" style="width: ${i*25}%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-					</div>
-					<br />
-					<div class="days">
-						<img src="${pageContext.request.contextPath }/resources/images/calendar.png"/>
-						${(i*12)-(i*3) }일 남음
-					</div>
-					<div class="support">
-						<img src="${pageContext.request.contextPath }/resources/images/money.png"/>
-						<fmt:formatNumber>${i*10000000 }</fmt:formatNumber>
-						(${i*25}%)
-					</div>
-				</div>
-			</div>
-		</c:forEach>
+	<div class="index-project">
+		<div class="title">
+			<img src="${pageContext.request.contextPath }/resources/images/left-arrow.png" onclick="toPrevAjax('selectIndexPopularProject','popularPage','popularProjects');" />
+			&nbsp;&nbsp;&nbsp;&nbsp;분야별 인기 프로젝트&nbsp;&nbsp;&nbsp;&nbsp;
+			<img src="${pageContext.request.contextPath }/resources/images/right-arrow.png" onclick="toNextAjax('selectIndexPopularProject','popularPage','popularProjects');" />
+		</div>
+		<div class="project-group" id="popularProjects"></div>
 	</div>
 	
 	<!-- 새로운 프로젝트 12개 -->
-	<div class="index-project" id="newProjects">
-		<p class="title">
-			새로운 프로젝트
-		</p>
+	<div class="index-project">
+		<div class="title">
+			<img src="${pageContext.request.contextPath }/resources/images/left-arrow.png" onclick="toPrevAjax('selectIndexNewProject','newPage','newProjects');" />
+			&nbsp;&nbsp;&nbsp;&nbsp;새로운 프로젝트&nbsp;&nbsp;&nbsp;&nbsp;
+			<img src="${pageContext.request.contextPath }/resources/images/right-arrow.png" onclick="toNextAjax('selectIndexNewProject','newPage','newProjects');" />
+		</div>
+		<div class="project-group" id="newProjects"></div>
 	</div>
 	
 	<!-- 마감 앞둔 프로젝트 12개 -->
-	<div class="index-project" id="deadlineProjects">
-		<p class="title">
-			마감 앞둔 프로젝트
-		</p>
+	<div class="index-project">
+		<div class="title">
+			<img src="${pageContext.request.contextPath }/resources/images/left-arrow.png" onclick="toPrevAjax('selectIndexDeadlineProject','deadlinePage','deadlineProjects');" />
+			&nbsp;&nbsp;&nbsp;&nbsp;마감 앞둔 프로젝트&nbsp;&nbsp;&nbsp;&nbsp;
+			<img src="${pageContext.request.contextPath }/resources/images/right-arrow.png" onclick="toNextAjax('selectIndexDeadlineProject','deadlinePage','deadlineProjects');" />
+		</div>
+		 <div class="project-group" id="deadlineProjects"></div>
 	</div>
 </div>
 

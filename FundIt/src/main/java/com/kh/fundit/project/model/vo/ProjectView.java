@@ -3,6 +3,7 @@ package com.kh.fundit.project.model.vo;
 import java.sql.Date;
 
 public class ProjectView {
+	private int rowNum;
 	private int projectNo;
 	private String email;
 	private String projectImage;
@@ -21,10 +22,11 @@ public class ProjectView {
 		// TODO Auto-generated constructor stub
 	}
 
-	public ProjectView(int projectNo, String email, String projectImage, String projectTitle, String name,
+	public ProjectView(int rowNum, int projectNo, String email, String projectImage, String projectTitle, String name,
 			int deadlineDay, int supportGoal, Date calculateduedDate, int supportMoney, int supportPercent,
 			int supportor, String categoryCode) {
 		super();
+		this.rowNum = rowNum;
 		this.projectNo = projectNo;
 		this.email = email;
 		this.projectImage = projectImage;
@@ -37,6 +39,14 @@ public class ProjectView {
 		this.supportPercent = supportPercent;
 		this.supportor = supportor;
 		this.categoryCode = categoryCode;
+	}
+
+	public int getRowNum() {
+		return rowNum;
+	}
+
+	public void setRowNum(int rowNum) {
+		this.rowNum = rowNum;
 	}
 
 	public int getProjectNo() {
@@ -137,8 +147,8 @@ public class ProjectView {
 
 	@Override
 	public String toString() {
-		return "[projectNo=" + projectNo + ", email=" + email + ", projectImage=" + projectImage
-				+ ", projectTitle=" + projectTitle + ", name=" + name + ", deadlineDay=" + deadlineDay
+		return "[rowNum=" + rowNum + ", projectNo=" + projectNo + ", email=" + email + ", projectImage="
+				+ projectImage + ", projectTitle=" + projectTitle + ", name=" + name + ", deadlineDay=" + deadlineDay
 				+ ", supportGoal=" + supportGoal + ", calculateduedDate=" + calculateduedDate + ", supportMoney="
 				+ supportMoney + ", supportPercent=" + supportPercent + ", supportor=" + supportor + ", categoryCode="
 				+ categoryCode + "]";

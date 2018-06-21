@@ -3,77 +3,84 @@ package com.kh.fundit.member.model.vo;
 import java.sql.Date;
 
 public class Member {
-
-	private String Email;
-	private String Password;
-	private String Name;
-	private String Newsyn;
-	private String Adminyn;
+	private String email;
+	private String password;
+	private String name;
+	private String newsyn;
+	private String adminyn;
 	private Date enrollDate;
-	private String Naveryn;
-	
-	
-	public String getEmail() {
-		return Email;
-	}
-	public void setEmail(String email) {
-		Email = email;
-	}
-	public String getPassword() {
-		return Password;
-	}
-	public void setPassword(String password) {
-		Password = password;
-	}
-	public String getName() {
-		return Name;
-	}
-	public void setName(String name) {
-		Name = name;
-	}
-	public String getNewsyn() {
-		return Newsyn;
-	}
-	public void setNewsyn(String newsyn) {
-		Newsyn = newsyn;
-	}
-	public String getAdminyn() {
-		return Adminyn;
-	}
-	public void setAdminyn(String adminyn) {
-		Adminyn = adminyn;
-	}
-	public Date getEnrollDate() {
-		return enrollDate;
-	}
-	public void setEnrollDate(Date enrollDate) {
-		this.enrollDate = enrollDate;
-	}
-	public String getNaveryn() {
-		return Naveryn;
-	}
-	public void setNaveryn(String naveryn) {
-		Naveryn = naveryn;
-	}
+	private String naveryn;
+   
+	public Member() {}
+
 	public Member(String email, String password, String name, String newsyn, String adminyn, Date enrollDate,
 			String naveryn) {
 		super();
-		Email = email;
-		Password = password;
-		Name = name;
-		Newsyn = newsyn;
-		Adminyn = adminyn;
+		this.email = email;
+		this.password = password;
+		this.name = name;
+		this.newsyn = newsyn;
+		this.adminyn = adminyn;
 		this.enrollDate = enrollDate;
-		Naveryn = naveryn;
+		this.naveryn = naveryn;
 	}
+
+	public Member(String email, String newsyn) {
+		this.email = email;
+		this.newsyn = newsyn;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getNewsyn() {
+		return newsyn;
+	}
+
+	public void setNewsyn(String newsyn) {
+		this.newsyn = newsyn;
+	}
+
+	public String getAdminyn() {
+		return adminyn;
+	}
+
+	public void setAdminyn(String adminyn) {
+		this.adminyn = adminyn;
+	}
+
+	public Date getEnrollDate() {
+		return enrollDate;
+	}
+
+	public void setEnrollDate(Date enrollDate) {
+		this.enrollDate = enrollDate;
+	}
+
 	@Override
 	public String toString() {
-		return "Member [Email=" + Email + ", Password=" + Password + ", Name=" + Name + ", Newsyn=" + Newsyn
-				+ ", Adminyn=" + Adminyn + ", enrollDate=" + enrollDate + ", Naveryn=" + Naveryn + "]";
+		return "Member [email=" + email + ", password=" + password + ", name=" + name + ", newsyn=" + newsyn
+				+ ", adminyn=" + adminyn + ", enrollDate=" + enrollDate + ", naveryn=" + naveryn + "]";
 	}
-	
-	
-	
-	public Member() {}
-	
 }

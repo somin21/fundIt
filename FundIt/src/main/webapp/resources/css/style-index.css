@@ -4,6 +4,7 @@
 /**************************** header ****************************/
 body{
 	user-select: none;
+	overflow-x: hidden;
 }
 
 div#nav a, div#nav a:link, div#nav a:visited, div#nav a:active, div#nav a:hover{
@@ -48,6 +49,7 @@ div#nav div#nav-login img{
 	width: 35px;
     top: -4px;
     position: relative;
+    cursor: pointer;
 }
 div#nav div#nav-menu img{
 	width: 20px;
@@ -92,6 +94,25 @@ div#content-container{
 	min-height: 900px;
 	box-sizing: border-box;
 	position : relative;
+}
+
+/**************************** slide-project-image ****************************/
+div#slide-project{
+    width: 100%;
+}
+div#slide-project img{
+	height: 500px;
+}
+
+@media ( max-width: 1300px ){
+	div#slide-project img{
+		height: 400px;
+	}
+}
+@media ( max-width: 900px ){
+	div#slide-project img{
+		height: 300px;
+	}
 }
 
 /**************************** footer ****************************/
@@ -155,9 +176,6 @@ div#footer p#copyright{
 	}
 	div#nav div#profile-click-div {
     	right: 5%;
-	}
-	div#content-container{
-		width: 90%;
 	}
 	div#footer p{
 		width: 90%;
