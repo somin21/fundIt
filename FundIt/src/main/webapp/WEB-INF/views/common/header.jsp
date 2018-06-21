@@ -103,13 +103,8 @@ $(function(){
 		<p><a href="${pageContext.request.contextPath}/gift/giftDeliveryList.do?email="+${memberLoggedIn.email}>선물 배송리스트</a></p>
 		<p><a href="${pageContext.request.contextPath}/project/myProject.do?email=?"+${memberLoggedIn.email}>내가 만든 프로젝트</a></p>
 		<hr />
-<<<<<<< HEAD
 		<p><a href="${pageContext.request.contextPath }/member/memberView.do?email=${memberLoggedIn.email }">계정 설정</a></p>
 		<p><a href="${pageContext.request.contextPath }/member/profileView.do?email=${memberLoggedIn.email }">프로필 설정</a></p>
-=======
-		<p><a href="${pageContext.request.contextPath }/member/memberView.do?email=${memberLoggedIn.email}">계정 설정</a></p>
-		<p><a href="${pageContext.request.contextPath }/member/profileView.do?email=${memberLoggedIn.email}">프로필 설정</a></p>
->>>>>>> refs/remotes/fund/hyojeong
 		<hr />
 		<p><a href="${pageContext.request.contextPath }/member/memberLogout.do">로그아웃</a></p>
 	</div>
