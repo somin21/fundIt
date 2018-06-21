@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.fundit.project.model.dao.ProjectDAO;
 import com.kh.fundit.project.model.vo.ListProjectView;
+import com.kh.fundit.project.model.vo.Profile;
 import com.kh.fundit.project.model.vo.ProjectOutline;
 import com.kh.fundit.project.model.vo.ProjectView;
 
@@ -48,6 +49,11 @@ public class ProjectServiceImpl implements ProjectService {
 	public List<ProjectView> projectView(Map<String, Integer> map) {
 		
 		return projectDAO.projectView(map);
+	}
+
+	@Override
+	public Profile profileUser(String userEmail) {
+		return projectDAO.profileUser(userEmail);
 	}
 
 }

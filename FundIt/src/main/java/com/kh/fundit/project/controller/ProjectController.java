@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.fundit.project.model.service.ProjectService;
 import com.kh.fundit.project.model.vo.ListProjectView;
+import com.kh.fundit.project.model.vo.Profile;
 import com.kh.fundit.project.model.vo.ProjectOutline;
 import com.kh.fundit.project.model.vo.ProjectView;
 
@@ -83,10 +84,20 @@ public class ProjectController {
 		Map<String,Integer> map = new HashMap<String, Integer>();
 		map.put("projectNo",projectNo);
 		
+		//프로젝트리스트뽑기
 		List<ProjectView> list = projectService.projectView(map);
 		
-		System.out.println(list);
+		/*System.out.println(list);*/
+		String userEmail = "";
+		for(ProjectView v : list) {
+			userEmail = v.getEmail();
+		}
+
+		Profile p = projectService.profileUser(userEmail);
+		System.out.println(p);
+		
 		mav.addObject("list",list);
+		mav.addObject("p",p);
 		mav.addObject("projectNo",projectNo);
 		mav.setViewName("project/projectView");
 		

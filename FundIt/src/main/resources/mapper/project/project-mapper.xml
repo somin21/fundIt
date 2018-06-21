@@ -54,4 +54,8 @@
         where p.projectno = ${projectNo}
 	</select>
 	
+	<select id="profileUser" resultType="profile">
+		select * from profile where email = #{userEmail}
+	</select>
+	
 </mapper>
