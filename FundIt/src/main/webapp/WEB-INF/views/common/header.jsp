@@ -44,7 +44,7 @@ $(function(){
 		</span>
 		&nbsp;&nbsp;&nbsp;
 		<span>
-			<a href="">
+			<a href="${pageContext.request.contextPath }/project/makeProject.do" >
 				프로젝트 올리기
 			</a>
 		</span>
