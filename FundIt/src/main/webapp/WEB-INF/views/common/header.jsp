@@ -51,14 +51,14 @@ $(function(){
 	</div>
 	
 	<div id="menu-click-div">
-		<p><a href="">모든프로젝트</a></p>
+		<p><a href="${pageContext.request.contextPath }/project/projectList.do?categoryCode=">모든프로젝트</a></p>
 		<p style="color:darkgray;font-size:0.8em;text-align:center;padding-top:15px;">카테고리</p>
-		<p><a href="">게임</a></p>
-		<p><a href="">푸드</a></p>
-		<p><a href="">예술</a></p>
-		<p><a href="">패션</a></p>
-		<p><a href="">출판</a></p>
-		<p><a href="">테크놀리지</a></p>
+		<p><a href="${pageContext.request.contextPath }/project/projectList.do?categoryCode=C1">게임</a></p>
+		<p><a href="${pageContext.request.contextPath }/project/projectList.do?categoryCode=C2">푸드</a></p>
+		<p><a href="${pageContext.request.contextPath }/project/projectList.do?categoryCode=C3">예술</a></p>
+		<p><a href="${pageContext.request.contextPath }/project/projectList.do?categoryCode=C4">패션</a></p>
+		<p><a href="${pageContext.request.contextPath }/project/projectList.do?categoryCode=C5">출판</a></p>
+		<p><a href="${pageContext.request.contextPath }/project/projectList.do?categoryCode=C6">테크놀리지</a></p>
 	</div>
 	
 	<div id="nav-title">
@@ -85,7 +85,7 @@ $(function(){
 			<span class="profile-click">
 				${memberLoggedIn.name}
 			</span>
-			<img src="${pageContext.request.contextPath }/resources/images/profile.png" />
+			<img src="${pageContext.request.contextPath }/resources/images/profile.png" class="profile-click" />
 			<%-- <c:if test="${memberLoggedIn.profileImage ne null}">
 				<img src="./resources/images/${memberLoggedIn.profileImage}" class="profile-click" />
 			</c:if>
@@ -103,10 +103,10 @@ $(function(){
 		<p><a href="${pageContext.request.contextPath}/gift/giftDeliveryList.do?email="+${memberLoggedIn.email}>선물 배송리스트</a></p>
 		<p><a href="${pageContext.request.contextPath}/project/myProject.do?email=?"+${memberLoggedIn.email}>내가 만든 프로젝트</a></p>
 		<hr />
-		<p><a href="${pageContext.request.contextPath }/member/memberView.do?email=suzy@naver.com">계정 설정</a></p>
-		<p><a href="${pageContext.request.contextPath }/member/profileView.do?email=suzy@naver.com">프로필 설정</a></p>
+		<p><a href="${pageContext.request.contextPath }/member/memberView.do?email=${memberLoggedIn.email }">계정 설정</a></p>
+		<p><a href="${pageContext.request.contextPath }/member/profileView.do?email=${memberLoggedIn.email }">프로필 설정</a></p>
 		<hr />
-		<p><a href="">로그아웃</a></p>
+		<p><a href="${pageContext.request.contextPath }/member/memberLogout.do">로그아웃</a></p>
 	</div>
 </div>
 

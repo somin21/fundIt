@@ -6,8 +6,12 @@
 
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
 
-
 <script>
+
+var popularPage = 1;
+var newPage = 1;
+var deadlinePage = 1;
+
 $(function(){
 	
 	/* slideImage */
@@ -187,31 +191,144 @@ function numberWithCommas(x){
 	</div>
 </div>
 	
-<style>
+<script>
 
-</style>
+function toPrevAjax(urlMapping, pageName, div_name){
+	
+	var page;
+	
+	if(pageName == 'popularPage'){
+		page = popularPage;
+	} else if(pageName == 'newPage'){
+		page = newPage;
+	} else if(pageName == 'deadlinePage'){
+		page = deadlinePage;
+	}
+
+	console.log(pageName +" : "+ page);
+	
+	if(page > 1 && page <= 3){
+
+		if(pageName == 'popularPage'){
+			page = popularPage-1;
+			popularPage = page;
+		} else if(pageName == 'newPage'){
+			page = newPage-1;
+			newPage = page;
+		} else if(pageName == 'deadlinePage'){
+			page = deadlinePage-1;
+			deadlinePage = page;
+		}
+
+		console.log(page);
+		
+		$.ajax({
+			url : urlMapping,
+			data : {page : page},
+			success : function(data){
+				console.log(data);
+				
+		    	var appendDiv = $("#"+div_name);
+		    	appendDiv.html("");
+				
+		    	for(var i = 0; i < data.length; i++){	    		
+		    		htmlAppend(data[i], appendDiv);
+				}
+		    	
+		    	if(data.length < 4){
+		    		htmlAppendNone(data.length+1, appendDiv);
+		    	}
+			},
+			error : function(jqxhr,textStatus,errorThrown){
+				console.log("ajax실패");
+			}
+		});
+	}
+}
+
+function toNextAjax(urlMapping, pageName, div_name){
+	
+	var page;
+	
+	if(pageName == 'popularPage'){
+		page = popularPage;
+	} else if(pageName == 'newPage'){
+		page = newPage;
+	} else if(pageName == 'deadlinePage'){
+		page = deadlinePage;
+	}
+	
+	console.log(pageName +" : "+ page);
+	
+	if(page >= 1 && page < 3){
+
+		if(pageName == 'popularPage'){
+			page = popularPage+1;
+			popularPage = page;
+		} else if(pageName == 'newPage'){
+			page = newPage+1;
+			newPage = page;
+		} else if(pageName == 'deadlinePage'){
+			page = deadlinePage+1;
+			deadlinePage = page;
+		}
+
+		console.log(page);
+		$.ajax({
+			url : urlMapping,
+			data : {page : page},
+			success : function(data){
+				console.log(data);
+				
+		    	var appendDiv = $("#"+div_name);
+		    	appendDiv.html("");
+				
+		    	for(var i = 0; i < data.length; i++){	    		
+		    		htmlAppend(data[i], appendDiv);
+				}
+		    	
+		    	if(data.length < 4){
+		    		htmlAppendNone(data.length+1, appendDiv);
+		    	}
+			},
+			error : function(jqxhr,textStatus,errorThrown){
+				console.log("ajax실패");
+			}
+		});
+	}
+}
+</script>
 
 <div id="index-container">
 	
 	<!-- 카테고리별 인기 프로젝트 12개 -->
-	<div class="index-project" id="popularProjects">
-		<p class="title">
-			분야별 인기 프로젝트
-		</p>
+	<div class="index-project">
+		<div class="title">
+			<img src="${pageContext.request.contextPath }/resources/images/left-arrow.png" onclick="toPrevAjax('selectIndexPopularProject','popularPage','popularProjects');" />
+			&nbsp;&nbsp;&nbsp;&nbsp;분야별 인기 프로젝트&nbsp;&nbsp;&nbsp;&nbsp;
+			<img src="${pageContext.request.contextPath }/resources/images/right-arrow.png" onclick="toNextAjax('selectIndexPopularProject','popularPage','popularProjects');" />
+		</div>
+		<div class="project-group" id="popularProjects"></div>
 	</div>
 	
 	<!-- 새로운 프로젝트 12개 -->
-	<div class="index-project" id="newProjects">
-		<p class="title">
-			새로운 프로젝트
-		</p>
+	<div class="index-project">
+		<div class="title">
+			<img src="${pageContext.request.contextPath }/resources/images/left-arrow.png" onclick="toPrevAjax('selectIndexNewProject','newPage','newProjects');" />
+			&nbsp;&nbsp;&nbsp;&nbsp;새로운 프로젝트&nbsp;&nbsp;&nbsp;&nbsp;
+			<img src="${pageContext.request.contextPath }/resources/images/right-arrow.png" onclick="toNextAjax('selectIndexNewProject','newPage','newProjects');" />
+		</div>
+		<div class="project-group" id="newProjects"></div>
 	</div>
 	
 	<!-- 마감 앞둔 프로젝트 12개 -->
-	<div class="index-project" id="deadlineProjects">
-		<p class="title">
-			마감 앞둔 프로젝트
-		</p>
+	<div class="index-project">
+		<div class="title">
+			<img src="${pageContext.request.contextPath }/resources/images/left-arrow.png" onclick="toPrevAjax('selectIndexDeadlineProject','deadlinePage','deadlineProjects');" />
+			&nbsp;&nbsp;&nbsp;&nbsp;마감 앞둔 프로젝트&nbsp;&nbsp;&nbsp;&nbsp;
+			<img src="${pageContext.request.contextPath }/resources/images/right-arrow.png" onclick="toNextAjax('selectIndexDeadlineProject','deadlinePage','deadlineProjects');" />
+		</div>
+		 <div class="project-group" id="deadlineProjects"></div>
 	</div>
 </div>
 

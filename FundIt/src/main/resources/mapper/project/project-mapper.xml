@@ -45,7 +45,6 @@
 	 ]]>
 	</select>
 	
-	<!-- 태윤  -->
 	<select id="selectMyProjectYet" resultType = "list_project_view">
 	select *
 	from
@@ -58,7 +57,6 @@
 	
 	</select>
 	
-	<!-- 태윤  -->
 	<select id="selectMyProjectYes" resultType = "list_project_view">
 	select *
 	from
@@ -71,7 +69,6 @@
 	
 	</select>
 	
-	<!-- 태윤  -->
 	<select id="selectMyProjectNo" resultType = "list_project_view">
 	select *
 	from
@@ -83,10 +80,32 @@
 		order by deadlineday)
 	
 	</select>
-	<!--태윤  -->
+	
 	<select id="selectMyProjectCnt" resultType = "_int">
 	 select count(*) from project_outline where email = #{email}
 	</select>
 	
+	<select id="projectList" resultType="list_project_view">
+			select p.projectno, p.projectimage, p.projecttitle, 
+	        (select name from member m where p.email = m.email) name,
+	        (select trunc(deadlinedate - sysdate) from project_funding f where p.projectno = f.projectno) deadlineday,
+	        s.supportmoney, s.supportpercent
+		from (select * from project_outline where projectconfirmyn='Y' and projectdeadlineyn='N' order by projectdate desc) p join project_summary s on p.projectno = s.projectno
+		 where 1=1
+			<if test="categoryCode != null and categoryCode !='' ">
+				and categorycode = #{categoryCode}
+			</if>
+	</select>
+	
+	<select id="projectView" resultType="projectView">
+		select p.projectno, p.email, p.projectimage, p.projecttitle, 
+        	(select name from member m where p.email = m.email) name,
+        	(select trunc(deadlinedate - sysdate) from project_funding f where p.projectno = f.projectno) deadlineday,
+        	(select supportgoal from project_funding f where p.projectno = f.projectno) supportgoal,
+            (select CALCULATEDUEDATE from project_funding f where p.projectno = f.projectno) calculatedueddate,
+            s.supportmoney, s.supportpercent, s.supportor, p.categorycode
+		from (select * from project_outline where projectconfirmyn='Y' and projectdeadlineyn='N' order by projectdate desc) p join project_summary s on p.projectno = s.projectno
+        where p.projectno = ${projectNo}
+	</select>
 	
 </mapper>

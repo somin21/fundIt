@@ -2,6 +2,7 @@ package com.kh.fundit.project.controller;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -17,6 +18,7 @@ import com.kh.fundit.member.model.vo.Profile;
 import com.kh.fundit.project.model.service.ProjectService;
 import com.kh.fundit.project.model.vo.ListProjectView;
 import com.kh.fundit.project.model.vo.ProjectOutline;
+import com.kh.fundit.project.model.vo.ProjectView;
 
 @Controller
 public class ProjectController {
@@ -37,7 +39,7 @@ public class ProjectController {
 //	소민
 	@RequestMapping("selectIndexPopularProject")
 	@ResponseBody
-	public List<ListProjectView> selectIndexPopularProject(@RequestParam(value="popularProjectPage", required=false, defaultValue="1") int popularProjectPage, HttpServletResponse response) {
+	public List<ListProjectView> selectIndexPopularProject(@RequestParam(value="page", required=false, defaultValue="1") int popularProjectPage, HttpServletResponse response) {
 		
 		int numPerpage = 4;
 		List<ListProjectView> list = projectService.selectIndexPopularProject(popularProjectPage, numPerpage);
@@ -48,7 +50,7 @@ public class ProjectController {
 //	소민
 	@RequestMapping("selectIndexNewProject")
 	@ResponseBody
-	public List<ListProjectView> selectIndexNewProject(@RequestParam(value="newProjectPage", required=false, defaultValue="1") int newProjectPage, HttpServletResponse response) {
+	public List<ListProjectView> selectIndexNewProject(@RequestParam(value="page", required=false, defaultValue="1") int newProjectPage, HttpServletResponse response) {
 		
 		int numPerpage = 4;
 		List<ListProjectView> list = projectService.selectIndexNewProject(newProjectPage, numPerpage);
@@ -59,7 +61,7 @@ public class ProjectController {
 //	소민
 	@RequestMapping("selectIndexDeadlineProject")
 	@ResponseBody
-	public List<ListProjectView> selectIndexDeadlineProject(@RequestParam(value="deadlineProjectPage", required=false, defaultValue="1") int deadlineProjectPage, HttpServletResponse response) {
+	public List<ListProjectView> selectIndexDeadlineProject(@RequestParam(value="page", required=false, defaultValue="1") int deadlineProjectPage, HttpServletResponse response) {
 		
 		int numPerpage = 4;
 		List<ListProjectView> list = projectService.selectIndexDeadlineProject(deadlineProjectPage, numPerpage);
@@ -134,6 +136,42 @@ public class ProjectController {
 	}
 	
 	
+//	희영
+	@RequestMapping("/project/projectList.do")
+	public ModelAndView projectList(@RequestParam String categoryCode) {
+		ModelAndView mav = new ModelAndView();
+		
+		Map<String,String> map = new HashMap<String, String>();
+		map.put("categoryCode",categoryCode);
+		
+		List<ListProjectView> list = projectService.projectList(map);
+		
+		mav.addObject("list",list);
+		mav.addObject("categoryCode",categoryCode);
+		mav.setViewName("project/projectList");
+		
+		return mav;
 	
+	}
+//	희영
+	@RequestMapping("/project/projectView.do")
+	public ModelAndView projectView(@RequestParam int projectNo) {
+		ModelAndView mav = new ModelAndView();
+		System.out.println(projectNo);
+		
+		Map<String,Integer> map = new HashMap<String, Integer>();
+		map.put("projectNo",projectNo);
+		
+		List<ProjectView> list = projectService.projectView(map);
+		
+		System.out.println(list);
+		mav.addObject("list",list);
+		mav.addObject("projectNo",projectNo);
+		mav.setViewName("project/projectView");
+		
+		return mav;
 	
+	}
+
+
 }
