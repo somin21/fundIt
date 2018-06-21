@@ -193,13 +193,34 @@ function numberWithCommas(x){
 	
 <script>
 
-function ToPrevAjax(urlMapping, page){
+function toPrevAjax(urlMapping, pageName, div_name){
 	
-	console.log(page);
+	var page;
 	
-	if(page > 1){
+	if(pageName == 'popularPage'){
+		page = popularPage;
+	} else if(pageName == 'newPage'){
+		page = newPage;
+	} else if(pageName == 'deadlinePage'){
+		page = deadlinePage;
+	}
 
-		popularPage = popularPage-1;
+	console.log(pageName +" : "+ page);
+	
+	if(page > 1 && page <= 3){
+
+		if(pageName == 'popularPage'){
+			page = popularPage-1;
+			popularPage = page;
+		} else if(pageName == 'newPage'){
+			page = newPage-1;
+			newPage = page;
+		} else if(pageName == 'deadlinePage'){
+			page = deadlinePage-1;
+			deadlinePage = page;
+		}
+
+		console.log(page);
 		
 		$.ajax({
 			url : urlMapping,
@@ -207,15 +228,67 @@ function ToPrevAjax(urlMapping, page){
 			success : function(data){
 				console.log(data);
 				
-		    	var div_name = $("#popularProjects");
-				div_name.html("");
+		    	var appendDiv = $("#"+div_name);
+		    	appendDiv.html("");
 				
 		    	for(var i = 0; i < data.length; i++){	    		
-		    		htmlAppend(data[i], div_name);
+		    		htmlAppend(data[i], appendDiv);
 				}
 		    	
 		    	if(data.length < 4){
-		    		htmlAppendNone(data.length+1, div_name);
+		    		htmlAppendNone(data.length+1, appendDiv);
+		    	}
+			},
+			error : function(jqxhr,textStatus,errorThrown){
+				console.log("ajax실패");
+			}
+		});
+	}
+}
+
+function toNextAjax(urlMapping, pageName, div_name){
+	
+	var page;
+	
+	if(pageName == 'popularPage'){
+		page = popularPage;
+	} else if(pageName == 'newPage'){
+		page = newPage;
+	} else if(pageName == 'deadlinePage'){
+		page = deadlinePage;
+	}
+	
+	console.log(pageName +" : "+ page);
+	
+	if(page >= 1 && page < 3){
+
+		if(pageName == 'popularPage'){
+			page = popularPage+1;
+			popularPage = page;
+		} else if(pageName == 'newPage'){
+			page = newPage+1;
+			newPage = page;
+		} else if(pageName == 'deadlinePage'){
+			page = deadlinePage+1;
+			deadlinePage = page;
+		}
+
+		console.log(page);
+		$.ajax({
+			url : urlMapping,
+			data : {page : page},
+			success : function(data){
+				console.log(data);
+				
+		    	var appendDiv = $("#"+div_name);
+		    	appendDiv.html("");
+				
+		    	for(var i = 0; i < data.length; i++){	    		
+		    		htmlAppend(data[i], appendDiv);
+				}
+		    	
+		    	if(data.length < 4){
+		    		htmlAppendNone(data.length+1, appendDiv);
 		    	}
 			},
 			error : function(jqxhr,textStatus,errorThrown){
@@ -231,9 +304,9 @@ function ToPrevAjax(urlMapping, page){
 	<!-- 카테고리별 인기 프로젝트 12개 -->
 	<div class="index-project">
 		<div class="title">
-			<img src="${pageContext.request.contextPath }/resources/images/left-arrow.png" id="popularPrevImg" onclick="popularToPrevAjax();"/ />
+			<img src="${pageContext.request.contextPath }/resources/images/left-arrow.png" onclick="toPrevAjax('selectIndexPopularProject','popularPage','popularProjects');" />
 			&nbsp;&nbsp;&nbsp;&nbsp;분야별 인기 프로젝트&nbsp;&nbsp;&nbsp;&nbsp;
-			<img src="${pageContext.request.contextPath }/resources/images/right-arrow.png" id="popularNextImg" onclick="popularToNextAjax();"/>
+			<img src="${pageContext.request.contextPath }/resources/images/right-arrow.png" onclick="toNextAjax('selectIndexPopularProject','popularPage','popularProjects');" />
 		</div>
 		<div class="project-group" id="popularProjects"></div>
 	</div>
@@ -241,9 +314,9 @@ function ToPrevAjax(urlMapping, page){
 	<!-- 새로운 프로젝트 12개 -->
 	<div class="index-project">
 		<div class="title">
-			<img src="${pageContext.request.contextPath }/resources/images/left-arrow.png" />
+			<img src="${pageContext.request.contextPath }/resources/images/left-arrow.png" onclick="toPrevAjax('selectIndexNewProject','newPage','newProjects');" />
 			&nbsp;&nbsp;&nbsp;&nbsp;새로운 프로젝트&nbsp;&nbsp;&nbsp;&nbsp;
-			<img src="${pageContext.request.contextPath }/resources/images/right-arrow.png" />
+			<img src="${pageContext.request.contextPath }/resources/images/right-arrow.png" onclick="toNextAjax('selectIndexNewProject','newPage','newProjects');" />
 		</div>
 		<div class="project-group" id="newProjects"></div>
 	</div>
@@ -251,9 +324,9 @@ function ToPrevAjax(urlMapping, page){
 	<!-- 마감 앞둔 프로젝트 12개 -->
 	<div class="index-project">
 		<div class="title">
-			<img src="${pageContext.request.contextPath }/resources/images/left-arrow.png" />
+			<img src="${pageContext.request.contextPath }/resources/images/left-arrow.png" onclick="toPrevAjax('selectIndexDeadlineProject','deadlinePage','deadlineProjects');" />
 			&nbsp;&nbsp;&nbsp;&nbsp;마감 앞둔 프로젝트&nbsp;&nbsp;&nbsp;&nbsp;
-			<img src="${pageContext.request.contextPath }/resources/images/right-arrow.png" />
+			<img src="${pageContext.request.contextPath }/resources/images/right-arrow.png" onclick="toNextAjax('selectIndexDeadlineProject','deadlinePage','deadlineProjects');" />
 		</div>
 		 <div class="project-group" id="deadlineProjects"></div>
 	</div>
