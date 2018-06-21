@@ -52,7 +52,7 @@ color: red;
 	</tr>
 	<tr>
 		<td>
-			<button type="button" id="naver-join" class="btn btn-success">N 네이버 아이디로 가입하기</button>
+			<button type="button" id="naver-join" class="btn btn-success" >N 네이버 아이디로 가입하기</button>
 		</td>
 	</tr>
 	<tr>

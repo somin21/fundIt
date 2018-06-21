@@ -107,12 +107,7 @@ color:red;
 	$(".check").on("keyup",function(){
 		
 		var email2= $("#join-email_").val();
-		var email = $("#join-email").val();
-		console.log(email);
-		console.log(email2);
-	
-			
-		
+		var email = $("#join-email").val();		
 		
 		$.ajax({
 			url : "checkEmailDuplicate.do",

@@ -1,5 +1,7 @@
 package com.kh.fundit.member.model.dao;
 
+import java.util.Map;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -67,6 +69,17 @@ public class MemberDAOImpl implements MemberDAO {
 	@Override
 	public Profile selectProfile(String email) {
 		return sqlSession.selectOne("member.selectProfile",email);
+	}
+
+	@Override
+	public Member selectNaverByEmail(String naverEmail) {
+		return sqlSession.selectOne("member.selectNaverByEmail",naverEmail);
+	}
+
+
+	@Override
+	public int insertNaver(Map<String, Object> map) {
+		return sqlSession.insert("member.insertNaver",map);
 	}
 
 }

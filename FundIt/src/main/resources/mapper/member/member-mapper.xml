@@ -20,8 +20,7 @@
 	update member set password = #{password} where email = #{email}
 	</update>
 	
-	<!-- 김효정  -->
-	<select id="selectMember" resultMap="memberMap">
+ 	<select id="selectMember" resultMap="memberMap">
 		select * from member where email=#{email}
 	</select>
 	
@@ -45,7 +44,7 @@
 	<select id="selectMemberByEmail" resultMap="memberMap">
 	select * from member where email = #{email}
 	</select>
-
+	
     <resultMap type="profile" id="profileMap">
       <result column="email" property="email"/>
       <result column="profileimage" property="profileImage"/>
@@ -58,5 +57,14 @@
    <select id="selectProfile" resultMap="profileMap">
    select * from profile where email = #{email}
    </select>
+   
+   <select id="selectNaverByEmail" resultMap="memberMap">
+   select * from member where email = #{email}
+   </select>
+   
+   
+   <insert id="insertNaver">
+   insert into member values('${naverEmail}',null,'${naverName}',default,default,default,'Y')
+   </insert>
 	
 </mapper>
