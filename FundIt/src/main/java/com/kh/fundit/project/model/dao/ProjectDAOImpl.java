@@ -95,4 +95,9 @@ public class ProjectDAOImpl implements ProjectDAO {
 		return sqlSession.selectList("project.projectView", map);
 	}
 
+	@Override
+	public List<ListProjectView> interestList(String email) {
+		return sqlSession.selectList("project.interestList",email);
+	}
+
 }

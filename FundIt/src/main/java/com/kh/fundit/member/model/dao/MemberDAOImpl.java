@@ -1,10 +1,12 @@
 package com.kh.fundit.member.model.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
 
 import com.kh.fundit.member.model.vo.Member;
 import com.kh.fundit.member.model.vo.Profile;
@@ -81,5 +83,8 @@ public class MemberDAOImpl implements MemberDAO {
 	public int insertNaver(Map<String, Object> map) {
 		return sqlSession.insert("member.insertNaver",map);
 	}
+
+
+
 
 }

@@ -67,4 +67,6 @@
    insert into member values('${naverEmail}',null,'${naverName}',default,default,default,'Y')
    </insert>
 	
+
+	
 </mapper>

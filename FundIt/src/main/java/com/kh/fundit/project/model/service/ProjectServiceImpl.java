@@ -89,4 +89,12 @@ public class ProjectServiceImpl implements ProjectService {
 		return projectDAO.projectView(map);
 	}
 
+@Override
+public List<ListProjectView> interestList(String email) {
+	
+	return projectDAO.interestList(email);
+}
+
+
+
 }
