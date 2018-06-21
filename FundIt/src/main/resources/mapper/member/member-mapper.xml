@@ -44,7 +44,7 @@
 	<select id="selectMemberByEmail" resultMap="memberMap">
 	select * from member where email = #{email}
 	</select>
-	
+		
     <resultMap type="profile" id="profileMap">
       <result column="email" property="email"/>
       <result column="profileimage" property="profileImage"/>
@@ -66,6 +66,8 @@
    insert into member values('${naverEmail}',null,'${naverName}',default,default,default,'Y')
    </insert>
 	
-
+	<select id="selectProfileImg" resultType = "String">
+	select profileimage from profile where email = #{email}
+	</select>
 	
 </mapper>
