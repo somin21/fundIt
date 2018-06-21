@@ -114,6 +114,12 @@ $(function(){
 			console.log("ajax실패");
 		}
 	});
+	 
+	 $(".project").click(function(){
+         var projectNo = $(this).children("#projectNo").val();
+         console.log(projectNo);
+         location.href="${pageContext.request.contextPath}/project/projectView.do?projectNo="+projectNo;
+      });
 	
 });
 
@@ -176,6 +182,9 @@ function htmlAppendNone(startIndex, div_name){
 function numberWithCommas(x){
 	return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g,",");
 }
+
+
+
 </script>
 <style>
 div#myProfile-container{
