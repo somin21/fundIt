@@ -4,6 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
+<script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.2.js" charset="utf-8"></script>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
@@ -55,8 +56,8 @@ color:red;
 	<table id="login-table">
 	<tr>
 		<td>
-			<input type="email" id="email"  name="Email" placeholder="이메일 주소 입력" /> 
-			<input type="password" id="pwd" name="Password" placeholder="비밀번호 입력 주소 입력" />
+			<input type="email" id="email"  name="email" placeholder="이메일 주소 입력" /> 
+			<input type="password" id="pwd" name="password" placeholder="비밀번호 입력 주소 입력" />
 		</td>
 	</tr>
 	<tr>
@@ -67,7 +68,7 @@ color:red;
 	</tr>
 	<tr>
 		<td>
-			<button type="button" id="naver" class="btn btn-success" onclick="location='"${url}'"  >네이버로 로그인</button>
+			<button type="button" id="naver" class="btn btn-success" onclick="location='${url}'"  >네이버로 로그인</button>
 		</td>
 	</tr>
 	<tr>

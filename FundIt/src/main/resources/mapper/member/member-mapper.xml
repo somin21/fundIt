@@ -53,4 +53,14 @@
 		<result column="naveryn" property="naveryn" />
 	</resultMap>
 	
+   <select id="selectNaverByEmail" resultMap="memberMap">
+   select * from member where email = #{email}
+   </select>
+   
+   
+   <insert id="insertNaver">
+   insert into member values('${naverEmail}',null,'${naverName}',default,default,default,'Y')
+   </insert>
+	
+	
 </mapper>

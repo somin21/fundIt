@@ -70,12 +70,12 @@ $(function(){
 		<!-- 로그인X -->
 		<c:if test="${memberLoggedIn eq null }">
 			<span>
-			<a href="${pageContext.request.contextPath }/member/login.do">로그인</a>
+			<a href="${pageContext.request.contextPath }/login.do">로그인</a>
 			/
 			<a href="">회원가입</a>
 			</span>
 			&nbsp;
-			<a href="${pageContext.request.contextPath }/member/login.do">
+			<a href="${pageContext.request.contextPath }/member/join.do">
 				<img src="${pageContext.request.contextPath }/resources/images/profile.png" />
 			</a>
 		</c:if>
@@ -106,7 +106,7 @@ $(function(){
 		<p><a href="${pageContext.request.contextPath }/member/memberView.do?email=suzy@naver.com">계정 설정</a></p>
 		<p><a href="${pageContext.request.contextPath }/member/profileView.do?email=suzy@naver.com">프로필 설정</a></p>
 		<hr />
-		<p><a href="">로그아웃</a></p>
+		<p><a href="${pageContext.request.contextPath }/member/memberlogout.do">로그아웃</a></p>
 	</div>
 </div>
 
