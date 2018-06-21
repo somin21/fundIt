@@ -65,7 +65,7 @@ public class MemberDAOImpl implements MemberDAO {
 	@Override
 	public String selectProfileImg(Profile profile) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectOne("profile.selectProfileImg",profile);
+		return sqlSession.selectOne("member.selectProfileImg",profile);
 	}
 
 }

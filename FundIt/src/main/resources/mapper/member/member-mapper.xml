@@ -45,6 +45,10 @@
 	<select id="selectMemberByEmail" resultMap="memberMap">
 	select * from member where email = #{email}
 	</select>
+	
+	<select id="selectProfileImg" resultType = "String">
+	select profileimage from profile where email = #{email}
+	</select>
 
 	
 </mapper>

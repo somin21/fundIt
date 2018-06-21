@@ -9,6 +9,8 @@
 
 <script>
 $(function(){
+	
+	
 	var email = $("#email").val().trim();
 	console.log(email);
 	/* profileImgage */
@@ -115,22 +117,24 @@ $(function(){
 		}
 	});
 	 
-	 $(".project").click(function(){
-         var projectNo = $(this).children("#projectNo").val();
-         console.log(projectNo);
-         location.href="${pageContext.request.contextPath}/project/projectView.do?projectNo="+projectNo;
-      });
+	 
 	
 });
 
 function htmlAppend(project, div_name){
 	var html = '';
 	
-	html += '<div class="project">';
+	html += '<div class="project" onclick = "fn_gotoProjectView();">';
+	html += '<input type="hidden" name="projectNo" id ="projectNo" value="'+project.projectNo+'" />';
 	html += '<img src="${pageContext.request.contextPath }/resources/images/projects/'+project.projectImage+'" />';
+	if(project.deadlineDay > 0 && project.supportPercent >= 100){
+		html +=	'<p style="color:tomato; font-size : 15px;  height:25px; font-weight: bolder; margin-left:15px; margin-top:-23px; margin-bottom:-2px;">성공</p>'
+	}else{
+		html += '';
+	}
 	html += '<div class="summary">';
-	html += '<p>'+project.projectTitle+'</p>';
-	html += '<p>'+project.name+'</p>';
+	
+	html += '<p>'+project.projectTitle+' : '+project.name+'</p>';
 	html += '<div class="progress">';
 	
 	if(project.supportPercent < 100){
@@ -147,11 +151,10 @@ function htmlAppend(project, div_name){
 	html += '</div>';
 	html += '<div class="support">';
 	html += '<img src="${pageContext.request.contextPath }/resources/images/money.png"/>';
-	html += '<input type="hidden" name="projectNo" id ="projectNo" value="${project.projectNo}" />';
-	 
+	
+		 
 	var supportMoney = numberWithCommas(project.supportMoney);
 	html += '&nbsp;'+supportMoney+'&nbsp;('+project.supportPercent+'%)';
-	
 	html += '</div>';
 	html += '</div>';
 	html += '</div>';
@@ -221,6 +224,11 @@ line-height : 100px;
 
 
 }
+ 
+p.title{
+font-size:25px; 
+font-weight : bolder;
+}
 </style>
 
 
@@ -238,7 +246,7 @@ line-height : 100px;
 
 
 <div id="index-container">
-		<p class="title" style="font-size:25px;">
+		<p class="title">
 			내가만든 프로젝트 <span id="cnt" style="color:tomato;"></span> 개 
 		</p>
 		
@@ -252,7 +260,7 @@ line-height : 100px;
 	
 	<!-- 내가 만드 프로젝트(컨펌받은 프로젝트) -->
 	<div class="index-project" id="myProjectYes">
-		<p class="title">
+		<p class="title" >
 			진행 중
 		</p>
 		
@@ -267,5 +275,22 @@ line-height : 100px;
 	</div>
 
 </div>
+
+<script>
+
+	function fn_gotoProjectView(){
+		$(".project").click(function(){
+	        var projectNo = $(this).children("#projectNo").val();
+	        console.log(projectNo)
+	        if(projectNo == null){
+	           return false;
+	        }
+	        console.log(projectNo);
+	        location.href="${pageContext.request.contextPath}/project/projectView.do?projectNo="+projectNo;
+	     });
+	};
+
+
+</script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
