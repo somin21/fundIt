@@ -56,4 +56,9 @@ public class MemberServiceImpl implements MemberService {
 		return memberDAO.selectMemberByEmail(email);
 	}
 
+	@Override
+	public Profile selectProfile(String email) {
+		return memberDAO.selectProfile(email);
+	}
+
 }

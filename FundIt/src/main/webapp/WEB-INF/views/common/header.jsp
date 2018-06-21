@@ -103,8 +103,8 @@ $(function(){
 		<p><a href="">선물 배송리스트</a></p>
 		<p><a href="">내가 만든 프로젝트</a></p>
 		<hr />
-		<p><a href="${pageContext.request.contextPath }/member/memberView.do?email=suzy@naver.com">계정 설정</a></p>
-		<p><a href="${pageContext.request.contextPath }/member/profileView.do?email=suzy@naver.com">프로필 설정</a></p>
+		<p><a href="${pageContext.request.contextPath }/member/memberView.do?email=${memberLoggedIn.email}">계정 설정</a></p>
+		<p><a href="${pageContext.request.contextPath }/member/profileView.do?email=${memberLoggedIn.email}">프로필 설정</a></p>
 		<hr />
 		<p><a href="">로그아웃</a></p>
 	</div>

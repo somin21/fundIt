@@ -9,7 +9,7 @@
       <result column="newsyn" property="newsyn"/>
       <result column="adminyn" property="adminyn"/>
       <result column="enrolldate" property="enrollDate"/>
-      <result column="enrolldate" property="naveryn"/>
+      <result column="naveryn" property="naveryn"/>
    </resultMap>
    
    <select id="selectMemberCnt" resultType="_int">
@@ -21,7 +21,7 @@
    </update>
    
    <!-- 김효정  -->
-   <select id="selectMember" resultMap="memberMap">
+   <select id="selectMember" resultType="member">
       select * from member where email=#{email}
    </select>
    
@@ -38,12 +38,27 @@
    </insert>
    
    
+   
    <select id="checkEmailDuplicate" resultType="_int">
    select count(*) from member where email = #{email}
    </select>
    
    <select id="selectMemberByEmail" resultMap="memberMap">
    select * from member where email = #{email}
+   </select>
+   
+   
+   
+    <resultMap type="profile" id="profileMap">
+      <result column="email" property="email"/>
+      <result column="profileimage" property="profileImage"/>
+      <result column="profileintroduce" property="profileIntroduce"/>
+      <result column="localcode" property="localCode"/>
+      <result column="localname" property="localName"/>
+      <result column="phone" property="phone"/>
+   </resultMap>
+   <select id="selectProfile" resultMap="profileMap">
+   select * from profile where email = #{email}
    </select>
    
 </mapper>

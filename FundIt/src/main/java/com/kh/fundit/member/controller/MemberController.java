@@ -1,7 +1,6 @@
 package com.kh.fundit.member.controller;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,19 +18,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.fundit.member.model.service.MemberService;
 import com.kh.fundit.member.model.vo.Member;
 import com.kh.fundit.member.model.vo.Profile;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.bind.support.SessionStatus;
-import org.springframework.web.servlet.ModelAndView;
-
-import com.kh.fundit.member.model.service.MemberService;
-import com.kh.fundit.member.model.vo.Member;
 
 
 @SessionAttributes({"memberLoggedIn"})
@@ -148,7 +143,7 @@ public class MemberController {
 			
 			// 업무 로직
 			Member m = memberService.selectMemberByEmail(email);
-			
+			System.out.println(m);
 			String msg = "";
 			String loc = "/";
 			
@@ -192,10 +187,12 @@ public class MemberController {
 	  @RequestMapping("/member/memberView.do")
 	  public ModelAndView profileView(@RequestParam("email") String email, HttpServletRequest request) {
 	     ModelAndView mav = new ModelAndView();
+	     
 	     Member member = memberService.selectMember(email);
 	     
 	     mav.addObject("member", member);
-	     mav.setViewName("member/memberView");
+		 mav.setViewName("member/memberView");
+			
 	     
 	     return mav;
 	     
@@ -205,20 +202,29 @@ public class MemberController {
 	  @RequestMapping("/member/memberUpdate.do")
 	  public ModelAndView updateMember(@RequestParam("email") String email,
 	                            @RequestParam(required=false) String newsyn) {
-	     ModelAndView mav = new ModelAndView();
+	    
+		 ModelAndView mav = new ModelAndView();
 	     Member member = new Member(email,newsyn);
-	     System.out.println("1111"+member);
+	     String msg = "";
+	     String loc="/";
+	     
 	     if(member.getNewsyn() == null) {
 	        member.setNewsyn("N");
 	     }else {
 	        member.setNewsyn("Y");
 	     }
-	     System.out.println("2222"+member);
 	     int result = memberService.updateMember(member);
 	     
-	     System.out.println("33333"+member);
+	     if(result>0) {
+	    	msg="수정 성공!";
+	     }else {
+	    	 msg = "실패!";
+	    	 loc="redirect:/";
+	     }
 	     
-	     mav.setViewName("member/memberView");
+	     mav.addObject("msg", msg);
+	     mav.addObject("loc", loc);
+	     mav.setViewName("common/msg");
 	     return mav;
 	  }
 	  
@@ -226,60 +232,71 @@ public class MemberController {
 	  @RequestMapping("/member/profileView.do")
 	  public ModelAndView profileView(@RequestParam("email") String email) {
 	     ModelAndView mav = new ModelAndView();
-	     System.out.println(email);
+	    
 	     Member member = memberService.selectMember(email);
-	     mav.addObject("member", member);       
+	     Profile profile = memberService.selectProfile(email);
+	     
+	     mav.addObject("member", member);    
+	     mav.addObject("profile", profile);    
 	     mav.setViewName("member/profileView");
+	     
 	     return mav;
 	  }
 	  
-	//  김효정
+	  //  김효정
 	  @RequestMapping("/member/profileUpdate.do")
 	  public ModelAndView profileUpdate(@RequestParam(name="email") String email,
 	                            @RequestParam(name="localCode", required=false) String localCode,
 	                            @RequestParam(name="profileIntroduce", required=false) String profileIntroduce,
 	                            @RequestParam(name="phoneNum", required=false) String phoneNum,
+	                            @RequestParam(name="file2") String file2,
 	                            @RequestParam(value="profileImage", required=false) MultipartFile proImg,
-	                            HttpServletRequest request) {
-	     ModelAndView mav = new ModelAndView();
-	
-	     try {
-	        String saveDirectory = request.getSession().getServletContext().getRealPath("/resources/upload/profileImg");
-	        String renamedFileName="";
-	        if(!proImg.isEmpty()) {
-	           String originalFileName = proImg.getOriginalFilename();
-	           String ext = originalFileName.substring(originalFileName.lastIndexOf(".")+1);
-	           
-	           String id = email.replaceAll("\\.","_");
-	           String id2 = id.replaceAll("@", "_");
-	           System.out.println(id2);
-	           renamedFileName = id2 + "."+ext;
-	           System.out.println(renamedFileName);
-	           
-	           try {
-	              proImg.transferTo(new File(saveDirectory+"/"+renamedFileName));
-	           }catch (IllegalStateException e) {
-	              e.printStackTrace();
-	           } catch (IOException e) {
-	              e.printStackTrace();
-	           }
-	           
+	                            HttpServletRequest request) throws Exception{
+		  
+		  ModelAndView mav = new ModelAndView();
+		  
+		  
+		  String realName = proImg.getOriginalFilename();
+		  
+		  String msg="";
+	      String loc="/";
+		  String saveDirectory = request.getSession().getServletContext().getRealPath("/resources/upload/profileImg");
+		  String renamedFileName="";
+		  //img파일이있으면
+		  if(!proImg.isEmpty()) {
+			  String ext = realName.substring(realName.lastIndexOf(".")+1);
+			  
+			  String id = email.replaceAll("\\.","_");
+	          String id2 = id.replaceAll("@", "_");
+
+	          renamedFileName = id2 + "."+ext;
+	          
+	          proImg.transferTo(new File(saveDirectory+"/"+renamedFileName));
+		  }
+		  
+		  if(renamedFileName == "") {
+	        	renamedFileName = file2;
 	        }
-	        
-	        Profile profile = new Profile(email,renamedFileName, localCode, profileIntroduce, phoneNum);
-	        System.out.println(profile);
+		  Profile profile = new Profile(email,renamedFileName, localCode, profileIntroduce, phoneNum);
 	        int result = memberService.updateProfile(profile);
 	        if(result>0) {
-	           System.out.println("성공!!!");
+	        	msg="정보가 수정되었습니다.";
+	        	loc="/";
+	        	mav.addObject("msg", msg);
+	        	mav.addObject("loc", loc);
+	        	
+	        	mav.addObject("profile", profile);
+	        	mav.setViewName("common/msg");
 	        }else {
-	           System.out.println("실패!!!!!!!");
+	           msg="실패!";
+	           loc="/";
+	           /*loc="redirect:/";*/
+	          
+	           mav.addObject("msg",msg);
+	           mav.addObject("loc", loc);
+	          
+	           mav.setViewName("common/msg");
 	        }
-	        mav.addObject("profile", profile);
-	        mav.setViewName("member/memberView");
-	        
-	     }catch(Exception e) {
-	        e.printStackTrace();
-	     }
 	     return mav;
 	  }
 	  
@@ -325,9 +342,9 @@ public class MemberController {
 
 	        mailSender.send(preparator);
 	        msg = "기입하신 이메일을 확인해주세요";
-	          mav.addObject("loc", loc);
-	          mav.addObject("msg", msg);
-	          mav.setViewName("common/msg");
+	        mav.addObject("loc", loc);
+	        mav.addObject("msg", msg);
+	        mav.setViewName("common/msg");
 	        
 	        return mav;
 

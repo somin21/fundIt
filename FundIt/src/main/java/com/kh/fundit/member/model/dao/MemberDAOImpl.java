@@ -40,9 +40,7 @@ public class MemberDAOImpl implements MemberDAO {
 
 	@Override
 	public int updateProfile(Profile profile) {
-		System.out.println("나 다오 임플왔당!");
 		int result = sqlSession.update("member.updateProfile", profile);
-		System.out.println("DAOImPle = "+result);
 		return result;
 	}
 	
@@ -59,6 +57,12 @@ public class MemberDAOImpl implements MemberDAO {
 	@Override
 	public Member selectMemberByEmail(String email) {
 		return sqlSession.selectOne("member.selectMemberByEmail",email);
+	}
+
+
+	@Override
+	public Profile selectProfile(String email) {
+		return sqlSession.selectOne("member.selectProfile",email);
 	}
 
 }
