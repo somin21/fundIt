@@ -55,5 +55,11 @@ public class MemberServiceImpl implements MemberService {
 	public Member selectMemberByEmail(String email) {
 		return memberDAO.selectMemberByEmail(email);
 	}
+//  태윤
+	@Override
+	public String selectProfileImg(Profile profile) {
+		// TODO Auto-generated method stub
+		return memberDAO.selectProfileImg(profile);
+	}
 
 }

@@ -324,7 +324,7 @@ public class MemberController {
 	        };
 
 	        mailSender.send(preparator);
-	        msg = "기입하신 이메일을 확인해주세요";
+	        msg = "기입하신 이메일로 링크를 보내드렸습니다.";
 	          mav.addObject("loc", loc);
 	          mav.addObject("msg", msg);
 	          mav.setViewName("common/msg");
@@ -382,7 +382,19 @@ public class MemberController {
 	      
 	      
 	   }
-
+	   
+//  태윤
+	   @RequestMapping("member/selectProfileImg")
+	   @ResponseBody
+	   public String selectProfileImg(@RequestParam String email) {
+		   logger.debug(email);
+		   
+		   Profile profile = new Profile();
+		   profile.setEmail(email);
+		   String profileImg = memberService.selectProfileImg(profile);
+		   logger.debug(profileImg);
+		   return profileImg;
+	   }
 
 
 }

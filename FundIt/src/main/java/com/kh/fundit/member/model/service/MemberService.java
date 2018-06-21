@@ -20,4 +20,6 @@ public interface MemberService {
 	int checkEmailDuplicate(String email);
 
 	Member selectMemberByEmail(String email);
+
+	String selectProfileImg(Profile profile);
 }
