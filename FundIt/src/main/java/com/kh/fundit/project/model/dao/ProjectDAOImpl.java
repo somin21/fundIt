@@ -97,6 +97,11 @@ public class ProjectDAOImpl implements ProjectDAO {
 	}
 
 	@Override
+	public List<ListProjectView> interestList(String email) {
+		return sqlSession.selectList("project.interestList",email);
+	}
+
+	@Override
 	public Profile profileUser(String userEmail) {
 		return sqlSession.selectOne("project.profileUser", userEmail);
 	}

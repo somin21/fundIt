@@ -39,7 +39,7 @@ table#login-table button#naver{
 width:300px;
 height:40px;
 }
-table#login-table button#login{
+table#login-table input#login{
 width:300px;
 height:40px;
 }
@@ -56,8 +56,8 @@ color:red;
 	<table id="login-table">
 	<tr>
 		<td>
-			<input type="email" id="email"  name="email" placeholder="이메일 주소 입력" /> 
-			<input type="password" id="pwd" name="password" placeholder="비밀번호 입력 주소 입력" />
+			<input type="email" id="email"  name="email" placeholder="이메일 주소 입력" required /> 
+			<input type="password" id="pwd" name="password" placeholder="비밀번호 입력 " required />
 		</td>
 	</tr>
 	<tr>

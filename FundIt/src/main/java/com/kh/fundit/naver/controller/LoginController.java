@@ -95,6 +95,7 @@ public class LoginController {
          
          
          if(m == null) {
+        	
             int result = memberService.insertNaver(map);
             if(result > 0) {
                 Member m2 = memberService.selectNaverByEmail(naverEmail);
@@ -118,5 +119,5 @@ public class LoginController {
 
          return mav;
       }
-       
+ 
 }

@@ -91,6 +91,12 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	@Override
+	public List<ListProjectView> interestList(String email) {
+		
+		return projectDAO.interestList(email);
+	}
+
+	@Override
 	public Profile profileUser(String userEmail) {
 		return projectDAO.profileUser(userEmail);
 	}

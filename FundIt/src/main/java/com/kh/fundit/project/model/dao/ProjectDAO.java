@@ -32,6 +32,8 @@ public interface ProjectDAO {
 
 	List<ProjectView> projectView(Map<String, Integer> map);
 
+	List<ListProjectView> interestList(String email);
+
 	Profile profileUser(String userEmail);
 
 	List<ProjectView> oriProjectList(Map<String, String> map);

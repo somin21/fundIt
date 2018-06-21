@@ -1,6 +1,8 @@
 package com.kh.fundit.member.model.dao;
 
+import java.util.List;
 import java.util.Map;
+
 
 import com.kh.fundit.member.model.vo.Member;
 import com.kh.fundit.member.model.vo.Profile;
@@ -30,5 +32,7 @@ public interface MemberDAO {
 	Member selectNaverByEmail(String naverEmail);
 
 	int insertNaver(Map<String, Object> map);
+
+
 
 }

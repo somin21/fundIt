@@ -36,4 +36,6 @@ public interface ProjectService {
 
 	List<ProjectView> oriProjectList(Map<String, String> map);
 
+	List<ListProjectView> interestList(String email);
+
 }
