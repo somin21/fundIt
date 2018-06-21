@@ -118,7 +118,7 @@ public class MemberController {
 	@ResponseBody
 	public Map<String,Object> checkEmailDuplicate(@RequestParam String email)  {
 		logger.debug("ResponseBody-javaob ajax:"+email);
-		Map<String,Object> map = new HashMap<>(); 
+		Map<String,Object> map = new HashMap<String, Object>(); 
 		
 		//업무로직
 		int count = memberService.checkEmailDuplicate(email);

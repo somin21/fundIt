@@ -17,6 +17,7 @@ import com.kh.fundit.member.model.vo.Member;
 import com.kh.fundit.member.model.vo.Profile;
 import com.kh.fundit.project.model.service.ProjectService;
 import com.kh.fundit.project.model.vo.ListProjectView;
+/*import com.kh.fundit.project.model.vo.Profile;*/
 import com.kh.fundit.project.model.vo.ProjectOutline;
 import com.kh.fundit.project.model.vo.ProjectView;
 
@@ -157,21 +158,90 @@ public class ProjectController {
 	@RequestMapping("/project/projectView.do")
 	public ModelAndView projectView(@RequestParam int projectNo) {
 		ModelAndView mav = new ModelAndView();
-		System.out.println(projectNo);
+		/*System.out.println(projectNo);*/
 		
 		Map<String,Integer> map = new HashMap<String, Integer>();
 		map.put("projectNo",projectNo);
 		
+		//프로젝트리스트뽑기
 		List<ProjectView> list = projectService.projectView(map);
 		
-		System.out.println(list);
+		/*System.out.println(list);*/
+		String userEmail = "";
+		for(ProjectView v : list) {
+			userEmail = v.getEmail();
+		}
+
+		com.kh.fundit.project.model.vo.Profile p = projectService.profileUser(userEmail);
+		/*System.out.println(p);*/
+		
 		mav.addObject("list",list);
+		mav.addObject("p",p);
 		mav.addObject("projectNo",projectNo);
 		mav.setViewName("project/projectView");
 		
 		return mav;
 	
 	}
+//	희영
+	@RequestMapping("project/originatorView.do")
+	public ModelAndView origitorView(@RequestParam String email) {
+		ModelAndView mav = new ModelAndView();
+		/*System.out.println(email);*/
+		
+		Map<String,String> map = new HashMap<String, String>();
+		map.put("email",email);
+		
+		//프로젝트리스트뽑기
+		List<ProjectView> list = projectService.oriProjectList(map);
+		
+		/*System.out.println(list);*/
+		
+		//카테고리 구별
+		int rowNum = 0;
+		String categoryCode = "";
+		String category = "";
+		for(ProjectView v : list) {
+			rowNum = v.getRowNum();
+			categoryCode += v.getCategoryCode()+",";
+		}
+		/*System.out.println(categoryCode);*/
+		if(categoryCode.contains("C1") && !(category.contains("게임")) ) {
+			category += "게임,";
+		}
+		if(categoryCode.contains("C2") && !(category.contains("푸드"))) {
+			category += "푸드,";
+		}
+		if(categoryCode.contains("C3") && !(category.contains("예술"))) {
+			category += "예술,";
+		}
+		if(categoryCode.contains("C4") && !(category.contains("패션"))) {
+			category += "패션,";
+		}
+		if(categoryCode.contains("C5") && !(category.contains("출판"))) {
+			category += "출판,";
+		}
+		if(categoryCode.contains("C6") && !(category.contains("테크놀리지"))) {
+			category += "테크놀리지,";
+		}
+		
+		if (category.length() > 0 && category.charAt(category.length()-1)==',') {
+			category = category.substring(0, category.length()-1);
+		    }
+		/*System.out.println(category);*/
+		
+		//창작자프로필
+		com.kh.fundit.project.model.vo.Profile p = projectService.profileUser(email);
+
+		mav.addObject("list",list);
+		mav.addObject("p",p);
+		mav.addObject("rowNum",rowNum);
+		mav.addObject("category",category);
+		mav.setViewName("project/originatorView");
+		
+		return mav;
+	}
+	
 
 //	소민
 	@RequestMapping("/project/makeProject.do")

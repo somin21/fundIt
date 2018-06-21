@@ -108,4 +108,19 @@
         where p.projectno = ${projectNo}
 	</select>
 	
+	<select id="profileUser" resultType="profile2">
+		select * from profile where email = #{userEmail}
+	</select>
+	
+	<select id="oriProjectList" resultType="projectView">
+		select rownum,p.projectno, p.email, p.projectimage, p.projecttitle, 
+        	(select name from member m where p.email = m.email) name,
+        	(select trunc(deadlinedate - sysdate) from project_funding f where p.projectno = f.projectno) deadlineday,
+        	(select supportgoal from project_funding f where p.projectno = f.projectno) supportgoal,
+            (select CALCULATEDUEDATE from project_funding f where p.projectno = f.projectno) calculatedueddate,
+            s.supportmoney, s.supportpercent, s.supportor, p.categorycode
+		from (select * from project_outline where projectconfirmyn='Y' and projectdeadlineyn='N' order by projectdate desc) p join project_summary s on p.projectno = s.projectno
+        where p.email = #{email }
+	</select>
+	
 </mapper>

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.fundit.member.model.vo.Member;
 import com.kh.fundit.project.model.vo.ListProjectView;
+import com.kh.fundit.project.model.vo.Profile;
 import com.kh.fundit.project.model.vo.ProjectOutline;
 import com.kh.fundit.project.model.vo.ProjectView;
 
@@ -93,6 +94,16 @@ public class ProjectDAOImpl implements ProjectDAO {
 	public List<ProjectView> projectView(Map<String, Integer> map) {
 		
 		return sqlSession.selectList("project.projectView", map);
+	}
+
+	@Override
+	public Profile profileUser(String userEmail) {
+		return sqlSession.selectOne("project.profileUser", userEmail);
+	}
+
+	@Override
+	public List<ProjectView> oriProjectList(Map<String, String> map) {
+		return sqlSession.selectList("project.oriProjectList", map);
 	}
 
 }

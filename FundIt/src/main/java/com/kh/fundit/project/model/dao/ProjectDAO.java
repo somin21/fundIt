@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.kh.fundit.member.model.vo.Member;
 import com.kh.fundit.project.model.vo.ListProjectView;
+import com.kh.fundit.project.model.vo.Profile;
 import com.kh.fundit.project.model.vo.ProjectOutline;
 import com.kh.fundit.project.model.vo.ProjectView;
 
@@ -30,5 +31,9 @@ public interface ProjectDAO {
 	List<ListProjectView> projectList(Map<String, String> map);
 
 	List<ProjectView> projectView(Map<String, Integer> map);
+
+	Profile profileUser(String userEmail);
+
+	List<ProjectView> oriProjectList(Map<String, String> map);
 
 }
