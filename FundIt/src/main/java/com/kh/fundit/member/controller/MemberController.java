@@ -154,6 +154,11 @@ public class MemberController {
 					msg = m.getName() + "님, 환영합니다!";
 					mav.addObject("memberLoggedIn", m);
 					
+					//관리자이면 adminIndex페이지로
+					if(m.getAdminyn().equals("Y")) {
+						msg = "관리자!";
+						loc="/admin";
+					}
 				} else {
 					msg = "비밀번호가 틀렸습니다";
 				}
@@ -161,6 +166,7 @@ public class MemberController {
 			
 			mav.addObject("msg", msg);
 			mav.addObject("loc", loc);
+			
 			
 			// 뷰단 지정
 			mav.setViewName("common/msg");
