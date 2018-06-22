@@ -4,6 +4,7 @@ package com.kh.fundit.project.model.service;
 import java.util.List;
 import java.util.Map;
 
+
 import com.kh.fundit.member.model.vo.Member;
 import com.kh.fundit.project.model.vo.ListProjectView;
 import com.kh.fundit.project.model.vo.Profile;
@@ -41,5 +42,9 @@ public interface ProjectService {
 	int interestInsert(Map<String, Object> map);
 
 	int interestCnt(Map<String, Object> map);
+
+	int interestDelete(Map<String, Object> map);
+
+	
 
 }

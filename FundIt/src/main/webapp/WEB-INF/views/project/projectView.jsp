@@ -349,7 +349,7 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
 	                <span class="sp"><a id="tagA2" href="${pageContext.request.contextPath }/project/originatorView.do?email=${p.email}" >${p.email }</a></span>
 	                <p class="originContext">${p.profileIntroduce }</p>
 	                <hr />
-	                <button class="button2 button3"><i style="font-size:24px" class="fa">&#xf0e0;</i> 창작자에게 문의하기</button>
+	                <button type="button" class="button2 button3" onclick="location.href='${pageContext.request.contextPath}/interest/messageModal.do?projectNo=${projectNo}'"><i style="font-size:24px" class="fa">&#xf0e0;</i> 창작자에게 문의하기</button>
 	            </div>
 	        </div>
 		</div>

@@ -9,6 +9,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+
 import com.kh.fundit.member.model.vo.Member;
 import com.kh.fundit.project.model.vo.ListProjectView;
 import com.kh.fundit.project.model.vo.Profile;
@@ -115,10 +116,17 @@ public class ProjectDAOImpl implements ProjectDAO {
 	public int interestInsert(Map<String, Object> map) {
 		return sqlSession.insert("project.interestInsert", map);
 	}
-
+//	희영
 	@Override
 	public int interestCnt(Map<String, Object> map) {
 		return sqlSession.selectOne("project.interestCnt", map);
 	}
+//영준
+
+	@Override
+	public int interestDelete(Map<String, Object> map) {
+		return sqlSession.delete("project.interestDelete",map);
+	}
+
 
 }
