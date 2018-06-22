@@ -50,23 +50,23 @@ public class ProjectServiceImpl implements ProjectService {
 
 // 태윤
 	@Override
-	public List<ListProjectView> selectMyProjectYet(Member member) {
+	public List<ListProjectView> selectMyProjectYet(Member member, int numPerpage) {
 		
-		return projectDAO.selectMyProjectYet(member);
+		return projectDAO.selectMyProjectYet(member, numPerpage);
 	}
 	
 	// 태윤
 	@Override
-	public List<ListProjectView> selectMyProjectYes(Member member) {
+	public List<ListProjectView> selectMyProjectYes(Member member ,int numPerpage) {
 		
-		return projectDAO.selectMyProjectYes(member);
+		return projectDAO.selectMyProjectYes(member, numPerpage);
 	}
 	
 	// 태윤
 	@Override
-	public List<ListProjectView> selectMyProjectNo(Member member) {
+	public List<ListProjectView> selectMyProjectNo(Member member, int numPerpage ) {
 		
-		return projectDAO.selectMyProjectNo(member);
+		return projectDAO.selectMyProjectNo(member, numPerpage );
 	}
 	
 // 태윤

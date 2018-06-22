@@ -57,23 +57,24 @@ public class ProjectDAOImpl implements ProjectDAO {
 
 // 태윤
 	@Override
-	public List<ListProjectView> selectMyProjectYet(Member member) {
+	public List<ListProjectView> selectMyProjectYet(Member member, int numPerpage) {
+		RowBounds rowBounds = new RowBounds(0, numPerpage);
 		
-		return sqlSession.selectList("project.selectMyProjectYet", member);
+		return sqlSession.selectList("project.selectMyProjectYet", member, rowBounds);
 	}
 	
 // 태윤
 	@Override
-	public List<ListProjectView> selectMyProjectYes(Member member) {
-		
-		return sqlSession.selectList("project.selectMyProjectYes", member);
+	public List<ListProjectView> selectMyProjectYes(Member member , int numPerpage) {
+		RowBounds rowBounds = new RowBounds(0, numPerpage);
+		return sqlSession.selectList("project.selectMyProjectYes", member, rowBounds);
 	}
 	
 	// 태윤
 	@Override
-	public List<ListProjectView> selectMyProjectNo(Member member) {
-		
-		return sqlSession.selectList("project.selectMyProjectNo", member);
+	public List<ListProjectView> selectMyProjectNo(Member member, int numPerpage ) {
+		RowBounds rowBounds = new RowBounds(0, numPerpage);
+		return sqlSession.selectList("project.selectMyProjectNo", member, rowBounds);
 	}
 // 태윤
 	@Override

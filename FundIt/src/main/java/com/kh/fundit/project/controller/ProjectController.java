@@ -81,13 +81,13 @@ public class ProjectController {
 //태윤
 	@RequestMapping("/project/selectMyProjectYet")
 	@ResponseBody
-	public List<ListProjectView> selectMyProjectList(@RequestParam String email){
+	public List<ListProjectView> selectMyProjectList(@RequestParam String email, @RequestParam(value="page", required=false, defaultValue="4") int numPerpage,HttpServletResponse response){
 		
 		Member member = new Member();
 		System.out.println(email);
 		member.setEmail(email);
-				
-		List<ListProjectView> list = projectService.selectMyProjectYet(member);
+		
+		List<ListProjectView> list = projectService.selectMyProjectYet(member, numPerpage);
 		
 		return list;
 	}
@@ -95,13 +95,13 @@ public class ProjectController {
 	//태윤
 		@RequestMapping("/project/selectMyProjectYes")
 		@ResponseBody
-		public List<ListProjectView> selectMyProjectListYes(@RequestParam String email){
+		public List<ListProjectView> selectMyProjectListYes(@RequestParam String email, @RequestParam(value="page", required=false, defaultValue="4") int numPerpage, HttpServletResponse response){
 			
 			Member member = new Member();
 			System.out.println(email);
 			member.setEmail(email);
-					
-			List<ListProjectView> list = projectService.selectMyProjectYes(member);
+			
+			List<ListProjectView> list = projectService.selectMyProjectYes(member, numPerpage);
 			
 			return list;
 		}
@@ -109,13 +109,13 @@ public class ProjectController {
 		//태윤
 		@RequestMapping("/project/selectMyProjectNo")
 		@ResponseBody
-		public List<ListProjectView> selectMyProjectListNo(@RequestParam String email){
+		public List<ListProjectView> selectMyProjectListNo(@RequestParam String email, @RequestParam(value="page", required=false, defaultValue="4") int numPerpage, HttpServletResponse response){
 			
 			Member member = new Member();
 			System.out.println(email);
 			member.setEmail(email);
 					
-			List<ListProjectView> list = projectService.selectMyProjectNo(member);
+			List<ListProjectView> list = projectService.selectMyProjectNo(member, numPerpage);
 			
 			return list;
 		}
