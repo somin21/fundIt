@@ -71,7 +71,7 @@ div.make-project-content div{
     padding: 20px 30px 10px;
 }
 div.make-project-content div.shown:hover{
-    background: #eaeaea;
+    background: #f0f5ff;
     cursor: pointer;
 }
 div.make-project-content div:last-of-type, div.make-project-content div:nth-last-of-type(2){
@@ -79,6 +79,7 @@ div.make-project-content div:last-of-type, div.make-project-content div:nth-last
 }
 div.make-project-content div.hidden{
 	display: none;
+	background: #f0f5ff;
 }
 div.make-project-content div p:first-of-type{
 	font-weight: bold;

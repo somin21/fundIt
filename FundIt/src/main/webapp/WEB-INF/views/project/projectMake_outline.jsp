@@ -45,6 +45,65 @@ $(function(){
 		</div>
 	</div>
 	
+	<style>
+	div.make-project-content div.hidden p:nth-of-type(2){
+		font-size: 13px;
+		color: darkgray;
+	}
+	div.make-project-content div.hidden input, div.make-project-content div.hidden select{
+		height: 35px;
+		width: 100%;
+		border-radius: 5px;
+		border: 2px solid #ccdafc;
+		padding: 0 10px;
+	}
+	div.make-project-content div.hidden textarea{
+		width: 100%;
+		border-radius: 5px;
+		border: 2px solid #ccdafc;
+		padding: 10px;
+	}
+	div.make-project-content div.hidden p:nth-of-type(3){
+		text-align: right;
+	}
+	div.make-project-content div.hidden span.letter-cnt{
+		display: block;
+		font-size: 13px;
+		color: darkgray;
+		text-align: right;
+	}
+	div.make-project-content div.hidden p:last-of-type{
+		text-align: right;
+	}
+	div.make-project-content div.hidden p:last-of-type button{
+		width: 100px;
+		height: 35px;
+		font-size: 13px;
+		font-weight: bold;
+		border: 0;
+		border-radius: 5px;
+	}
+	div.make-project-content div.hidden p:last-of-type button:first-of-type{
+		background: #e0e1e2;
+		color: #5a5a5a;
+	}
+	div.make-project-content div.hidden p:last-of-type button:first-of-type:hover{
+		border: 2px solid #cacbcd;
+		background: #cacbcd;
+		color: #282929;
+		cursor: pointer;
+	}
+	div.make-project-content div.hidden p:last-of-type button:last-of-type{
+		background: #f4b4b8;
+		color: #f7faff;
+	}
+	div.make-project-content div.hidden p:last-of-type button:last-of-type:hover{
+		background: #fa6462;
+		color: white;
+		cursor: pointer;
+	}
+	</style>
+	
 	<form action="">
 	<div class="make-project-contents">
 	
@@ -76,13 +135,18 @@ $(function(){
 						감정에 호소하는 제목보다는 만드시려는 창작물, 작품명, 혹은 프로젝트의 주제가 드러나게 써주시는 것이 좋습니다.
 					</p>
 					<p>
-						<label for="project-title"></label><br />
 						<input type="text" id="project-title" name="projectTitle" placeholder="프로젝트 제목을 입력해주세요" />
-						<span class="letter-cnt">25자 남았습니다</span>
+						<br /><span class="letter-cnt">25자 남았습니다</span>
 					</p>
 					<p>
-						<button type="button">취소하기</button>
-						<button type="button">저장하기</button>
+						<button type="button">
+							<img src="${pageContext.request.contextPath }/resources/images/makeProject/x.png" />
+							취소하기
+						</button>
+						<button type="button">
+							<img src="${pageContext.request.contextPath }/resources/images/makeProject/ok.png" />
+							저장하기
+						</button>
 					</p>
 				</div>
 				<!-- 프로젝트 제목 END -->
@@ -113,8 +177,14 @@ $(function(){
 						<input type="file" id="project-image" name="projectImage" />
 					</p>
 					<p>
-						<button type="button">취소하기</button>
-						<button type="button">저장하기</button>
+						<button type="button">
+							<img src="${pageContext.request.contextPath }/resources/images/makeProject/x.png" />
+							취소하기
+						</button>
+						<button type="button">
+							<img src="${pageContext.request.contextPath }/resources/images/makeProject/ok.png" />
+							저장하기
+						</button>
 					</p>
 				</div>
 				<!-- 프로젝트 대표 이미지 END -->
@@ -141,12 +211,18 @@ $(function(){
 						후원자 분들에게 본 프로젝트를 간략하게 소개해 주세요.
 					</p>
 					<p>
-						<textarea name="projectSummary" id="projectSummary" cols="30" rows="10"></textarea>
-						<span class="letter-cnt">50자 남았습니다</span>
+						<textarea name="projectSummary" id="projectSummary" cols="30" rows="5"></textarea>
+						<br /><span class="letter-cnt">50자 남았습니다</span>
 					</p>
 					<p>
-						<button type="button">취소하기</button>
-						<button type="button">저장하기</button>
+						<button type="button">
+							<img src="${pageContext.request.contextPath }/resources/images/makeProject/x.png" />
+							취소하기
+						</button>
+						<button type="button">
+							<img src="${pageContext.request.contextPath }/resources/images/makeProject/ok.png" />
+							저장하기
+						</button>
 					</p>
 				</div>
 				<!-- 프로젝트 요약 END -->
@@ -185,8 +261,14 @@ $(function(){
 						</select>
 					</p>
 					<p>
-						<button type="button">취소하기</button>
-						<button type="button">저장하기</button>
+						<button type="button">
+							<img src="${pageContext.request.contextPath }/resources/images/makeProject/x.png" />
+							취소하기
+						</button>
+						<button type="button">
+							<img src="${pageContext.request.contextPath }/resources/images/makeProject/ok.png" />
+							저장하기
+						</button>
 					</p>
 				</div>
 				<!-- 프로젝트 카테고리 END -->
@@ -239,8 +321,14 @@ $(function(){
 						<input type="file" id="profile-image" name="profileImage" />
 					</p>
 					<p>
-						<button type="button">취소하기</button>
-						<button type="button">저장하기</button>
+						<button type="button">
+							<img src="${pageContext.request.contextPath }/resources/images/makeProject/x.png" />
+							취소하기
+						</button>
+						<button type="button">
+							<img src="${pageContext.request.contextPath }/resources/images/makeProject/ok.png" />
+							저장하기
+						</button>
 					</p>
 				</div>
 				
@@ -265,11 +353,17 @@ $(function(){
 					</p>
 					<p>
 						<input type="text" id="profile-name" name="profileName" placeholder="이름을 입력해주세요" />
-						<span class="letter-cnt">10자 남았습니다</span>
+						<br /><span class="letter-cnt">10자 남았습니다</span>
 					</p>
 					<p>
-						<button type="button">취소하기</button>
-						<button type="button">저장하기</button>
+						<button type="button">
+							<img src="${pageContext.request.contextPath }/resources/images/makeProject/x.png" />
+							취소하기
+						</button>
+						<button type="button">
+							<img src="${pageContext.request.contextPath }/resources/images/makeProject/ok.png" />
+							저장하기
+						</button>
 					</p>
 				</div>
 				
@@ -307,11 +401,17 @@ $(function(){
 					</p>
 					<p>
 						<textarea name="profileIntroduce" id="profileIntroduce" cols="30" rows="10"></textarea>
-						<span class="letter-cnt">100자 남았습니다</span>
+						<br /><span class="letter-cnt">100자 남았습니다</span>
 					</p>
 					<p>
-						<button type="button">취소하기</button>
-						<button type="button">저장하기</button>
+						<button type="button">
+							<img src="${pageContext.request.contextPath }/resources/images/makeProject/x.png" />
+							취소하기
+						</button>
+						<button type="button">
+							<img src="${pageContext.request.contextPath }/resources/images/makeProject/ok.png" />
+							저장하기
+						</button>
 					</p>
 				</div>
 				
@@ -369,8 +469,14 @@ $(function(){
 						</select>
 					</p>
 					<p>
-						<button type="button">취소하기</button>
-						<button type="button">저장하기</button>
+						<button type="button">
+							<img src="${pageContext.request.contextPath }/resources/images/makeProject/x.png" />
+							취소하기
+						</button>
+						<button type="button">
+							<img src="${pageContext.request.contextPath }/resources/images/makeProject/ok.png" />
+							저장하기
+						</button>
 					</p>
 				</div>
 				

@@ -315,7 +315,7 @@ public class ProjectController {
 //	소민
 	@RequestMapping("/project/makeProject.do")
 	public String makeProject() {
-		return "project/projectMake";
+		return "project/projectMake_outline";
 	}
 
 }
