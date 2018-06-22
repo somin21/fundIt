@@ -20,13 +20,13 @@ public class GiftController {
 	@Autowired
 	private GiftService giftService;
 	
-	@RequestMapping("giftDeliveryList.do")
+	@RequestMapping("/gift/giftDeliveryList.do")
 	public ModelAndView selectMyGiftList(@RequestParam String email) {
 		ModelAndView mav = new ModelAndView();
 		
 		
-		
-		
+		mav.addObject("email", email);
+		mav.setViewName("gift/giftDeliveryList");
 		return mav;
 		
 		
