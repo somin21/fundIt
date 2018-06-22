@@ -135,7 +135,7 @@
 	
 	<insert id="interestInsert">
 		insert into interest values(${no},'${email}')
-	</insert>
+	</insert> 
 	
 	<select id="interestCnt" resultType="_int">
 		select count(*) from interest where projectNo=${no} and EMAIL='${email}'
@@ -144,5 +144,12 @@
 	<delete id="interestDelete">
 		delete interest where projectno=${projectNo} and email='${email}'
 	</delete>
+	
+	<select id="projectGiftList" resultType="ProjectGift">
+		select p.projectno, p.minmoney, p.itemnumber, i.itemname, p.itemno, p.giftexplain, p.deliveryyn, p.giftrefund 
+		from project_gift p join item i on p.projectno = i.projectno
+		where p.projectno = ${projectNo}
+		order by itemno
+	</select>
 	
 </mapper>
