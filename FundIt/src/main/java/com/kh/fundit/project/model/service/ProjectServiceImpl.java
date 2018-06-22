@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 import com.kh.fundit.member.model.vo.Member;
 import com.kh.fundit.project.model.dao.ProjectDAO;
 import com.kh.fundit.project.model.vo.ListProjectView;
@@ -110,10 +111,16 @@ public class ProjectServiceImpl implements ProjectService {
 	public int interestInsert(Map<String, Object> map) {
 		return projectDAO.interestInsert(map);
 	}
-
+//희영
 	@Override
 	public int interestCnt(Map<String, Object> map) {
 		return projectDAO.interestCnt(map);
 	}
+//영준
+	@Override
+	public int interestDelete(Map<String, Object> map) {
+		return projectDAO.interestDelete(map);
+	}
+
 
 }

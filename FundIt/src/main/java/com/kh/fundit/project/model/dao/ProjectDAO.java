@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 import com.kh.fundit.member.model.vo.Member;
 import com.kh.fundit.project.model.vo.ListProjectView;
 import com.kh.fundit.project.model.vo.Profile;
@@ -42,4 +43,7 @@ public interface ProjectDAO {
 
 	int interestCnt(Map<String, Object> map);
 
+	int interestDelete(Map<String, Object> map);
+
+	
 }

@@ -141,4 +141,8 @@
 		select count(*) from interest where projectNo=${no} and EMAIL='${email}'
 	</select>
 	
+	<delete id="interestDelete">
+		delete interest where projectno=${projectNo} and email='${email}'
+	</delete>
+	
 </mapper>

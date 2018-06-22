@@ -16,7 +16,7 @@ div.index-project p.title{
    font-size: 1.5em;
    font-family: 'Do Hyeon', sans-serif;   
 }
-div.project{
+div.project  div.delete{
    width: 240px;
    border: 1.5px solid #eaeaea;
    border-radius: 3px;
@@ -25,6 +25,11 @@ div.project{
    margin: 0 10px;
    text-align: left;
 }
+div.delete{
+display: inline-block;
+
+width: 240px;
+}
 div.project:hover{
    position: relative;
     top: -3px;
@@ -32,7 +37,7 @@ div.project:hover{
     box-shadow: 5px 5px 15px lightgrey;
     cursor: pointer;
 }
-div.project img{
+div.project img {
    width: 240px;
    height: 180px;
 }
@@ -47,12 +52,13 @@ div.project div.project-img img{
    height: 100px;
     margin-top: 40px;
 }
-div.project div.summary{
+div.project div.summary {
    height: 150px;
    padding: 15px;
    box-sizing: border-box;
    position: relative;
 }
+
 div.project div.summary p:first-of-type{
    font-weight: bold;
 }
@@ -60,7 +66,7 @@ div.project div.summary p:last-of-type{
     font-size: 11px;
     margin-top: -10px;
 }
-div.project div.summary div.progress{
+div.project div.summary div.progress {
     width: 95%;
     height: 5%;    
     position: absolute;
@@ -192,7 +198,7 @@ select#select {
       <!-- 프로젝트 리스트 -->
       <c:if test="${not empty list }">
       <c:forEach var="i" items="${ list}">
-      
+       <div class="delete">
          <div class="project">
          <input type="hidden" value="${i.projectNo }" id="projectNo"/>
             <img src="${pageContext.request.contextPath }/resources/images/projects/${i.projectImage}" />
@@ -212,7 +218,13 @@ select#select {
                   <fmt:formatNumber>${i.supportMoney }</fmt:formatNumber>
                   (${i.supportPercent }%)
                </div>
+              
             </div>
+           
+         </div>
+       
+        
+         <button type="button" id="delete" class="aaa" value="${i.projectNo }">삭제</button>
          </div>
       </c:forEach>
       </c:if>
@@ -228,6 +240,17 @@ select#select {
          location.href="${pageContext.request.contextPath}/project/projectView.do?projectNo="+projectNo;
       });
    });
+   
+   $(function(){
+	      $(".aaa").click(function(){
+	         var projectNo = $(this).val();
+	         console.log(projectNo);
+	         location.href="${pageContext.request.contextPath}/interest/interestDelete.do?projectNo="+projectNo+"&"+"email="+"${memberLoggedIn.email }";
+	      });
+	   });
+	  
+   
+
 </script>
 
 
