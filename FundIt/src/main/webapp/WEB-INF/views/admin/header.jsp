@@ -57,7 +57,7 @@ $(function(){
 	</div>
 	
 	<div id="nav-title">
-		<a href="${pageContext.request.contextPath }">Fund It</a>
+		<a href="${pageContext.request.contextPath }/admin">Fund It</a>
 	</div>
 	
 	<div id="nav-login">
