@@ -1,0 +1,92 @@
+@charset "UTF-8";
+
+div#make-project{
+	margin: 10% auto 0;
+	position: relative;
+}
+
+/* 버튼 */
+div.make-project-btn{
+	position: relative;
+    text-align: center;
+    margin: 30px 0;
+}
+div.make-project-title{
+	margin: 0 auto;
+	position: relative;
+	width: 100%;
+	text-align: center;
+}
+
+/* 섹션 제목 */
+div.section-title{
+    display: inline-block;
+    width: 20%;
+    height: 60px;
+    padding: 13px;
+    box-sizing: border-box;
+    font-weight: bold;
+}
+div.selected-title{
+	border-top: 1px solid darkgray;
+	border-left: 1px solid darkgray;
+	border-right: 1px solid darkgray;
+	background: #f5f5f5;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+div.section-title img{
+	width : 18px;
+	height: 18px;
+}
+
+/* 컨텐츠 */
+div.make-project-contents{
+	background: #f5f5f5;
+	min-height: 500px;
+    margin-top: -2px;
+    width: 100%;
+    border-top: 1px solid darkgray;	
+    padding: 5% 0;
+}
+div.make-project-contents img{
+	width: 15px;
+	height: 15px;
+}
+div.make-project-section{
+	width: 80%;
+	margin: 0 auto;
+}
+div.make-project-section p.title{
+	color: gray;
+	font-size: 15px;
+}
+div.make-project-content{
+    background: white;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+}
+div.make-project-content div{
+    border-bottom: 1px solid lightgray;
+    padding: 20px 30px 10px;
+}
+div.make-project-content div.shown:hover{
+    background: #eaeaea;
+    cursor: pointer;
+}
+div.make-project-content div:last-of-type, div.make-project-content div:nth-last-of-type(2){
+	border-bottom: 0;
+}
+div.make-project-content div.hidden{
+	display: none;
+}
+div.make-project-content div p:first-of-type{
+	font-weight: bold;
+}
+div.make-project-content div p:last-of-type{
+	font-size: 13px;
+	color: #dc3545; 
+}
+div.make-project-content div p:last-of-type span:last-of-type{
+	float: right;
+}
