@@ -7,6 +7,7 @@ import java.util.Map;
 import com.kh.fundit.member.model.vo.Member;
 import com.kh.fundit.project.model.vo.ListProjectView;
 import com.kh.fundit.project.model.vo.Profile;
+import com.kh.fundit.project.model.vo.ProjectGift;
 import com.kh.fundit.project.model.vo.ProjectOutline;
 import com.kh.fundit.project.model.vo.ProjectView;
 
@@ -30,7 +31,7 @@ public interface ProjectDAO {
 	
 	List<ListProjectView> projectList(Map<String, String> map);
 
-	List<ProjectView> projectView(Map<String, Integer> map);
+	List<ProjectView> projectView(Map<String, Object> map);
 
 	List<ListProjectView> interestList(String email);
 
@@ -41,5 +42,7 @@ public interface ProjectDAO {
 	int interestInsert(Map<String, Object> map);
 
 	int interestCnt(Map<String, Object> map);
+
+	List<ProjectGift> projectGiftList(Map<String, Object> map);
 
 }

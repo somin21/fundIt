@@ -1,5 +1,6 @@
 package com.kh.fundit.project.controller;
 
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +21,7 @@ import com.kh.fundit.member.model.vo.Member;
 import com.kh.fundit.member.model.vo.Profile;
 import com.kh.fundit.project.model.service.ProjectService;
 import com.kh.fundit.project.model.vo.ListProjectView;
+import com.kh.fundit.project.model.vo.ProjectGift;
 /*import com.kh.fundit.project.model.vo.Profile;*/
 import com.kh.fundit.project.model.vo.ProjectOutline;
 import com.kh.fundit.project.model.vo.ProjectView;
@@ -163,24 +165,31 @@ public class ProjectController {
 		ModelAndView mav = new ModelAndView();
 		/*System.out.println(projectNo);*/
 		
-		Map<String,Integer> map = new HashMap<String, Integer>();
+		Map<String,Object> map = new HashMap<>();
 		map.put("projectNo",projectNo);
 		
 		//프로젝트리스트뽑기
 		List<ProjectView> list = projectService.projectView(map);
 		
+		//선물리스트 받아오기
+		List<ProjectGift> List = projectService.projectGiftList(map);
+		
 		/*System.out.println(list);*/
 		String userEmail = "";
+		Date calculateduedDate = null;
 		for(ProjectView v : list) {
 			userEmail = v.getEmail();
+			calculateduedDate = v.getCalculateduedDate();
 		}
 
 		com.kh.fundit.project.model.vo.Profile p = projectService.profileUser(userEmail);
 		/*System.out.println(p);*/
 		
 		mav.addObject("list",list);
+		mav.addObject("List",List);
 		mav.addObject("p",p);
 		mav.addObject("projectNo",projectNo);
+		mav.addObject("calculateduedDate",calculateduedDate);
 		mav.setViewName("project/projectView");
 		
 		return mav;
@@ -283,6 +292,24 @@ public class ProjectController {
 		return mav;
 	
 	}
+//	희영
+	@RequestMapping("/project/supportGo.do")
+	public ModelAndView supportGo(@RequestParam String no) {
+		ModelAndView mav = new ModelAndView();
+		
+		Map<String,Object> map = new HashMap<>();
+		map.put("projectNo",no);
+		
+		//선물리스트 받아오기
+		List<ProjectGift> List = projectService.projectGiftList(map);
+		
+		mav.addObject("List",List);
+		mav.addObject("projectNo",no);
+		mav.setViewName("project/giftList");
+		
+		return mav;
+	}
+	
 	
 
 //	소민
