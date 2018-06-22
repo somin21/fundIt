@@ -24,8 +24,23 @@ div.make-project-title{
 	text-align: center;
 }
 div.section-title{
-	display: inline-block;
-	width: 20%;
+    display: inline-block;
+    width: 20%;
+    height: 50px;
+    padding: 10px;
+    box-sizing: border-box;
+    font-weight: bold;
+}
+div.selected-title{
+	border-top: 1px solid darkgray;
+	border-left: 1px solid darkgray;
+	border-right: 1px solid darkgray;
+	background: #e6e6e6;
+}
+div.make-project-contents{
+	background: #e6e6e6;
+	min-height: 500px;
+    margin-top: -1px;
 }
 </style>
 
@@ -35,7 +50,7 @@ div.section-title{
 		<button type="button">검토 요청하기</button>
 	</div>
 	<div class="make-project-title">
-		<div class="section-title">
+		<div class="section-title selected-title">
 			<span>
 				<img src="${pageContext.request.contextPath }/resources/images/makeProject/empty_circle.png" />
 			</span>
@@ -60,7 +75,7 @@ div.section-title{
 			계좌 설정
 		</div>
 	</div>
-	<div class="make-project-content">
+	<div class="make-project-contents">
 	</div>
 </div>
 
