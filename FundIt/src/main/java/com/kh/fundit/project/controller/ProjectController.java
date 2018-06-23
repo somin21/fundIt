@@ -1,9 +1,11 @@
 package com.kh.fundit.project.controller;
 
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.Session;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +13,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.fundit.member.model.vo.Member;
 import com.kh.fundit.member.model.vo.Profile;
 import com.kh.fundit.project.model.service.ProjectService;
 import com.kh.fundit.project.model.vo.ListProjectView;
+import com.kh.fundit.project.model.vo.ProjectGift;
 /*import com.kh.fundit.project.model.vo.Profile;*/
 import com.kh.fundit.project.model.vo.ProjectOutline;
 import com.kh.fundit.project.model.vo.ProjectView;
@@ -160,24 +165,31 @@ public class ProjectController {
 		ModelAndView mav = new ModelAndView();
 		/*System.out.println(projectNo);*/
 		
-		Map<String,Integer> map = new HashMap<String, Integer>();
+		Map<String,Object> map = new HashMap<>();
 		map.put("projectNo",projectNo);
 		
 		//프로젝트리스트뽑기
 		List<ProjectView> list = projectService.projectView(map);
 		
+		//선물리스트 받아오기
+		List<ProjectGift> List = projectService.projectGiftList(map);
+		
 		/*System.out.println(list);*/
 		String userEmail = "";
+		Date calculateduedDate = null;
 		for(ProjectView v : list) {
 			userEmail = v.getEmail();
+			calculateduedDate = v.getCalculateduedDate();
 		}
 
 		com.kh.fundit.project.model.vo.Profile p = projectService.profileUser(userEmail);
 		/*System.out.println(p);*/
 		
 		mav.addObject("list",list);
+		mav.addObject("List",List);
 		mav.addObject("p",p);
 		mav.addObject("projectNo",projectNo);
+		mav.addObject("calculateduedDate",calculateduedDate);
 		mav.setViewName("project/projectView");
 		
 		return mav;
@@ -241,6 +253,63 @@ public class ProjectController {
 		
 		return mav;
 	}
+//	희영
+	@RequestMapping("/project/interestInsert.do")
+	public ModelAndView interestInsert(@RequestParam String no,@RequestParam String email) {
+		ModelAndView mav = new ModelAndView();
+		System.out.println("email@controll"+email);
+		
+		Map<String,Object> map = new HashMap<>();
+		map.put("no",no);
+		map.put("email",email);
+		
+		//관심프로젝트 체크
+		int cnt = projectService.interestCnt(map);
+		
+		String loc = "/";
+		String msg = "";
+		
+		if(cnt==0) {
+			//관심프로젝트 등록하기
+			int result = projectService.interestInsert(map);
+			
+			
+			if(result>0) {
+				msg = "관심등록 성공! 마이페이지에서 확인하세요.";
+				loc = "/project/projectView.do?projectNo="+no;
+			}else {
+				msg = "관심등록 실패";
+			}
+		}else if(cnt>0) {
+			msg = "이미 관심등록이 되어있습니다. 마이페이지에서 확인하세요.";
+			loc = "/project/projectView.do?projectNo="+no;
+		}
+		
+		mav.addObject("msg",msg);
+		mav.addObject("loc",loc);
+		mav.setViewName("common/msg");
+		
+		return mav;
+	
+	}
+//	희영
+	@RequestMapping("/project/supportGo.do")
+	public ModelAndView supportGo(@RequestParam String no) {
+		ModelAndView mav = new ModelAndView();
+		
+		Map<String,Object> map = new HashMap<>();
+		map.put("projectNo",no);
+		
+		//선물리스트 받아오기
+		List<ProjectGift> List = projectService.projectGiftList(map);
+		
+		mav.addObject("List",List);
+		mav.addObject("projectNo",no);
+		mav.setViewName("project/giftList");
+		
+		return mav;
+	}
+	
 	
 
 //	소민

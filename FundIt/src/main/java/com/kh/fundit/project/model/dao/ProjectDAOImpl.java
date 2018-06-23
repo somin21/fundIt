@@ -9,9 +9,11 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+
 import com.kh.fundit.member.model.vo.Member;
 import com.kh.fundit.project.model.vo.ListProjectView;
 import com.kh.fundit.project.model.vo.Profile;
+import com.kh.fundit.project.model.vo.ProjectGift;
 import com.kh.fundit.project.model.vo.ProjectOutline;
 import com.kh.fundit.project.model.vo.ProjectView;
 
@@ -92,7 +94,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 
 //	희영
 	@Override
-	public List<ProjectView> projectView(Map<String, Integer> map) {
+	public List<ProjectView> projectView(Map<String, Object> map) {
 		
 		return sqlSession.selectList("project.projectView", map);
 	}
@@ -101,15 +103,37 @@ public class ProjectDAOImpl implements ProjectDAO {
 	public List<ListProjectView> interestList(String email) {
 		return sqlSession.selectList("project.interestList",email);
 	}
-
+//	희영
 	@Override
 	public Profile profileUser(String userEmail) {
 		return sqlSession.selectOne("project.profileUser", userEmail);
 	}
-
+//	희영
 	@Override
 	public List<ProjectView> oriProjectList(Map<String, String> map) {
 		return sqlSession.selectList("project.oriProjectList", map);
+	}
+//	희영
+	@Override
+	public int interestInsert(Map<String, Object> map) {
+		return sqlSession.insert("project.interestInsert", map);
+	}
+//	희영
+	@Override
+	public int interestCnt(Map<String, Object> map) {
+		return sqlSession.selectOne("project.interestCnt", map);
+	}
+//영준
+
+	@Override
+	public int interestDelete(Map<String, Object> map) {
+		return sqlSession.delete("project.interestDelete",map);
+	}
+
+//	희영
+	@Override
+	public List<ProjectGift> projectGiftList(Map<String, Object> map) {
+		return sqlSession.selectList("project.projectGiftList", map);
 	}
 
 }

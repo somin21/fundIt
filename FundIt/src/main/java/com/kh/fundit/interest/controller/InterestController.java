@@ -1,8 +1,11 @@
 
 package com.kh.fundit.interest.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,4 +51,38 @@ public class InterestController {
 		return mav;
 	
 }
+	@RequestMapping("/interest/interestDelete.do")
+	public  ModelAndView interestDelete(@RequestParam("projectNo") int projectNo ,
+			@RequestParam("email") String email) {
+		
+		
+	
+		System.out.println(projectNo);
+	
+		   Map<String ,Object> map = new HashMap<>();
+	          
+	       map.put("email", email);
+	       map.put("projectNo",projectNo);
+		
+	       
+	       
+		ModelAndView mav = new ModelAndView();
+		
+		int result = projectService.interestDelete(map);
+		
+		List<ListProjectView> list = projectService.interestList(email);
+		mav.addObject("list",list);
+		
+		mav.setViewName("interest/interest");
+		
+		return mav;
+	}
+	@RequestMapping("/interest/messageModal.do")
+	public String messageInsert(@RequestParam("projectNo") int projectNo) {
+		
+		
+		
+		return "interest/messageModal";
+	}
+	
 }
