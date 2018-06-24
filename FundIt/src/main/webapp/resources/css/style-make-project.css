@@ -193,6 +193,19 @@ div.make-project-content div.hidden span.letter-cnt{
 	color: darkgray;
 	text-align: right;
 }
+div.make-project-content div.hidden button.uploadBtn{
+	width: 140px;
+	height: 35px;
+	font-size: 13px;
+	font-weight: bold;
+	border: 0;
+	border-radius: 5px;
+	background: lightblue;
+	cursor: pointer;
+}
+div.make-project-content div.hidden input.hiddenInput{
+	visibility: hidden;
+}
 div.make-project-content div.hidden p:last-of-type{
 	text-align: right;
 }

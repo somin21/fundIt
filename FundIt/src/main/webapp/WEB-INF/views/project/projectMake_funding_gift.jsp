@@ -4,10 +4,12 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
-
+<jsp:include page="/WEB-INF/views/common/header.jsp" />
+<jsp:include page="/WEB-INF/views/project/projectMake_header.jsp" >
+	<jsp:param value="funding-gift" name="sectionName"/>
+</jsp:include>
 
 <form action="">
-<div class="make-project-contents">
 
 	<!-- 펀딩 목표 설정 -->
 	<div class="make-project-section">
@@ -223,5 +225,9 @@
 			
 		</div>
 	</div>
-</div>
 </form>
+
+<jsp:include page="/WEB-INF/views/project/projectMake_footer.jsp" >
+	<jsp:param value="funding-gift" name="sectionName"/>
+</jsp:include>
+<jsp:include page="/WEB-INF/views/common/footer.jsp" />

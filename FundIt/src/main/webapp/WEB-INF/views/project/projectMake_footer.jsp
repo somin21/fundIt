@@ -7,14 +7,20 @@
 
 
 		<div class="make-project-btn">
-			<button type="button" class="prevBtn">
-				<img src="${pageContext.request.contextPath }/resources/images/makeProject/prev.png" />
-				이전
-			</button>
-			<button type="button" class="nextBtn">
-				다음
-				<img src="${pageContext.request.contextPath }/resources/images/makeProject/next.png" />
-			</button>
+		
+			<c:if test="${param.sectionName ne 'outline' }">
+				<button type="button" class="prevBtn">
+					<img src="${pageContext.request.contextPath }/resources/images/makeProject/prev.png" />
+					이전
+				</button>
+			</c:if>
+			
+			<c:if test="${param.sectionName  ne 'account'}">
+				<button type="button" class="nextBtn">
+					다음
+					<img src="${pageContext.request.contextPath }/resources/images/makeProject/next.png" />
+				</button>
+			</c:if>
 		</div>
 	</div>
 </div>

@@ -6,7 +6,9 @@
 
 
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
-<jsp:include page="/WEB-INF/views/project/projectMake_header.jsp" />
+<jsp:include page="/WEB-INF/views/project/projectMake_header.jsp" >
+	<jsp:param value="outline" name="sectionName"/>
+</jsp:include>
 
 
 <form action="">
@@ -77,7 +79,12 @@
 					후원자들이 한 번에 무슨 프로젝트인지 알 수 있도록 프로젝트의 선물 이미지 혹은 프로젝트 주제를 대표하는 이미지를 등록해 주시는 것이 좋습니다.
 				</p>
 				<p>
-					<input type="file" id="project-image" name="projectImage" />
+					<button type="button" class="uploadBtn">
+						<img src="${pageContext.request.contextPath }/resources/images/makeProject/upload.png" />
+						이미지 선택하기
+					</button>
+					<input type="file" class="hiddenInput" id="project-image" name="projectImage" onchange="previewImage(this,'projectImgPreview');" accept="image/*" />
+					<img src="" id="projectImgPreview" class="uploadImg" style="width: 250px;height: 250px;display:none;"/>
 				</p>
 				<p>
 					<button type="button">
@@ -221,7 +228,12 @@
 					얼굴이 나온 사진을 넣으면 프로젝트의 신뢰성 향상에 도움이 됩니다.
 				</p>
 				<p>
-					<input type="file" id="profile-image" name="profileImage" />
+					<button type="button" class="uploadBtn">
+						<img src="${pageContext.request.contextPath }/resources/images/makeProject/upload.png" />
+						이미지 선택하기
+					</button>
+					<input type="file" class="hiddenInput" id="profile-image" name="profileImage" onchange="previewImage(this,'profileImgPreview');" accept="image/*" />
+					<img src="" id="profileImgPreview" class="uploadImg rounded-circle" style="width: 250px;height: 250px;display:none;"/>
 				</p>
 				<p>
 					<button type="button">
@@ -388,6 +400,7 @@
 </form>
 
 
-
-<jsp:include page="/WEB-INF/views/project/projectMake_footer.jsp" />
+<jsp:include page="/WEB-INF/views/project/projectMake_footer.jsp" >
+	<jsp:param value="outline" name="sectionName"/>
+</jsp:include>
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
