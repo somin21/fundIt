@@ -9,7 +9,7 @@ public interface MessageService {
 
 	int insertMessage(Map<String, Object> map);
 
-	List<Message> selectMessageList(Map<String, Object> map);
+	List<Message> selectMessageList(Map<String, Object> map, int cPage, int numPerPage);
 
 	int totalMessageCount(String email);
 

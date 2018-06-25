@@ -51,7 +51,7 @@ width:100%;
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title">창작자에게 문의하기</h4>
+          <h4 class="modal-title">메세지 답장하기</h4>
         </div>
        	<form action="messageModalEnd.do">
         <div class="modal-body">

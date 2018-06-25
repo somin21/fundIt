@@ -9,8 +9,10 @@ public interface MessageDAO {
 
 	int insertMessage(Map<String, Object> map);
 
-	List<Message> selectMessageList(Map<String, Object> map);
-
+	
 	int totalMessageCount(String email);
+
+
+	List<Message> selectMessageList(Map<String, Object> map, int cPage, int numPerPage);
 
 }

@@ -21,13 +21,16 @@ public class MessageServiceImpl implements MessageService {
 	}
 
 	@Override
-	public List<Message> selectMessageList(Map<String, Object> map) {
-		return messageDAO.selectMessageList(map);
+	public List<Message> selectMessageList(Map<String, Object> map, int cPage, int numPerPage) {
+		return messageDAO.selectMessageList(map,cPage,numPerPage);
+		
 	}
 
 	@Override
 	public int totalMessageCount(String email) {
 		return messageDAO.totalMessageCount(email);
 	}
+
+	
 
 }

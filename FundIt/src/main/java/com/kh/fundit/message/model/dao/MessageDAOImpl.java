@@ -22,14 +22,18 @@ public class MessageDAOImpl implements MessageDAO {
 	}
 
 	@Override
-	public List<Message> selectMessageList(Map<String, Object> map) {
-		
-		return sqlSession.selectList("message.selectMessageList",map);
+	public List<Message> selectMessageList(Map<String, Object> map, int cPage, int numPerPage) {
+		RowBounds rowBounds = new RowBounds((cPage-1)*numPerPage,numPerPage);
+		return sqlSession.selectList("message.selectMessageList",map,rowBounds);
 	}
 
 	@Override
 	public int totalMessageCount(String email) {
 		return sqlSession.selectOne("message.totalMessageCount",email);
 	}
+
+
+
+
 	
 }

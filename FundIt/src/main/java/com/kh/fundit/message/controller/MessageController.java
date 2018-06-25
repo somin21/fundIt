@@ -29,11 +29,20 @@ public class MessageController {
 		return "message/messageModal";
 	}
 	
+	@RequestMapping("/message/messageModal2.do")
+	public String messageInsert2() {
+		
+		return "message/messageModal2";
+	}
+	
 	//영준
 	@RequestMapping("/message/messageModalEnd.do")
-	public String messageInsertEnd(@RequestParam(name="messageContent") String messageContent,
+	public ModelAndView messageInsertEnd(@RequestParam(name="messageContent") String messageContent,
 			@RequestParam(name="receiveEmail") String receiveEmail,
-			@RequestParam(name="sendEmail") String sendEmail ){
+			@RequestParam(name="sendEmail") String sendEmail ,
+			@RequestParam(name="projectNo") int projectNo){
+		
+		ModelAndView mav = new ModelAndView();
 		
 		 Map<String ,Object> map = new HashMap<>();
 		 
@@ -42,8 +51,25 @@ public class MessageController {
 		 map.put("sendEmail", sendEmail);
 		
 		 int result = messageService.insertMessage(map);
+		 String msg="";
+		 String loc="";
 		 
-		return "project/projectView";
+		 	if(result>0) {
+
+		 		msg = "메세지 등록 성공";
+		 		loc = "/project/projectView.do?projectNo="+projectNo;
+		 	}else {
+		 		msg = "메세지 등록 실패";
+		 		loc = "/project/projectView.do?projectNo="+projectNo;
+		 	}
+		 	
+		 	mav.addObject("result", result);
+		 	mav.addObject("msg", msg);
+			mav.addObject("loc", loc);
+			
+			mav.setViewName("common/msg");
+		 
+		return mav;
 		
 	}
 	//영준
@@ -53,14 +79,14 @@ public class MessageController {
 		
 		ModelAndView mav  = new ModelAndView();
 		int numPerPage = 10;
-		RowBounds rowBounds = new RowBounds((cPage-1)*numPerPage,numPerPage);
+		
 		 Map<String ,Object> map = new HashMap<>();
 		 map.put("cPage", cPage);
 		 map.put("email", email);
 		 map.put("numPerPage",numPerPage);
-		 map.put("rowBounds",rowBounds);
 		
-		List<Message> list = messageService.selectMessageList(map);
+		
+		List<Message> list = messageService.selectMessageList(map,cPage,numPerPage);
 	
 		int count = messageService.totalMessageCount(email);
 		

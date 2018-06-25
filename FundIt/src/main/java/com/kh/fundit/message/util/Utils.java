@@ -1,8 +1,11 @@
 package com.kh.fundit.message.util;
 
+import org.springframework.web.bind.annotation.SessionAttributes;
+
+
 public class Utils {
 	
-	public static String getPageBar(int totalContents, int cPage, int numPerPage, String url ){
+	public static String getPageBar(int totalContents, int cPage, int numPerPage, String url ,String email){
 		String pageBar = "";
 		int pageBarSize = 5;
 		cPage = cPage==0?1:cPage;
@@ -63,7 +66,7 @@ public class Utils {
 		//fn_paging함수
 		pageBar += "<script>";
 		pageBar += "function fn_paging(cPage,numPerPage){";
-		pageBar += "location.href='"+url+"?cPage='+cPage;";
+		pageBar += "location.href='"+url+"?email="+email+"&cPage='+cPage;";
 		pageBar += "}";
 		pageBar += "</script>";
 		

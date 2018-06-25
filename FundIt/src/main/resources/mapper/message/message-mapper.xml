@@ -3,7 +3,7 @@
 <mapper namespace="message">
 	
 <insert id="insertMessage">
-insert into message values(seq_message_no.nextval,'${messageContent}',default,'${sendEmail}','${receiveEmail}')
+insert into message values(seq_message_no.nextval,'${messageContent}',default,'${sendEmail}','${receiveEmail}',default)
 </insert>
 	
 <select id="selectMessageList" resultType="message">
