@@ -58,15 +58,15 @@ width:100%;
         	<h4>메세지 내용</h4>
           <textarea class="messagearea" name="" id="" cols="30" rows="10" readonly>${content}</textarea>
           <div >
-          	
-         <h4>받는 사람:<input type="text" value="${param.email2 }" name="receiveEmail" readonly /> </h4> 
-         			<input type="text" value="${memberLoggedIn.email }" name="sendEmail" id="sendEmailHide" />
+   
+         <h4>받는 사람:<input type="text" value="${email }" name="receiveEmail" readonly /> </h4> 
+         			<input type="text" value="${ param.email2}" name="sendEmail" id="sendEmailHide" />
          </div>
          <textarea class="messagearea" name="messageContent" cols="30" rows="10" placeholder="답장할 내용을 입력하세요"></textarea>
         </div>
         <input type="text" value="${param.messageNo }" name="messageNo" id="messageNo" />
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal"  onclick="location.href='${pageContext.request.contextPath}/message/messageList.do?email=${memberLoggedIn.email }'">Close</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal"  onclick="location.href='${pageContext.request.contextPath}/message/messageList2.do?email=${memberLoggedIn.email }'">Close</button>
           <input type="submit" value="보내기" class="btn btn-default" />
         </form>
         </div>

@@ -14,4 +14,19 @@ insert into message values(seq_message_no.nextval,'${messageContent}',default,'$
 	select count(*)as cnt from message where receiveEmail = #{email}
 </select>
 	
+<insert id="insertMessage2">
+insert into message values(seq_message_no.nextval,'${messageContent}',default,'${sendEmail}','${receiveEmail}',default)
+</insert>
+
+<select id="selectContent"  resultType="java.lang.String">
+	select messageContent from message where messageNo = #{messageNo}
+</select>
+
+<select id="selectMessageList2" resultType="message">
+	select * from message where sendEmail = #{email}
+</select>
+
+<select id="totalMessageCount2" resultType="_int">
+	select count(*)as cnt from message where sendEmail = #{email}
+</select>
 </mapper>

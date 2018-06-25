@@ -64,7 +64,7 @@
 	<c:forEach items="${list}" var="message">
 		<tr>
 			<td>${message.messageNo}</td>
-			<td><a href="${pageContext.request.contextPath }/message/messageModal2.do?email=${message.receiveEmail}&email2=${message.sendEmail}&messageNo=${message.messageNo}">${message.messageContent }</a></td>
+			<td><a href="${pageContext.request.contextPath }/message/messageModal3.do?email=${message.receiveEmail}&email2=${message.sendEmail}&messageNo=${message.messageNo}">${message.messageContent }</a></td>
 			<td>${message.readyn }</td>
 			<td>${message.sendEmail }</td>
 			<td>${message.receiveEmail }</td>
@@ -89,6 +89,6 @@
 		
 	}
 %>
-<%=com.kh.fundit.message.util.Utils.getPageBar(count,cPage,numPerPage,"messageList.do",email) %>
+<%=com.kh.fundit.message.util.Utils.getPageBar(count,cPage,numPerPage,"messageList2.do",email) %>
 </section>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

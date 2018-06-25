@@ -29,11 +29,52 @@ public class MessageController {
 		return "message/messageModal";
 	}
 	
+	
 	@RequestMapping("/message/messageModal2.do")
-	public String messageInsert2() {
+	public ModelAndView messageInsert2(@RequestParam("email") String email,
+			@RequestParam("email2") String email2,
+	@RequestParam("messageNo") String messageNo){
+	
 		
-		return "message/messageModal2";
+		ModelAndView mav = new ModelAndView();
+		Map<String ,Object> map = new HashMap<>();
+		
+		map.put("email", email);
+		map.put("email2", email2);
+		map.put("messageNo", messageNo);
+		
+		String content = messageService.selectContent(map);
+	
+		mav.addObject("content", content);
+		mav.setViewName("message/messageModal2");
+		
+		return mav;
 	}
+	
+	@RequestMapping("/message/messageModal3.do")
+	public ModelAndView messageInsert3(@RequestParam("email") String email,
+			@RequestParam("email2") String email2,
+	@RequestParam("messageNo") String messageNo){
+	
+		
+		ModelAndView mav = new ModelAndView();
+		Map<String ,Object> map = new HashMap<>();
+		
+		map.put("email", email);
+		map.put("email2", email2);
+		map.put("messageNo", messageNo);
+		
+		String content = messageService.selectContent(map);
+	
+		mav.addObject("content", content);
+		mav.addObject("email",email);
+		mav.addObject("email2",email2);
+		mav.setViewName("message/messageModal3");
+		
+		return mav;
+	}
+	
+
 	
 	//영준
 	@RequestMapping("/message/messageModalEnd.do")
@@ -72,6 +113,45 @@ public class MessageController {
 		return mav;
 		
 	}
+	
+	@RequestMapping("/message/messageModalEnd2.do")
+	public ModelAndView messageInsertEnd2(@RequestParam(name="messageContent") String messageContent,
+			@RequestParam(name="receiveEmail") String receiveEmail,
+			@RequestParam(name="sendEmail") String sendEmail){
+		
+		ModelAndView mav = new ModelAndView();
+		
+		 Map<String ,Object> map = new HashMap<>();
+		 
+		 map.put("messageContent", messageContent);
+		 map.put("receiveEmail", receiveEmail);
+		 map.put("sendEmail", sendEmail);
+		
+		 
+		 
+		 int result = messageService.insertMessage2(map);
+		 String msg="";
+		 String loc="";
+		 
+		 	if(result>0) {
+
+		 		msg = "메세지 등록 성공";
+		 		loc = "/message/messageList2.do?email="+sendEmail;
+		 	}else {
+		 		msg = "메세지 등록 실패";
+		 		loc = "/message/messageList2.do?email="+sendEmail;
+		 	}
+		 	
+		 	mav.addObject("result", result);
+		 	mav.addObject("msg", msg);
+			mav.addObject("loc", loc);
+			
+			mav.setViewName("common/msg");
+		 
+		return mav;
+		
+	}
+	
 	//영준
 	@RequestMapping("/message/messageList.do")
 	public ModelAndView messageList(@RequestParam(value="cPage", required=false, defaultValue="1")int cPage
@@ -98,6 +178,31 @@ public class MessageController {
 		return mav;
 	}
 	
+	
+	@RequestMapping("/message/messageList2.do")
+	public ModelAndView messageList2(@RequestParam(value="cPage", required=false, defaultValue="1")int cPage
+			,@RequestParam("email") String email) {
+		
+		ModelAndView mav  = new ModelAndView();
+		int numPerPage = 10;
+		
+		 Map<String ,Object> map = new HashMap<>();
+		 map.put("cPage", cPage);
+		 map.put("email", email);
+		 map.put("numPerPage",numPerPage);
+		
+		
+		List<Message> list = messageService.selectMessageList2(map,cPage,numPerPage);
+	
+		int count = messageService.totalMessageCount2(email);
+		
+		mav.addObject("list",list);
+		mav.addObject("count",count);
+		mav.addObject("numPerPage",numPerPage);
+		mav.setViewName("message/messageList2");
+		
+		return mav;
+	}
 	
 	
 }
