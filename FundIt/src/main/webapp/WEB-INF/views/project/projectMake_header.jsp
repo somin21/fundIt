@@ -93,6 +93,9 @@ function previewImage(fileObj, imgPreviewId) {
 		  프로젝트를 개설하려면 네 개의 섹션을 완성해야 합니다. 해당 섹션을 완성해야 다음 섹션으로 넘어갈 수 있습니다.
 		</div>
 		<div class="alert alert-secondary" role="alert">
+		 내용을 입력한 뒤 하단의 "다음" 버튼을 눌러야 저장이 되며, 다음 섹션으로 이동합니다.
+		</div>
+		<div class="alert alert-secondary" role="alert">
 		  완성된 섹션은 
 		 <img src="${pageContext.request.contextPath }/resources/images/makeProject/empty_circle.png" /> 
 		  탭 아이콘에 

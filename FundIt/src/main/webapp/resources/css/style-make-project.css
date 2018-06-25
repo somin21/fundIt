@@ -62,7 +62,7 @@ div.make-project-btn button.prevBtn, div.make-project-btn button.nextBtn{
 	box-sizing: border-box;
     cursor: pointer;
     border: 0;
-    margin-bottom: 
+    margin: 0;
 }
 div.make-project-btn button.prevBtn img, div.make-project-btn button.nextBtn img{
 	width: 25px;
@@ -235,4 +235,5 @@ div.make-project-content div.hidden p:last-of-type button:last-of-type:hover{
 	background: #fa6462;
 	color: white;
 	cursor: pointer;
+	border: 0;
 }

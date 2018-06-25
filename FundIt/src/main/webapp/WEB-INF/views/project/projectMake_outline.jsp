@@ -11,6 +11,95 @@
 </jsp:include>
 
 
+<script>
+
+$(function(){
+
+	
+	$(".closeBtn").on("click",function(){
+		
+		var elemInput = $(this).parent().prev().children("input");
+		var elemSelect = $(this).parent().prev().children("select");
+		var elemTextarea = $(this).parent().prev().children("textarea");
+		
+		var firstSpan = $(this).parents(".hidden").prev(".shown").children("p").last().children("span").first();
+		var lastSpan = $(this).parents(".hidden").prev(".shown").children("p").last().children("span").last();
+		
+		if(elemTextarea.attr("id") == "projectSummary" || elemTextarea.attr("id") == "profileIntroduce"){
+			
+			elemTextarea.val(firstSpan.text());
+		
+		} else if(elemSelect.attr("id") == "category" || elemSelect.attr("id") == "local"){
+			
+			elemSelect.children("option").each(function(){
+								
+				if(firstSpan.text() == $(this).text()){
+					elemSelect.val($(this).val());
+				}
+			});
+						
+		} else{
+			
+			elemInput.val(firstSpan.text());
+		}
+		
+		$(this).parents(".hidden").slideUp(500);
+		$(this).parents(".hidden").prev(".shown").slideDown(500);
+	});
+	
+	$(".saveBtn").on("click",function(){
+		
+		var elemInput = $(this).parent().prev().children("input");
+		var inputValue = $(this).parent().prev().children("input").val();
+		var elemSelect = $(this).parent().prev().children("select");
+		var elemTextarea = $(this).parent().prev().children("textarea");
+		var place = $(this).parents(".hidden").prev(".shown").children("p").last();
+						
+		var html = "";
+		if(elemInput.attr("class") == "hiddenInput"){
+			
+			var imgSRC = elemInput.next("img").attr("src");
+			
+			if(elemInput.attr("id") == "profile-image"){
+				html = '<span><img src="'+imgSRC+'" class="uploadImg rounded-circle" style="width: 250px;height: 250px;"></span><span></span>';
+			} else {
+				html = '<span><img src="'+imgSRC+'" class="uploadImg" style="width: 250px;height: 250px;"></span><span></span>';
+			}
+			
+		} else if(elemTextarea.attr("id") == "projectSummary" || elemTextarea.attr("id") == "profileIntroduce"){
+			
+			if(elemTextarea.val().trim().length > 0){
+				html = "<span style='font-weight:bold;font-size:20px;color:black;'>"+elemTextarea.val()+"</span><span></span>";
+			}
+		
+		} else if(elemSelect.attr("id") == "category" || elemSelect.attr("id") == "local"){
+			
+			var text = "";
+			elemSelect.children("option").each(function(){
+				
+				if($(this).val() == elemSelect.val()){
+					text = $(this).text();
+				}
+			});
+			
+			html = "<span style='font-weight:bold;font-size:20px;color:black;'>"+text+"</span><span></span>";
+			
+		} else{
+			html = "<span style='font-weight:bold;font-size:20px;color:black;'>"+inputValue+"</span><span></span>";
+		}
+		
+		place.html(html);
+		
+		var rightHTML = '<img src="${pageContext.request.contextPath }/resources/images/makeProject/write.png" />&nbsp;<span>수정하기</span>';
+		place.children("span").last().html(rightHTML);
+
+		$(this).parents(".hidden").slideUp(500);
+		$(this).parents(".hidden").prev(".shown").slideDown(500);
+		
+	});
+})
+</script>
+
 <form action="">
 	<!-- 프로젝트 개요 -->
 	<div class="make-project-section">
@@ -44,13 +133,13 @@
 					<br /><span class="letter-cnt">25자 남았습니다</span>
 				</p>
 				<p>
-					<button type="button">
+					<button type="button" class="closeBtn">
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/x.png" />
-						취소하기
+						닫기
 					</button>
-					<button type="button">
+					<button type="button" class="saveBtn">
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/ok.png" />
-						저장하기
+						저장
 					</button>
 				</p>
 			</div>
@@ -87,13 +176,9 @@
 					<img src="" id="projectImgPreview" class="uploadImg" style="width: 250px;height: 250px;display:none;"/>
 				</p>
 				<p>
-					<button type="button">
-						<img src="${pageContext.request.contextPath }/resources/images/makeProject/x.png" />
-						취소하기
-					</button>
-					<button type="button">
+					<button type="button" class="saveBtn">
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/ok.png" />
-						저장하기
+						저장
 					</button>
 				</p>
 			</div>
@@ -125,13 +210,13 @@
 					<br /><span class="letter-cnt">50자 남았습니다</span>
 				</p>
 				<p>
-					<button type="button">
+					<button type="button" class="closeBtn">
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/x.png" />
-						취소하기
+						닫기
 					</button>
-					<button type="button">
+					<button type="button" class="saveBtn">
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/ok.png" />
-						저장하기
+						저장
 					</button>
 				</p>
 			</div>
@@ -161,7 +246,7 @@
 				</p>
 				<p>
 					<select name="category" id="category">
-						<option selected disabled>프로젝트 카테고리를 정해주세요</option>
+						<option selected disabled value="">프로젝트 카테고리를 정해주세요</option>
 						<option value="C1">게임</option>
 						<option value="C2">푸드</option>
 						<option value="C3">예술</option>
@@ -171,13 +256,13 @@
 					</select>
 				</p>
 				<p>
-					<button type="button">
+					<button type="button" class="closeBtn">
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/x.png" />
-						취소하기
+						닫기
 					</button>
-					<button type="button">
+					<button type="button" class="saveBtn">
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/ok.png" />
-						저장하기
+						저장
 					</button>
 				</p>
 			</div>
@@ -211,7 +296,7 @@
 						
 					<c:if test="${profile.profileImage ne null}">
 						<span>
-							 <img src="${pageContext.request.contextPath }/resources/upload/profileImg/${profile.profileImage }" class="profileImg" />
+							 <img src="${pageContext.request.contextPath }/resources/upload/profileImg/${profile.profileImage }" class="profileImg rounded-circle" style="width: 250px;height: 250px;" />
 						</span>
 						<span>
 							<img src="${pageContext.request.contextPath }/resources/images/makeProject/write.png" />
@@ -236,13 +321,9 @@
 					<img src="" id="profileImgPreview" class="uploadImg rounded-circle" style="width: 250px;height: 250px;display:none;"/>
 				</p>
 				<p>
-					<button type="button">
-						<img src="${pageContext.request.contextPath }/resources/images/makeProject/x.png" />
-						취소하기
-					</button>
-					<button type="button">
+					<button type="button" class="saveBtn">
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/ok.png" />
-						저장하기
+						저장
 					</button>
 				</p>
 			</div>
@@ -250,7 +331,7 @@
 			<div class="shown">
 				<p>진행자 이름</p>
 				<p>
-					<span>
+					<span style="font-weight:bold;font-size:20px;color:black;">
 						${memberLoggedIn.name }
 					</span>
 					<span>
@@ -271,13 +352,13 @@
 					<br /><span class="letter-cnt">10자 남았습니다</span>
 				</p>
 				<p>
-					<button type="button">
+					<button type="button" class="closeBtn">
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/x.png" />
-						취소하기
+						닫기
 					</button>
-					<button type="button">
+					<button type="button" class="saveBtn">
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/ok.png" />
-						저장하기
+						저장
 					</button>
 				</p>
 			</div>
@@ -299,7 +380,7 @@
 					</c:if>
 					
 					<c:if test="${profile.profileIntroduce ne null}">
-						<span>${profile.profileIntroduce }</span>
+						<span style="font-weight:bold;font-size:20px;color:black;">${profile.profileIntroduce }</span>
 						<span>
 							<img src="${pageContext.request.contextPath }/resources/images/makeProject/write.png" />
 							&nbsp;
@@ -319,13 +400,13 @@
 					<br /><span class="letter-cnt">100자 남았습니다</span>
 				</p>
 				<p>
-					<button type="button">
+					<button type="button" class="closeBtn">
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/x.png" />
-						취소하기
+						닫기
 					</button>
-					<button type="button">
+					<button type="button" class="saveBtn">
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/ok.png" />
-						저장하기
+						저장
 					</button>
 				</p>
 			</div>
@@ -347,7 +428,7 @@
 					</c:if>
 					
 					<c:if test="${profile.localName ne null}">
-						<span>${profile.localName }</span>
+						<span style="font-weight:bold;font-size:20px;color:black;">${profile.localName }</span>
 						<span>
 							<img src="${pageContext.request.contextPath }/resources/images/makeProject/write.png" />
 							&nbsp;
@@ -364,7 +445,7 @@
 				</p>
 				<p>
 					<select name="local" id="local">
-						<option selected disabled>활동 지역을 정해주세요</option>
+						<option selected disabled value="">활동 지역을 정해주세요</option>
 						<option value="L1">서울</option>
 						<option value="L2">부산</option>
 						<option value="L3">대구</option>
@@ -384,13 +465,13 @@
 					</select>
 				</p>
 				<p>
-					<button type="button">
+					<button type="button" class="closeBtn">
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/x.png" />
-						취소하기
+						닫기
 					</button>
-					<button type="button">
+					<button type="button" class="saveBtn">
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/ok.png" />
-						저장하기
+						저장
 					</button>
 				</p>
 			</div>
