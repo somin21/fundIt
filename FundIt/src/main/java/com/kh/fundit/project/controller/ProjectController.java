@@ -331,8 +331,26 @@ public class ProjectController {
 
 //	소민
 	@RequestMapping("/project/makeProject/outline")
-	public String makeProject() {
+	public String makeProjectOutline() {
 		return "project/projectMake_outline";
+	}
+	
+//	소민
+	@RequestMapping("/project/makeProject/funding-gift")
+	public String makeProjectFundingGift() {
+		return "project/projectMake_funding_gift";
+	}
+	
+//	소민
+	@RequestMapping("/project/makeProject/story")
+	public String makeProjectStory() {
+		return "project/projectMake_story";
+	}
+	
+//	소민
+	@RequestMapping("/project/makeProject/account")
+	public String makeProjectAccount() {
+		return "project/projectMake_account";
 	}
 
 }

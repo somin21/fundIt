@@ -100,7 +100,6 @@ div.section-title{
     padding: 20px 13px;
     box-sizing: border-box;
     font-weight: bold;
-    cursor: pointer;
 }
 div.selected-title{
 	border-top: 1px solid darkgray;

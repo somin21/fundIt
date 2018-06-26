@@ -9,6 +9,81 @@
 	<jsp:param value="funding-gift" name="sectionName"/>
 </jsp:include>
 
+<style>
+input#funding-money::-webkit-outer-spin-button,
+input#funding-money::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input#deadline-date::-webkit-outer-spin-button,
+input#deadline-date::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+span.bold-font{
+	font-weight: bold;
+}
+span.red-font{
+	color: red;
+}
+span#money-warning{
+	display: none;
+}
+</style>
+
+<script>
+$(function(){
+	
+	/* CSS 수정 */
+	$("#funding-money").parent("p").css("text-align","left");
+	$("#funding-money").css("width","97%");
+	$("#deadline-day").parent("p").css("text-align","left");
+	$("#deadline-day").css({"width":"20%","margin":"0 10px"});
+	$("#deadline-date").css({"width":"30%","margin":"0 10px"});
+	
+	
+	/* 목표 금액 */
+	$("#funding-money").focus(function(){
+		if($(this).val() == "0"){
+			$(this).val("");
+		}
+	});
+	
+	$("#funding-money").keyup(function(){
+		if($(this).val() < 5000){
+			
+			$("#money-warning").css("display","inline");
+			$(this).css("border-color","red");
+			
+			$(this).parent().next().children(".saveBtn").attr("disabled","disabled");
+			
+		} else {
+			$("#money-warning").css("display","none");
+			$(this).css("border-color","#ccdafc");
+			$(this).parent().next().children(".saveBtn").removeAttr("disabled");
+		}	
+	});
+	
+	$("#funding-money").blur(function(){
+		
+		var regExp = /^[1-9][0-9]{3,}$/;
+		if(!regExp.test($(this).val())){
+			var change = $(this).val().replace(/^0{1,}/, "");
+			$(this).val(change);
+		}	
+	});
+	
+	
+	/* 마감일 */
+	var today = new Date(); 
+	$("#deadline-date").val(today+1);
+	$("#deadline-day").keyup(function(){
+		
+	});
+})
+</script>
+
+
 <form action="">
 
 	<!-- 펀딩 목표 설정 -->
@@ -39,21 +114,21 @@
 					마감일 자정까지 목표 금액을 100% 이상 달성하셔야만 모인 후원금이 결제됩니다. <br>
 					마지막에 후원을 취소하는 후원자들을 감안해 10% 이상 초과 달성을 목표로 하시는게 안전합니다. <br>
 					(목표 금액은 제작비, 선물 배송비, 진행자의 인건비, 예비 비용 등을 고려하시기 바랍니다.) <br>
-					<span class="red-font">** 목표 금액은 5,000원 이상입니다.</span>
+					<span class="red-font" id="money-warning">** 목표 금액은 5,000원 이상입니다.</span>
 				</p>
 				<p>
-					<input type="number" id="funding-money" name="fundingMoney" value="0" /> 
+					<input type="number" id="funding-money" name="fundingMoney" value="0" min="5000"/> 
 					<span class="bold-font">원</span>
 					<!-- 수수료 -->
 				</p>
 				<p>
-					<button type="button">
+					<button type="button" class="closeBtn">
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/x.png" />
-						취소하기
+						닫기
 					</button>
-					<button type="button">
+					<button type="button" class="saveBtn">
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/ok.png" />
-						저장하기
+						저장
 					</button>
 				</p>
 			</div>
@@ -86,19 +161,19 @@
 				</p>
 				<p>
 					<span class="bold-font">오늘로부터 </span>
-					<input type="number" id="deadline-day" name="deadlineDay" />
+					<input type="number" id="deadline-day" name="deadlineDay" min="1" value="1" />
 					<span class="bold-font">일 뒤인 </span>
-					<input type="date" id="deadline-date" name="deadlineDate" />
+					<input type="date" id="deadline-date" name="deadlineDate" >
 					<span class="bold-font">에 펀딩을 마감합니다.</span>
 				</p>
 				<p>
-					<button type="button">
+					<button type="button" class="closeBtn">
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/x.png" />
-						취소하기
+						닫기
 					</button>
-					<button type="button">
+					<button type="button" class="saveBtn">
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/ok.png" />
-						저장하기
+						저장
 					</button>
 				</p>
 			</div>
@@ -208,16 +283,16 @@
 				</p>
 				<p>
 					<textarea name="refund" id="refund" cols="30" rows="10" placeholder="환불 및 교환 정책을 입력해주세요"></textarea>
-					<br /><span class="letter-cnt">1000자 남았습니다</span>
+					<span class="letter-cnt"><span class="total-letter">1000</span>자 남았습니다</span>
 				</p>
 				<p>
-					<button type="button">
+					<button type="button" class="closeBtn">
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/x.png" />
-						취소하기
+						닫기
 					</button>
-					<button type="button">
+					<button type="button" class="saveBtn">
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/ok.png" />
-						저장하기
+						저장
 					</button>
 				</p>
 			</div>
