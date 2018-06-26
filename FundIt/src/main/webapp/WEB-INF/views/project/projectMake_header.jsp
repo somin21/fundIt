@@ -10,12 +10,13 @@
 <script>
 $(function(){
 	
+	/* 파일업로드 버튼 */
 	$(".hiddenInput").parent().css("text-align","left");
-	
 	$(".uploadBtn").click(function(){
 		$(this).next("input[type=file]").click();
 	});
 	
+	/* 영역 클릭 시 다른 영역 보여주기 */
 	$(".make-project-content div.shown").on("click",function(){
 		$(".make-project-content").children(".shown").slideDown(500);
 		$(".make-project-content").children(".hidden").slideUp(500);
@@ -23,10 +24,96 @@ $(function(){
 		$(this).next(".hidden").slideDown(500);
 		
 	});
+	
+	/* 닫기 버튼 */
+	$(".closeBtn").on("click",function(){
+		
+		var elemInput = $(this).parent().prev().children("input");
+		var elemSelect = $(this).parent().prev().children("select");
+		var elemTextarea = $(this).parent().prev().children("textarea");
+		
+		var firstSpan = $(this).parents(".hidden").prev(".shown").children("p").last().children("span").first();
+		var lastSpan = $(this).parents(".hidden").prev(".shown").children("p").last().children("span").last();
+		
+		if(elemTextarea.attr("id") == "projectSummary" || elemTextarea.attr("id") == "profileIntroduce"){
+			
+			elemTextarea.val(firstSpan.text());
+		
+		} else if(elemSelect.attr("id") == "category" || elemSelect.attr("id") == "local"){
+			
+			elemSelect.children("option").each(function(){
+								
+				if(firstSpan.text() == $(this).text()){
+					elemSelect.val($(this).val());
+				}
+			});
+						
+		} else{
+			
+			elemInput.val(firstSpan.text());
+		}
+		
+		$(this).parents(".hidden").slideUp(500);
+		$(this).parents(".hidden").prev(".shown").slideDown(500);
+	});
+	
+	
+	/* 저장 버튼 */
+	$(".saveBtn").on("click",function(){
+		
+		var elemInput = $(this).parent().prev().children("input");
+		var inputValue = $(this).parent().prev().children("input").val();
+		var elemSelect = $(this).parent().prev().children("select");
+		var elemTextarea = $(this).parent().prev().children("textarea");
+		var place = $(this).parents(".hidden").prev(".shown").children("p").last();
+						
+		var html = "";
+		if(elemInput.attr("class") == "hiddenInput"){
+			
+			var imgSRC = elemInput.next("img").attr("src");
+			
+			if(elemInput.attr("id") == "profile-image"){
+				html = '<span><img src="'+imgSRC+'" class="uploadImg rounded-circle" style="width: 250px;height: 250px;"></span><span></span>';
+			} else {
+				html = '<span><img src="'+imgSRC+'" class="uploadImg" style="width: 250px;height: 250px;"></span><span></span>';
+			}
+			
+		} else if(elemTextarea.attr("id") == "projectSummary" || elemTextarea.attr("id") == "profileIntroduce"){
+			
+			if(elemTextarea.val().trim().length > 0){
+				html = "<span style='font-weight:bold;font-size:20px;color:black;'>"+elemTextarea.val()+"</span><span></span>";
+			}
+		
+		} else if(elemSelect.attr("id") == "category" || elemSelect.attr("id") == "local"){
+			
+			var text = "";
+			elemSelect.children("option").each(function(){
+				
+				if($(this).val() == elemSelect.val()){
+					text = $(this).text();
+				}
+			});
+			
+			html = "<span style='font-weight:bold;font-size:20px;color:black;'>"+text+"</span><span></span>";
+			
+		} else{
+			html = "<span style='font-weight:bold;font-size:20px;color:black;'>"+inputValue+"</span><span></span>";
+		}
+		
+		place.html(html);
+		
+		var rightHTML = '<img src="${pageContext.request.contextPath }/resources/images/makeProject/write.png" />&nbsp;<span>수정하기</span>';
+		place.children("span").last().html(rightHTML);
+
+		$(this).parents(".hidden").slideUp(500);
+		$(this).parents(".hidden").prev(".shown").slideDown(500);
+		
+	});
 })
 </script>
 
 <script>
+/* 사진 미리보기 */
 function previewImage(fileObj, imgPreviewId) {
     var allowExtention = ".jpg,.bmp,.gif,.png";  //allowed to upload file type
     /* document.getElementById("hfAllowPicSuffix").value; */
@@ -79,6 +166,8 @@ function previewImage(fileObj, imgPreviewId) {
     document.getElementById(imgPreviewId).setAttribute("style",css);
 }
 </script>
+
+
 
 <div id="make-project">
 	
