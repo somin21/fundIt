@@ -36,11 +36,11 @@ public class ProjectGift {
 		this.projectNo = projectNo;
 	}
 
-	public int getMinmoney() {
+	public int getMinMoney() {
 		return minMoney;
 	}
 
-	public void setMinmoney(int minMoney) {
+	public void setMinMoney(int minMoney) {
 		this.minMoney = minMoney;
 	}
 
