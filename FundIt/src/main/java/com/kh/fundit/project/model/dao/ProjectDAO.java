@@ -22,11 +22,11 @@ public interface ProjectDAO {
 
 	List<ListProjectView> selectIndexPopularProject(int popularProjectPage, int numPerpage);
 
-	List<ListProjectView> selectMyProjectYet(Member member);
+	List<ListProjectView> selectMyProjectYet(Member member, int numPerpage);
 	
-	List<ListProjectView> selectMyProjectYes(Member member);
+	List<ListProjectView> selectMyProjectYes(Member member, int numPerpage );
 	
-	List<ListProjectView> selectMyProjectNo(Member member);
+	List<ListProjectView> selectMyProjectNo(Member member, int numPerpage);
 	
 	int selectMyProjectCnt(Member member);
 	

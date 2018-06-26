@@ -86,13 +86,13 @@ public class ProjectController {
 //태윤
 	@RequestMapping("/project/selectMyProjectYet")
 	@ResponseBody
-	public List<ListProjectView> selectMyProjectList(@RequestParam String email){
+	public List<ListProjectView> selectMyProjectList(@RequestParam String email, @RequestParam(value="page", required=false, defaultValue="4") int numPerpage,HttpServletResponse response){
 		
 		Member member = new Member();
 		System.out.println(email);
 		member.setEmail(email);
-				
-		List<ListProjectView> list = projectService.selectMyProjectYet(member);
+		
+		List<ListProjectView> list = projectService.selectMyProjectYet(member, numPerpage);
 		
 		return list;
 	}
@@ -100,30 +100,30 @@ public class ProjectController {
 	//태윤
 		@RequestMapping("/project/selectMyProjectYes")
 		@ResponseBody
-		public List<ListProjectView> selectMyProjectListYes(@RequestParam String email){
+		public List<ListProjectView> selectMyProjectListYes(@RequestParam String email, @RequestParam(value="page", required=false, defaultValue="4") int numPerpage, HttpServletResponse response){
 			
 			Member member = new Member();
 			System.out.println(email);
 			member.setEmail(email);
-					
-			List<ListProjectView> list = projectService.selectMyProjectYes(member);
+			
+			List<ListProjectView> list = projectService.selectMyProjectYes(member, numPerpage);
 			
 			return list;
 		}
 		
-		//태윤
-		@RequestMapping("/project/selectMyProjectNo")
-		@ResponseBody
-		public List<ListProjectView> selectMyProjectListNo(@RequestParam String email){
+//태윤
+	@RequestMapping("/project/selectMyProjectNo")
+	@ResponseBody
+	public List<ListProjectView> selectMyProjectListNo(@RequestParam String email, @RequestParam(value="page", required=false, defaultValue="4") int numPerpage, HttpServletResponse response){
 			
-			Member member = new Member();
-			System.out.println(email);
-			member.setEmail(email);
+		Member member = new Member();
+		System.out.println(email);
+		member.setEmail(email);
 					
-			List<ListProjectView> list = projectService.selectMyProjectNo(member);
+		List<ListProjectView> list = projectService.selectMyProjectNo(member, numPerpage);
 			
-			return list;
-		}
+		return list;
+	}
 	
 	
 	
@@ -177,9 +177,11 @@ public class ProjectController {
 		/*System.out.println(list);*/
 		String userEmail = "";
 		Date calculateduedDate = null;
+		int deadlineDay = 0;
 		for(ProjectView v : list) {
 			userEmail = v.getEmail();
 			calculateduedDate = v.getCalculateduedDate();
+			deadlineDay = v.getDeadlineDay();
 		}
 
 		com.kh.fundit.project.model.vo.Profile p = projectService.profileUser(userEmail);
@@ -190,6 +192,7 @@ public class ProjectController {
 		mav.addObject("p",p);
 		mav.addObject("projectNo",projectNo);
 		mav.addObject("calculateduedDate",calculateduedDate);
+		mav.addObject("deadlineDay",deadlineDay);
 		mav.setViewName("project/projectView");
 		
 		return mav;
@@ -207,16 +210,18 @@ public class ProjectController {
 		//프로젝트리스트뽑기
 		List<ProjectView> list = projectService.oriProjectList(map);
 		
-		/*System.out.println(list);*/
+		/*System.out.println("list="+list);*/
 		
 		//카테고리 구별
 		int rowNum = 0;
 		String categoryCode = "";
 		String category = "";
+		
 		for(ProjectView v : list) {
 			rowNum = v.getRowNum();
 			categoryCode += v.getCategoryCode()+",";
 		}
+		
 		/*System.out.println(categoryCode);*/
 		if(categoryCode.contains("C1") && !(category.contains("게임")) ) {
 			category += "게임,";
@@ -302,9 +307,21 @@ public class ProjectController {
 		
 		//선물리스트 받아오기
 		List<ProjectGift> List = projectService.projectGiftList(map);
+		//프로젝트리스트뽑기
+		List<ProjectView> list = projectService.projectView(map);
+		String title = "";
+		Date calculateduedDate = null;
+		for(ProjectView v : list) {
+			title = v.getProjectTitle();
+			calculateduedDate = v.getCalculateduedDate();
+		}
+		System.out.println(title);
+		
 		
 		mav.addObject("List",List);
 		mav.addObject("projectNo",no);
+		mav.addObject("title",title);
+		mav.addObject("calculateduedDate",calculateduedDate);
 		mav.setViewName("project/giftList");
 		
 		return mav;
@@ -313,9 +330,9 @@ public class ProjectController {
 	
 
 //	소민
-	@RequestMapping("/project/makeProject.do")
+	@RequestMapping("/project/makeProject/outline")
 	public String makeProject() {
-		return "project/projectMake";
+		return "project/projectMake_outline";
 	}
 
 }

@@ -45,7 +45,7 @@ $(function(){
 		</span>
 		&nbsp;&nbsp;&nbsp;
 		<span>
-			<a href="${pageContext.request.contextPath }/project/makeProject.do" >
+			<a href="${pageContext.request.contextPath }/project/makeProject/outline" >
 				프로젝트 올리기
 			</a>
 		</span>
@@ -97,7 +97,7 @@ $(function(){
 	</div>
 	
 	<div id="profile-click-div">
-		<p><a href="">메시지</a></p>
+		<p><a href="${pageContext.request.contextPath }/message/messageList.do?email=${memberLoggedIn.email }">메시지</a></p>
 		<hr />
 		<p><a href="${pageContext.request.contextPath }/interest/interest.do?email=${memberLoggedIn.email }">관심 프로젝트</a></p>
 		<p><a href="">후원 현황</a></p>

@@ -207,13 +207,20 @@ select#select {
 					<br />
 					<div class="days">
 						<img src="${pageContext.request.contextPath }/resources/images/calendar.png"/>
-						${i.deadlineDay }일 남음
+						<c:if test="${i.deadlineDay gt 0}">
+							${i.deadlineDay }일 남음
+						</c:if>
+						<c:if test="${i.deadlineDay le 0}">
+							후원 종료
+						</c:if>
 					</div>
+					<c:if test="${i.deadlineDay gt 0}">
 					<div class="support">
 						<img src="${pageContext.request.contextPath }/resources/images/money.png"/>
 						<fmt:formatNumber>${i.supportMoney }</fmt:formatNumber>
 						(${i.supportPercent }%)
 					</div>
+					</c:if>
 				</div>
 			</div>
 		</c:forEach>
@@ -227,7 +234,7 @@ select#select {
 	$(function(){
 		$(".project").click(function(){
 			var projectNo = $(this).children("#projectNo").val();
-			console.log(projectNo);
+			/* console.log(projectNo); */
 			location.href="${pageContext.request.contextPath}/project/projectView.do?projectNo="+projectNo;
 		});
 	});

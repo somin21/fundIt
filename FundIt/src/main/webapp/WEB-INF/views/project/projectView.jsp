@@ -188,6 +188,10 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
   opacity: 1;
   right: 0;
 }
+.disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
 /* 후원버튼 끝*/
 /* 담기버튼 시작 */
 .button2 {
@@ -265,17 +269,17 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
                 모인금액 <br>
                 <span id="sp1"><fmt:formatNumber>${i.supportMoney }</fmt:formatNumber></span>원 <br><br>
                 남은시간 <br>
-                <span id="sp1">${i.deadlineDay }</span>일<br><br>
+                <span id="sp1">${i.deadlineDay gt 0 ? i.deadlineDay:'0' }</span>일<br><br>
                 후원자 <br>
                 <span id="sp1">${i.supportor }</span>명 <br><br>
                 <div class="notice">
                 
-               	<c:if test="${i.deadlineDay le 0 } && ${i.supportGoal le i.supportMoney } ">
+               	<c:if test="${i.deadlineDay le 0 and i.supportGoal le i.supportMoney } ">
                 	<span class="sp">펀딩 성공!</span><br />
                     <span class="sp2">목표금액인 <fmt:formatNumber>${i.supportGoal }</fmt:formatNumber>원이 모였습니다.</span><br />
                     <span class="sp2">결제는 <fmt:formatDate value="${i.calculateduedDate }" pattern="yyyy년 MM월 dd일"/> 에 다함께 결제됩니다.</span>
                 </c:if>
-                <c:if test="${i.deadlineDay le 0 } && ${i.supportGoal gt i.supportMoney }">
+                <c:if test="${i.deadlineDay le 0 and i.supportGoal gt i.supportMoney }">
                 	<span class="sp">펀딩 실패!</span><br />
                     <span class="sp2">목표금액인 <fmt:formatNumber>${i.supportGoal }</fmt:formatNumber>원이 모이지 않았습니다.</span><br />
                     <span class="sp2">결제는 모두 진행되지 않습니다.</span>
@@ -288,6 +292,7 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
                 </c:if>
                 
                 </div>
+                <c:if test="${deadlineDay ge 0 }">
                 <button class="button" style="vertical-align:middle" onclick="fn_supportGo('${i.projectNo}');"><span>후원하기 </span></button>
                 <script>
                 function fn_interest(no){
@@ -305,6 +310,10 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
                 	<span class="glyphicon glyphicon-shopping-cart"></span>
                 	담아두기
                 </button>
+                </c:if>
+                <c:if test="${deadlineDay lt 0 }">
+                	<button class="button disabled">후원이 종료되었습니다.</button>
+                </c:if>
             </div>
         </div>
 	</c:forEach>
@@ -327,10 +336,11 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
 		                <span class="sp"><a id="tagA2" href="${pageContext.request.contextPath }/project/originatorView.do?email=${p.email}" >${p.email }</a></span>
 		                <p class="originContext">${p.profileIntroduce }</p>
 		                <hr />
-		                <button class="button2 button3" onclick="location.href='${pageContext.request.contextPath}/interest/messageModal.do?projectNo=${projectNo}'"><i style="font-size:24px" class="fa">&#xf0e0;</i> 창작자에게 문의하기</button>
+		                <button class="button2 button3" onclick="location.href='${pageContext.request.contextPath}/message/messageModal.do?projectNo=${projectNo}&email=${p.email }'"><i style="font-size:24px" class="fa">&#xf0e0;</i> 창작자에게 문의하기</button>
 		            </div>
 		        </div>
 		        
+		        <c:if test="${deadlineDay gt 0 }">
 		        <c:if test="${not empty List}">
 		        <c:forEach var="v" items="${List }">
 		        <br /><br />
@@ -341,7 +351,7 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
 		        			<span id="sp2">${v.minMoney }원 +</span>
 		        		</li>
 		        		<li>
-		        			${v.itemName }.(X${v.itemNumber })
+		        			${v.itemName }.(X${v.itemnumber })
 		        		</li>
 		        		<li>
 		        			예상전달일 <fmt:formatDate value="${calculateduedDate }" pattern="yyyy년 MM월 dd일"/> 후 순차배송됩니다.
@@ -367,6 +377,7 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
 		        		<button class="button2 button3">후원하기</button>
 		        	</div>
 		        </div>
+		        </c:if>
 		        </c:if>
 	        </div>
 	        

@@ -8,14 +8,19 @@
 
 
 <script>
+var projectYetPage = 4;
+var projectYesPage = 4;
+var projectNoPage = 4;
+
+
 $(function(){
-	
 	
 	var email = $("#email").val().trim();
 	console.log(email);
 	/* profileImgage */
 	$.ajax({
 		url : "${pageContext.request.contextPath}/member/selectProfileImg?email="+email,
+		
 		success : function(data){
 			console.log(data);
 				var html = '';
@@ -50,7 +55,8 @@ $(function(){
 	
 	/* 마감 앞둔 순  내가만든 프로젝트 컨펌전  */
 	 $.ajax({
-		url : "${pageContext.request.contextPath}/project/selectMyProjectYet?email="+email,
+		url : "${pageContext.request.contextPath}/project/selectMyProjectYet",
+		data :  {email : email},
 		success : function(data){
 			console.log(data);
 			
@@ -73,7 +79,8 @@ $(function(){
 	
 	 /* 마감 앞둔 순  내가만든 프로젝트 진행중  */
 	 $.ajax({
-		url : "${pageContext.request.contextPath}/project/selectMyProjectYes?email="+email,
+		url : "${pageContext.request.contextPath}/project/selectMyProjectYes",
+		data :  {email : email},
 		success : function(data){
 			console.log(data);
 			
@@ -96,7 +103,8 @@ $(function(){
 	 
 	 /* 마감 앞둔 순  내가만든 프로젝트 거부됨 */
 	 $.ajax({
-		url : "${pageContext.request.contextPath}/project/selectMyProjectNo?email="+email,
+		url : "${pageContext.request.contextPath}/project/selectMyProjectNo",
+		data :  {email : email},
 		success : function(data){
 			console.log(data);
 			
@@ -124,7 +132,7 @@ $(function(){
 function htmlAppend(project, div_name){
 	var html = '';
 	
-	html += '<div class="project" onclick = "fn_gotoProjectView();">';
+	html += '<div class="project"  onclick = "fn_gotoProjectView();">';
 	html += '<input type="hidden" name="projectNo" id ="projectNo" value="'+project.projectNo+'" />';
 	html += '<img src="${pageContext.request.contextPath }/resources/images/projects/'+project.projectImage+'" />';
 	if(project.deadlineDay > 0 && project.supportPercent >= 100){
@@ -186,11 +194,61 @@ function numberWithCommas(x){
 	return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g,",");
 }
 
+function toNextAjax(urlMapping, email, pageName, div_name){
+	
+	var page;
+	
+	if(pageName == 'myProjectYet'){
+		page = projectYetPage;
+	} else if(pageName == 'myProjectYes'){
+		page = projectYesPage;
+	} else if(pageName == 'myProjectNo'){
+		page = projectNoPage;
+	}
+	
+	console.log(pageName +" : "+ page);
+	
+	if( page >= 4){
 
+		if(pageName == 'myProjectYet'){
+			page = projectYetPage+4;
+			projectYetPage = page;
+		} else if(pageName == 'myProjectYes'){
+			page = projectYesPage+4;
+			projectYesPage = page;
+		} else if(pageName == 'myProjectNo'){
+			page = projectNoPage+4;
+			projectNoPage = page;
+		}
+
+		console.log(page);
+		$.ajax({
+			url : urlMapping,
+			data : {page : page, email : email},
+			success : function(data){
+				console.log(data);
+				
+		    	var appendDiv = $("#"+div_name);
+		    	appendDiv.html("");
+				
+		    	for(var i = 0; i < data.length; i++){	    		
+		    		htmlAppend(data[i], appendDiv);
+				}
+		    	
+		    	if(data.length < 4){
+		    		htmlAppendNone(data.length+1, appendDiv);
+		    	}
+			},
+			error : function(jqxhr,textStatus,errorThrown){
+				console.log("ajax실패");
+			}
+		});
+	}
+}
 
 </script>
 <style>
-div#myProfile-container{
+div.myProfile-container{
 width : 100%;
 height : 500px;
 background-color : #ebeae5;
@@ -216,7 +274,7 @@ padding-top : 100px;
 	
 }
 
-div#index-container{
+div#myProjectList-container{
 width: 70%;
 min-height: 50%;
 margin : auto;
@@ -232,7 +290,7 @@ font-weight : bolder;
 </style>
 
 
-<div id="myProfile-container">
+<div class="myProfile-container">
 	<div id = "changable-content">
 	<div id="img-container">
 	
@@ -245,39 +303,46 @@ font-weight : bolder;
 	
 
 
-<div id="index-container">
+<div id="myProjectList-container">
 		<p class="title">
 			내가만든 프로젝트 <span id="cnt" style="color:tomato;"></span> 개 
 		</p>
 		
-	<!-- 내가 만든 프로젝트(컨펌받은 프로젝트) -->
-	<div class="index-project" id="myProjectYet">
-		<p class="title">
+	<!-- 내가 만든 프로젝트(컨펌받은 전) -->
+	<p class="title" style = "margin-bottom : 20px;">
 			승인대기중 
-		</p>
+	</p>
+	<div class="index-project" id="myProjectYet">
+		
 		
 	</div>
-	
-	<!-- 내가 만드 프로젝트(컨펌받은 프로젝트) -->
-	<div class="index-project" id="myProjectYes">
-		<p class="title" >
+	<input type="button" value="더보기" class = "btn btn-success" style = "width:1024px; margin: auto;"  onclick = "toNextAjax('${pageContext.request.contextPath}/project/selectMyProjectYet','${memberLoggedIn.email}','myProjectYet','myProjectYet');" />
+	<hr />
+	<!-- 내가 만드 프로젝트(진행중) -->
+	<p class="title" >
 			진행 중
 		</p>
+	<div class="index-project" id="myProjectYes">
+		
+		
+		
 		
 	</div>
-	
-	<!-- 내가 만드 프로젝트(컨펌받은 프로젝트) -->
-	<div class="index-project" id="myProjectNo">
-		<p class="title">
+	<input type="button" class = "btn btn-success" style = "width:1024px; margin: auto;" value="더보기" onclick = "toNextAjax('${pageContext.request.contextPath}/project/selectMyProjectYes','${memberLoggedIn.email}','myProjectYes','myProjectYes');" />
+	<hr />
+	<!-- 내가 만드 프로젝트(컨펌거부) --> 
+	<p class="title">
 			승인 거절 
-		</p>
+	</p>
+	<div class="index-project" id="myProjectNo">
+		
 		
 	</div>
-
+	<input type="button" value="더보기" class = "btn btn-success" style = "width:1024px; margin: auto;"  onclick = "toNextAjax('${pageContext.request.contextPath}/project/selectMyProjectNo',${memberLoggedIn.email}','myProjectNo','myProjectNo');" />
+	
 </div>
 
 <script>
-
 	function fn_gotoProjectView(){
 		$(".project").click(function(){
 	        var projectNo = $(this).children("#projectNo").val();
