@@ -77,12 +77,6 @@ public class InterestController {
 		
 		return mav;
 	}
-	@RequestMapping("/interest/messageModal.do")
-	public String messageInsert(@RequestParam("projectNo") int projectNo) {
-		
-		
-		
-		return "interest/messageModal";
-	}
+	
 	
 }
