@@ -5,27 +5,102 @@ div#make-project{
 	position: relative;
 }
 
+/* 공지 */
+div.make-project-notice div{
+    margin: 0 auto 15px;
+	width: 80%;
+	text-align: center;
+	font-size: 13px;
+}
+div.make-project-notice img{
+	width: 18px;
+	height: 18px;
+}
+
 /* 버튼 */
 div.make-project-btn{
-	position: relative;
     text-align: center;
-    margin: 30px 0;
+    margin: 30px auto 50px;
+    width: 80%;
 }
+div.make-project-btn img{
+	width: 25px;
+	height: 25px;
+}
+div.make-project-btn button{
+	width: 48%;
+	padding: 10px;
+	border-radius: 10px;
+	background: white;
+	font-size: 16px;
+	font-weight: bold;
+	box-sizing: border-box;
+    cursor: pointer;
+}
+div.make-project-btn button:first-of-type{
+	color: #303030;
+	border: 1px dashed #303030;
+	margin-right: 1.5%;
+}
+div.make-project-btn button:first-of-type:hover{
+	border: 1px solid #303030; 
+}
+div.make-project-btn button:last-of-type{
+	color: #DC3545;
+	border: 1px dashed #DC3545;
+	margin-left: 1.5%;
+}
+div.make-project-btn button:last-of-type:hover{
+	border: 1px solid #DC3545;
+}
+div.make-project-btn button.prevBtn, div.make-project-btn button.nextBtn{
+	width: 12%;
+	padding: 10px;
+	border-radius: 5px;
+	font-size: 18px;
+	font-weight: bold;
+	box-sizing: border-box;
+    cursor: pointer;
+    border: 0;
+    margin: 0;
+}
+div.make-project-btn button.prevBtn img, div.make-project-btn button.nextBtn img{
+	width: 25px;
+	height: 25px;
+}
+div.make-project-btn button.prevBtn{
+	background: #e0e1e2;
+	color: #676768;
+	float: left;
+}
+div.make-project-btn button.nextBtn{
+	background: #3a6ff2;
+	color: #DEDEDE;
+	float: right;
+}
+div.make-project-btn button.prevBtn:hover{
+	background: #cacbcd;
+	border: 0;
+}
+div.make-project-btn button.nextBtn:hover{
+	background: #1859fb;
+	border: 0;
+}
+
+/* 섹션 제목 */
 div.make-project-title{
-	margin: 0 auto;
+	margin: 65px auto 0;
 	position: relative;
 	width: 100%;
 	text-align: center;
 }
-
-/* 섹션 제목 */
 div.section-title{
     display: inline-block;
     width: 20%;
-    height: 60px;
-    padding: 13px;
+    padding: 20px 13px;
     box-sizing: border-box;
     font-weight: bold;
+    cursor: pointer;
 }
 div.selected-title{
 	border-top: 1px solid darkgray;
@@ -34,6 +109,7 @@ div.selected-title{
 	background: #f5f5f5;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
+    cursor: auto;
 }
 div.section-title img{
 	width : 18px;
@@ -71,7 +147,7 @@ div.make-project-content div{
     padding: 20px 30px 10px;
 }
 div.make-project-content div.shown:hover{
-    background: #eaeaea;
+    background: #f0f5ff;
     cursor: pointer;
 }
 div.make-project-content div:last-of-type, div.make-project-content div:nth-last-of-type(2){
@@ -79,6 +155,7 @@ div.make-project-content div:last-of-type, div.make-project-content div:nth-last
 }
 div.make-project-content div.hidden{
 	display: none;
+	background: #f0f5ff;
 }
 div.make-project-content div p:first-of-type{
 	font-weight: bold;
@@ -89,4 +166,74 @@ div.make-project-content div p:last-of-type{
 }
 div.make-project-content div p:last-of-type span:last-of-type{
 	float: right;
+}
+div.make-project-content div.hidden p:nth-of-type(2){
+	font-size: 13px;
+	color: darkgray;
+}
+div.make-project-content div.hidden input, div.make-project-content div.hidden select{
+	height: 35px;
+	width: 100%;
+	border-radius: 5px;
+	border: 2px solid #ccdafc;
+	padding: 0 10px;
+}
+div.make-project-content div.hidden textarea{
+	width: 100%;
+	border-radius: 5px;
+	border: 2px solid #ccdafc;
+	padding: 10px;
+}
+div.make-project-content div.hidden p:nth-of-type(3){
+	text-align: right;
+}
+div.make-project-content div.hidden span.letter-cnt{
+	display: block;
+	font-size: 13px;
+	color: darkgray;
+	text-align: right;
+}
+div.make-project-content div.hidden button.uploadBtn{
+	width: 140px;
+	height: 35px;
+	font-size: 13px;
+	font-weight: bold;
+	border: 0;
+	border-radius: 5px;
+	background: lightblue;
+	cursor: pointer;
+}
+div.make-project-content div.hidden input.hiddenInput{
+	visibility: hidden;
+}
+div.make-project-content div.hidden p:last-of-type{
+	text-align: right;
+}
+div.make-project-content div.hidden p:last-of-type button{
+	width: 100px;
+	height: 35px;
+	font-size: 13px;
+	font-weight: bold;
+	border: 0;
+	border-radius: 5px;
+}
+div.make-project-content div.hidden p:last-of-type button:first-of-type{
+	background: #e0e1e2;
+	color: #5a5a5a;
+}
+div.make-project-content div.hidden p:last-of-type button:first-of-type:hover{
+	border: 2px solid #cacbcd;
+	background: #cacbcd;
+	color: #282929;
+	cursor: pointer;
+}
+div.make-project-content div.hidden p:last-of-type button:last-of-type{
+	background: #f4b4b8;
+	color: #f7faff;
+}
+div.make-project-content div.hidden p:last-of-type button:last-of-type:hover{
+	background: #fa6462;
+	color: white;
+	cursor: pointer;
+	border: 0;
 }
