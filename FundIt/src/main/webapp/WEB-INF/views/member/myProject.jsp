@@ -15,7 +15,6 @@ var projectNoPage = 4;
 
 $(function(){
 	
-	
 	var email = $("#email").val().trim();
 	console.log(email);
 	/* profileImgage */
@@ -133,7 +132,7 @@ $(function(){
 function htmlAppend(project, div_name){
 	var html = '';
 	
-	html += '<div class="project" onclick = "fn_gotoProjectView();">';
+	html += '<div class="project"  onclick = "fn_gotoProjectView();">';
 	html += '<input type="hidden" name="projectNo" id ="projectNo" value="'+project.projectNo+'" />';
 	html += '<img src="${pageContext.request.contextPath }/resources/images/projects/'+project.projectImage+'" />';
 	if(project.deadlineDay > 0 && project.supportPercent >= 100){
@@ -249,7 +248,7 @@ function toNextAjax(urlMapping, email, pageName, div_name){
 
 </script>
 <style>
-div#myProfile-container{
+div.myProfile-container{
 width : 100%;
 height : 500px;
 background-color : #ebeae5;
@@ -275,7 +274,7 @@ padding-top : 100px;
 	
 }
 
-div#index-container{
+div#myProjectList-container{
 width: 70%;
 min-height: 50%;
 margin : auto;
@@ -291,7 +290,7 @@ font-weight : bolder;
 </style>
 
 
-<div id="myProfile-container">
+<div class="myProfile-container">
 	<div id = "changable-content">
 	<div id="img-container">
 	
@@ -304,34 +303,39 @@ font-weight : bolder;
 	
 
 
-<div id="index-container">
+<div id="myProjectList-container">
 		<p class="title">
 			내가만든 프로젝트 <span id="cnt" style="color:tomato;"></span> 개 
 		</p>
 		
 	<!-- 내가 만든 프로젝트(컨펌받은 전) -->
-	<div class="index-project" id="myProjectYet">
-		<p class="title">
+	<p class="title" style = "margin-bottom : 20px;">
 			승인대기중 
-		</p>
+	</p>
+	<div class="index-project" id="myProjectYet">
+		
 		
 	</div>
 	<input type="button" value="더보기" class = "btn btn-success" style = "width:1024px; margin: auto;"  onclick = "toNextAjax('${pageContext.request.contextPath}/project/selectMyProjectYet','${memberLoggedIn.email}','myProjectYet','myProjectYet');" />
 	<hr />
 	<!-- 내가 만드 프로젝트(진행중) -->
-	<div class="index-project" id="myProjectYes">
-		<p class="title" >
+	<p class="title" >
 			진행 중
 		</p>
+	<div class="index-project" id="myProjectYes">
+		
+		
+		
 		
 	</div>
 	<input type="button" class = "btn btn-success" style = "width:1024px; margin: auto;" value="더보기" onclick = "toNextAjax('${pageContext.request.contextPath}/project/selectMyProjectYes','${memberLoggedIn.email}','myProjectYes','myProjectYes');" />
 	<hr />
 	<!-- 내가 만드 프로젝트(컨펌거부) --> 
-	<div class="index-project" id="myProjectNo">
-		<p class="title">
+	<p class="title">
 			승인 거절 
-		</p>
+	</p>
+	<div class="index-project" id="myProjectNo">
+		
 		
 	</div>
 	<input type="button" value="더보기" class = "btn btn-success" style = "width:1024px; margin: auto;"  onclick = "toNextAjax('${pageContext.request.contextPath}/project/selectMyProjectNo',${memberLoggedIn.email}','myProjectNo','myProjectNo');" />

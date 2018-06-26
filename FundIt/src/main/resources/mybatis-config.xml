@@ -9,5 +9,6 @@
 		<typeAlias type="com.kh.fundit.project.model.vo.ProjectView" alias="projectView" />
 		<typeAlias type="com.kh.fundit.project.model.vo.Profile" alias="profile2" />
 		<typeAlias type="com.kh.fundit.project.model.vo.ProjectGift" alias="projectGift" />
+		<typeAlias type="com.kh.fundit.gift.model.vo.Gift" alias="gift" />
 	</typeAliases>
 </configuration>
