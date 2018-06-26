@@ -41,16 +41,23 @@
 
   div.maincontainer{text-align: center; padding: 80px;}
 </style>
+<script>
+window.onload = function () {
+	$("#loggedinemail").hide();
+	
+}
+</script>
     <div class="maincontainer">
         <h1 id="messageContainer">
            <img src="${pageContext.request.contextPath }/resources/images/message/message.png" alt="" />Message
         </h1>
+        <input type="text" value="검색" />
         </div>
 
 <section>
 <div id="container" class="container">
 
-<input type="button" value="보낸 메세지" id="btn-add" class="btn btn-outline-success" onclick="location.href='${pageContext.request.contextPath}/message/messageList2.do?email=${memberLoggedIn.email }'" />
+<input type="button" value="받은 메세지함" id="btn-add" class="btn btn-outline-success" onclick="location.href='${pageContext.request.contextPath}/message/messageList.do?email=${memberLoggedIn.email }'" />
 <table class="table">
 	<tr>
 		<th>번호</th>
@@ -74,7 +81,11 @@
 <c:if test="${empty list }">
 			<h1>아직 메세지가 등록되지 않았습니다~~~~ㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎ</h1>
 		</c:if>
-<input type="text" value="${param.email }" name="email" />
+		<form action="messageSelect2.do">
+<input type="text" value="${param.email }" name="email" id="loggedinemail"/> 
+<input type="text" placeholder="메일검색" onkeydown="JavaScript:Enter_Check();" name="messageSelect" value="" />
+<input type="submit" value="확인" />
+</form>
 </table>
 </div>
 <!-- 페이지바 -->

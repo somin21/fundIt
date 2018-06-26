@@ -38,15 +38,22 @@
 #messageContainer{
 	font-size: 70px;
 }
-
   div.maincontainer{text-align: center; padding: 80px;}
 </style>
+<script>
+window.onload = function () {
+	$("#loggedinemail").hide();
+	
+}
+
+
+</script>
     <div class="maincontainer">
         <h1 id="messageContainer">
            <img src="${pageContext.request.contextPath }/resources/images/message/message.png" alt="" />Message
         </h1>
         </div>
-
+	
 <section>
 <div id="container" class="container">
 
@@ -74,7 +81,12 @@
 <c:if test="${empty list }">
 			<h1>아직 메세지가 등록되지 않았습니다~~~~ㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎ</h1>
 		</c:if>
-<input type="text" value="${param.email }" name="email" />
+		<form action="messageSelect.do">
+<input type="text" value="${param.email }" name="email" id="loggedinemail"/> 
+<input type="text" placeholder="메일검색" onkeydown="JavaScript:Enter_Check();" name="messageSelect" value="" />
+<input type="submit" value="확인" />
+</form>
+
 </table>
 </div>
 <!-- 페이지바 -->

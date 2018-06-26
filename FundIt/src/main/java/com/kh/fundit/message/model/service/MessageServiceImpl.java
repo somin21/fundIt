@@ -52,6 +52,15 @@ public class MessageServiceImpl implements MessageService {
 		return messageDAO.totalMessageCount2(email);
 	}
 
+	@Override
+	public List<Message> selectMessageList3(Map<String, Object> map, int cPage, int numPerPage) {
+		return messageDAO.selectMessageList3(map,cPage,numPerPage);
+	}
+
+	@Override
+	public int totalMessageCount3(Map<String, Object> map) {
+		return messageDAO.totalMessageCount3(map);
+	}
 
 
 

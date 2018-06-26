@@ -29,4 +29,12 @@ insert into message values(seq_message_no.nextval,'${messageContent}',default,'$
 <select id="totalMessageCount2" resultType="_int">
 	select count(*)as cnt from message where sendEmail = #{email}
 </select>
+
+<select id="selectMessageList3" resultType="message">
+	select * from message where receiveEmail = #{email} and messageContent like '%'||#{messageSelect}||'%' or sendEmail like '%'||#{messageSelect}||'%'
+</select>
+<select id="totalMessageCount3" resultType="_int">
+	select count(*)as cnt from message where receiveEmail = #{email} and messageContent like '%'||#{messageSelect}||'%' or sendEmail like '%'||#{messageSelect}||'%'
+</select>
+
 </mapper>

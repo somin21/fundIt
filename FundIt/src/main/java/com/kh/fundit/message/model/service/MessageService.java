@@ -21,7 +21,10 @@ public interface MessageService {
 
 	int totalMessageCount2(String email);
 
+	List<Message> selectMessageList3(Map<String, Object> map, int cPage, int numPerPage);
 
-	
+	int totalMessageCount3(Map<String, Object> map);
+
+
 
 }
