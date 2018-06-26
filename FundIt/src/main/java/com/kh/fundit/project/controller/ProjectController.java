@@ -314,9 +314,7 @@ public class ProjectController {
 		for(ProjectView v : list) {
 			title = v.getProjectTitle();
 			calculateduedDate = v.getCalculateduedDate();
-		}
-		System.out.println(title);
-		
+		}		
 		
 		mav.addObject("List",List);
 		mav.addObject("projectNo",no);
@@ -326,8 +324,60 @@ public class ProjectController {
 		
 		return mav;
 	}
-	
-	
+//	희영
+	@RequestMapping("/project/approval.do")
+	public ModelAndView approval(@RequestParam int projectNo, String itemName, int itemnumber, int num, String title ) {
+		ModelAndView mav = new ModelAndView();
+		
+		System.out.println("projectNo="+projectNo+"itemName="+itemName+"itemnumber="+itemnumber+"num="+num);
+
+		mav.addObject("projectNo",projectNo);
+		mav.addObject("itemName",itemName);
+		mav.addObject("itemnumber",itemnumber);
+		mav.addObject("num",num);
+		mav.addObject("title",title);
+		mav.setViewName("project/approval");
+		
+		return mav;
+	}
+//	희영
+	@RequestMapping("/project/payments.do")
+	public ModelAndView approval(@RequestParam String imp_uid, String merchant_uid, String apply_num, int amount, String buyer_id, int projectNo ) {
+		ModelAndView mav = new ModelAndView();
+		
+		System.out.println("코드="+imp_uid+" merchant_uid="+merchant_uid+" 카드번호="+apply_num+" 결제금액="+amount+" 유저아이디="+buyer_id+"프로젝트번호="+projectNo);
+		/*System.out.println("projectNo="+projectNo+"itemName="+itemName+"itemnumber="+itemnumber+"num="+num);
+
+		mav.addObject("projectNo",projectNo);
+		mav.addObject("itemName",itemName);
+		mav.addObject("itemnumber",itemnumber);
+		mav.addObject("num",num);
+		mav.addObject("title",title);*/
+		String loc = "/";
+		String msg = "";
+		
+		/*if(cnt==0) {
+			//관심프로젝트 등록하기
+			int result = projectService.interestInsert(map);
+			
+			
+			if(result>0) {
+				msg = "관심등록 성공! 마이페이지에서 확인하세요.";
+				loc = "/project/projectView.do?projectNo="+no;
+			}else {
+				msg = "관심등록 실패";
+			}
+		}else if(cnt>0) {
+			msg = "이미 관심등록이 되어있습니다. 마이페이지에서 확인하세요.";
+			loc = "/project/projectView.do?projectNo="+no;
+		}*/
+		
+		mav.addObject("msg",msg);
+		mav.addObject("loc",loc);
+		mav.setViewName("common/msg");
+		
+		return mav;
+	}
 
 //	소민
 	@RequestMapping("/project/makeProject/outline")
