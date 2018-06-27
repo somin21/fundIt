@@ -12,8 +12,10 @@ import com.kh.fundit.member.model.vo.Member;
 import com.kh.fundit.project.model.dao.ProjectDAO;
 import com.kh.fundit.project.model.vo.ListProjectView;
 import com.kh.fundit.project.model.vo.Profile;
+import com.kh.fundit.project.model.vo.ProjectDelivery;
 import com.kh.fundit.project.model.vo.ProjectGift;
 import com.kh.fundit.project.model.vo.ProjectOutline;
+import com.kh.fundit.project.model.vo.ProjectSupport;
 import com.kh.fundit.project.model.vo.ProjectView;
 
 @Service
@@ -123,10 +125,35 @@ public class ProjectServiceImpl implements ProjectService {
 		return projectDAO.interestDelete(map);
 	}
 
-
+//희영
 	@Override
 	public List<ProjectGift> projectGiftList(Map<String, Object> map) {
 		return projectDAO.projectGiftList(map);
+	}
+//희영
+	@Override
+	public int insertPayment(Map<String, Object> map) {
+		return projectDAO.insertPayment(map);
+	}
+//희영
+	@Override
+	public List<ProjectGift> projectSeelctGift(Map<String, Object> map) {
+		return projectDAO.projectSeelctGift(map);
+	}
+//희영
+	@Override
+	public int supportInsert(Map<String, Object> map) {
+		return projectDAO.supportInsert(map);
+	}
+//희영
+	@Override
+	public ProjectSupport supportList(Map<String, Object> map) {
+		return projectDAO.supportList(map);
+	}
+
+	@Override
+	public int deliveryInsert(Map<String, Object> map) {
+		return projectDAO.deliveryInsert(map);
 	}
 
 }

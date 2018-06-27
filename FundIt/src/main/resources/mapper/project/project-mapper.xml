@@ -151,5 +151,23 @@
 		where p.projectno = ${projectNo}
 		order by itemno
 	</select>
+	<select id="projectSeelctGift" resultType="ProjectGift">
+		select p.projectno, p.minmoney, p.itemnumber, i.itemname, p.itemno, p.giftexplain, p.deliveryyn, p.giftrefund 
+		from project_gift p join item i on p.projectno = i.projectno
+		where p.projectno = ${projectNo} and i.itemname = '${itemName}'
+		order by itemno
+	</select>
+	<insert id="supportInsert">
+		insert into support values(seq_support_no.nextval,'${buyer_id}','${projectNo}','${itemMoney}','${addMoney}',default)
+	</insert>
+	<select id="supportList" resultType="projectSupport">
+		select * from support where projectno = ${projectNo} and payyn is null and email='${buyer_id}'
+	</select>
+	<insert id="deliveryInsert">
+		insert into delivery values(${supportNo},'${buyer_id}','${projectNo}','${address}','${calculateduedDate}','${postcode}')
+	</insert>
+	<insert id="insertPayment">
+		insert into payment values('${imp_uid}','${amount}','${buyer_id}','${apply_num}','${supportNo}','${merchant_uid}')
+	</insert>
 	
 </mapper>

@@ -10,7 +10,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
@@ -21,9 +23,11 @@ import com.kh.fundit.member.model.vo.Member;
 import com.kh.fundit.member.model.vo.Profile;
 import com.kh.fundit.project.model.service.ProjectService;
 import com.kh.fundit.project.model.vo.ListProjectView;
+import com.kh.fundit.project.model.vo.ProjectDelivery;
 import com.kh.fundit.project.model.vo.ProjectGift;
 /*import com.kh.fundit.project.model.vo.Profile;*/
 import com.kh.fundit.project.model.vo.ProjectOutline;
+import com.kh.fundit.project.model.vo.ProjectSupport;
 import com.kh.fundit.project.model.vo.ProjectView;
 
 @Controller
@@ -341,11 +345,12 @@ public class ProjectController {
 		return mav;
 	}
 //	희영
-	@RequestMapping("/project/payments.do")
-	public ModelAndView approval(@RequestParam String imp_uid, String merchant_uid, String apply_num, int amount, String buyer_id, int projectNo ) {
+	@RequestMapping(value="/project/payments.do",method=RequestMethod.POST,produces="application/json; charset=utf8")
+	public ModelAndView approval(@RequestParam String imp_uid, String merchant_uid, String apply_num, int amount, 
+			String buyer_id, int projectNo, String itemName, String postcode, String address) {
 		ModelAndView mav = new ModelAndView();
 		
-		System.out.println("코드="+imp_uid+" merchant_uid="+merchant_uid+" 카드번호="+apply_num+" 결제금액="+amount+" 유저아이디="+buyer_id+"프로젝트번호="+projectNo);
+		System.out.println("코드="+imp_uid+" merchant_uid="+merchant_uid+" 카드번호="+apply_num+" 결제금액="+amount+" 유저아이디="+buyer_id+"프로젝트번호="+projectNo+"아이템="+itemName+"주소="+address);
 		/*System.out.println("projectNo="+projectNo+"itemName="+itemName+"itemnumber="+itemnumber+"num="+num);
 
 		mav.addObject("projectNo",projectNo);
@@ -353,28 +358,62 @@ public class ProjectController {
 		mav.addObject("itemnumber",itemnumber);
 		mav.addObject("num",num);
 		mav.addObject("title",title);*/
-		String loc = "/";
-		String msg = "";
 		
-		/*if(cnt==0) {
-			//관심프로젝트 등록하기
-			int result = projectService.interestInsert(map);
-			
-			
-			if(result>0) {
-				msg = "관심등록 성공! 마이페이지에서 확인하세요.";
-				loc = "/project/projectView.do?projectNo="+no;
-			}else {
-				msg = "관심등록 실패";
-			}
-		}else if(cnt>0) {
-			msg = "이미 관심등록이 되어있습니다. 마이페이지에서 확인하세요.";
-			loc = "/project/projectView.do?projectNo="+no;
-		}*/
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("imp_uid", imp_uid);
+		map.put("merchant_uid", merchant_uid);
+		map.put("apply_num", apply_num);
+		map.put("amount", amount);
+		map.put("buyer_id", buyer_id);
+		map.put("projectNo", projectNo);
+		map.put("itemName", itemName);
+		map.put("postcode", postcode);
+		map.put("address", address);
 		
-		mav.addObject("msg",msg);
-		mav.addObject("loc",loc);
-		mav.setViewName("common/msg");
+		//기프트 정보가져오기
+		List<ProjectGift> list = projectService.projectSeelctGift(map);
+		
+		System.out.println("GiftList="+list);
+		//기프트 가격 및 추가 가격 구분하기
+		int itemMoney = 0;
+		int addMoney = 0;
+		for(ProjectGift v : list) {
+			itemMoney = v.getMinMoney();
+			addMoney = Math.abs(amount - itemMoney);
+		}
+		map.put("itemMoney", itemMoney);
+		map.put("addMoney", addMoney);
+		
+		System.out.println("아이템 가격="+itemMoney+"추가금액="+addMoney);
+		
+		//서포트테이블 추가
+		int result = projectService.supportInsert(map);
+		//서포트테이블 리스트 및 넘버
+		ProjectSupport ps = projectService.supportList(map);
+		System.out.println("서포터리스트="+ps);
+		int supportNo = ps.getSupportNo();
+		map.put("supportNo", supportNo);
+		
+		//프로젝트리스트뽑기
+		List<ProjectView> pList = projectService.projectView(map);
+		//결재날짜=배송시작날짜 뽑기
+		Date calculateduedDate = null;
+		for(ProjectView v : pList) {
+			calculateduedDate = v.getCalculateduedDate();
+		}
+		map.put("calculateduedDate", calculateduedDate);
+		
+		//배송정보 테이블 추가
+		int result2 = projectService.deliveryInsert(map);
+		
+		
+		//결재정보테이블 추가
+		int result3 = projectService.insertPayment(map);
+		
+		System.out.println("result="+result+"result2="+result2+"result3="+result3);
+		
+		mav.addAllObjects(map);
+		mav.setViewName("jsonView");
 		
 		return mav;
 	}

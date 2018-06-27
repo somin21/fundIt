@@ -26,11 +26,11 @@ table td#td{width: 70%}
 		<table class="inputTable">
 			<tr>
 				<td><label for="itemName" id="a">상 품 명   : </label></td>
-				<td id="td"><input type="text" id="itemName" class="form-control" value="${itemName }"/><br /></td>
+				<td id="td"><input type="text" id="itemName" class="form-control" value="${itemName }" readonly/><br /></td>
 			</tr>
 			<tr>
 				<td><label for="amount" id="a">후원금액 : </label></td>
-				<td id="td"><input type="number" id="amount" class="form-control" value="${num }"/><br /></td>
+				<td id="td"><input type="number" id="amount" class="form-control" value="${num }" readonly/><br /></td>
 			</tr>
 			<tr>
 				<td><label for="buyer_id" id="a">결 재 ID  : </label></td>
@@ -88,7 +88,8 @@ table td#td{width: 70%}
 	var buyer_name = $("#buyer_name").val();
 	var buyer_email = $("#buyer_email").val();
 	var buyer_tel = $("#buyer_tel").val();
-	var address = $("#sample4_postcode").val()+" "+$("#sample4_roadAddress").val()+" "+$("#sample4_jibunAddress").val();
+	var postcode = $("#sample4_postcode").val()
+	var address = $("#sample4_roadAddress").val()+" "+$("#sample4_jibunAddress").val();
 	var projectNo = ${projectNo};
 	
 	IMP.init('imp17080880');
@@ -110,27 +111,37 @@ table td#td{width: 70%}
 	    	jQuery.ajax({
 	    		url: "/project/payments.do", //cross-domain error가 발생하지 않도록 주의해주세요
 	    		type: 'POST',
+	    		method: 'POST',
 	    		dataType: 'json',
 	    		data: {
-		    		imp_uid : rsp.imp_uid,				//고유코드
+	    			imp_uid : rsp.imp_uid,				//고유코드
 		    		merchant_uid : rsp.merchant_uid,	//고유코드
 		    		//기타 필요한 데이터가 있으면 추가 전달
 		    		apply_num : rsp.apply_num, 			//카드 승인번호
 		    		amount : rsp.paid_amount,	//결재금액
 		    		buyer_id : buyer_id, 		//fundit ID
-		    		projectNo :  	//프로젝트 NO
-	    		},
-	    		success:function(){
-	    			jQuery.ajax({
-	    	    		url: "/payments/complete", //cross-domain error가 발생하지 않도록 주의해주세요
-	    	    		type: 'POST',
-	    	    		dataType: 'json',
-	    	    		data: {
-	    		    		imp_uid : rsp.imp_uid,				//고유코드
-	    		    		merchant_uid : rsp.merchant_uid,	//고유코드
-	    		    		//기타 필요한 데이터가 있으면 추가 전달
-	    	    		}
+		    		projectNo : projectNo, 		//프로젝트 NO
+		    		itemName : itemName, 		//상품명
+		    		postcode : postcode, 		//우편번호
+		    		address : address 			//주소
 	    		}
+	    		,
+	    		success:function(data){
+	    			console.log(data);
+	    			jQuery.ajax({		
+	    		    	url: "/payments/complete", //cross-domain error가 발생하지 않도록 주의해주세요
+			    		type: 'POST',
+			    		dataType: 'json',
+			    		data: {
+				    		imp_uid : rsp.imp_uid,				//고유코드
+				    		merchant_uid : rsp.merchant_uid,	//고유코드
+				    		//기타 필요한 데이터가 있으면 추가 전달
+			    	    }
+	    			})
+	    		},
+	    		error : function(jqxhr,textStatus,errorThrown){
+					console.log("ajax실패",jqxhr,textStatus,errorThrown);
+				}
 	    	}).done(function(data) {
 	    		//[2] 서버에서 REST API로 결제정보확인 및 서비스루틴이 정상적인 경우
 	    		if ( everythings_fine ) {
@@ -141,6 +152,8 @@ table td#td{width: 70%}
 	    			msg += '카드 승인번호 : ' + rsp.apply_num;
 	    			
 	    			alert(msg);
+	    			
+	    			location.href ="${pageContext.request.contextPath}/project/projectView?projectNo="+projectNo ;
 	    		} else {
 	    			//[3] 아직 제대로 결제가 되지 않았습니다.
 	    			//[4] 결제된 금액이 요청한 금액과 달라 결제를 자동취소처리하였습니다.
