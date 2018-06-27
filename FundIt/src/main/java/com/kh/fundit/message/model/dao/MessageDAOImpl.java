@@ -64,6 +64,34 @@ public class MessageDAOImpl implements MessageDAO {
 		return sqlSession.selectOne("message.totalMessageCount3",map);
 	}
 
+	@Override
+	public List<Message> selectMessageList4(Map<String, Object> map, int cPage, int numPerPage) {
+		RowBounds rowBounds = new RowBounds((cPage-1)*numPerPage,numPerPage);
+		return sqlSession.selectList("message.selectMessageList4",map,rowBounds);
+	}
+
+	@Override
+	public int totalMessageCount4(Map<String, Object> map) {
+		return sqlSession.selectOne("message.totalMessageCount4",map);
+	}
+
+	@Override
+	public int readyn(Map<String, Object> map) {
+		return sqlSession.update("message.readyn",map);
+	}
+
+	@Override
+	public List<Message> selectMessageList5(Map<String, Object> map, int cPage, int numPerPage) {
+		RowBounds rowBounds = new RowBounds((cPage-1)*numPerPage,numPerPage);
+		return sqlSession.selectList("message.selectMessageList5",map,rowBounds);
+	}
+
+	@Override
+	public int totalMessageCount5(Map<String, Object> map) {
+		return sqlSession.selectOne("message.totalMessageCount5",map);
+	}
+
+
 
 
 	

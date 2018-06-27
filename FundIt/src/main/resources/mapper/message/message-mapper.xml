@@ -37,4 +37,24 @@ insert into message values(seq_message_no.nextval,'${messageContent}',default,'$
 	select count(*)as cnt from message where receiveEmail = #{email} and messageContent like '%'||#{messageSelect}||'%' or sendEmail like '%'||#{messageSelect}||'%'
 </select>
 
+<select id="selectMessageList4" resultType="message">
+	select * from message where sendEmail = #{email} and messageContent like '%'||#{messageSelect}||'%' or receiveEmail like '%'||#{messageSelect}||'%'
+</select>
+<select id="totalMessageCount4" resultType="_int">
+	select count(*)as cnt from message where sendEmail = #{email} and messageContent like '%'||#{messageSelect}||'%' or receiveEmail like '%'||#{messageSelect}||'%'
+</select>
+
+<update id="readyn">
+ update message set readyn = 'Y' where messageNo = #{messageNo}
+</update>
+
+<select id="selectMessageList5" resultType="message">
+	select * from message where receiveEmail = #{email} and readyn ='Y'
+</select>
+<select id="totalMessageCount5" resultType="_int">
+	select count(*)as cnt from message where receiveEmail = #{email} and readyn ='Y' 
+</select>
+
+
+
 </mapper>

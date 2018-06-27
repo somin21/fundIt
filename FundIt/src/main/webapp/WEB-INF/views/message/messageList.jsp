@@ -39,12 +39,21 @@
 	font-size: 70px;
 }
   div.maincontainer{text-align: center; padding: 80px;}
+  
+.content{
+width:300px;
+display:inline-block;
+overflow: hidden;
+text-overflow: ellipsis;
+white-space:nowrap;
+} 
 </style>
 <script>
 window.onload = function () {
 	$("#loggedinemail").hide();
 	
 }
+
 
 
 </script>
@@ -56,25 +65,27 @@ window.onload = function () {
 	
 <section>
 <div id="container" class="container">
-
-<input type="button" value="보낸 메세지" id="btn-add" class="btn btn-outline-success" onclick="location.href='${pageContext.request.contextPath}/message/messageList2.do?email=${memberLoggedIn.email }'" />
+<input type="button" value="받은 메세지함" id="btn-add" class="btn btn-outline-success" onclick="location.href='${pageContext.request.contextPath}/message/messageList.do?email=${memberLoggedIn.email }'" />
+<input type="button" value="보낸 메세지함" id="btn-add" class="btn btn-outline-success" onclick="location.href='${pageContext.request.contextPath}/message/messageList2.do?email=${memberLoggedIn.email }'" />
+<input type="button" value="읽은 메세지함" id="btn-add" class="btn btn-outline-success" onclick="location.href='${pageContext.request.contextPath}/message/messageList5.do?email=${memberLoggedIn.email }'" />
+<br /><br />
 <table class="table">
 	<tr>
-		<th>번호</th>
-		<th>내용</th>
-		<th>수신 여부</th>
+	<!-- 	<th>번호</th> -->
+		<th class="content">내용</th>
+		<th>읽음 여부</th>
 		<th>보낸이</th>
-		<th>받은사람</th>
+		<!-- <th>받은사람</th> -->
 		<th>받은시간</th>
 	</tr>
 
 	<c:forEach items="${list}" var="message">
 		<tr>
-			<td>${message.messageNo}</td>
-			<td><a href="${pageContext.request.contextPath }/message/messageModal2.do?email=${message.receiveEmail}&email2=${message.sendEmail}&messageNo=${message.messageNo}">${message.messageContent }</a></td>
+			<%-- <td>${message.messageNo}</td> --%>
+			<td ><a href="${pageContext.request.contextPath }/message/messageModal2.do?email=${message.receiveEmail}&email2=${message.sendEmail}&messageNo=${message.messageNo}" class="content">${message.messageContent } </a></td>
 			<td>${message.readyn }</td>
 			<td>${message.sendEmail }</td>
-			<td>${message.receiveEmail }</td>
+		<%-- 	<td>${message.receiveEmail }</td> --%>
 			<td>${message.messageDate }</td>
 		</tr>
 	</c:forEach>
@@ -101,6 +112,9 @@ window.onload = function () {
 		
 	}
 %>
+
 <%=com.kh.fundit.message.util.Utils.getPageBar(count,cPage,numPerPage,"messageList.do",email) %>
+
+
 </section>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
