@@ -1,8 +1,12 @@
 package com.kh.fundit.admin.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
+import com.kh.fundit.admin.model.vo.AdminProjectView;
 import com.kh.fundit.project.model.vo.ListProjectView;
+import com.kh.fundit.project.model.vo.Profile;
+import com.kh.fundit.project.model.vo.ProjectGift;
 
 public interface AdminDAO {
 
@@ -11,6 +15,18 @@ public interface AdminDAO {
 	int updateIndexYN();
 
 	int updateAdminIndexYN(String[] arr);
+
+	List<ListProjectView> projectConfirmList();
+
+	List<AdminProjectView> adminProjectView(Map<String, Object> map);
+
+	List<ProjectGift> projectGiftList(Map<String, Object> map);
+
+	Profile profileUser(String userEmail);
+
+	int projectConfirmY(String no);
+
+	int projectConfirmF(String no);
 
 
 }

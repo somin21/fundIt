@@ -1,12 +1,16 @@
 package com.kh.fundit.admin.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.fundit.admin.model.vo.AdminProjectView;
 import com.kh.fundit.project.model.vo.ListProjectView;
+import com.kh.fundit.project.model.vo.Profile;
+import com.kh.fundit.project.model.vo.ProjectGift;
 
 @Repository
 public class AdminDAOImpl implements AdminDAO {
@@ -22,7 +26,6 @@ public class AdminDAOImpl implements AdminDAO {
 	@Override
 	public int updateIndexYN() {
 		int result = sqlSession.update("admin.updateIndex");
-		System.out.println("22222222222222222"+ result);
 		return result;
 	}
 
@@ -30,7 +33,36 @@ public class AdminDAOImpl implements AdminDAO {
 	public int updateAdminIndexYN(String[] arr) {
 		
 		int result = sqlSession.update("admin.updateAdminIndexYN",arr);
-		System.out.println("#333333333333333" + result);
 		return result;
+	}
+
+	@Override
+	public List<ListProjectView> projectConfirmList() {
+		return sqlSession.selectList("admin.projectConfirmList");
+	}
+
+	@Override
+	public List<AdminProjectView> adminProjectView(Map<String, Object> map) {
+		return sqlSession.selectList("admin.adminProjectView",map);
+	}
+
+	@Override
+	public List<ProjectGift> projectGiftList(Map<String, Object> map) {
+		return sqlSession.selectList("admin.projectGiftList",map);
+	}
+
+	@Override
+	public Profile profileUser(String userEmail) {
+		return sqlSession.selectOne("admin.profileUser",userEmail);
+	}
+
+	@Override
+	public int projectConfirmY(String no) {
+		return sqlSession.update("admin.projectConfirmY",no);
+	}
+
+	@Override
+	public int projectConfirmF(String no) {
+		return sqlSession.update("admin.projectConfirmF",no);
 	}
 }

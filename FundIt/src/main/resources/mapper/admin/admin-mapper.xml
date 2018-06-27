@@ -15,6 +15,7 @@
 		from (select * from project_outline where projectconfirmyn='Y' and projectdeadlineyn='N' order by projectdate desc) p join project_summary s on p.projectno = s.projectno
 	 ]]>
 	</select>
+	
 	<update id="updateIndex">
 		update project_outline set projectindexyn='N' where projectindexyn='Y'
 	</update>
@@ -26,5 +27,43 @@
 		</foreach>
 	</update>
 	
-
+	<select id="projectConfirmList" resultType="list_project_view">
+	<![CDATA[
+		select p.projectno, p.projectimage, p.projecttitle, 
+	        (select name from member m where p.email = m.email) name,
+	        (select trunc(deadlinedate - sysdate) from project_funding f where p.projectno = f.projectno) deadlineday
+		from (select * from project_outline where projectconfirmyn='N') p
+	 ]]>
+	</select>
+	
+	<select id="adminProjectView" resultType="adminProjectView">
+		select p.projectno, p.email, p.projectimage, p.projecttitle, p.categorycode,
+        	(select name from member m where p.email = m.email) name,
+        	(select trunc(deadlinedate - sysdate) from project_funding f where p.projectno = f.projectno) deadlineday,
+        	(select supportgoal from project_funding f where p.projectno = f.projectno) supportgoal,
+            (select CALCULATEDUEDATE from project_funding f where p.projectno = f.projectno) calculatedueddate,
+            (select introducemovie from project_story s where p.projectno = s.projectno) movie,
+            (select projectstory from project_story s where p.projectno = s.projectno) story
+		from (select * from project_outline where projectconfirmyn='N' and projectdeadlineyn='N' order by projectdate desc) p
+        where p.projectno = ${projectNo}
+	</select>
+	
+	<select id="projectGiftList" resultType="ProjectGift">
+		select p.projectno, p.minmoney, p.itemnumber, i.itemname, p.itemno, p.giftexplain, p.deliveryyn, p.giftrefund 
+		from project_gift p join item i on p.projectno = i.projectno
+		where p.projectno = ${projectNo}
+		order by itemno
+	</select>
+	
+	<select id="profileUser" resultType="profile2">
+		select * from profile where email = #{userEmail}
+	</select>
+	
+	<update id="projectConfirmY">
+		update project_outline set projectconfirmyn='Y' where projectno=#{no}
+	</update>
+	
+	<update id="projectConfirmF">
+		update project_outline set projectconfirmyn='F' where projectno=#{no}
+	</update>
 </mapper>
