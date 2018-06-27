@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="help">
+
+	<resultMap type="member" id="memberMap">
+		<result column="email" property="email"/>
+		<result column="password" property="password"/>
+		<result column="name" property="name"/>
+		<result column="newsyn" property="newsyn"/>
+		<result column="adminyn" property="adminyn"/>
+		<result column="enrolldate" property="enrollDate"/>
+		<result column="enrolldate" property="naveryn"/>
+	</resultMap>
+	
+	<insert id="insertHelpMassage">
+	insert into message values(seq_message_no.nextval,'${context}',default,'${userId}','${reciver}',default)
+	</insert>
+	
+</mapper>
