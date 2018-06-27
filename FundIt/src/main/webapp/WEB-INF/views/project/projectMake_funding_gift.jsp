@@ -26,8 +26,168 @@ span.bold-font{
 span.red-font{
 	color: red;
 }
+span.gray-font{
+	color: darkgray;
+}
 span#money-warning{
 	display: none;
+}
+/* 예상정산일 */
+div.make-project-content div#fund-duedate{
+    background: #f5f5f5;
+    height: 100px;
+    text-align: center;
+    font-size: 13px;
+    padding-top: 40px;
+    color: #616161;
+}
+/* 선물구성 */
+/* 선물구성 - shown div */
+div.make-project-content div#gift{
+	text-align: center;
+}
+div.make-project-content div#gift p:nth-of-type(2){
+	font-size: 13px;
+	color: #616161;
+}
+div.make-project-content div#gift button#addGiftBtn{
+	border: 2px solid #fa6462;
+	background: white;
+	font-weight: bold;
+	font-size: 15px;
+	border-radius: 5px;
+	color: #fa6462;
+	width: 100px;
+	height: 35px;
+	cursor: pointer;
+}
+/* 선물구성 - hidden div */
+div.make-project-content div#add-gift div:first-of-type{
+	padding: 0;
+}
+div.make-project-content div#add-gift div{
+	padding: 30px 0;
+}
+div.make-project-content div#add-gift p{
+	text-align: left;
+}
+div.make-project-content div#add-gift span{
+	float: none;
+}
+div.make-project-content div#add-gift div:not(#gift-title) p:first-of-type{
+	color: #616161;
+	font-size: 15px;
+}
+/* 선물구성 - 최소후원금액 */
+input#min-money::-webkit-outer-spin-button,
+input#min-money::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+div#add-gift div#gift-money input#min-money{
+	width: 25%;
+	font-size: 15px;
+}
+div#add-gift div#gift-money p:last-of-type span{
+	color: black;
+	font-size: 15px;
+}
+/* 선물구성 - 아이템 */
+div#add-gift div#item table{
+    width: 100%;
+    margin: 30px auto;
+    background: white;
+    font-size: 15px;
+}
+div#add-gift div#item table thead{
+	background: #e8e8e8;
+}
+div#add-gift div#item table tr{
+	border-bottom: 1px solid #e8e8e8;
+	height: 45px;
+}
+div#add-gift div#item table tr:last-of-type{
+	border-bottom: 0;
+}
+div#add-gift div#item table td{
+	padding: 0 10px;
+}
+div#add-gift div#item table td:first-of-type{
+    width: 10%;
+    text-align: center;
+}
+div#add-gift div#item table td:last-of-type{
+	width: 20%;
+	text-align: center;
+}
+div#add-gift div#item table img{
+	width: 20px;
+	height: 20px;
+	cursor: pointer;
+}
+div#add-gift div#item p:nth-of-type(3){
+	text-align: right;
+}
+div#add-gift div#item button#addItenBtn{
+    width: 20%;
+    height: 45px;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 15px;
+    font-weight: bold;
+    box-sizing: border-box;
+    cursor: pointer;
+    border: 0;
+    background: #3a6ff2;
+	color: #DBDBDB;
+}
+div#add-gift div#item button#addItenBtn:hover{
+	background: #1859fb;
+	border: 0;
+}
+/* 선물구성 - 선물설정 */
+div#add-gift div#gift-delivery input{
+	width: 15px;
+}
+div#add-gift div#gift-delivery label{
+	color: black;
+	font-size: 15px;
+	position: relative;
+	top: -11px;
+	margin-right: 30px;
+}
+/* 선물구성 - 닫기저장 버튼 */
+div#add-gift div#btnCloseSave{
+    padding: 0 0 30px;
+    text-align: right;
+}
+div#add-gift div#btnCloseSave button{
+	width: 100px;
+	height: 35px;
+	font-size: 13px;
+	font-weight: bold;
+	border: 0;
+	border-radius: 5px;
+}
+div#add-gift div#btnCloseSave button:first-of-type{
+	background: #e0e1e2;
+	color: #5a5a5a;
+}
+div#add-gift div#btnCloseSave button:first-of-type:hover{
+	border: 2px solid #cacbcd;
+	background: #cacbcd;
+	color: #282929;
+	cursor: pointer;
+}
+div#add-gift div#btnCloseSave button:last-of-type{
+	background: #f4b4b8;
+	color: #f7faff;
+}
+div#add-gift div#btnCloseSave button:last-of-type:hover{
+	background: #fa6462;
+	color: white;
+	cursor: pointer;
+	border: 0;
 }
 </style>
 
@@ -36,10 +196,9 @@ $(function(){
 	
 	/* CSS 수정 */
 	$("#funding-money").parent("p").css("text-align","left");
-	$("#funding-money").css("width","97%");
-	$("#deadline-day").parent("p").css("text-align","left");
-	$("#deadline-day").css({"width":"20%","margin":"0 10px"});
-	$("#deadline-date").css({"width":"30%","margin":"0 10px"});
+	$("#funding-money").css("width","25%");
+	$("#deadline-date").parent("p").css("text-align","left");
+	$("#deadline-date").css({"width":"30%","margin-right":"10px"});
 	
 	
 	/* 목표 금액 */
@@ -73,13 +232,82 @@ $(function(){
 		}	
 	});
 	
+	/* 선물 구성 - 최소 후원금액 */
+	$("#min-money").keyup(function(){
+		
+		if($(this).val() < 1000){
+			
+			$("#minMoney-warning").css("display","inline");
+			$(this).css("border-color","red");
+			$(this).parent().next().children(".giftSaveBtn").attr("disabled","disabled");
+			
+		} else {
+			
+			$("#minMoney-warning").css("display","none");
+			$(this).css("border-color","#ccdafc");
+			$(this).parent().next().children(".giftSaveBtn").removeAttr("disabled");
+		}
+	});
 	
 	/* 마감일 */
-	var today = new Date(); 
-	$("#deadline-date").val(today+1);
-	$("#deadline-day").keyup(function(){
+	var tomorrow = new Date();
+	tomorrow.setDate(tomorrow.getDate()+1);
+	
+	var day = tomorrow.getDate();
+	var month = tomorrow.getMonth()+1;
+	var year = tomorrow.getFullYear();
+	
+	if(day<10){
+		day = "0"+day;
+	}
+	if(month<10){
+		month = "0"+month;
+	}
+	
+	$("#deadline-date").val(year+"-"+month+"-"+day);
+	
+	var fDate = new Date();
+	fDate.setDate(fDate.getDate()+60);
+	
+	var fDay = fDate.getDate();
+	var fMonth = fDate.getMonth()+1;
+	var fYear = fDate.getFullYear();
+	
+	if(fDay<10){
+		fDay = "0"+fDay;
+	}
+	if(fMonth<10){
+		fMonth = "0"+fMonth;
+	}
+	
+	$("#deadline-date").change(function(){
+			
+		var value = $(this).val() + "";
+		
+		var year = value.substring(0,4);
+		var month = value.substring(5,7);
+		var day = value.substring(8,10);
+		
+		var val_date = new Date();
+		val_date.setFullYear(year);
+		val_date.setMonth(month-1);
+		val_date.setDate(day);
+		
+		if(val_date < tomorrow || val_date > fDate){
+			
+			$("#date-warning").text("펀딩 마감일은 내일 날짜 ( "+year+"-"+month+"-"+day+" )부터 60일 후의 날짜 ( "+fYear+"-"+fMonth+"-"+fDay+" )까지 선택 가능합니다.");
+			$(this).parent().next().children(".saveBtn").attr("disabled","disabled");
+			
+		} else {
+			
+			$("#date-warning").text("");
+			$(this).parent().next().children(".saveBtn").removeAttr("disabled");
+			
+		}
+		console.log(val_date);
 		
 	});
+	
 })
 </script>
 
@@ -154,16 +382,12 @@ $(function(){
 				<p>프로젝트 마감일</p>
 				<p>
 					펀딩이 끝나는 마감일을 정해주세요. <br />
-					<span class="red-font">
-						** 펀딩 마감일은 오늘로부터 60일 이내의 날짜 중에 고르실 수 있습니다. <br>
-						** 이미 선물을 만드셨다면, 선물 실행일 중에 마감일보다 이른 날짜가 있지는 않은지 꼭 확인해주세요.
-					</span>
+					펀딩 마감일은 오늘로부터 60일 이내의 날짜 중에 고르실 수 있습니다. <br>
+					이미 선물을 만드셨다면, 선물 실행일 중에 마감일보다 이른 날짜가 있지는 않은지 꼭 확인해주세요. <br>
+					<span class="red-font" id="date-warning"></span>
 				</p>
 				<p>
-					<span class="bold-font">오늘로부터 </span>
-					<input type="number" id="deadline-day" name="deadlineDay" min="1" value="1" />
-					<span class="bold-font">일 뒤인 </span>
-					<input type="date" id="deadline-date" name="deadlineDate" >
+					<input type="date" id="deadline-date" name="deadlineDate" />
 					<span class="bold-font">에 펀딩을 마감합니다.</span>
 				</p>
 				<p>
@@ -183,27 +407,15 @@ $(function(){
 	</div>
 	
 	<br /><br />
-				
+
 	<!-- 예상 정산일 -->
 	<div class="make-project-section">
 		<p class="title">예상 정산일</p>
 		<div class="make-project-content">
 			
 			<!-- 예상 정산일 START -->
-			<div class="fund-duedate">
-				<p>예상 정산일</p>
-				<p>
-					<span>
-						<img src="${pageContext.request.contextPath }/resources/images/makeProject/hand_pointer.png" />
-						&nbsp;&nbsp;
-						프로젝트 요약을 입력해주세요
-					</span>
-					<span>
-						<img src="${pageContext.request.contextPath }/resources/images/makeProject/write.png" />
-						&nbsp;
-						<span>입력하기</span>
-					</span>
-				</p>
+			<div id="fund-duedate">
+				프로젝트 마감일을 선택하시면, 예상 정산일이 표시됩니다.				
 			</div>
 			<!-- 예상 정산일 END -->
 			
@@ -218,34 +430,108 @@ $(function(){
 		<div class="make-project-content">
 			
 			<!-- 선물 추가하기 START -->
-			<div class="shown gift">
+			<div class="shown" id="gift">
 				<p>선물 추가하기</p>
 				<p>
 					<span>후원자분들에게 드릴 새로운 선물을 만듭니다.</span>
 				</p>
 				<p>
-					<button type="button">
-						<img src="${pageContext.request.contextPath }/resources/images/makeProject/x.png" />
+					<button type="button" id="addGiftBtn">
+						<img src="${pageContext.request.contextPath }/resources/images/makeProject/addGift.png" />
 						추가하기
 					</button>
 				</p>
 			</div>
 			
-			<div class="hidden gift-hidden">
-				<p>선물 추가하기</p>
-				<p>
-					후원자 분들에게 드릴 선물 내용을 입력해주세요.
-				</p> 
-				<hr />
-				<p>
-					<span class="bold-font gray-font">최소 후원금액</span> <br/>
-					인기 금액대인 1만원대 선물부터 특별한 의미를 담은 10만원 이상 선물까지, 다양한 금액대로 구성하면 성공률이 더욱 높아집니다. <br />
-					배송이 필요한 선물의 경우, <span class="bold-font">배송비 포함</span>된 금액으로 작성해주세요.
-				</p>
-				<p>
-					<input type="number" id="min-money" name="minMoney" value="0" />
-					<span class="bold-font">원 이상 밀어주시는 분께 드리는 선물입니다.</span>
-				</p>
+			<div class="hidden" id="add-gift">
+				<div id="gift-title">
+					<p>선물 추가하기</p>
+					<p>
+						후원자 분들에게 드릴 선물 내용을 입력해주세요.
+					</p> 
+				</div>
+				<div id="gift-money">
+					<p>최소 후원금액</p>
+					<p>
+						인기 금액대인 1만원대 선물부터 특별한 의미를 담은 10만원 이상 선물까지, 다양한 금액대로 구성하면 성공률이 더욱 높아집니다. <br />
+						배송이 필요한 선물의 경우, <span class="bold-font">배송비 포함</span>된 금액으로 작성해주세요. <br />
+						<span id="minMoney-warning" class="red-font" style="display:none">** 최소 후원금액은 1,000원입니다.</span>
+					</p>
+					<p>
+						<input type="number" id="min-money" name="minMoney" value="0" min="1000" />
+						<span class="bold-font">원 이상 밀어주시는 분께 드리는 선물입니다.</span>
+					</p>
+				</div>
+				<div id="item">
+					<p>선물에 포함된 아이템</p>
+					<p>
+						아이템은 <span class="bold-font">선물에 포함되는 구성 품목</span>을 말합니다. <br />
+						이 금액대의 선물을 선택한 후원자에게 어떤 아이템들을 전달하실지 선택해주세요.
+					</p>
+					<table>
+						<thead>
+							<tr>
+								<td>포함</td>
+								<td>아이템 이름</td>
+								<td>수량 설정</td>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>
+									<img src="${pageContext.request.contextPath }/resources/images/makeProject/checked_gray.png" />
+								</td>
+								<td>아이템을 만들어주세요</td>
+								<td>
+									<img src="${pageContext.request.contextPath }/resources/images/makeProject/minus_gray.png" />
+									&nbsp;&nbsp;
+									<span class="gift-number">0</span>
+									&nbsp;&nbsp;
+									<img src="${pageContext.request.contextPath }/resources/images/makeProject/plus_gray.png" />
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<p>
+						<button type="button" id="addItenBtn" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+							<img src="${pageContext.request.contextPath }/resources/images/makeProject/addItem.png" />
+							아이템 만들기
+						</button>
+						<jsp:include page="/WEB-INF/views/project/projectMake_item.jsp" />
+					</p>
+				</div>
+				<div id="gift-explain">
+					<p>선물 설명</p>
+					<p>
+						구성된 선물에 대해 추가적으로 알리고 싶은 내용을 적어주세요.
+					</p>
+					<p>
+						<input type="text" id="gift-explain" name="giftExplain" placeholder="예) 배송비 포함, &lt선물세트A> 등" />
+						<span class="letter-cnt"><span class="total-letter">50</span>자 남았습니다</span>
+					</p>
+				</div>
+				<div id="gift-delivery">
+					<p>선물 설정</p>
+					<p>
+						배송이 필요한 선물인 경우 후원자에게 주소지를 요청합니다.
+					</p>
+					<p style="position: relative">
+						<input type="radio" name="giftDelivery" id="giftDeliveryYES" value="Y" checked/>
+						<label for="giftDeliveryYES">배송이 필요한 선물입니다</label>
+						<input type="radio" name="giftDelivery" id="giftDeliveryNO" value="N"/>
+						<label for="giftDeliveryNO">배송이 필요하지 않은 선물입니다</label>
+					</p>
+				</div>
+				<div id="btnCloseSave">
+					<button type="button" class="giftCloseBtn">
+						<img src="${pageContext.request.contextPath }/resources/images/makeProject/x.png" />
+						닫기
+					</button>
+					<button type="button" class="giftSaveBtn">
+						<img src="${pageContext.request.contextPath }/resources/images/makeProject/ok.png" />
+						저장
+					</button>
+				</div>
 			</div>
 			<!-- 선물 추가하기 END -->
 			

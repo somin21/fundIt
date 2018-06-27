@@ -102,9 +102,31 @@ $(function(){
 														
 					$(this).val("");
 								
-				} else{
+				} else {
 					
-					$(this).val("");
+					if($(this).attr("id") == "funding-money"){
+						$(this).val("0");	
+					} else if($(this).attr("id") == "deadline-date"){
+						
+						var tomorrow = new Date();
+						tomorrow.setDate(tomorrow.getDate()+1);
+						
+						var day = tomorrow.getDate();
+						var month = tomorrow.getMonth()+1;
+						var year = tomorrow.getFullYear();
+						
+						if(day<10){
+							day = "0"+day;
+						}
+						if(month<10){
+							month = "0"+month;
+						}
+						
+						$(this).val(year+"-"+month+"-"+day);
+						
+					} else {
+						$(this).val("");
+					}
 				}
 			});
 		}
@@ -117,14 +139,17 @@ $(function(){
 	/* 저장 버튼 */
 	$(".saveBtn").on("click",function(){
 		
+		
 		var elem = $(this).parent().prev().children();
 		var place = $(this).parents(".hidden").prev(".shown").children("p").last();
 						
 		var html = "";
 		
-		if(elem.first().val() == "" || elem.first().val() == "0"){
-			return;
-		} 
+		if(elem.first().prop("tagName") != "SPAN"){
+			if(elem.first().val() == "" || elem.first().val() == "0" || elem.first().val() == null){
+				return;
+			} 
+		}
 		
 		elem.each(function(){
 			
@@ -163,10 +188,25 @@ $(function(){
 				if($(this).attr("id") == "funding-money"){
 					
 					html = "<span style='font-weight:bold;font-size:20px;color:black;'>"+numberWithCommas($(this).val()) + " 원"+"</span><span></span>";
-					
+				
 				} else {
 					
-					html = "<span style='font-weight:bold;font-size:20px;color:black;'>"+$(this).val()+"</span><span></span>";					
+					html = "<span style='font-weight:bold;font-size:20px;color:black;'>"+$(this).val()+"</span><span></span>";
+					
+					if($(this).attr("id") == "deadline-date"){
+						
+						var d = new Date();
+						d.setFullYear($(this).val().substring(0,4));						
+						d.setMonth($(this).val().substring(5,7)-1);
+						d.setDate($(this).val().substring(8,10));
+						d.setDate(d.getDate()+7);
+						
+						var text = "펀딩에 성공할 경우, 마감일 다음날부터 7일간 결제가 진행되어 "+d.getFullYear()+"년 "+(d.getMonth()+1)+"월 "+d.getDate()+"일에 모든 후원자의 결제가 종료됩니다.<br>";
+						text += "결제 종료일로부터 추가로 은행 영업일 기준 7일(공휴일 및 주말 제외) 후 모듬액이 창작자님의 계좌로 입금됩니다.";
+						
+						$("#fund-duedate").html(text);
+						$("#fund-duedate").css({"text-align":"left","padding-top":"30px"});
+					}
 				}
 			}
 		});
