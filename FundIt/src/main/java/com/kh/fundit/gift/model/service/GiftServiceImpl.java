@@ -21,4 +21,10 @@ public class GiftServiceImpl implements GiftService {
 		return giftDAO.selectMyGift(map, numPerPage);
 	}
 
+	@Override
+	public int updateDeliveryAddr(Gift gift) {
+		// TODO Auto-generated method stub
+		return giftDAO.updateDeliveryAddr(gift);
+	}
+
 }

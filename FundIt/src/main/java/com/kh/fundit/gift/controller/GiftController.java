@@ -27,12 +27,22 @@ public class GiftController {
 	private GiftService giftService;
 	
 	@RequestMapping("/gift/giftDeliveryList.do")
-	public ModelAndView selectMyGiftList(@RequestParam String email) {
+	public ModelAndView selectMyGiftList() {
 		ModelAndView mav = new ModelAndView();
 		
-		
-		mav.addObject("email", email);
 		mav.setViewName("gift/giftDeliveryList");
+		return mav;
+		
+		
+	}
+	
+	@RequestMapping("/gift/findAddress.do")
+	public ModelAndView findAddress(@RequestParam String idNum) {
+		ModelAndView mav = new ModelAndView();
+		System.out.println(idNum);
+		
+		mav.addObject("idNum",idNum);
+		mav.setViewName("gift/findAddress");
 		return mav;
 		
 		
@@ -52,6 +62,35 @@ public class GiftController {
 		System.out.println(list);
 		return list;
 		
+	}
+	
+	@RequestMapping("/gift/updateDeliveryAddr.do")
+	@ResponseBody
+	public int updateDeliveryAddr(@RequestParam String postNum, @RequestParam String address, @RequestParam String supportNo) {
+		
+		
+		
+		/*System.out.println(supportNo);
+		System.out.println(address);
+		System.out.println(postNum);*/
+		int supportNum = Integer.parseInt(supportNo);
+		
+		
+		/*Map <String, String> map = new HashMap<>();
+		map.put("postNum", postNum);
+		map.put("address", address);
+		map.put("supportNo", supportNo);
+		System.out.println(map);*/
+		Gift gift = new Gift();
+		gift.setPostNum(postNum);
+		gift.setAddress(address);
+		gift.setSupportNo(supportNum);
+		
+		System.out.println(gift);
+		
+		int result = giftService.updateDeliveryAddr(gift);
+		
+		return result;
 	}
 	
 	

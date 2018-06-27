@@ -5,12 +5,14 @@
 	
 	
 	<select id="selectMyGiftList" resultType="gift">
-		select a.projectno, a.supportNo,  a.email as "myemail", a.address, to_char(a.deliveryduedate,'YYYY-MM-dd') as "deliveryduedate", b.itemname,e.itemnumber, c.projecttitle, c.email as "projectwriter", e.deliveryyn
+		select a.projectno, a.supportNo, a.postNum, a.email as "myemail", a.address, to_char(f.calculateduedate + 2,'YYYY-MM-dd') as "deliveryduedate", b.itemname,e.itemnumber, c.projecttitle, c.email as "projectwriter", e.deliveryyn
 		from delivery a
 		 join item b on a.projectno = b.projectno
 		 join project_outline c on a.projectno =  c.projectno
 		 join project_deadline d on c.projectno = d.projectno
-		 join project_gift e on b.itemno = e.itemno
+		 join project_gift e on a.projectno = e.projectno
+		 join project_funding f on a.projectno = f.projectno
+		 join support g on a.supportno = g.supportno
 		where 1=1
 		and a.email = #{email}
 		<if test = "searchType eq 'All'">
@@ -20,18 +22,23 @@
 		<if test = "searchType eq 'deliveryBefore'">
 			and to_date(sysdate,'YYYY-MM-dd')
 		 	<![CDATA[-]]>
-			to_date(a.DELIVERYDUEDATE,'YYYY-MM-dd')  <![CDATA[<]]> 0
+			to_date(f.calculateduedate + 2,'YYYY-MM-dd')  <![CDATA[<]]> 0
 		</if>
 		<if test = "searchType eq 'deliveryAfter'">
 			and to_date(sysdate,'YYYY-MM-dd')
 			<![CDATA[-]]>
-			to_date(a.DELIVERYDUEDATE,'YYYY-MM-dd')  <![CDATA[>=]]> 0
+			to_date(f.calculateduedate + 2,'YYYY-MM-dd')  <![CDATA[>=]]> 0
 		</if>
 	</if>
 	and d.SUCCESSYN = 'Y'
+	and g.PAYYN='Y'
 	order by a.projectno, deliveryduedate desc
 	 
 	</select>
+	
+	<update id="updateDeliveryAddr">
+	update delivery set postnum = #{postNum}, address = #{address} where supportno = #{supportNo}
+	</update>
 	
 	
 	
