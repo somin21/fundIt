@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="gift">
+
+	
+	
+	<select id="selectMyGiftList" resultType="gift">
+		select a.projectno, a.supportNo,  a.email as "myemail", a.address, to_char(a.deliveryduedate,'YYYY-MM-dd') as "deliveryduedate", b.itemname,e.itemnumber, c.projecttitle, c.email as "projectwriter", e.deliveryyn
+		from delivery a
+		 join item b on a.projectno = b.projectno
+		 join project_outline c on a.projectno =  c.projectno
+		 join project_deadline d on c.projectno = d.projectno
+		 join project_gift e on b.itemno = e.itemno
+		where 1=1
+		and a.email = #{email}
+		<if test = "searchType eq 'All'">
+		and 1=1
+		</if>
+	<if test = "searchType != null and searchType != ''" >	
+		<if test = "searchType eq 'deliveryBefore'">
+			and to_date(sysdate,'YYYY-MM-dd')
+		 	<![CDATA[-]]>
+			to_date(a.DELIVERYDUEDATE,'YYYY-MM-dd')  <![CDATA[<]]> 0
+		</if>
+		<if test = "searchType eq 'deliveryAfter'">
+			and to_date(sysdate,'YYYY-MM-dd')
+			<![CDATA[-]]>
+			to_date(a.DELIVERYDUEDATE,'YYYY-MM-dd')  <![CDATA[>=]]> 0
+		</if>
+	</if>
+	and d.SUCCESSYN = 'Y'
+	order by a.projectno, deliveryduedate desc
+	 
+	</select>
+	
+	
+	
+</mapper>

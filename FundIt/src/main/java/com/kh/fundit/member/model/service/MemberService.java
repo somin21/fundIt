@@ -1,5 +1,9 @@
 package com.kh.fundit.member.model.service;
 
+import java.util.List;
+import java.util.Map;
+
+
 import com.kh.fundit.member.model.vo.Member;
 import com.kh.fundit.member.model.vo.Profile;
 
@@ -22,4 +26,12 @@ public interface MemberService {
 	Member selectMemberByEmail(String email);
 
 	String selectProfileImg(Profile profile);
+	
+	Profile selectProfile(String email);
+
+	Member selectNaverByEmail(String naverEmail);
+
+	int insertNaver(Map<String, Object> map);
+
+
 }

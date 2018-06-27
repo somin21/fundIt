@@ -69,22 +69,22 @@ div#around1{
 		<div id="around1">
 		  	<div class="form-group row" id="emailDiv111">
 		    	<div class="col-lg-8">
-		      		<input type="email" class="form-control" id="accEmail" name="email" value="suzy@naver.com" <%-- value="${member.email }" --%>> 
+		      		<input type="email" class="form-control" id="accEmail" name="email" value="${member.email}" <%-- value="${member.email }" --%>> 
 				</div>
 		  	</div>
 		  	<hr id="middle-line1"/>
 		  	<!-- 비밀번호 -->
 		  	<div class="form-group row">
 		    	<div class="col-sm-8"> 
-		    		<button type="button" class="btn btn-outline-danger btn-md">비밀번호 변경</button>
-	      		<p id="textSizing">비밀번호를 변경하시려면 이 버튼을 눌러주세요.</p>
-		    	</div>
+		    		<button type="button" class="btn btn-outline-danger btn-md" onclick="location.href='${pageContext.request.contextPath}/member/findPwdSendLink.do?email=${member.email }'">비밀번호 변경</button>
+	      		<p id="textSizing">새로운 비밀번호를 설정 할 수 있는 링크를 이메일로 보내드립니다.</p>
+	      		</div>
 		  	</div>
 		  	<hr id="middle-line1"/>
 		  	<!-- 뉴스레터 구독설정 -->
 		  	<div class="form-group row">
 		    	<div class="col-sm-8">
-		      		<input type="checkbox" class="col-1" id="news" name="newsyn" ${member.newsyn eq 'Y' ? "checked":""} >
+		      		<input type="checkbox" class="col-1" id="news" name="newsyn" ${member.newsyn eq "Y" ? "checked":""} >
 			    	<label for="news" class="col-form-label" id="laNew">뉴스레터를 구독합니다.</label>
 		    	</div>
 		  	</div>

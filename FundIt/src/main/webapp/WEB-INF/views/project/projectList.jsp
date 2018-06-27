@@ -99,6 +99,7 @@ div.project div.summary span.no-project{
 	color: red;
 	
 }
+div#all{text-align: center;}
 @media (max-width: 1070px){
 	div.project{
 		width: 200px;
@@ -126,14 +127,15 @@ div.project div.summary span.no-project{
 	}
 }
 @media (max-width: 2070px){
-	div#index-container{text-align: center;}
+	div#index-container{text-align: center;width: 80%; display: inline-block;}
 	div.maincontainer{text-align: center; padding: 80px;}
 	div.maincontainer2{text-align: left; padding: 7px 10px 7px 16.1%;}
 }
 @media (max-width: 500px){
 	div.maincontainer{padding:70px 70px 70px 50px; width:360px; height: 210px; text-align: center;}
 	h1{font-size: 30px;}
-	div.maincontainer2{text-align: left; padding: 10%; border: 1px solid;}
+	div.maincontainer2{text-align: left; padding: 10%;}
+	div#index-container{text-align: center;width: 100%;}
 }
 
 select#select {
@@ -187,7 +189,7 @@ select#select {
         </div>
     </div>
     <hr />
-    
+    <div id="all">
 	<div id="index-container">
 		<!-- 프로젝트 리스트 -->
 		<c:if test="${not empty list }">
@@ -205,13 +207,20 @@ select#select {
 					<br />
 					<div class="days">
 						<img src="${pageContext.request.contextPath }/resources/images/calendar.png"/>
-						${i.deadlineDay }일 남음
+						<c:if test="${i.deadlineDay gt 0}">
+							${i.deadlineDay }일 남음
+						</c:if>
+						<c:if test="${i.deadlineDay le 0}">
+							후원 종료
+						</c:if>
 					</div>
+					<c:if test="${i.deadlineDay gt 0}">
 					<div class="support">
 						<img src="${pageContext.request.contextPath }/resources/images/money.png"/>
 						<fmt:formatNumber>${i.supportMoney }</fmt:formatNumber>
 						(${i.supportPercent }%)
 					</div>
+					</c:if>
 				</div>
 			</div>
 		</c:forEach>
@@ -220,11 +229,12 @@ select#select {
 			<h1>아직 프로젝트가 등록되지 않았습니다~~~~ㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎ</h1>
 		</c:if>
 	</div>
+	</div>
 <script>
 	$(function(){
 		$(".project").click(function(){
 			var projectNo = $(this).children("#projectNo").val();
-			console.log(projectNo);
+			/* console.log(projectNo); */
 			location.href="${pageContext.request.contextPath}/project/projectView.do?projectNo="+projectNo;
 		});
 	});

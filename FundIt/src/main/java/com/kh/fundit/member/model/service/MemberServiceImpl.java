@@ -1,7 +1,11 @@
 package com.kh.fundit.member.model.service;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 
 import com.kh.fundit.member.model.dao.MemberDAO;
 import com.kh.fundit.member.model.vo.Member;
@@ -55,11 +59,25 @@ public class MemberServiceImpl implements MemberService {
 	public Member selectMemberByEmail(String email) {
 		return memberDAO.selectMemberByEmail(email);
 	}
-//  태윤
+	
 	@Override
 	public String selectProfileImg(Profile profile) {
-		// TODO Auto-generated method stub
 		return memberDAO.selectProfileImg(profile);
+	}
+
+	@Override
+	public Profile selectProfile(String email) {
+		return memberDAO.selectProfile(email);
+	}
+
+	@Override
+	public Member selectNaverByEmail(String naverEmail) {
+		return memberDAO.selectNaverByEmail(naverEmail);
+	}
+
+	@Override
+	public int insertNaver(Map<String, Object> map) {
+		return memberDAO.insertNaver(map);
 	}
 
 }

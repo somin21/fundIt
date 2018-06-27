@@ -1,8 +1,12 @@
 package com.kh.fundit.member.model.dao;
 
+import java.util.List;
+import java.util.Map;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
 
 import com.kh.fundit.member.model.vo.Member;
 import com.kh.fundit.member.model.vo.Profile;
@@ -40,9 +44,7 @@ public class MemberDAOImpl implements MemberDAO {
 
 	@Override
 	public int updateProfile(Profile profile) {
-		System.out.println("나 다오 임플왔당!");
 		int result = sqlSession.update("member.updateProfile", profile);
-		System.out.println("DAOImPle = "+result);
 		return result;
 	}
 	
@@ -61,11 +63,28 @@ public class MemberDAOImpl implements MemberDAO {
 		return sqlSession.selectOne("member.selectMemberByEmail",email);
 	}
 
-//  태윤
 	@Override
 	public String selectProfileImg(Profile profile) {
-		// TODO Auto-generated method stub
-		return sqlSession.selectOne("profile.selectProfileImg",profile);
+		return sqlSession.selectOne("member.selectProfileImg",profile);
 	}
+	
+	@Override
+	public Profile selectProfile(String email) {
+		return sqlSession.selectOne("member.selectProfile",email);
+	}
+
+	@Override
+	public Member selectNaverByEmail(String naverEmail) {
+		return sqlSession.selectOne("member.selectNaverByEmail",naverEmail);
+	}
+
+
+	@Override
+	public int insertNaver(Map<String, Object> map) {
+		return sqlSession.insert("member.insertNaver",map);
+	}
+
+
+
 
 }

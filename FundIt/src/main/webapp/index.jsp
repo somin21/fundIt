@@ -27,6 +27,9 @@ $(function(){
 					html += '<div class="carousel-item">';
 				}
 			    html += '<img class="d-block w-100" src="${pageContext.request.contextPath }/resources/images/projects/'+data[i].projectImage+'" />';
+			    html += '<div class="carousel-caption d-none d-md-block" style="width:38%;">';
+			    html += '<h1 style="text-align:left;">'+data[i].projectTitle+'</h1>';
+			    html += '</div>';
 			    html += '</div>';
 			    
 			    $(".carousel-inner").append(html);
@@ -110,8 +113,9 @@ $(function(){
 
 function htmlAppend(project, div_name){
 	var html = '';
-	
-	html += '<div class="project">';
+	var loc = "location.href='${pageContext.request.contextPath}/project/projectView.do?projectNo="+project.projectNo+"'";	
+	html += '<div class="project" onclick="';
+	html += loc+'">';
 	html += '<img src="${pageContext.request.contextPath }/resources/images/projects/'+project.projectImage+'" />';
 	html += '<div class="summary">';
 	html += '<p>'+project.projectTitle+'</p>';
