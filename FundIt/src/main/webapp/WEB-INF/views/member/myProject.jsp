@@ -136,9 +136,9 @@ function htmlAppend(project, div_name){
 	html += '<input type="hidden" name="projectNo" id ="projectNo" value="'+project.projectNo+'" />';
 	html += '<img src="${pageContext.request.contextPath }/resources/images/projects/'+project.projectImage+'" />';
 	if(project.deadlineDay > 0 && project.supportPercent >= 100){
-		html +=	'<p style="color:tomato; font-size : 15px;  height:25px; font-weight: bolder; margin-left:15px; margin-top:-23px; margin-bottom:-2px;">성공</p>'
+	html +=	'<p style="color:tomato; font-size : 15px;  height:25px; font-weight: bolder; margin-left:15px; margin-top:-23px; margin-bottom:-2px;">성공</p>'
 	}else{
-		html += '';
+	html += '';
 	}
 	html += '<div class="summary">';
 	

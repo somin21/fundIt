@@ -70,4 +70,52 @@
 	select profileimage from profile where email = #{email}
 	</select>
 	
+	<select id="selectSupportList" resultMap = "supportMap">
+	
+	select projectno, a.supportno, (a.minmoney+a.addmoney) as "mysupportmoney", b.supportgoal, trunc(b.deadlinedate - sysdate) as "deadlinedate", c.email as "projectwriter", c.projecttitle, c.projectimage, d.supportpercent, (select itemname from item aa where aa.itemno = e.itemno ) as "itemname"
+	from support a 
+	join PROJECT_FUNDING b using (projectno)
+	join project_outline c using(projectno)
+	join project_summary d using(projectno)
+	join project_gift e using(projectno)
+	where 1=1
+	and a.email = #{email}
+	<if test = "searchType != null and searchType != ''" >
+		<if test ="searchType eq 'selectAll'">
+		 and 1=1
+		</if>
+		<if test ="searchType eq 'searchOnGoing'">
+		 and a.payyn is null
+		</if>
+		<if test ="searchType eq ' searchComplated'">
+		 and a.payyn = 'Y'
+		</if>
+	</if>
+	<if test="searchKeyword != null and searchKeyword != ''">
+		 and (a.payyn = 'Y') and
+		 	(
+		 	  (itemname like '%'||#{searchKeyword}||'%') 
+		 	  or 
+		 	  ( (select itemname from item aa where aa.itemno = e.itemno ) like '%'||#{searchKeyword}||'%')
+		 	  or( c.projecttitle like '%'||#{searchKeyword}||'%')
+		    ) 
+	</if>
+	order by a.supportno
+	</select>
+	
+	<resultMap type="support" id="supportMap">
+      <result column="projectno" property="projectNo"/>
+      <result column="supportno" property="supportNo"/>
+      <result column="mysupportmoney" property="mySupportMoney"/>
+      <result column="supportgoal" property="supportGoal"/>
+      <result column="deadlinedate" property="deadlineDate"/>
+      <result column="projectwriter" property="projectWriter"/>
+      <result column="projecttitle" property="projectTitle"/>
+      <result column="deadlinddate" property="deadlindDate"/>
+      <result column="projectimage" property="projectImage"/>
+      <result column="supportpercent" property="supportPercent"/>
+      <result column="itemname" property="itemName"/>
+   </resultMap>
+	
+	
 </mapper>

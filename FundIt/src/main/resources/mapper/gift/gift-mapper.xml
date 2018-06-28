@@ -40,6 +40,7 @@
 	update delivery set postnum = #{postNum}, address = #{address} where supportno = #{supportNo}
 	</update>
 	
+		
 	
 	
 </mapper>
