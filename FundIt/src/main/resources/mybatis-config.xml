@@ -7,13 +7,11 @@
 		<typeAlias type="com.kh.fundit.member.model.vo.Member" alias="member"/>
 		<typeAlias type="com.kh.fundit.member.model.vo.Profile" alias="profile"/>
 		<typeAlias type="com.kh.fundit.project.model.vo.ProjectView" alias="projectView" />
-<<<<<<< HEAD
 		<typeAlias type="com.kh.fundit.help.model.vo.Help" alias="help" />
-=======
 		<typeAlias type="com.kh.fundit.project.model.vo.Profile" alias="profile2" />
 		<typeAlias type="com.kh.fundit.project.model.vo.ProjectGift" alias="projectGift" />
 		<typeAlias type="com.kh.fundit.gift.model.vo.Gift" alias="gift" />
 		<typeAlias type="com.kh.fundit.message.model.vo.Message" alias="message"/>
->>>>>>> branch 'master' of https://github.com/somin21/fundIt.git
+
 	</typeAliases>
 </configuration>

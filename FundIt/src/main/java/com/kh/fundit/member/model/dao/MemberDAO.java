@@ -24,11 +24,7 @@ public interface MemberDAO {
 	int checkEmailDuplicate(String email);
 	
 	Member selectMemberByEmail(String email);
-<<<<<<< HEAD
-	
-	String selectProfileImg(Profile profile);
-=======
-	
+
 	String selectProfileImg(Profile profile);
 	
 	Profile selectProfile(String email);
@@ -38,6 +34,5 @@ public interface MemberDAO {
 	int insertNaver(Map<String, Object> map);
 
 
->>>>>>> branch 'master' of https://github.com/somin21/fundIt.git
 
 }
