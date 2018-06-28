@@ -410,9 +410,17 @@ public class ProjectController {
 		//결재정보테이블 추가
 		int result3 = projectService.insertPayment(map);
 		
-		System.out.println("result="+result+"result2="+result2+"result3="+result3);
+		boolean isUsable = false;
 		
-		mav.addAllObjects(map);
+		if(result3>0) {
+			isUsable = true;
+		}
+		System.out.println("result="+result+"result2="+result2+"result3="+result3+"isUsable="+isUsable);
+		
+		Map<String,Object> map2 = new HashMap<>();
+		map2.put("isUsable", isUsable);
+		
+		mav.addAllObjects(map2);
 		mav.setViewName("jsonView");
 		
 		return mav;
