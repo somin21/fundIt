@@ -86,7 +86,10 @@ div.addItemDivContent div.updateItems{
 	border: 1px solid lightgray;
 	border-radius: 5px;
 	background: #f0f5ff;
-	padding: 15px 10px 10px;
+	padding: 15px 10px 10px!important;
+}
+div.addItemDivContent div.updateItems button{
+	margin-left: 10px;
 }
 
 /* 푸터 */
@@ -132,8 +135,8 @@ $(function(){
 		
 		var html = '<div class="items">';
 		html += '<div class="item-name">'+name+'</div>';
-		html += '<div class="update-item">수정하기</div>';
-		html += '<div class="delete-item">삭제하기</div>';
+		html += '<div class="update-item">수정</div>';
+		html += '<div class="delete-item">삭제</div>';
 		html += '</div>';
 		html += '<div class="updateItems">';
 		html += '<p>아이템 이름</p>';
@@ -161,7 +164,25 @@ $(function(){
 	});
 	
 	$(".item-list").on("click", ".update-item" ,function(){
-		$(this).parent().next(".updateItems").show(500);
+		$(this).parent().next(".updateItems").slideDown(300);
+	});
+	
+	$(".item-list").on("click", ".itemUpdateCloseBtn" ,function(){
+		$(this).parents(".updateItems").slideUp(300);
+		var name = $(this).parents(".updateItems").prev(".items").children(".item-name").text();
+		$(this).parent().prev().children("#itemUpdateName").val(name);
+	});
+	
+	$(".item-list").on("click", ".itemUpdateSaveBtn" ,function(){
+		$(this).parents(".updateItems").slideUp(300);
+		var name = $(this).parent().prev().children("#itemUpdateName").val();
+		$(this).parents(".updateItems").prev(".items").children(".item-name").text(name);
+	});
+	
+	$("#addItemSaveBtn").on("click",function(){
+		$("#shownItemDiv").slideDown(500);
+		$("#hiddenItemDiv").slideUp(500);
+		$(".updateItems").slideUp(300);
 	});
 	
 });

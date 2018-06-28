@@ -55,6 +55,12 @@ $(function(){
 		var firstSpan = $(this).parents(".hidden").prev(".shown").children("p").last().children("span").first();
 		var lastSpan = $(this).parents(".hidden").prev(".shown").children("p").last().children("span").last();
 		
+		var total = $(this).parent().prev().children(".letter-cnt").children(".total-letter").text();
+		var cnt = firstSpan.text().length;
+		
+		console.log(total);
+		console.log(cnt);
+		
 		if(firstSpan.css("font-size") != "13px"){
 
 			elem.each(function(){
@@ -88,7 +94,13 @@ $(function(){
 					}
 					
 				}
-			});	
+				
+				if($(this).attr("class") == "letter-cnt"){
+					console.log("cnt수정해라");
+					$(this).html('<span class="total-letter" style="display:none">'+total+'</span><span class="cnt">'+(total-cnt)+'</span>자 남았습니다');
+				}
+			});
+			
 	
 		} else {
 
@@ -128,8 +140,16 @@ $(function(){
 						$(this).val("");
 					}
 				}
+				
+				if($(this).attr("class") == "letter-cnt"){
+					console.log("cnt없애라");
+					$(this).html('<span class="total-letter">'+total+'</span>자 남았습니다');
+				}
 			});
 		}
+		
+		$(this).parent().prev().children().not("span").css("border-color","#ccdafc");
+		$(this).parent().prev().children(".letter-cnt").css({"color":"darkgray","font-weight":"normal"});
 		
 		$(this).parents(".hidden").slideUp(500);
 		$(this).parents(".hidden").prev(".shown").slideDown(500);
@@ -365,11 +385,11 @@ function previewImage(fileObj, imgPreviewId) {
 				<img src="${pageContext.request.contextPath }/resources/images/makeProject/check_circle.png" />
 				프로젝트 개요
 			</div>
-			<div class="section-title selected-title">
+			<div class="section-title">
 				<img src="${pageContext.request.contextPath }/resources/images/makeProject/check_circle.png" />
 				펀딩 및 선물 구성
 			</div>
-			<div class="section-title">
+			<div class="section-title selected-title">
 				<img src="${pageContext.request.contextPath }/resources/images/makeProject/empty_circle.png" />
 				스토리텔링
 			</div>
@@ -384,7 +404,7 @@ function previewImage(fileObj, imgPreviewId) {
 				<img src="${pageContext.request.contextPath }/resources/images/makeProject/check_circle.png" />
 				프로젝트 개요
 			</div>
-			<div class="section-title selected-title">
+			<div class="section-title">
 				<img src="${pageContext.request.contextPath }/resources/images/makeProject/check_circle.png" />
 				펀딩 및 선물 구성
 			</div>

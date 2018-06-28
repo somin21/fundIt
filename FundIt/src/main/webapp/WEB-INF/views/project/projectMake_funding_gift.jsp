@@ -319,7 +319,10 @@ $(function(){
 					</p>
 				</div>
 				<div id="gift-explain">
-					<p>선물 설명</p>
+					<p>
+						선물 설명
+						<span class="choice">선택 항목</span>
+					</p>
 					<p>
 						구성된 선물에 대해 추가적으로 알리고 싶은 내용을 적어주세요.
 					</p>
