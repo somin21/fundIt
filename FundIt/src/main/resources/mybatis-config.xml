@@ -12,5 +12,7 @@
 		<typeAlias type="com.kh.fundit.project.model.vo.ProjectSupport" alias="projectSupport" />
 		<typeAlias type="com.kh.fundit.gift.model.vo.Gift" alias="gift" />
 		<typeAlias type="com.kh.fundit.message.model.vo.Message" alias="message"/>
+		<typeAlias type="com.kh.fundit.admin.model.vo.AdminProjectView" alias="adminProjectView" />
+		<typeAlias type="com.kh.fundit.admin.model.vo.AdminMember" alias="adminMember"/>
 	</typeAliases>
 </configuration>
