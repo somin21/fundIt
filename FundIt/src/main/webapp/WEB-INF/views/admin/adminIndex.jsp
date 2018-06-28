@@ -76,7 +76,7 @@ $(function(){
 	    	  	<button id="project-inner-btn" onclick="location.href='${pageContext.request.contextPath}/admin/projectDeadline.do'">프로젝트 마감 관리</button>
 	    	</div>
 	    	<div class="col-sm align-items-center col" id="wrap-a">
-		      	<button id="project-btn" onclick="location.href='${pageContext.request.contextPath}/amdin/memberAdmin.do'">회원 관리</button>
+		      	<button id="project-btn" onclick="location.href='${pageContext.request.contextPath}/admin/adminMemberList.do'">회원 관리</button>
 	    	</div>
 	    	<div class="col-sm align-items-center col" id="wrap-a">
 		      	<button id="project-btn" onclick="location.href='${pageContext.request.contextPath}/admin/message.do'">메세지 관리</button>

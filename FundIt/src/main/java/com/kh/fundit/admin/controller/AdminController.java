@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.fundit.admin.model.service.AdminService;
+import com.kh.fundit.admin.model.vo.AdminMember;
 import com.kh.fundit.admin.model.vo.AdminProjectView;
 import com.kh.fundit.project.model.vo.ListProjectView;
 import com.kh.fundit.project.model.vo.Profile;
 import com.kh.fundit.project.model.vo.ProjectGift;
-import com.kh.fundit.project.model.vo.ProjectView;
 
 @Controller
 public class AdminController {
@@ -176,10 +176,41 @@ public class AdminController {
 		return "admin/projectDeadline";
 	}
 	
-	@RequestMapping("/admin/memberAdmin")
-	public String adminMember() {
+	@RequestMapping("/admin/adminMemberList")
+	public ModelAndView adminMember() {
+		ModelAndView mav = new ModelAndView();
 		
-		return "admin/memberAdmin";
+		List<AdminMember> list = adminService.memberList();
+		System.out.println("121dafdsfdsfsadf"+list);
+		mav.addObject("list", list);
+		
+		mav.setViewName("admin/adminMemberList");
+		return mav;
+	}
+	
+	@RequestMapping("/admin/adminMemberDelete")
+	public ModelAndView adminMemberDelete(@RequestParam String email){
+		
+		ModelAndView mav = new ModelAndView();
+		
+		System.out.println(email);
+		int result = adminService.adminMemberDelete(email);
+		
+		String msg="";
+		String loc="/";
+		
+		if(result>0) {
+			msg= email+"회원을 삭제하였습니다.!";
+			
+		}else {
+			msg="삭제 실패!";
+		}
+		loc="/admin/adminMemberList";
+		
+		mav.addObject("msg", msg);
+	    mav.addObject("loc", loc);
+	    mav.setViewName("common/msg");
+		return mav;
 	}
 	
 	@RequestMapping("/admin/message")

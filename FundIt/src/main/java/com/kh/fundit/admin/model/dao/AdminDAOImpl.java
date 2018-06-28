@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.fundit.admin.model.vo.AdminMember;
 import com.kh.fundit.admin.model.vo.AdminProjectView;
 import com.kh.fundit.project.model.vo.ListProjectView;
 import com.kh.fundit.project.model.vo.Profile;
@@ -64,5 +65,15 @@ public class AdminDAOImpl implements AdminDAO {
 	@Override
 	public int projectConfirmF(String no) {
 		return sqlSession.update("admin.projectConfirmF",no);
+	}
+
+	@Override
+	public List<AdminMember> memberList() {
+		return sqlSession.selectList("admin.memberList");
+	}
+
+	@Override
+	public int adminMemberDelete(String email) {
+		return sqlSession.update("admin.adminMemberDelete",email);
 	}
 }

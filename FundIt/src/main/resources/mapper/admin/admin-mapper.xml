@@ -66,4 +66,13 @@
 	<update id="projectConfirmF">
 		update project_outline set projectconfirmyn='F' where projectno=#{no}
 	</update>
+	<select id="memberList" resultType="adminMember">
+		select m.email, nvl(l.projecting,0) projecting, nvl(ss.supporting,0) supporting
+		from member m left join (select email, count(*) projecting from project_outline  where projectdeadlineyn='N' and projectconfirmyn='Y' group by email) l on m.email= l.email
+		            left join (select s.email, count(*) supporting from project_outline o join support s on o.projectno=s.projectno where o.projectdeadlineyn='N' and o.projectconfirmyn='Y' group by s.email) ss on ss.email=m.email
+		where m.deleteyn='N'
+	</select>
+	<update id="adminMemberDelete">
+		update member set deleteyn='Y' where email=#{email}
+	</update>
 </mapper>

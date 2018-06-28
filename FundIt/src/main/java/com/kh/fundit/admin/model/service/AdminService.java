@@ -3,6 +3,7 @@ package com.kh.fundit.admin.model.service;
 import java.util.List;
 import java.util.Map;
 
+import com.kh.fundit.admin.model.vo.AdminMember;
 import com.kh.fundit.admin.model.vo.AdminProjectView;
 import com.kh.fundit.project.model.vo.ListProjectView;
 import com.kh.fundit.project.model.vo.Profile;
@@ -25,4 +26,8 @@ public interface AdminService {
 	int projectConfirmY(String no);
 
 	int projectConfirmF(String no);
+
+	List<AdminMember> memberList();
+
+	int adminMemberDelete(String email);
 }
