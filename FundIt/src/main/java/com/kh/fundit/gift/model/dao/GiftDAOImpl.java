@@ -24,4 +24,11 @@ public class GiftDAOImpl implements GiftDAO {
 		return sqlSession.selectList("gift.selectMyGiftList", map, rowBounds);
 	}
 
+	@Override
+	public int updateDeliveryAddr(Gift gift) {
+		
+		
+		return sqlSession.update("gift.updateDeliveryAddr", gift);
+	}	
+
 }

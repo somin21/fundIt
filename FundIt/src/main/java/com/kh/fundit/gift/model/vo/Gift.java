@@ -14,31 +14,39 @@ public class Gift {
 	private String projectWriter; //선물에 대한 프로젝트 게시자 메일
 	private String deliveryYn; //배송여부 유무
 	private String searchType;//검색타입
-	
+	private String postNum; 
 	public Gift() {
 		
 	}
-	public Gift(int projectNo, int supporNo, String myEmail, String deliveryDueDate, String address,   String itemName, int itemNumber, String projectTitle,
-			String projectWriter, String deliveryYn, String searchType) {
+	
+		
+
+
+	
+	
+	public Gift(int projectNo, int supportNo, String myEmail, String deliveryDueDate, String address, String itemName,
+			int itemNumber, String projectTitle, String projectWriter, String deliveryYn, String searchType,
+			String postNum) {
 		
 		this.projectNo = projectNo;
 		this.supportNo = supportNo;
 		this.myEmail = myEmail;
 		this.deliveryDueDate = deliveryDueDate;
-        this.address = address;
+		this.address = address;
 		this.itemName = itemName;
 		this.itemNumber = itemNumber;
 		this.projectTitle = projectTitle;
 		this.projectWriter = projectWriter;
 		this.deliveryYn = deliveryYn;
 		this.searchType = searchType;
+		this.postNum = postNum;
 	}
 
-		
 
 
-	
-	
+
+
+
 	public int getProjectNo() {
 		return projectNo;
 	}
@@ -60,7 +68,6 @@ public class Gift {
 	public void setMyEmail(String myEmail) {
 		this.myEmail = myEmail;
 	}
-	
 
 	public String getDeliveryDueDate() {
 		return deliveryDueDate;
@@ -78,6 +85,14 @@ public class Gift {
 		this.address = address;
 	}
 	
+	public String getPostNum() {
+		return postNum;
+	}
+
+	public void setPostNum(String postNum) {
+		this.postNum = postNum;
+	}
+
 	public String getItemName() {
 		return itemName;
 	}
@@ -122,12 +137,15 @@ public class Gift {
 	public void setSearchType(String searchType) {
 		this.searchType = searchType;
 	}
+
 	@Override
 	public String toString() {
 		return "Gift [projectNo=" + projectNo + ", supportNo=" + supportNo + ", myEmail=" + myEmail
 				+ ", deliveryDueDate=" + deliveryDueDate + ", address=" + address + ", itemName=" + itemName
 				+ ", itemNumber=" + itemNumber + ", projectTitle=" + projectTitle + ", projectWriter=" + projectWriter
-				+ ", deliveryYn=" + deliveryYn + ", searchType=" + searchType + "]";
+				+ ", deliveryYn=" + deliveryYn + ", searchType=" + searchType + ", postNum=" + postNum + "]";
 	}
+	
+	
 	
 }

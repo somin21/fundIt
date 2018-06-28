@@ -9,4 +9,6 @@ public interface GiftDAO {
 
 	List<Gift> selectMyGift(Map<String, String> map, int numPerPage);
 
+	int updateDeliveryAddr(Gift gift);
+
 }

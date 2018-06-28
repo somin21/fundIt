@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-
+<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/style-gift-list.css" />
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
@@ -13,19 +13,73 @@ var numPerPage = 8;
 var searchType = "";
 
 function fn_shownSlide(el){
-	console.log(el);
-	console.log($(el).attr("id"));
+	
+	$(".div-gift").not(".hidden").not($(el)).slideDown();
+	$(".hidden").not($(el)).slideUp();
 	$(el).slideUp();
-	$(el).next(".hidden").slideDown();
+	$(el).next(".hidden").slideDown(500);
 }
 
-
-/* function fn_hiddenSlide(){
-	console.log('hidden');
-	$(this).slideDown(500);
-	$(this).next(".shown").slideUp(500);
-} */
-
+function fn_hiddenSlide(el){
+	
+	
+	$(el).children()
+	$(el).slideUp();
+	$(el).prev("#shown").slideDown(500);
+	
+}
+function fn_preventEvent(event){
+	 var event = event || window.event;
+	 
+	//ie를 제외한 브라우져
+     event.stopPropagation();
+     //ie8이하 브라우져
+     event.cancelBubble = true;
+}
+function fn_updateDeliveryAddr(el, event, idNum){
+	//ie를 제외한 브라우져
+	
+    event.stopPropagation();
+    //ie8이하 브라우져
+    event.cancelBubble = true;
+    
+    var postNum = $("#postNum"+idNum).val();
+    var address = $("#address"+idNum).val();
+    var details = $("#details"+idNum).val();
+    var supportNo = idNum;
+    if(postNum.length ==0 || address.length ==0 || details.length == 0){
+    	alert("우편번호와 주소를 확인해주세요.");
+    	return false;
+    }
+    address = address+" "+details;
+    console.log(postNum);
+    console.log(address);
+    console.log(supportNo);
+       
+    $.ajax({
+    	url : "${pageContext.request.contextPath}/gift/updateDeliveryAddr.do",
+    	data : {postNum : postNum, address : address, supportNo : supportNo},
+    	type : "POST",
+    	success : function(data){
+    		console.log(data);
+    		if(data == 1){
+    			alert("성공적으로 주소를 수정했습니다.");
+    			toNextAjax();
+    			
+    		}else{
+    			alert("주소수정에 실패했습니다.");
+    		}
+    	},
+    	error : function(jqxhr,textStatus,errorThrown){
+    		console.log("ajax 실패");
+    	}
+    	
+    })
+    
+    
+    
+	
+}
 
 
 /* 검색   */
@@ -60,6 +114,8 @@ function fn_searchTypeChange(){
 }
 
 $(function (){
+	
+	
 	
 	var email = $("#email").val().trim();
 	
@@ -136,7 +192,7 @@ function htmlAppend(gift, div_name){
 	html += '<span style = "font-size:20px; font-weight: 20px; color : yellowgreen;>'+gift.itemName+'</span>(비 배송상품)';	
 	}
 	html += '<p><span style="color : lightseagreen; font-size:20px;">'+gift.itemNumber+'</span> 개</p>';
-	html += '<p style="margin-top : 5px;">'+gift.address+'</p>';
+	html += '<p style="margin-top : 5px;">'+gift.postNum+' || '+gift.address+'</p>';
 	html += '</div>';
 	html += '<div id="right-content">'
 	html += '<div class="days" style = "margin-top : 10px;">';
@@ -154,10 +210,14 @@ function htmlAppend(gift, div_name){
 	html += '</div>';
 	html += '</div>';  /* div-gift #shown close  */
 	
-	html += '<div class="hidden" onclick = "">';
-	html += '<h3>배송지 수정하기</h3></br>';
-	html += '<input type="hidden" name="supportNo" id ="projectNo" value="'+gift.supportNo+'"/>';
-	html += '<input type="text" name = "address" size = "60" value="'+gift.address+'" id="updateAddress"/>';
+	html += '<div class="div-gift hidden" id="hidden" onclick = "fn_hiddenSlide(this);">';
+	html += '<h3 style="color : gray;">배송지 수정하기</h3></br>';
+	html += '<input type="hidden"  id ="projectNo" value="'+gift.supportNo+'"/>';
+	html += '<input type="text" name="postNum" id="postNum'+gift.supportNo+'" class = "addrText"   onclick = "fn_preventEvent(event);" size = "10" class = "addrText" maxlength = "10" style="width : 20%;" placeholder = "우편번호" >&nbsp;&nbsp;<input type="text" name = "address1"  id="address'+gift.supportNo+'" class = "addrText " size = "50"  style = "width : 60%;"  maxlength="30" onclick = "fn_preventEvent(event)" size = "60" placeholder = "기본 주소"/>';
+	html += '<br/><br/>';
+	html += '<input type="text" name="address2" id="details'+gift.supportNo+'" class = "addrText " onclick = "fn_preventEvent(event);"  style = "width : 60%; margin-left : 190px;"  maxlength = "30" placeholder = "상세주소"><br/><br/>';
+	html += '<input type = "button" class = "btn btn-danger"  id="postcodify_search_button" onclick ="fn_inputAddr(event,this,'+gift.supportNo+');"  value="우편번호 찾기">&nbsp;&nbsp;<input type = "button" class = "btn btn-success" onclick = "fn_updateDeliveryAddr(this, event,'+gift.supportNo+');" value = "주소 수정">'
+	html += '<input type = "hidden" id="idNum'+gift.supportNo+'" value="'+gift.supportNo+'"/>';
 	html += '</div>';
 	
 	
@@ -167,8 +227,8 @@ function htmlAppend(gift, div_name){
 
 function htmlAppendNone(startIndex, div_name){
 		
-		var html = '';
-		html += '<span style = "font-size : 25px; text-align : center; color : lightgray; font-weight : bolder; margin-left : 35%; ">'
+		var html = ''; 	
+		html += '<span style = "font-size : 25px; color : lightgray; font-weight : bolder; margin-left : 35%; ">'
 		html += '받으실 선물이 없습니다';
 		html += '</span>';
 		
@@ -194,6 +254,7 @@ function toNextAjax(){
 				
 		    	for(var i = 0; i < data.length; i++){	    		
 		    		htmlAppend(data[i],div_name);
+		    		
 				}
 		    	
 		    	if(data.length < 1){
@@ -211,102 +272,7 @@ function toNextAjax(){
 
 
 
-
 </script>
-
-
-
-<style>
-div.myProfile-container{
-width : 100%;
-height : 500px;
-background-color : #ebeae5;
-border : 1.2px solid #efeded; 
-padding-bottom : 80px;
-
-}
-div#changable-content{
-width : 500px;
-height : 30%;
-margin: auto;
-margin-bottom : 40px;
-text-align:center;
-line-height: 200px;
-padding-top : 100px;
-}
-.profileImage{
-	width:150px;
-	height:150px;
-	margin:auto;
-	border-radius : 100px;
-	border : 5px solid white;
-	
-}
-
-#searchType {
-  margin-left : 100px;
-  width: 180px;
-  font-family: inherit;
-  background: url(https://farm1.staticflickr.com/379/19928272501_4ef877c265_t.jpg) no-repeat 95% 50%;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  border: 1px solid white;
-  border-radius: 0px;
-}
-div.myGiftList-container{
-margin : auto;
-width : 75%;
-padding-bottom : 80px;
-background : ;
-}
-div.div-gift{
-width: 80%;
-height : 30%;
-border-radius : 20px;
-border : 1px solid lightgray;
-margin-bottom : 25px;
-padding-top : 15px;
-}
-div.hidden{
-	width: 80%;
-	height : 30%;
-	border-radius : 20px;
-	border : 1px solid lightgray;
-	margin-bottom : 25px;
-	padding-top : 15px;
-	display: none;
-}
-div#left-content{
-float : left;
-margin-left : 25px;
-margin-top : 15px;
-
-}
-div#right-content{
-float : right;
-margin-top : 20px;
-margin-right : 40px;
-
-}
-p.title{
-font-weight : bolder;
-font-size: 25px;
-margin-bottom : 40px;
-}
-
-div.div-gift:hover{
-	position: relative;
-    top: -3px;
-    left: -3px;
-    box-shadow: 5px 5px 15px lightgrey;
-    cursor: pointer;
-}
-
-
-
-
-</style>
 
 <div class="myProfile-container">
 	<div id = "changable-content">
@@ -337,9 +303,38 @@ div.div-gift:hover{
 <div class="gift-project" id="div-giftList">
 
 </div>
-<input type="button" value="더보기" class = "btn btn-success" style = "width:1024px; margin: auto;"  onclick = "toNextAjax('${pageContext.request.contextPath}/project/selectMyProjectYet','${memberLoggedIn.email}','div-giftList','div-giftList');" />
+<input type="button" value="더보기" class = "btn btn-success" style = "width:1024px; margin: auto; margin-top : 200px;"  onclick = "toNextAjax('${pageContext.request.contextPath}/project/selectMyProjectYet','${memberLoggedIn.email}','div-giftList','div-giftList');" />
 
 </div>
+
+<!-- jQuery와 Postcodify를 로딩한다 -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script src="//d1p7wdleee1q2z.cloudfront.net/post/search.min.js"></script>
+
+<!-- 위에서 생성한 <div>에 검색 기능을 표시하고, 결과를 입력할 <input>들과 연동한다 -->
+<script>
+var windowObj;
+
+	function fn_inputAddr(event, el, idNum){
+		var event = event || window.event;
+		 console.log(idNum);
+		//ie를 제외한 브라우져
+	     event.stopPropagation();
+	     //ie8이하 브라우져
+	     event.cancelBubble = true;
+	   
+	    windowObj =  window.open("${pageContext.request.contextPath}/gift/findAddress.do?idNum="+idNum,"findAddr","width = 700px height=500px left= 500px top = 200px menubar=no toolbar=no location=no");
+	   
+	    //windowObj.document.getElementById("idNum").value =document.getElementById('idNum'+idNum).value;
+	    
+
+	    
+	    
+		
+	}
+	
+	
+</script>
 
 
 
