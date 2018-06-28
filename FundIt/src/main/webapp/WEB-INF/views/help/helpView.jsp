@@ -127,7 +127,6 @@ a {
   line-height: 1.6;
 }
 
-
 .button {
   background-color: #6279fa;
   border: 0;
