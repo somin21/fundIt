@@ -9,6 +9,127 @@
 	<jsp:param value="funding-gift" name="sectionName"/>
 </jsp:include>
 
+<script>
+$(function(){
+	
+	/* CSS 수정 */
+	$("#funding-money").parent("p").css("text-align","left");
+	$("#funding-money").css("width","25%");
+	$("#deadline-date").parent("p").css("text-align","left");
+	$("#deadline-date").css({"width":"30%","margin-right":"10px"});
+	
+	
+	/* 목표 금액 */
+	$("#funding-money").focus(function(){
+		if($(this).val() == "0"){
+			$(this).val("");
+		}
+	});
+	
+	$("#funding-money").keyup(function(){
+		if($(this).val() < 5000){
+			
+			$("#money-warning").css("display","inline");
+			$(this).css("border-color","red");
+			
+			$(this).parent().next().children(".saveBtn").attr("disabled","disabled");
+			
+		} else {
+			$("#money-warning").css("display","none");
+			$(this).css("border-color","#ccdafc");
+			$(this).parent().next().children(".saveBtn").removeAttr("disabled");
+		}	
+	});
+	
+	$("#funding-money").blur(function(){
+		
+		var regExp = /^[1-9][0-9]{3,}$/;
+		if(!regExp.test($(this).val())){
+			var change = $(this).val().replace(/^0{1,}/, "");
+			$(this).val(change);
+		}	
+	});
+	
+	/* 선물 구성 - 최소 후원금액 */
+	$("#min-money").keyup(function(){
+		
+		if($(this).val() < 1000){
+			
+			$("#minMoney-warning").css("display","inline");
+			$(this).css("border-color","red");
+			$(this).parent().next().children(".giftSaveBtn").attr("disabled","disabled");
+			
+		} else {
+			
+			$("#minMoney-warning").css("display","none");
+			$(this).css("border-color","#ccdafc");
+			$(this).parent().next().children(".giftSaveBtn").removeAttr("disabled");
+		}
+	});
+	
+	/* 마감일 */
+	var tomorrow = new Date();
+	tomorrow.setDate(tomorrow.getDate()+1);
+	
+	var day = tomorrow.getDate();
+	var month = tomorrow.getMonth()+1;
+	var year = tomorrow.getFullYear();
+	
+	if(day<10){
+		day = "0"+day;
+	}
+	if(month<10){
+		month = "0"+month;
+	}
+	
+	$("#deadline-date").val(year+"-"+month+"-"+day);
+	
+	var fDate = new Date();
+	fDate.setDate(fDate.getDate()+60);
+	
+	var fDay = fDate.getDate();
+	var fMonth = fDate.getMonth()+1;
+	var fYear = fDate.getFullYear();
+	
+	if(fDay<10){
+		fDay = "0"+fDay;
+	}
+	if(fMonth<10){
+		fMonth = "0"+fMonth;
+	}
+	
+	$("#deadline-date").change(function(){
+			
+		var value = $(this).val() + "";
+		
+		var year = value.substring(0,4);
+		var month = value.substring(5,7);
+		var day = value.substring(8,10);
+		
+		var val_date = new Date();
+		val_date.setFullYear(year);
+		val_date.setMonth(month-1);
+		val_date.setDate(day);
+		
+		if(val_date < tomorrow || val_date > fDate){
+			
+			$("#date-warning").text("펀딩 마감일은 내일 날짜 ( "+year+"-"+month+"-"+day+" )부터 60일 후의 날짜 ( "+fYear+"-"+fMonth+"-"+fDay+" )까지 선택 가능합니다.");
+			$(this).parent().next().children(".saveBtn").attr("disabled","disabled");
+			
+		} else {
+			
+			$("#date-warning").text("");
+			$(this).parent().next().children(".saveBtn").removeAttr("disabled");
+			
+		}
+		console.log(val_date);
+		
+	});
+	
+})
+</script>
+
+
 <form action="">
 
 	<!-- 펀딩 목표 설정 -->
@@ -39,21 +160,21 @@
 					마감일 자정까지 목표 금액을 100% 이상 달성하셔야만 모인 후원금이 결제됩니다. <br>
 					마지막에 후원을 취소하는 후원자들을 감안해 10% 이상 초과 달성을 목표로 하시는게 안전합니다. <br>
 					(목표 금액은 제작비, 선물 배송비, 진행자의 인건비, 예비 비용 등을 고려하시기 바랍니다.) <br>
-					<span class="red-font">** 목표 금액은 5,000원 이상입니다.</span>
+					<span class="red-font" id="money-warning">** 목표 금액은 5,000원 이상입니다.</span>
 				</p>
 				<p>
-					<input type="number" id="funding-money" name="fundingMoney" value="0" /> 
+					<input type="number" id="funding-money" name="fundingMoney" value="0" min="5000"/> 
 					<span class="bold-font">원</span>
 					<!-- 수수료 -->
 				</p>
 				<p>
-					<button type="button">
+					<button type="button" class="closeBtn">
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/x.png" />
-						취소하기
+						닫기
 					</button>
-					<button type="button">
+					<button type="button" class="saveBtn">
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/ok.png" />
-						저장하기
+						저장
 					</button>
 				</p>
 			</div>
@@ -79,26 +200,22 @@
 				<p>프로젝트 마감일</p>
 				<p>
 					펀딩이 끝나는 마감일을 정해주세요. <br />
-					<span class="red-font">
-						** 펀딩 마감일은 오늘로부터 60일 이내의 날짜 중에 고르실 수 있습니다. <br>
-						** 이미 선물을 만드셨다면, 선물 실행일 중에 마감일보다 이른 날짜가 있지는 않은지 꼭 확인해주세요.
-					</span>
+					펀딩 마감일은 오늘로부터 60일 이내의 날짜 중에 고르실 수 있습니다. <br>
+					이미 선물을 만드셨다면, 선물 실행일 중에 마감일보다 이른 날짜가 있지는 않은지 꼭 확인해주세요. <br>
+					<span class="red-font" id="date-warning"></span>
 				</p>
 				<p>
-					<span class="bold-font">오늘로부터 </span>
-					<input type="number" id="deadline-day" name="deadlineDay" />
-					<span class="bold-font">일 뒤인 </span>
 					<input type="date" id="deadline-date" name="deadlineDate" />
 					<span class="bold-font">에 펀딩을 마감합니다.</span>
 				</p>
 				<p>
-					<button type="button">
+					<button type="button" class="closeBtn">
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/x.png" />
-						취소하기
+						닫기
 					</button>
-					<button type="button">
+					<button type="button" class="saveBtn">
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/ok.png" />
-						저장하기
+						저장
 					</button>
 				</p>
 			</div>
@@ -108,27 +225,15 @@
 	</div>
 	
 	<br /><br />
-				
+
 	<!-- 예상 정산일 -->
 	<div class="make-project-section">
 		<p class="title">예상 정산일</p>
 		<div class="make-project-content">
 			
 			<!-- 예상 정산일 START -->
-			<div class="fund-duedate">
-				<p>예상 정산일</p>
-				<p>
-					<span>
-						<img src="${pageContext.request.contextPath }/resources/images/makeProject/hand_pointer.png" />
-						&nbsp;&nbsp;
-						프로젝트 요약을 입력해주세요
-					</span>
-					<span>
-						<img src="${pageContext.request.contextPath }/resources/images/makeProject/write.png" />
-						&nbsp;
-						<span>입력하기</span>
-					</span>
-				</p>
+			<div id="fund-duedate">
+				프로젝트 마감일을 선택하시면, 예상 정산일이 표시됩니다.				
 			</div>
 			<!-- 예상 정산일 END -->
 			
@@ -143,34 +248,108 @@
 		<div class="make-project-content">
 			
 			<!-- 선물 추가하기 START -->
-			<div class="shown gift">
+			<div class="shown" id="gift">
 				<p>선물 추가하기</p>
 				<p>
 					<span>후원자분들에게 드릴 새로운 선물을 만듭니다.</span>
 				</p>
 				<p>
-					<button type="button">
-						<img src="${pageContext.request.contextPath }/resources/images/makeProject/x.png" />
+					<button type="button" id="addGiftBtn">
+						<img src="${pageContext.request.contextPath }/resources/images/makeProject/addGift.png" />
 						추가하기
 					</button>
 				</p>
 			</div>
 			
-			<div class="hidden gift-hidden">
-				<p>선물 추가하기</p>
-				<p>
-					후원자 분들에게 드릴 선물 내용을 입력해주세요.
-				</p> 
-				<hr />
-				<p>
-					<span class="bold-font gray-font">최소 후원금액</span> <br/>
-					인기 금액대인 1만원대 선물부터 특별한 의미를 담은 10만원 이상 선물까지, 다양한 금액대로 구성하면 성공률이 더욱 높아집니다. <br />
-					배송이 필요한 선물의 경우, <span class="bold-font">배송비 포함</span>된 금액으로 작성해주세요.
-				</p>
-				<p>
-					<input type="number" id="min-money" name="minMoney" value="0" />
-					<span class="bold-font">원 이상 밀어주시는 분께 드리는 선물입니다.</span>
-				</p>
+			<div class="hidden" id="add-gift">
+				<div id="gift-title">
+					<p>선물 추가하기</p>
+					<p>
+						후원자 분들에게 드릴 선물 내용을 입력해주세요.
+					</p> 
+				</div>
+				<div id="gift-money">
+					<p>최소 후원금액</p>
+					<p>
+						인기 금액대인 1만원대 선물부터 특별한 의미를 담은 10만원 이상 선물까지, 다양한 금액대로 구성하면 성공률이 더욱 높아집니다. <br />
+						배송이 필요한 선물의 경우, <span class="bold-font">배송비 포함</span>된 금액으로 작성해주세요. <br />
+						<span id="minMoney-warning" class="red-font" style="display:none">** 최소 후원금액은 1,000원입니다.</span>
+					</p>
+					<p>
+						<input type="number" id="min-money" name="minMoney" value="0" min="1000" />
+						<span class="bold-font">원 이상 밀어주시는 분께 드리는 선물입니다.</span>
+					</p>
+				</div>
+				<div id="item">
+					<p>선물에 포함된 아이템</p>
+					<p>
+						아이템은 <span class="bold-font">선물에 포함되는 구성 품목</span>을 말합니다. <br />
+						이 금액대의 선물을 선택한 후원자에게 어떤 아이템들을 전달하실지 선택해주세요.
+					</p>
+					<table>
+						<thead>
+							<tr>
+								<td>포함</td>
+								<td>아이템 이름</td>
+								<td>수량 설정</td>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>
+									<img src="${pageContext.request.contextPath }/resources/images/makeProject/checked_gray.png" />
+								</td>
+								<td>아이템을 만들어주세요</td>
+								<td>
+									<img src="${pageContext.request.contextPath }/resources/images/makeProject/minus_gray.png" />
+									&nbsp;&nbsp;
+									<span class="gift-number">0</span>
+									&nbsp;&nbsp;
+									<img src="${pageContext.request.contextPath }/resources/images/makeProject/plus_gray.png" />
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<p>
+						<button type="button" id="addItenBtn" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+							<img src="${pageContext.request.contextPath }/resources/images/makeProject/addItem.png" />
+							아이템 만들기
+						</button>
+						<jsp:include page="/WEB-INF/views/project/projectMake_item.jsp" />
+					</p>
+				</div>
+				<div id="gift-explain">
+					<p>선물 설명</p>
+					<p>
+						구성된 선물에 대해 추가적으로 알리고 싶은 내용을 적어주세요.
+					</p>
+					<p>
+						<input type="text" id="gift-explain" name="giftExplain" placeholder="예) 배송비 포함, &lt선물세트A> 등" />
+						<span class="letter-cnt"><span class="total-letter">50</span>자 남았습니다</span>
+					</p>
+				</div>
+				<div id="gift-delivery">
+					<p>선물 설정</p>
+					<p>
+						배송이 필요한 선물인 경우 후원자에게 주소지를 요청합니다.
+					</p>
+					<p style="position: relative">
+						<input type="radio" name="giftDelivery" id="giftDeliveryYES" value="Y" checked/>
+						<label for="giftDeliveryYES">배송이 필요한 선물입니다</label>
+						<input type="radio" name="giftDelivery" id="giftDeliveryNO" value="N"/>
+						<label for="giftDeliveryNO">배송이 필요하지 않은 선물입니다</label>
+					</p>
+				</div>
+				<div id="btnCloseSave">
+					<button type="button" class="giftCloseBtn">
+						<img src="${pageContext.request.contextPath }/resources/images/makeProject/x.png" />
+						닫기
+					</button>
+					<button type="button" class="giftSaveBtn">
+						<img src="${pageContext.request.contextPath }/resources/images/makeProject/ok.png" />
+						저장
+					</button>
+				</div>
 			</div>
 			<!-- 선물 추가하기 END -->
 			
@@ -208,16 +387,16 @@
 				</p>
 				<p>
 					<textarea name="refund" id="refund" cols="30" rows="10" placeholder="환불 및 교환 정책을 입력해주세요"></textarea>
-					<br /><span class="letter-cnt">1000자 남았습니다</span>
+					<span class="letter-cnt"><span class="total-letter">1000</span>자 남았습니다</span>
 				</p>
 				<p>
-					<button type="button">
+					<button type="button" class="closeBtn">
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/x.png" />
-						취소하기
+						닫기
 					</button>
-					<button type="button">
+					<button type="button" class="saveBtn">
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/ok.png" />
-						저장하기
+						저장
 					</button>
 				</p>
 			</div>
