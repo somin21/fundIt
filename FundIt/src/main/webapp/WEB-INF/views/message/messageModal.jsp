@@ -13,13 +13,6 @@ window.onload = function () {
    $(".btn-info").click();
    $("#sendEmailHide").hide();
    $("#projectNo").hide();
-   $('#myModal').modal({backdrop: 'static', keyboard: false}) ;
-   
-  
- 
-
-
-   
 }
 
 
@@ -48,7 +41,7 @@ width:100%;
   <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" >Open Large Modal</button>
   <!-- Modal -->
   <div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title">창작자에게 문의하기</h4>
@@ -74,7 +67,9 @@ width:100%;
     </div>
   </div>
 </div>
-
+<script>
+$('#myModal').modal({backdrop: 'static'});
+</script>
 
 
    

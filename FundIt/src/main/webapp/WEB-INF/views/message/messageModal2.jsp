@@ -43,6 +43,9 @@ color:white;
 .messagearea{
 width:100%;
 }
+
+
+
 </style>
 
 
@@ -51,7 +54,7 @@ width:100%;
   <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" >Open Large Modal</button>
   <!-- Modal -->
   <div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title">상세보기 및 답장하기</h4> <button type="button" onclick="receive();" class="btn btn-default">답장하기</button>
@@ -79,7 +82,9 @@ width:100%;
     </div>
   </div>
 </div>
-
+<script>
+$('#myModal').modal({backdrop: 'static'});
+</script>
 
 
    

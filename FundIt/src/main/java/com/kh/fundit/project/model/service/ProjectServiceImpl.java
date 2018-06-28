@@ -128,5 +128,10 @@ public class ProjectServiceImpl implements ProjectService {
 	public List<ProjectGift> projectGiftList(Map<String, Object> map) {
 		return projectDAO.projectGiftList(map);
 	}
+//영준
+	@Override
+	public int rownum(String email) {
+		return projectDAO.rownum(email);
+	}
 
 }

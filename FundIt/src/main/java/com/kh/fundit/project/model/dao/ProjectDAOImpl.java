@@ -136,4 +136,9 @@ public class ProjectDAOImpl implements ProjectDAO {
 		return sqlSession.selectList("project.projectGiftList", map);
 	}
 
+//영준
+	public int rownum(String email) {
+		return sqlSession.selectOne("project.rownum",email);
+	}
+
 }

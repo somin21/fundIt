@@ -1,6 +1,6 @@
 package com.kh.fundit.message.model.vo;
 
-import java.sql.Date;
+
 
 public class Message {
 
@@ -9,7 +9,7 @@ public class Message {
 	private String readyn;
 	private String sendEmail;
 	private String receiveEmail;
-	private Date messageDate;
+	private String messageDate;
 	public int getMessageNo() {
 		return messageNo;
 	}
@@ -40,10 +40,10 @@ public class Message {
 	public void setReceiveEmail(String receiveEmail) {
 		this.receiveEmail = receiveEmail;
 	}
-	public Date getMessageDate() {
+	public String getMessageDate() {
 		return messageDate;
 	}
-	public void setMessageDate(Date messageDate) {
+	public void setMessageDate(String messageDate) {
 		this.messageDate = messageDate;
 	}
 	@Override
@@ -52,7 +52,7 @@ public class Message {
 				+ ", sendEmail=" + sendEmail + ", receiveEmail=" + receiveEmail + ", messageDate=" + messageDate + "]";
 	}
 	public Message(int messageNo, String messageContent, String readyn, String sendEmail, String receiveEmail,
-			Date messageDate) {
+			String messageDate) {
 		super();
 		this.messageNo = messageNo;
 		this.messageContent = messageContent;

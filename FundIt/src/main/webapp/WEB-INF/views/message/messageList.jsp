@@ -3,6 +3,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+ <%@page import="java.util.Date" %>
+ <%@page import="java.text.SimpleDateFormat" %>
+
 
 <jsp:include page="/WEB-INF/views/common/header.jsp">
    <jsp:param value="" name="pageTitle"/>
@@ -53,10 +56,11 @@ window.onload = function () {
 	$("#loggedinemail").hide();
 	
 }
-
-
-
 </script>
+
+
+
+
     <div class="maincontainer">
         <h1 id="messageContainer">
            <img src="${pageContext.request.contextPath }/resources/images/message/message.png" alt="" />Message
@@ -80,6 +84,7 @@ window.onload = function () {
 	</tr>
 
 	<c:forEach items="${list}" var="message">
+
 		<tr>
 			<%-- <td>${message.messageNo}</td> --%>
 			<td ><a href="${pageContext.request.contextPath }/message/messageModal2.do?email=${message.receiveEmail}&email2=${message.sendEmail}&messageNo=${message.messageNo}" class="content">${message.messageContent } </a></td>
@@ -95,7 +100,7 @@ window.onload = function () {
 		<form action="messageSelect.do">
 <input type="text" value="${param.email }" name="email" id="loggedinemail"/> 
 <input type="text" placeholder="메일검색" onkeydown="JavaScript:Enter_Check();" name="messageSelect" value="" />
-<input type="submit" value="확인" />
+<input type="submit" value="검색" />
 </form>
 
 </table>

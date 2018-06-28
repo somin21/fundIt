@@ -48,4 +48,6 @@ public interface ProjectDAO {
 
 	List<ProjectGift> projectGiftList(Map<String, Object> map);
 
+	int rownum(String email);
+
 }
