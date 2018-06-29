@@ -163,4 +163,11 @@ public class ProjectServiceImpl implements ProjectService {
 		return projectDAO.deliveryInsert(map);
 	}
 
+//	소민
+	@Override
+	public com.kh.fundit.member.model.vo.Profile makeProject(String email) {
+
+		return projectDAO.makeProjectOutline(email);
+	}
+
 }

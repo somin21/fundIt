@@ -11,7 +11,11 @@
 </jsp:include>
 
 
-<form action="">
+<form action="${pageContext.request.contextPath }/project/makeProject/funding-gift" onsubmit="return project_validate('#outline');" method="post" >
+
+	<input type="hidden" name="email" value="${memberLoggedIn.email }" />
+	<input type="hidden" name="phone" value="${profile.phone }" />
+	
 	<!-- 프로젝트 개요 -->
 	<div class="make-project-section">
 		<p class="title">프로젝트 개요</p>
@@ -156,7 +160,7 @@
 					(프로젝트 성격과 맞지 않는 카테고리를 선택하실 시 후원자가 해당 프로젝트를 찾기 어려워지기에 에디터에 의해 조정될 수 있습니다.)
 				</p>
 				<p>
-					<select name="category" id="category">
+					<select name="categoryCode" id="category">
 						<option selected disabled value="">프로젝트 카테고리를 정해주세요</option>
 						<option value="C1">게임</option>
 						<option value="C2">푸드</option>
@@ -355,7 +359,7 @@
 					활동 지역을 구체적으로 기입해주시면  프로젝트의 신뢰를 높이는데 도움이 됩니다.
 				</p>
 				<p>
-					<select name="local" id="local">
+					<select name="localCode" id="local">
 						<option selected disabled value="">활동 지역을 정해주세요</option>
 						<option value="L1">서울</option>
 						<option value="L2">부산</option>
@@ -389,7 +393,6 @@
 			
 		</div>
 	</div>
-</form>
 
 
 <jsp:include page="/WEB-INF/views/project/projectMake_footer.jsp" >

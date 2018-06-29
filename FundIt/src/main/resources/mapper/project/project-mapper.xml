@@ -180,5 +180,9 @@
 		 where 1=1 and i.projectno = p.projectno and i.email = #{email} and rownum <![CDATA[>=]]> 1 and rownum <![CDATA[<=]]> 8)
 	</select>
 	
+	<select id="makeProjectOutline" resultType="profile">
+	select * from profile where email = #{email}
+	</select>
+	
 	
 </mapper>

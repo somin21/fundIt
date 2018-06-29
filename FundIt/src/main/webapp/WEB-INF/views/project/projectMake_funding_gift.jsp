@@ -130,7 +130,7 @@ $(function(){
 </script>
 
 
-<form action="">
+<form action="${pageContext.request.contextPath }/project/makeProject/story" onsubmit="return project_validate('#funding-gift');" method="post" >
 
 	<!-- 펀딩 목표 설정 -->
 	<div class="make-project-section">
@@ -407,7 +407,6 @@ $(function(){
 			
 		</div>
 	</div>
-</form>
 
 <jsp:include page="/WEB-INF/views/project/projectMake_footer.jsp" >
 	<jsp:param value="funding-gift" name="sectionName"/>

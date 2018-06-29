@@ -62,4 +62,6 @@ public interface ProjectDAO {
 
 	int deliveryInsert(Map<String, Object> map);
 
+	com.kh.fundit.member.model.vo.Profile makeProject(String email);
+
 }

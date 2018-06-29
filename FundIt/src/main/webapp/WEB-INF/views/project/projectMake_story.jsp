@@ -11,7 +11,7 @@
 </jsp:include>
 
 
-<form action="">
+<form action="${pageContext.request.contextPath }/project/makeProject/account" onsubmit="return project_validate('#story');" method="post" >
 	
 	<!-- 프로젝트 소개 영상 -->
 	<div class="make-project-section">
@@ -107,7 +107,6 @@
 		</div>
 	</div>
 	
-</form>
 
 
 <jsp:include page="/WEB-INF/views/project/projectMake_footer.jsp" >

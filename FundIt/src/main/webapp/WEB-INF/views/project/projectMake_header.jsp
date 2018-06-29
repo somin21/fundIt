@@ -8,6 +8,40 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/style-make-project.css" />
 
 <script>
+function project_validate(sectionName){
+	
+	var bool = true;
+	var el = $(sectionName);
+	var input = el.find("input");
+	var select = el.find("select");
+	var textarea = el.find("textarea");
+	
+	input.each(function(){
+		if($(this).attr("id") != "gift-explain" && $(this).attr("id") != "project-movie" && ($(this).val() == "0" || $(this).val() == "")){
+			bool = false;
+		}
+	});
+	select.each(function(){
+		if($(this).val() == null || $(this).val() == ""){
+			bool = false;
+		}
+	});
+	textarea.each(function(){
+		if($(this).val() == ""){
+			bool = false;
+		}
+	});
+	
+	if(bool == false){
+		alert("선택 항목을 제외한 모든 항목은 필수사항입니다");
+		return false;
+	} else {
+		return true;
+	}
+}
+</script>
+
+<script>
 $(function(){
 	
 	/* 파일업로드 버튼 */
@@ -165,8 +199,10 @@ $(function(){
 						
 		var html = "";
 		
-		if(elem.first().prop("tagName") != "SPAN"){
+		if(elem.first().prop("tagName") != "SPAN" && elem.first().prop("tagName") != "BUTTON"){
 			if(elem.first().val() == "" || elem.first().val() == "0" || elem.first().val() == null){
+				console.log("save실패");
+				console.log(elem.first().prop("tagName"));
 				return;
 			} 
 		}
@@ -421,7 +457,8 @@ function previewImage(fileObj, imgPreviewId) {
 	</div>
 	
 	
-	<div class="make-project-contents">
+	<div class="make-project-contents" id="${param.sectionName }">
+	
 	
 		
 	

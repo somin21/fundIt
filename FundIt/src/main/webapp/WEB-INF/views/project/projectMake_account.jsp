@@ -11,7 +11,7 @@
 </jsp:include>
 
 
-<form action="">
+<form action="${pageContext.request.contextPath }/project/makeProject/end" onsubmit="return project_validate('#account');" method="post" >
 	
 	<!-- 연락처 인증 -->
 	<div class="make-project-section">
@@ -207,7 +207,6 @@
 		</div>
 	</div>
 	
-</form>
 
 <style>
 div.make-project-content div#account div:first-of-type{

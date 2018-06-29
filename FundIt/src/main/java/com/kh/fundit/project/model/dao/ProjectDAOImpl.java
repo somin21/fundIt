@@ -168,4 +168,11 @@ public class ProjectDAOImpl implements ProjectDAO {
 		return sqlSession.insert("project.deliveryInsert", map);
 	}
 
+//	소민
+	@Override
+	public com.kh.fundit.member.model.vo.Profile makeProject(String email) {
+		
+		return sqlSession.selectOne("project.makeProjectOutline", email);
+	}
+
 }

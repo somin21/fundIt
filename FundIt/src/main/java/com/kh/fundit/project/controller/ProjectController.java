@@ -428,14 +428,35 @@ public class ProjectController {
 
 //	소민
 	@RequestMapping("/project/makeProject/outline")
-	public String makeProjectOutline() {
-		return "project/projectMake_outline";
+	public ModelAndView makeProjectOutline(@RequestParam String email) {
+		
+		ModelAndView mav = new ModelAndView();
+		
+		Profile profile = projectService.makeProject(email);
+		
+		mav.addObject("profile", profile);
+		mav.setViewName("project/projectMake_outline");
+		
+		return mav;
 	}
 	
 //	소민
 	@RequestMapping("/project/makeProject/funding-gift")
-	public String makeProjectFundingGift() {
-		return "project/projectMake_funding_gift";
+	public ModelAndView makeProjectFundingGift(ProjectOutline outline, Profile profile) {
+		
+		ModelAndView mav = new ModelAndView();
+		
+		System.out.println(outline);
+		System.out.println(profile);
+		
+		int o_result = projectService.makeProjectOutline(outline);
+		int p_result = projectService.makeProjectOutline(profile);
+		
+		
+//		mav.addObject("projectNo", projectNo);
+		mav.setViewName("project/projectMake_funding_gift");
+		
+		return mav;
 	}
 	
 //	소민
@@ -447,6 +468,12 @@ public class ProjectController {
 //	소민
 	@RequestMapping("/project/makeProject/account")
 	public String makeProjectAccount() {
+		return "project/projectMake_account";
+	}
+	
+//	소민
+	@RequestMapping("/project/makeProject/end")
+	public String makeProjectEnd() {
 		return "project/projectMake_account";
 	}
 
