@@ -129,7 +129,7 @@
 	        (select trunc(deadlinedate - sysdate) from project_funding f where p.projectno = f.projectno) deadlineday,
 	        s.supportmoney, s.supportpercent
 		from (select * from project_outline where projectconfirmyn='Y' and projectdeadlineyn='N' order by projectdate desc) p join project_summary s on p.projectno = s.projectno join interest i on i.projectno = p.projectno
-		 where 1=1 and i.projectno = p.projectno and i.email = #{email} and rownum <![CDATA[>=]]> 1 and rownum <![CDATA[<=]]> 8
+		 where 1=1 and i.projectno = p.projectno and i.email = #{email}
 		
 	</select>
 	
@@ -169,16 +169,7 @@
 	<insert id="insertPayment">
 		insert into payment values('${imp_uid}','${amount}','${buyer_id}','${apply_num}','${supportNo}','${merchant_uid}')
 	</insert>
-	
-	<select id="rownum" resultType="_int">
-		select count(*) from 
-		(select p.projectno, p.projectimage, p.projecttitle,
-	        (select name from member m where p.email = m.email) name,
-	        (select trunc(deadlinedate - sysdate) from project_funding f where p.projectno = f.projectno) deadlineday,
-	        s.supportmoney, s.supportpercent
-		from (select * from project_outline where projectconfirmyn='Y' and projectdeadlineyn='N' order by projectdate desc) p join project_summary s on p.projectno = s.projectno join interest i on i.projectno = p.projectno
-		 where 1=1 and i.projectno = p.projectno and i.email = #{email} and rownum <![CDATA[>=]]> 1 and rownum <![CDATA[<=]]> 8)
-	</select>
+
 	
 	
 </mapper>

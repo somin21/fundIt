@@ -3,9 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
- <%@page import="java.util.Date" %>
- <%@page import="java.text.SimpleDateFormat" %>
-
 
 <jsp:include page="/WEB-INF/views/common/header.jsp">
    <jsp:param value="" name="pageTitle"/>
@@ -51,15 +48,6 @@ text-overflow: ellipsis;
 white-space:nowrap;
 } 
 </style>
-<script>
-window.onload = function () {
-	$("#loggedinemail").hide();
-	
-}
-</script>
-
-
-
 
     <div class="maincontainer">
         <h1 id="messageContainer">
@@ -84,8 +72,7 @@ window.onload = function () {
 	</tr>
 
 	<c:forEach items="${list}" var="message">
-
-		<tr>
+		<tr >
 			<%-- <td>${message.messageNo}</td> --%>
 			<td ><a href="${pageContext.request.contextPath }/message/messageModal2.do?email=${message.receiveEmail}&email2=${message.sendEmail}&messageNo=${message.messageNo}" class="content">${message.messageContent } </a></td>
 			<td>${message.readyn }</td>
@@ -93,6 +80,7 @@ window.onload = function () {
 		<%-- 	<td>${message.receiveEmail }</td> --%>
 			<td>${message.messageDate }</td>
 		</tr>
+		
 	</c:forEach>
 <c:if test="${empty list }">
 			<h1>아직 메세지가 등록되지 않았습니다~~~~ㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎ</h1>
@@ -100,11 +88,12 @@ window.onload = function () {
 		<form action="messageSelect.do">
 <input type="text" value="${param.email }" name="email" id="loggedinemail"/> 
 <input type="text" placeholder="메일검색" onkeydown="JavaScript:Enter_Check();" name="messageSelect" value="" />
-<input type="submit" value="검색" />
+<input type="submit" value="확인" />
 </form>
 
 </table>
 </div>
+
 <!-- 페이지바 -->
 <%
 	String email = request.getParameter("email");
@@ -118,7 +107,7 @@ window.onload = function () {
 	}
 %>
 
-<%=com.kh.fundit.message.util.Utils.getPageBar(count,cPage,numPerPage,"messageList.do",email) %>
+<%=com.kh.fundit.message.util.Utils.getPageBar3(count,cPage,numPerPage,"messageList.do",email) %>
 
 
 </section>

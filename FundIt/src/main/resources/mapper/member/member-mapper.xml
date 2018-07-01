@@ -9,7 +9,8 @@
 		<result column="newsyn" property="newsyn"/>
 		<result column="adminyn" property="adminyn"/>
 		<result column="enrolldate" property="enrollDate"/>
-		<result column="enrolldate" property="naveryn"/>
+		<result column="naveryn" property="naveryn"/>
+		<result column="deleteyn" property="deleteyn"/>
 	</resultMap>
 	
 	<select id="selectMemberCnt" resultType="_int">
@@ -33,7 +34,7 @@
 	</update>
 	
 	<insert id="insertMember">
-	insert into member values(#{email},#{password},#{name},default,default,default,default)
+	insert into member values(#{email},#{password},#{name},default,default,default,default,default)
 	</insert>
 	
 	
@@ -63,7 +64,7 @@
    </select>
       
    <insert id="insertNaver">
-   insert into member values('${naverEmail}',null,'${naverName}',default,default,default,'Y')
+   insert into member values('${naverEmail}',null,'${naverName}',default,default,default,'Y',default)
    </insert>
 	
 	<select id="selectProfileImg" resultType = "String">

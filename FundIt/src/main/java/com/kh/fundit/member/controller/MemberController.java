@@ -147,9 +147,12 @@ public class MemberController {
 			String msg = "";
 			String loc = "/";
 			
-			if(m == null) {
-				msg = "존재하지 않는 아이디 입니다.";
-			} else {
+			if(m==null) {
+					msg = "존재하지 않은 아이디";
+				}else if(m.getDeleteyn().equals("Y")) {
+					msg = "삭제된 아이디 입니다";
+				}
+			 else {
 				if(bcryptPasswordEncoder.matches(password, m.getPassword())) {
 					msg = m.getName() + "님, 환영합니다!";
 					mav.addObject("memberLoggedIn", m);

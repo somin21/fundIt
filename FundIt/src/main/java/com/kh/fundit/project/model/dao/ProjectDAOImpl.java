@@ -137,10 +137,6 @@ public class ProjectDAOImpl implements ProjectDAO {
 	public List<ProjectGift> projectGiftList(Map<String, Object> map) {
 		return sqlSession.selectList("project.projectGiftList", map);
 	}
-//영준
-	public int rownum(String email) {
-		return sqlSession.selectOne("project.rownum",email);
-	}
 	
 //	희영
 	@Override

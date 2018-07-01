@@ -24,10 +24,11 @@ div.project  div.delete{
    display: inline-block;
    margin: 0 10px;
    text-align: left;
+
 }
 div.delete{
 display: inline-block;
-
+   margin: 20px;
 width: 240px;
 }
 div.project:hover{
@@ -132,7 +133,7 @@ div.project div.summary span.no-project{
    }
 }
 @media (max-width: 2070px){
-   div#index-container{text-align: center;}
+   div#index-container{text-align: center;width: 80%;  margin: auto;}
    div.maincontainer{text-align: center; padding: 80px;}
    div.maincontainer2{text-align: left; padding: 7px 10px 7px 16.1%;}
 }
@@ -239,6 +240,7 @@ select#select {
          <h1>아직 프로젝트가 등록되지 않았습니다~~~~ㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎ</h1>
       </c:if>
    </div>
+
 <script>
    $(function(){
       $(".project").click(function(){
@@ -259,7 +261,6 @@ select#select {
    
 
 </script>
-
 
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />

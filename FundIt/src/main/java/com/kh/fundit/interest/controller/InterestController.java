@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 
@@ -38,12 +39,10 @@ public class InterestController {
 	public ModelAndView projectList(@RequestParam("email") String email) {
 		ModelAndView mav = new ModelAndView();
 		
-		int rownum = projectService.rownum(email);
 		
 		
 		List<ListProjectView> list = projectService.interestList(email);
 		mav.addObject("list",list);
-		mav.addObject("rownum",rownum);
 		
 	
 	
@@ -52,6 +51,9 @@ public class InterestController {
 		return mav;
 	
 }
+	
+
+	
 	@RequestMapping("/interest/interestDelete.do")
 	public  ModelAndView interestDelete(@RequestParam("projectNo") int projectNo ,
 			@RequestParam("email") String email) {

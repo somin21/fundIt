@@ -49,8 +49,6 @@ public interface ProjectDAO {
 	int interestDelete(Map<String, Object> map);
 
 	List<ProjectGift> projectGiftList(Map<String, Object> map);
-
-	int rownum(String email);
 	
 	int insertPayment(Map<String, Object> map);
 
