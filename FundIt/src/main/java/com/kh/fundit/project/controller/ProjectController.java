@@ -434,6 +434,20 @@ public class ProjectController {
 		return mav;
 	}
 //	희영
+	@RequestMapping("/project/approval2.do")
+	public ModelAndView approval2(@RequestParam int projectNo, int num, String title ) {
+		ModelAndView mav = new ModelAndView();
+		
+		/*System.out.println("projectNo="+projectNo+"minMoney="+minMoney+"num="+num);*/
+
+		mav.addObject("projectNo",projectNo);
+		mav.addObject("num",num);
+		mav.addObject("title",title);
+		mav.setViewName("project/approval");
+		
+		return mav;
+	}
+//	희영
 	@RequestMapping(value="/project/payments.do",method=RequestMethod.POST,produces="application/json; charset=utf8")
 	public ModelAndView approval(@RequestParam String imp_uid, String merchant_uid, String apply_num, int amount, 
 			String buyer_id, int projectNo, String itemName, String postcode, String address, int minMoney) {

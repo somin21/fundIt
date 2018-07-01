@@ -91,7 +91,7 @@ table td#td{width: 70%}
 	var postcode = $("#sample4_postcode").val()
 	var address = $("#sample4_roadAddress").val()+" "+$("#sample4_jibunAddress").val();
 	var projectNo = ${projectNo};
-	var minMoney = ${minMoney};
+	var minMoney = ${minMoney==null? '0':minMoney};
 	
 	IMP.init('imp17080880');
 	IMP.request_pay({

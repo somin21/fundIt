@@ -369,7 +369,7 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
 						    <!-- 모달사용끝 -->
 		        		</c:if>
 		        		<c:if test="${empty cList}">
-		        			<span>게시글이 없습니다</span><br />
+		        			<br /><br /><br /><span>게시글이 없습니다</span>
 		        		</c:if>
 		        		<c:if test="${not empty cList}">
 		        			<c:forEach var="s" items="${cList }">

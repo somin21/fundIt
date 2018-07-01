@@ -25,10 +25,14 @@ function Approval(prjectNo,minMoney,title){
 		var num2 = $("#bt").next("#num").val();
 		console.log(num2);
 	}); */
-	console.log(prjectNo,minMoney,num,title);
+	/* console.log(prjectNo,minMoney,num,title); */
 	
 	location.href="${pageContext.request.contextPath}/project/approval.do?projectNo="
 				+prjectNo+"&minMoney="+minMoney+"&num="+num+"&title="+title;
+}
+function Approval2(projectNo,title){
+	var num2 = $("#num2").val();
+	location.href="${pageContext.request.contextPath}/project/approval2.do?projectNo="+projectNo+"&num="+num2+"&title="+title;
 }
 </script>
 <div class="title">
@@ -42,8 +46,8 @@ function Approval(prjectNo,minMoney,title){
 			<span>선물을 선택하지 않고, 밀어만 줍니다.</span>
 		</div>
 		<div class="menu2">
-			<input type="number" class="form-control" min="0" max="10000000" value="1000" step="100"/> 원
-			<button>클릭</button>
+			<input type="number" id="num2" class="form-control" min="0" max="10000000" value="1000" step="100"/> 원
+			<button onclick="Approval2('${projectNo }','${title }');">클릭</button>
 			<br /><br />
 			<span class="moneyMent">더 많이 입력하실 수 있습니다</span>
 			<br /><br /><br />
