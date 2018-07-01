@@ -218,11 +218,18 @@ public class ProjectServiceImpl implements ProjectService {
 		
 		return projectNo; 
 	}
+	
+//	소민
+	@Override
+	public void deleteItem(int projectNo) {
 
+		projectDAO.deleteItem(projectNo);
+	}
+	
 //	소민
 	@Override
 	public Item insertItem(Item item) {
-				
+		
 		Item result_item = new Item();
 		
 		try {
@@ -239,16 +246,53 @@ public class ProjectServiceImpl implements ProjectService {
 		return result_item; 
 	}
 
+//	소민
 	@Override
 	public void updateItem(Item item) {
 		
 		projectDAO.updateItem(item);
 	}
 
+//	소민
 	@Override
 	public List<Item> selectItemList(int projectNo) {
 		
 		return projectDAO.selectItemList(projectNo);
 	}
+
+//	소민
+	@Override
+	public void deleteGift(int projectNo) {
+
+		projectDAO.deleteGift(projectNo);
+	}
+
+//	소민
+	@Override
+	public ProjectGift insertGift(ProjectGift gift) {
+		
+		ProjectGift result_gift = new ProjectGift();
+		
+		try {
+			int result = projectDAO.insertGift(gift);
+			
+			if(result > 0) {
+				result_gift = gift;
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		
+		return result_gift; 
+	}
+
+//	소민
+	@Override
+	public void deleteGift(Map<String, Integer> map) {
+
+		projectDAO.deleteGift(map);
+	}
+
 
 }

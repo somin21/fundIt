@@ -196,6 +196,10 @@
 	insert into project_funding values(#{projectNo},#{supportGoal},#{deadlineDate},#{calculateDueDate})
 	</insert>
 	
+	<delete id="deleteItem">
+	delete from item where projectno=#{projectNo}
+	</delete>
+	
 	<insert id="insertItem">
 	insert into item values(seq_item_no.nextval,#{itemName},#{projectNo})
 	</insert>
@@ -207,5 +211,17 @@
 	<select id="selectItemList" resultType="item">
 	select * from item where projectno=#{projectNo}
 	</select>
+	
+	<delete id="deleteGift">
+	delete from project_gift where projectno=#{projectNo}
+	</delete>
+	
+	<insert id="insertGift">
+	insert into project_gift values(#{projectNo},#{minMoney},#{itemnumber},#{itemno},#{giftexplain},#{deliveryYN},null,seq_gift_no.nextval)
+	</insert>
+	
+	<delete id="deleteGiftOne">
+	delete from project_gift where projectno=#{projectNo} and minMoney=#{minMoney}
+	</delete>
 	
 </mapper>

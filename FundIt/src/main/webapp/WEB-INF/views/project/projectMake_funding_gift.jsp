@@ -126,6 +126,165 @@ $(function(){
 		
 	});
 	
+	$(".checkItem").click(function(){
+		
+		if($(this).attr("src") == "${pageContext.request.contextPath }/resources/images/makeProject/checked_black.png"){
+			
+			$(this).parents("tr").css("background","white");
+			$(this).attr("src","${pageContext.request.contextPath }/resources/images/makeProject/checked_gray.png");
+			$(this).parents("tr").find(".minusItem").attr("src","${pageContext.request.contextPath }/resources/images/makeProject/minus_gray.png");
+			$(this).parents("tr").find(".plusItem").attr("src","${pageContext.request.contextPath }/resources/images/makeProject/plus_gray.png");
+			$(this).parents("tr").find(".gift-number").text("0");
+			$(this).parents("tr").find("#itemnumber").val("0");
+			
+		} else{
+			
+			$(this).parents("tr").css("background","#f2eeff");
+			$(this).attr("src","${pageContext.request.contextPath }/resources/images/makeProject/checked_black.png");
+			$(this).parents("tr").find(".minusItem").attr("src","${pageContext.request.contextPath }/resources/images/makeProject/minus_black.png");
+			$(this).parents("tr").find(".plusItem").attr("src","${pageContext.request.contextPath }/resources/images/makeProject/plus_black.png");
+			$(this).parents("tr").find(".gift-number").text("1");
+			$(this).parents("tr").find("#itemnumber").val("1");
+		}
+		
+	});
+	
+	$(".minusItem").click(function(){
+		
+		var itemNumber = $(this).siblings(".gift-number").text();
+		
+		if(itemNumber == 0){
+			
+			return;
+			
+		} else if(itemNumber-1 == 0){
+			
+			$(this).parents("tr").css("background","white");
+			$(this).parents("tr").find(".checkItem").attr("src","${pageContext.request.contextPath }/resources/images/makeProject/checked_gray.png");
+			$(this).attr("src","${pageContext.request.contextPath }/resources/images/makeProject/minus_gray.png");
+			$(this).siblings(".plusItem").attr("src","${pageContext.request.contextPath }/resources/images/makeProject/plus_gray.png");
+			$(this).siblings(".gift-number").text("0");
+			$(this).siblings("#itemnumber").val("0");
+			
+		} else{
+
+			$(this).siblings(".gift-number").text(itemNumber-1);
+			$(this).siblings("#itemnumber").val(itemNumber-1);	
+		}
+		
+	});
+	
+	$(".plusItem").click(function(){
+		
+		var itemNumber = $(this).siblings(".gift-number").text();
+		
+		if(itemNumber == 0){
+			
+			$(this).parents("tr").css("background","#f2eeff");
+			$(this).parents("tr").find(".checkItem").attr("src","${pageContext.request.contextPath }/resources/images/makeProject/checked_black.png");
+			$(this).siblings(".minusItem").attr("src","${pageContext.request.contextPath }/resources/images/makeProject/minus_black.png");
+			$(this).attr("src","${pageContext.request.contextPath }/resources/images/makeProject/plus_black.png");
+			$(this).siblings(".gift-number").text("1");
+			$(this).siblings("#itemnumber").val("1");
+			
+		} else {
+			
+			$(this).siblings(".gift-number").text(itemNumber+1);
+			$(this).siblings("#itemnumber").val(itemNumber+1);
+		}
+		
+	});
+	
+	$(".giftSaveBtn").click(function(){
+
+		var projectNo = $("#projectNo").val();
+		var minMoney = $("#min-money").val();
+		var giftExplain = $("#gift-explain").val();
+		var deliveryYN =$("[name=deliveryYN]:checked").val();
+		var isFirst = false;
+		
+		/* 처음인지 체크 */
+		if(!$(".giftList").length){
+			isFirst = true;
+		}
+		
+		/* minMoney체크 */
+		if(isFirst == false){
+			$(".successMinMoney").each(function(){
+				var text = $(this).text().replace(/,/g,"");
+				if(text == minMoney){
+					alert("이미 존재하는 최소 후원금액입니다.");
+					$("#min-money").focus();
+					return;
+				}
+			});
+		}
+		
+		$("#tbl_item").find("tbody").children("tr").each(function(){
+			
+			var itemno = $(this).find("#itemno").val();
+			var itemnumber = $(this).find("#itemnumber").val();
+			var itemName = $(this).find("#itemno").parent().text();
+			
+			$.ajax({
+				url : "insertGift",
+				data : {isFirst : isFirst, projectNo : projectNo, minMoney : minMoney, giftexplain : giftExplain, deliveryYN : deliveryYN, itemno : itemno, itemnumber : itemnumber},			
+				success : function(data){
+					
+					var check_el = "#"+minMoney; 
+					if($(check_el).length){
+						
+						$(".giftItemList").children("ul").append('<li>'+itemName+'&nbsp;( X '+data.itemnumber+' )');
+						
+					} else {
+						
+						var html = '<div class="giftList" id="'+data.minMoney+'">';
+						html += '<div>';
+						html += '<span class="successMinMoney">'+data.minMoney+'</span>원 이상 밀어주시는 분께';
+						html += '<span class="deleteGift">삭제하기</div>';
+						html += '</div>';
+						html += '<div class="giftItemList">';
+						html += '<ul>';
+						html += '<li>'+itemName+'&nbsp;( X '+data.itemnumber+' )';
+						html += '</ul>';
+						html += '</div>';
+						html += '<div class="successDeliveryYN">';
+						if(data.deliveryYN == "Y"){
+							html += '<span class="choice" id="successDelivery">배송 필요</span>';
+						}
+						html += '</div>';
+						html += '</div>';
+						
+						$("#gift").prepend(html);
+					}
+					
+				},
+				error : function(jqxhr,textStatus,errorThrown){
+					console.log("ajax실패");
+				}
+			});
+		});
+	});
+	
+	$(".deleteGift").click(function(){
+
+		var projectNo = $("#projectNo").val();
+		var minMoney = $(this).siblings(".successMinMoney").text();
+		
+		$.ajax({
+			url : "deleteGift",
+			data : {projectNo : projectNo, minMoney : minMoney},			
+			success : function(data){
+				
+				$(this).parents(".giftList").remove();
+				
+			},
+			error : function(jqxhr,textStatus,errorThrown){
+				console.log("ajax실패");
+			}
+		});
+	});
+	
 })
 </script>
 

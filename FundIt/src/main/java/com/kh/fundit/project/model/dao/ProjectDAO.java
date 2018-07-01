@@ -71,11 +71,19 @@ public interface ProjectDAO {
 	int makeProjectProfile(com.kh.fundit.member.model.vo.Profile profile);
 
 	int makeProjectFunding(ProjectFunding funding);
+		
+	void deleteItem(int projectNo);
 
 	int insertItem(Item item);
 
 	void updateItem(Item item);
 
 	List<Item> selectItemList(int projectNo);
+
+	void deleteGift(int projectNo);
+
+	int insertGift(ProjectGift gift);
+
+	void deleteGift(Map<String, Integer> map);
 
 }

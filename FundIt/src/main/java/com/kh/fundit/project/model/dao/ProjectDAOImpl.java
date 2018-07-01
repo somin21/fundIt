@@ -197,6 +197,13 @@ public class ProjectDAOImpl implements ProjectDAO {
 
 		return sqlSession.insert("project.makeProjectFunding", funding); 
 	}
+	
+//	소민
+	@Override
+	public void deleteItem(int projectNo) {
+
+		sqlSession.delete("project.deleteItem", projectNo);
+	}
 
 //	소민
 	@Override
@@ -205,16 +212,39 @@ public class ProjectDAOImpl implements ProjectDAO {
 		return sqlSession.insert("project.insertItem", item);
 	}
 
+//	소민
 	@Override
 	public void updateItem(Item item) {
 		
 		sqlSession.update("project.updateItem", item);
 	}
-
+	
+//	소민
 	@Override
 	public List<Item> selectItemList(int projectNo) {
 		
 		return sqlSession.selectList("project.selectItemList", projectNo);
+	}
+
+//	소민
+	@Override
+	public void deleteGift(int projectNo) {
+
+		sqlSession.delete("project.deleteGift", projectNo);
+	}
+
+//	소민
+	@Override
+	public int insertGift(ProjectGift gift) {
+
+		return sqlSession.delete("project.insertGift", gift);
+	}
+
+//	소민
+	@Override
+	public void deleteGift(Map<String, Integer> map) {
+
+		sqlSession.delete("project.deleteGiftOne", map);
 	}
 
 }

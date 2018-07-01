@@ -71,11 +71,21 @@ public interface ProjectService {
 	int makeProjectProfile(com.kh.fundit.member.model.vo.Profile profile);
 
 	int makeProjectFunding(ProjectFunding funding);
-
+	
+	void deleteItem(int projectNo);
+	
 	Item insertItem(Item item);
 
 	void updateItem(Item item);
 
 	List<Item> selectItemList(int projectNo);
+
+	void deleteGift(int projectNo);
+
+	ProjectGift insertGift(ProjectGift gift);
+
+	void deleteGift(Map<String, Integer> map);
+
+
 
 }

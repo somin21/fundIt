@@ -129,14 +129,19 @@ $(function(){
 		
 		var name = $("#itemName").val();
 		var projectNo = $("#projectNo").val();
+		var isFirst = false;
 		
 		if(name.length < 1){
 			return;
 		}
 		
+		if($(".item-list").html().trim() == ""){
+			isFirst = true;
+		}
+		
 		$.ajax({
 			url : "insertItem",
-			data : {itemName : name, projectNo : projectNo},
+			data : {itemName : name, projectNo : projectNo, isFirst : isFirst},
 			success : function(data){
 				console.log(data);
 				
@@ -228,14 +233,14 @@ $(function(){
 					for(var i = 0; i < data.length; i++){
 						var html = '<tr>';
 						html += '<td>';
-						html += '<img src="${pageContext.request.contextPath }/resources/images/makeProject/checked_gray.png" />';
+						html += '<img src="${pageContext.request.contextPath }/resources/images/makeProject/checked_gray.png" class="checkItem"/>';
 						html += '</td>';
-						html += '<td><input type="hidden" name="itemno" value="'+data[i].itemNo+'"/>'+data[i].itemName+'</td>';
+						html += '<td><input type="hidden" id="itemno" name="itemno" value="'+data[i].itemNo+'"/>'+data[i].itemName+'</td>';
 						html += '<td>';
 						html += '<img src="${pageContext.request.contextPath }/resources/images/makeProject/minus_gray.png" class="minusItem" />';
 						html += '&nbsp;&nbsp;';
 						html += '<span class="gift-number">0</span>';
-						html += '<input type="hidden" name="itemnumber" value="0"/>';
+						html += '<input type="hidden" id="itemnumber" name="itemnumber" value="0"/>';
 						html += '&nbsp;&nbsp;';
 						html += '<img src="${pageContext.request.contextPath }/resources/images/makeProject/plus_gray.png" class="plusItem" />';
 						html += '</td>';

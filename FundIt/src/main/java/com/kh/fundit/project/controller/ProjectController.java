@@ -479,7 +479,11 @@ public class ProjectController {
 //	소민
 	@RequestMapping("/project/insertItem")
 	@ResponseBody
-	public Item insertItem(Item item) {
+	public Item insertItem(@RequestParam boolean isFirst, Item item) {
+		
+		if(isFirst == true) {
+			projectService.deleteItem(item.getProjectNo());
+		}
 		
 		return projectService.insertItem(item);
 	}
@@ -499,6 +503,30 @@ public class ProjectController {
 		
 		return projectService.selectItemList(projectNo);
 	}
+
+//	소민
+	@RequestMapping("/project/insertGift")
+	@ResponseBody
+	public ProjectGift insertGift(@RequestParam boolean isFirst, ProjectGift gift) {
+		
+		if(isFirst == true) {
+			projectService.deleteGift(gift.getProjectNo());
+		}
+		
+		return projectService.insertGift(gift);
+	}
+	
+//	소민
+	@RequestMapping("/project/deleteGift")
+	@ResponseBody
+	public void deleteGift(@RequestParam int projectNo, @RequestParam int minMoney) {
+		
+		Map<String,Integer> map = new HashMap<>();
+		map.put("projectNo", projectNo);
+		map.put("minMoney", minMoney);
+		
+		projectService.deleteGift(map);
+	}	
 	
 //	소민
 	@RequestMapping("/project/makeProject/account")
