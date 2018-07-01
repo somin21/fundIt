@@ -6,6 +6,7 @@ import java.util.Map;
 
 
 import com.kh.fundit.member.model.vo.Member;
+import com.kh.fundit.project.model.vo.Community;
 import com.kh.fundit.project.model.vo.ListProjectView;
 import com.kh.fundit.project.model.vo.Profile;
 import com.kh.fundit.project.model.vo.ProjectDelivery;
@@ -61,5 +62,14 @@ public interface ProjectService {
 	ProjectSupport supportList(Map<String, Object> map);
 
 	int deliveryInsert(Map<String, Object> map);
+
+	List<String> projectGiftLevel(Map<String, Object> map);
+
+	List<Map<String, String>> projectGiftName(Map<String, Object> map);
+
+	List<Community> communityList(Map<String, Object> map);
+
+	int communityInsert(Map<String, Object> map);
+
 
 }

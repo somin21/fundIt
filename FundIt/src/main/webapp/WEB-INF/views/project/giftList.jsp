@@ -18,12 +18,17 @@ span.moneyMent{font-size: 15px; color:blue;}
 /* div.redBox{width:0.7%;height: 190px; background: tomato; border: 1px solid; display: inline-block;} */
 </style>
 <script>
-function Approval(prjectNo,itemName,itemnumber,title){
+function Approval(prjectNo,minMoney,title){
 	var num = $("#num").val();
-	console.log(prjectNo,itemName,itemnumber,num,title);
+	/* var activeEle = $('input:focus').val(); */
+	/* var activeEle = $("#bt").click(function(){
+		var num2 = $("#bt").next("#num").val();
+		console.log(num2);
+	}); */
+	console.log(prjectNo,minMoney,num,title);
 	
 	location.href="${pageContext.request.contextPath}/project/approval.do?projectNo="
-				+prjectNo+"&itemName="+itemName+"&itemnumber="+itemnumber+"&num="+num+"&title="+title;
+				+prjectNo+"&minMoney="+minMoney+"&num="+num+"&title="+title;
 }
 </script>
 <div class="title">
@@ -45,7 +50,46 @@ function Approval(prjectNo,itemName,itemnumber,title){
 			<span>선물을 선택하지 않고, 밀어만 줍니다.</span>
 		</div>
 	</div>
-	<c:if test="${not empty List}">
+	<c:if test="${not empty gList}">
+    <c:forEach var="g" items="${gList }" begin="0" end="${gList.size() }" step="1" varStatus="gg">
+	<div class="menu">
+		<div class="menu1">
+			<span class="money"><fmt:formatNumber>${gList[gg.index] }</fmt:formatNumber>원 이상 밀어주시는 분께</span>
+			<br /><br /><br />
+			<ul>
+			<c:forEach var="g2" items="${strarr }" begin="0" end="${gList.size() }" step="1" varStatus="gg2">
+       			<c:forEach var="g3" items="${strarr2 }" begin="0" end="${gList.size() }" step="1" varStatus="gg3">
+       			<c:if test="${gg.index == gg2.index and  gg2.index == gg3.index }">
+       				<li>${strarr[gg2.index] } (X ${strarr2[gg3.index]})</li>
+       			</c:if>
+       			</c:forEach>
+       		</c:forEach>
+       		</ul>
+			<br />
+			<span>예상 전달일 : <fmt:formatDate value="${calculateduedDate }" pattern="yyyy년 MM월 dd일"/></span>
+		</div>
+		<div class="menu2">
+			<input type="number" class="form-control" id="num" min="0" max="10000000" value="${gList[gg.index] }" step="100"/> 원
+			<button id="bt" onclick="Approval('${projectNo }','${gList[gg.index] }','${title }');">클릭</button>
+			<br /><br />
+			<span class="moneyMent">더 많이 입력하실 수 있습니다</span>
+			<br /><br /><br />
+			<ul>
+			<c:forEach var="g2" items="${strarr }" begin="0" end="${gList.size() }" step="1" varStatus="gg2">
+       			<c:forEach var="g3" items="${strarr2 }" begin="0" end="${gList.size() }" step="1" varStatus="gg3">
+       			<c:if test="${gg.index == gg2.index and  gg2.index == gg3.index }">
+       				<li>${strarr[gg2.index] } (X ${strarr2[gg3.index]})</li>
+       			</c:if>
+       			</c:forEach>
+       		</c:forEach>
+       		</ul>
+			<br />
+			<span>예상 전달일 : <fmt:formatDate value="${calculateduedDate }" pattern="yyyy년 MM월 dd일"/></span>
+		</div>
+	</div>
+	</c:forEach>
+	</c:if>
+	<%-- <c:if test="${not empty List}">
 	<c:forEach var="i" items="${List }">
 	<div class="menu">
 		<div class="menu1">
@@ -71,7 +115,7 @@ function Approval(prjectNo,itemName,itemnumber,title){
 		</div>
 	</div>
 	</c:forEach>
-	</c:if>
+	</c:if> --%>
 </div>
 <script>
 $(function(){

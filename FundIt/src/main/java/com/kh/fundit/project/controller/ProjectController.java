@@ -22,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.kh.fundit.member.model.vo.Member;
 import com.kh.fundit.member.model.vo.Profile;
 import com.kh.fundit.project.model.service.ProjectService;
+import com.kh.fundit.project.model.vo.Community;
 import com.kh.fundit.project.model.vo.ListProjectView;
 import com.kh.fundit.project.model.vo.ProjectDelivery;
 import com.kh.fundit.project.model.vo.ProjectGift;
@@ -165,18 +166,56 @@ public class ProjectController {
 	}
 //	희영
 	@RequestMapping("/project/projectView.do")
-	public ModelAndView projectView(@RequestParam int projectNo) {
+	public ModelAndView projectView(@RequestParam int projectNo, String email) {
 		ModelAndView mav = new ModelAndView();
 		/*System.out.println(projectNo);*/
 		
 		Map<String,Object> map = new HashMap<>();
 		map.put("projectNo",projectNo);
+		map.put("buyer_id",email);
+		
+		//후원현황중인지 확인
+		ProjectSupport sList = projectService.supportList(map);
+		boolean supportStatus = false;
+		if(sList!=null) {
+			supportStatus = true;
+		}
+		
+		//커뮤니티 리스트 뽑기
+		List<Community> cList = projectService.communityList(map);
 		
 		//프로젝트리스트뽑기
 		List<ProjectView> list = projectService.projectView(map);
 		
 		//선물리스트 받아오기
 		List<ProjectGift> List = projectService.projectGiftList(map);
+		
+		//선물리스트 레벨가져오기
+		List<String> gList = projectService.projectGiftLevel(map);
+		/*System.out.println("gList="+gList.toString());*/
+		//레벨별 orderby 값찾기
+		List<Map<String,String>> gList2 = projectService.projectGiftName(map);
+		/*System.out.println("gList2="+gList2.toString());*/
+		
+		String[] strarr = new String[gList.size()];
+		String[] strarr2 = new String[gList.size()];
+		/*System.out.println("strarr="+strarr.toString());
+		System.out.println("strarr크기="+strarr.length);*/
+		
+		for(int i=0; i<gList.size(); i++) {
+			for(int j=0; j<gList2.size(); j++) {
+				if(String.valueOf(gList2.get(j).get("MINMONEY")).equals(gList.get(i))) {
+					if(strarr[i]==null) {
+						strarr[i]=String.valueOf(gList2.get(j).get("ITEMNAME"));
+						strarr2[i]=String.valueOf(gList2.get(j).get("ITEMNUMBER"));
+					}else {
+						strarr[i]+=", "+String.valueOf(gList2.get(j).get("ITEMNAME"));
+						strarr2[i]+=", "+String.valueOf(gList2.get(j).get("ITEMNUMBER"));
+					}
+				}
+			}
+			System.out.println("itemName="+strarr[i]);
+		}
 		
 		/*System.out.println(list);*/
 		String userEmail = "";
@@ -191,6 +230,11 @@ public class ProjectController {
 		com.kh.fundit.project.model.vo.Profile p = projectService.profileUser(userEmail);
 		/*System.out.println(p);*/
 		
+		mav.addObject("gList",gList);		//최소아이템금액
+		mav.addObject("strarr",strarr);		//아이템이름
+		mav.addObject("strarr2",strarr2);	//아이템갯수
+		mav.addObject("supportStatus",supportStatus);	//후원중인지 확인여부
+		mav.addObject("cList",cList);		//커뮤니티리스트
 		mav.addObject("list",list);
 		mav.addObject("List",List);
 		mav.addObject("p",p);
@@ -303,11 +347,28 @@ public class ProjectController {
 	}
 //	희영
 	@RequestMapping("/project/supportGo.do")
-	public ModelAndView supportGo(@RequestParam String no) {
+	public ModelAndView supportGo(@RequestParam String no, String email) {
 		ModelAndView mav = new ModelAndView();
 		
 		Map<String,Object> map = new HashMap<>();
 		map.put("projectNo",no);
+		map.put("buyer_id",email);
+
+		//후원현황중인지 확인
+		ProjectSupport sList = projectService.supportList(map);
+		System.out.println("sList="+sList);
+		String loc = "/";
+		String msg = "";
+
+		if(sList!=null) {
+			msg = "같은 프로젝트 후원은 한번만 가능합니다!";
+			loc = "/project/projectView.do?projectNo="+no;
+			
+			mav.addObject("msg",msg);
+			mav.addObject("loc",loc);
+			mav.setViewName("common/msg");
+			return mav;
+		}
 		
 		//선물리스트 받아오기
 		List<ProjectGift> List = projectService.projectGiftList(map);
@@ -318,9 +379,38 @@ public class ProjectController {
 		for(ProjectView v : list) {
 			title = v.getProjectTitle();
 			calculateduedDate = v.getCalculateduedDate();
-		}		
+		}
 		
-		mav.addObject("List",List);
+		//선물리스트 레벨가져오기
+		List<String> gList = projectService.projectGiftLevel(map);
+		/*System.out.println("gList="+gList.toString());*/
+		//레벨별 orderby 값찾기
+		List<Map<String,String>> gList2 = projectService.projectGiftName(map);
+		/*System.out.println("gList2="+gList2.toString());*/
+		
+		String[] strarr = new String[gList.size()];
+		String[] strarr2 = new String[gList.size()];
+		/*System.out.println("strarr="+strarr.toString());
+		System.out.println("strarr크기="+strarr.length);*/
+		
+		for(int i=0; i<gList.size(); i++) {
+			for(int j=0; j<gList2.size(); j++) {
+				if(String.valueOf(gList2.get(j).get("MINMONEY")).equals(gList.get(i))) {
+					if(strarr[i]==null) {
+						strarr[i]=String.valueOf(gList2.get(j).get("ITEMNAME"));
+						strarr2[i]=String.valueOf(gList2.get(j).get("ITEMNUMBER"));
+					}else {
+						strarr[i]+=", "+String.valueOf(gList2.get(j).get("ITEMNAME"));
+						strarr2[i]+=", "+String.valueOf(gList2.get(j).get("ITEMNUMBER"));
+					}
+				}
+			}
+			/*System.out.println("itemName="+strarr[i]);*/
+		}
+		
+		mav.addObject("gList",gList);
+		mav.addObject("strarr",strarr);
+		mav.addObject("strarr2",strarr2);
 		mav.addObject("projectNo",no);
 		mav.addObject("title",title);
 		mav.addObject("calculateduedDate",calculateduedDate);
@@ -330,14 +420,13 @@ public class ProjectController {
 	}
 //	희영
 	@RequestMapping("/project/approval.do")
-	public ModelAndView approval(@RequestParam int projectNo, String itemName, int itemnumber, int num, String title ) {
+	public ModelAndView approval(@RequestParam int projectNo, int minMoney, int num, String title ) {
 		ModelAndView mav = new ModelAndView();
 		
-		System.out.println("projectNo="+projectNo+"itemName="+itemName+"itemnumber="+itemnumber+"num="+num);
+		/*System.out.println("projectNo="+projectNo+"minMoney="+minMoney+"num="+num);*/
 
 		mav.addObject("projectNo",projectNo);
-		mav.addObject("itemName",itemName);
-		mav.addObject("itemnumber",itemnumber);
+		mav.addObject("minMoney",minMoney);
 		mav.addObject("num",num);
 		mav.addObject("title",title);
 		mav.setViewName("project/approval");
@@ -347,44 +436,32 @@ public class ProjectController {
 //	희영
 	@RequestMapping(value="/project/payments.do",method=RequestMethod.POST,produces="application/json; charset=utf8")
 	public ModelAndView approval(@RequestParam String imp_uid, String merchant_uid, String apply_num, int amount, 
-			String buyer_id, int projectNo, String itemName, String postcode, String address) {
+			String buyer_id, int projectNo, String itemName, String postcode, String address, int minMoney) {
 		ModelAndView mav = new ModelAndView();
 		
-		System.out.println("코드="+imp_uid+" merchant_uid="+merchant_uid+" 카드번호="+apply_num+" 결제금액="+amount+" 유저아이디="+buyer_id+"프로젝트번호="+projectNo+"아이템="+itemName+"주소="+address);
-		/*System.out.println("projectNo="+projectNo+"itemName="+itemName+"itemnumber="+itemnumber+"num="+num);
-
-		mav.addObject("projectNo",projectNo);
-		mav.addObject("itemName",itemName);
-		mav.addObject("itemnumber",itemnumber);
-		mav.addObject("num",num);
-		mav.addObject("title",title);*/
+		System.out.println("코드="+imp_uid+" merchant_uid="+merchant_uid+" 카드번호="+apply_num+" 결제금액="+amount+" 유저아이디="+buyer_id
+				+"프로젝트번호="+projectNo+"아이템="+itemName+"주소="+address+"최소금액="+minMoney);
+		//System.out.println("projectNo="+projectNo+"itemName="+itemName+"itemnumber="+itemnumber+"num="+num);
 		
 		Map<String,Object> map = new HashMap<String, Object>();
 		map.put("imp_uid", imp_uid);
 		map.put("merchant_uid", merchant_uid);
 		map.put("apply_num", apply_num);
-		map.put("amount", amount);
+		map.put("amount", amount);		//총금액
 		map.put("buyer_id", buyer_id);
 		map.put("projectNo", projectNo);
 		map.put("itemName", itemName);
 		map.put("postcode", postcode);
 		map.put("address", address);
+		map.put("minMoney", minMoney);	//최소금액
 		
-		//기프트 정보가져오기
-		List<ProjectGift> list = projectService.projectSeelctGift(map);
-		
-		System.out.println("GiftList="+list);
 		//기프트 가격 및 추가 가격 구분하기
-		int itemMoney = 0;
 		int addMoney = 0;
-		for(ProjectGift v : list) {
-			itemMoney = v.getMinMoney();
-			addMoney = Math.abs(amount - itemMoney);
-		}
-		map.put("itemMoney", itemMoney);
-		map.put("addMoney", addMoney);
 		
-		System.out.println("아이템 가격="+itemMoney+"추가금액="+addMoney);
+		addMoney = Math.abs(amount - minMoney);
+		
+		map.put("addMoney", addMoney);
+
 		
 		//서포트테이블 추가
 		int result = projectService.supportInsert(map);
@@ -406,7 +483,6 @@ public class ProjectController {
 		//배송정보 테이블 추가
 		int result2 = projectService.deliveryInsert(map);
 		
-		
 		//결재정보테이블 추가
 		int result3 = projectService.insertPayment(map);
 		
@@ -422,6 +498,34 @@ public class ProjectController {
 		
 		mav.addAllObjects(map2);
 		mav.setViewName("jsonView");
+		
+		return mav;
+	}
+//	희영
+	@RequestMapping("/project/community.do")
+	public ModelAndView community(@RequestParam int projectNo, String contextId, String communityContext) {
+		ModelAndView mav = new ModelAndView();
+	
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("projectNo", projectNo);
+		map.put("contextId", contextId);
+		map.put("communityContext", communityContext);
+		
+		int result = projectService.communityInsert(map);
+		
+		String loc = "/";
+		String msg = "";
+		
+		if(result>0) {
+			msg = "게시글등록 성공!";
+			loc = "/project/projectView.do?projectNo="+projectNo;
+		}else {
+			msg = "게시글등록 실패!\n관리자에게 문의하세요.";
+		}
+
+		mav.addObject("msg",msg);
+		mav.addObject("loc",loc);
+		mav.setViewName("common/msg");
 		
 		return mav;
 	}

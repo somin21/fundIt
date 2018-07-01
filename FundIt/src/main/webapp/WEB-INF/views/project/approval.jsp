@@ -12,7 +12,7 @@ span.titleSp{color:white; font-size: 23px; font-weight: bold;}
 div.main{text-align: center;}
 div.inputMenu{background:rgb(240, 240, 240); padding: 40px 0 40px 30px; text-align: center; width: 80%; display: inline-block;}
 input.form-control{width: 100%; display: inline-block; }
-label#a{padding:7px; width: 95px; text-align: right;}
+label#a{padding:7px; width: 110px; text-align: right;}
 table.inputTable{display: inline-block;}
 table td#td{width: 70%}
 </style>
@@ -25,8 +25,8 @@ table td#td{width: 70%}
 		<div>
 		<table class="inputTable">
 			<tr>
-				<td><label for="itemName" id="a">상 품 명   : </label></td>
-				<td id="td"><input type="text" id="itemName" class="form-control" value="${itemName }" readonly/><br /></td>
+				<td><label for="itemName" id="a">프로젝트명   : </label></td>
+				<td id="td"><input type="text" id="title" class="form-control" value="${title }" readonly/><br /></td>
 			</tr>
 			<tr>
 				<td><label for="amount" id="a">후원금액 : </label></td>
@@ -82,7 +82,7 @@ table td#td{width: 70%}
 <script>
 	function requestPay(){
 	//변수값
-	var itemName = $("#itemName").val();
+	var title = $("#title").val();
 	var amount = $("#amount").val();
 	var buyer_id = $("#buyer_id").val();
 	var buyer_name = $("#buyer_name").val();
@@ -91,19 +91,20 @@ table td#td{width: 70%}
 	var postcode = $("#sample4_postcode").val()
 	var address = $("#sample4_roadAddress").val()+" "+$("#sample4_jibunAddress").val();
 	var projectNo = ${projectNo};
+	var minMoney = ${minMoney};
 	
 	IMP.init('imp17080880');
 	IMP.request_pay({
 	    pg : 'html5_inicis', //ActiveX 결제창은 inicis를 사용
 	    pay_method : 'card', //card(신용카드), trans(실시간계좌이체), vbank(가상계좌), phone(휴대폰소액결제)
 	    merchant_uid : 'merchant_' + new Date().getTime(), //상점에서 관리하시는 고유 주문번호를 전달
-	    name : itemName,
+	    name : title,
 	    amount : amount,
 	    buyer_email : buyer_email,
 	    buyer_name : buyer_name,
 	    buyer_tel : buyer_tel, //누락되면 이니시스 결제창에서 오류
 	    buyer_addr : address,
-	    m_redirect_url : 'https://www.yourdomain.com/payments/complete'
+	    /* m_redirect_url : 'https://www.yourdomain.com/payments/complete' */
 	    /* buyer_postcode : '123-456' */
 	}, function(rsp) {
 	    if ( rsp.success ) {
@@ -117,12 +118,13 @@ table td#td{width: 70%}
 		    		merchant_uid : rsp.merchant_uid,	//고유코드
 		    		//기타 필요한 데이터가 있으면 추가 전달
 		    		apply_num : rsp.apply_num, 			//카드 승인번호
-		    		amount : rsp.paid_amount,	//결재금액
+		    		amount : rsp.paid_amount,	//총결재금액
 		    		buyer_id : buyer_id, 		//fundit ID
 		    		projectNo : projectNo, 		//프로젝트 NO
-		    		itemName : itemName, 		//상품명
+		    		title : title, 				//타이틀명
 		    		postcode : postcode, 		//우편번호
-		    		address : address 			//주소
+		    		address : address, 			//주소
+		    		minMoney : minMoney 		//최소금액
 	    		}
 	    		,
 /* 	    		success:function(data){

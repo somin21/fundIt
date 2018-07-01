@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 
 import com.kh.fundit.member.model.vo.Member;
+import com.kh.fundit.project.model.vo.Community;
 import com.kh.fundit.project.model.vo.ListProjectView;
 import com.kh.fundit.project.model.vo.Profile;
 import com.kh.fundit.project.model.vo.ProjectDelivery;
@@ -167,5 +168,26 @@ public class ProjectDAOImpl implements ProjectDAO {
 	public int deliveryInsert(Map<String, Object> map) {
 		return sqlSession.insert("project.deliveryInsert", map);
 	}
+//	희영
+	@Override
+	public List<String> projectGiftLevel(Map<String, Object> map) {
+		return sqlSession.selectList("project.projectGiftLevel", map);
+	}
+//	희영
+	@Override
+	public List<Map<String, String>> projectGiftName(Map<String, Object> map) {
+		return sqlSession.selectList("project.projectGiftName", map);
+	}
+//	희영
+	@Override
+	public List<Community> communityList(Map<String, Object> map) {
+		return sqlSession.selectList("project.communityList", map);
+	}
+
+	@Override
+	public int communityInsert(Map<String, Object> map) {
+		return sqlSession.insert("project.communityInsert", map);
+	}
+
 
 }

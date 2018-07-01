@@ -233,9 +233,9 @@ select#select {
 <script>
 	$(function(){
 		$(".project").click(function(){
-			var projectNo = $(this).children("#projectNo").val();
-			/* console.log(projectNo); */
-			location.href="${pageContext.request.contextPath}/project/projectView.do?projectNo="+projectNo;
+			var no = $(this).children("#projectNo").val();
+	    	var email = '${memberLoggedIn.email }';
+    		location.href="${pageContext.request.contextPath}/project/projectView.do?projectNo="+no+"&email="+email;
 		});
 	});
 </script>

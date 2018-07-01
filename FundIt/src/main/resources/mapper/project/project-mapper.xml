@@ -147,9 +147,9 @@
 	
 	<select id="projectGiftList" resultType="ProjectGift">
 		select p.projectno, p.minmoney, p.itemnumber, i.itemname, p.itemno, p.giftexplain, p.deliveryyn, p.giftrefund 
-		from project_gift p join item i on p.projectno = i.projectno and p.itemno = i.itemno
-		where p.projectno = ${projectNo}
-		order by itemno
+		from project_gift p left join item i on p.projectno = i.projectno and p.itemno = i.itemno
+		where p.projectno = ${projectNo} 
+		order by minmoney
 	</select>
 	<select id="projectSeelctGift" resultType="ProjectGift">
 		select p.projectno, p.minmoney, p.itemnumber, i.itemname, p.itemno, p.giftexplain, p.deliveryyn, p.giftrefund 
@@ -158,7 +158,7 @@
 		order by itemno
 	</select>
 	<insert id="supportInsert">
-		insert into support values(seq_support_no.nextval,'${buyer_id}','${projectNo}','${itemMoney}','${addMoney}',default)
+		insert into support values(seq_support_no.nextval,'${buyer_id}','${projectNo}','${minMoney}','${addMoney}',default)
 	</insert>
 	<select id="supportList" resultType="projectSupport">
 		select * from support where projectno = ${projectNo} and payyn is null and email='${buyer_id}'
@@ -169,6 +169,18 @@
 	<insert id="insertPayment">
 		insert into payment values('${imp_uid}','${amount}','${buyer_id}','${apply_num}','${supportNo}','${merchant_uid}')
 	</insert>
+	<select id="projectGiftLevel" resultType="string">
+		select  distinct p.minmoney
+		from project_gift p left join item i on p.projectno = i.projectno and p.itemno = i.itemno
+		where p.projectno = ${projectNo} 
+		order by minmoney
+	</select>
+	<select id="projectGiftName" resultType="map">
+		select p.projectno, p.minmoney, p.itemnumber, i.itemname, p.itemno, p.giftexplain, p.deliveryyn, p.giftrefund 
+		from project_gift p left join item i on p.projectno = i.projectno and p.itemno = i.itemno
+		where p.projectno = ${projectNo}  
+		order by minmoney
+	</select>
 	
 	<select id="rownum" resultType="_int">
 		select count(*) from 
@@ -180,5 +192,12 @@
 		 where 1=1 and i.projectno = p.projectno and i.email = #{email} and rownum <![CDATA[>=]]> 1 and rownum <![CDATA[<=]]> 8)
 	</select>
 	
+	<select id="communityList" resultType="community">
+		select * from community where projectno = ${projectNo}
+	</select>
+	
+	<insert id="communityInsert">
+		insert into community values(seq_community_no.nextval,${projectNo},'${contextId}','${communityContext}',sysdate)
+	</insert>
 	
 </mapper>

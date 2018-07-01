@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.fundit.member.model.vo.Member;
 import com.kh.fundit.project.model.dao.ProjectDAO;
+import com.kh.fundit.project.model.vo.Community;
 import com.kh.fundit.project.model.vo.ListProjectView;
 import com.kh.fundit.project.model.vo.Profile;
 import com.kh.fundit.project.model.vo.ProjectDelivery;
@@ -157,10 +158,31 @@ public class ProjectServiceImpl implements ProjectService {
 	public ProjectSupport supportList(Map<String, Object> map) {
 		return projectDAO.supportList(map);
 	}
-
+//희영
 	@Override
 	public int deliveryInsert(Map<String, Object> map) {
 		return projectDAO.deliveryInsert(map);
 	}
+//희영
+	@Override
+	public List<String> projectGiftLevel(Map<String, Object> map) {
+		return projectDAO.projectGiftLevel(map);
+	}
+//희영
+	@Override
+	public List<Map<String, String>> projectGiftName(Map<String, Object> map) {
+		return projectDAO.projectGiftName(map);
+	}
+//희영
+	@Override
+	public List<Community> communityList(Map<String, Object> map) {
+		return projectDAO.communityList(map);
+	}
+
+	@Override
+	public int communityInsert(Map<String, Object> map) {
+		return projectDAO.communityInsert(map);
+	}
+
 
 }
