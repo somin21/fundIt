@@ -93,7 +93,7 @@ div.addItemDivContent div.updateItems button{
 }
 
 /* 푸터 */
-#addItemSaveBtn{
+#addItemCloseBtn{
     background: #f4b4b8;
     color: #f7faff;
     border: 0;
@@ -103,7 +103,7 @@ div.addItemDivContent div.updateItems button{
     font-size: 13px;
     font-weight: bold;
 }
-#addItemSaveBtn:hover{
+#addItemCloseBtn:hover{
 	background: #fa6462;
 	color: white;
 	cursor: pointer;
@@ -128,35 +128,49 @@ $(function(){
 	$(".itemSaveBtn").on("click",function(){
 		
 		var name = $("#itemName").val();
+		var projectNo = $("#projectNo").val();
 		
 		if(name.length < 1){
 			return;
 		}
 		
-		var html = '<div class="items">';
-		html += '<div class="item-name">'+name+'</div>';
-		html += '<div class="update-item">수정</div>';
-		html += '<div class="delete-item">삭제</div>';
-		html += '</div>';
-		html += '<div class="updateItems">';
-		html += '<p>아이템 이름</p>';
-		html += '<p>';
-		html += '<input type="text" id="itemUpdateName" name="itemUpdateName" value="'+name+'"/>';
-		html += '<span class="letter-cnt"><span class="total-letter" style="display:none">30</span><span class="cnt">'+(30-name.length)+'</span>자 남았습니다</span>';
-		html += '</p>';
-		html += '<p>';
-		html += '<button type="button" class="itemUpdateCloseBtn">';
-		html += '<img src="${pageContext.request.contextPath }/resources/images/makeProject/x.png" />';
-		html += '닫기';
-		html += '</button>';
-		html += '<button type="button" class="itemUpdateSaveBtn">';
-		html += '<img src="${pageContext.request.contextPath }/resources/images/makeProject/ok.png" />';
-		html += '저장';
-		html += '</button>';
-		html += '</p>';
-		html += '</div>';
-		
-		$(".item-list").append(html);
+		$.ajax({
+			url : "insertItem",
+			data : {itemName : name, projectNo : projectNo},
+			success : function(data){
+				console.log(data);
+				
+				var html = '<div class="items">';
+				html += '<div class="item-name">'+data.itemName+'</div>';
+				html += '<div class="update-item">수정하기</div>';
+				/* html += '<div class="delete-item">삭제</div>'; */
+				html += '</div>';
+				html += '<div class="updateItems">';
+				html += '<p>아이템 이름</p>';
+				html += '<p>';
+				html += '<input type="hidden" id="itemNo" name="itemNo" value="'+data.itemNo+'" />';
+				html += '<input type="text" id="itemUpdateName" name="itemUpdateName" value="'+data.itemName+'"/>';
+				html += '<span class="letter-cnt"><span class="total-letter" style="display:none">30</span><span class="cnt">'+(30-name.length)+'</span>자 남았습니다</span>';
+				html += '</p>';
+				html += '<p>';
+				html += '<button type="button" class="itemUpdateCloseBtn">';
+				html += '<img src="${pageContext.request.contextPath }/resources/images/makeProject/x.png" />';
+				html += '닫기';
+				html += '</button>';
+				html += '<button type="button" class="itemUpdateSaveBtn">';
+				html += '<img src="${pageContext.request.contextPath }/resources/images/makeProject/ok.png" />';
+				html += '저장';
+				html += '</button>';
+				html += '</p>';
+				html += '</div>';
+				
+				$(".item-list").append(html);
+				
+			},
+			error : function(jqxhr,textStatus,errorThrown){
+				console.log("ajax실패");
+			}
+		});
 		
 		$("#shownItemDiv").slideDown(500);
 		$("#hiddenItemDiv").slideUp(500);
@@ -174,12 +188,69 @@ $(function(){
 	});
 	
 	$(".item-list").on("click", ".itemUpdateSaveBtn" ,function(){
-		$(this).parents(".updateItems").slideUp(300);
+				
+		var no = $(this).parent().prev().children("#itemNo").val();
 		var name = $(this).parent().prev().children("#itemUpdateName").val();
-		$(this).parents(".updateItems").prev(".items").children(".item-name").text(name);
+				
+		$.ajax({
+			url : "updateItem",
+			data : {itemNo : no, itemName : name},
+			success : function(data){
+				
+				console.log(data);
+				$(this).parents(".updateItems").prev(".items").children(".item-name").text(name);
+				
+			},
+			error : function(jqxhr,textStatus,errorThrown){
+				console.log("ajax실패");
+			}
+		});
+		
+		$(this).parents(".updateItems").slideUp(300);
+		
 	});
 	
-	$("#addItemSaveBtn").on("click",function(){
+	$("#addItemCloseBtn").on("click",function(){
+
+		var projectNo = $("#projectNo").val();
+		
+		/* 아이템리스트 에이작스 > 테이블에 행추가 */
+		$.ajax({
+			url : "selectItemList",
+			data : {projectNo : projectNo},			
+			success : function(data){
+				
+				if(data.length > 0){
+					
+					var table = $("#tbl_item").children("tbody");
+					table.html("");
+					
+					for(var i = 0; i < data.length; i++){
+						var html = '<tr>';
+						html += '<td>';
+						html += '<img src="${pageContext.request.contextPath }/resources/images/makeProject/checked_gray.png" />';
+						html += '</td>';
+						html += '<td><input type="hidden" name="itemno" value="'+data[i].itemNo+'"/>'+data[i].itemName+'</td>';
+						html += '<td>';
+						html += '<img src="${pageContext.request.contextPath }/resources/images/makeProject/minus_gray.png" class="minusItem" />';
+						html += '&nbsp;&nbsp;';
+						html += '<span class="gift-number">0</span>';
+						html += '<input type="hidden" name="itemnumber" value="0"/>';
+						html += '&nbsp;&nbsp;';
+						html += '<img src="${pageContext.request.contextPath }/resources/images/makeProject/plus_gray.png" class="plusItem" />';
+						html += '</td>';
+						html += '</tr>';
+						
+						table.append(html);
+					}
+				}
+	
+			},
+			error : function(jqxhr,textStatus,errorThrown){
+				console.log("ajax실패");
+			}
+		});
+		
 		$("#shownItemDiv").slideDown(500);
 		$("#hiddenItemDiv").slideUp(500);
 		$(".updateItems").slideUp(300);
@@ -260,9 +331,9 @@ $(function(){
       </div>
       
       <div class="modal-footer" id="addItemModalFooter">
-		<button type="button" data-dismiss="modal" id="addItemSaveBtn">
+		<button type="button" data-dismiss="modal" id="addItemCloseBtn">
 			<img src="${pageContext.request.contextPath }/resources/images/makeProject/ok.png" />
-			저장
+			닫기
 		</button>
       </div>
       

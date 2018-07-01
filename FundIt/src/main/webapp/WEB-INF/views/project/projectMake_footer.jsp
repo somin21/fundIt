@@ -9,7 +9,7 @@
 		
 			<c:if test="${param.sectionName eq 'outline' }">
 				<button type="submit" class="nextBtn">
-					다음
+					저장
 					<img src="${pageContext.request.contextPath }/resources/images/makeProject/next.png" />
 				</button>
 			</c:if>
@@ -20,7 +20,7 @@
 					이전
 				</button>
 				<button type="button" class="nextBtn" >
-					다음
+					저장
 					<img src="${pageContext.request.contextPath }/resources/images/makeProject/next.png" />
 				</button>
 			</c:if>
@@ -31,7 +31,7 @@
 					이전
 				</button>
 				<button type="button" class="nextBtn" >
-					다음
+					저장
 					<img src="${pageContext.request.contextPath }/resources/images/makeProject/next.png" />
 				</button>
 			</c:if>
@@ -40,6 +40,10 @@
 				<button type="button" class="prevBtn">
 					<img src="${pageContext.request.contextPath }/resources/images/makeProject/prev.png" />
 					이전
+				</button>
+				<button type="button" class="nextBtn" >
+					저장
+					<img src="${pageContext.request.contextPath }/resources/images/makeProject/checked_gray.png" />
 				</button>
 			</c:if>
 		

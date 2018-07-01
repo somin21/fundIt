@@ -10,9 +10,11 @@ import org.springframework.stereotype.Service;
 
 import com.kh.fundit.member.model.vo.Member;
 import com.kh.fundit.project.model.dao.ProjectDAO;
+import com.kh.fundit.project.model.vo.Item;
 import com.kh.fundit.project.model.vo.ListProjectView;
 import com.kh.fundit.project.model.vo.Profile;
 import com.kh.fundit.project.model.vo.ProjectDelivery;
+import com.kh.fundit.project.model.vo.ProjectFunding;
 import com.kh.fundit.project.model.vo.ProjectGift;
 import com.kh.fundit.project.model.vo.ProjectOutline;
 import com.kh.fundit.project.model.vo.ProjectSupport;
@@ -167,7 +169,86 @@ public class ProjectServiceImpl implements ProjectService {
 	@Override
 	public com.kh.fundit.member.model.vo.Profile makeProject(String email) {
 
-		return projectDAO.makeProjectOutline(email);
+		return projectDAO.makeProject(email);
+	}
+
+//	소민
+	@Override
+	public int makeProjectOutline(ProjectOutline outline) {
+
+		int projectNo = 0;
+		
+		try {
+			int result = projectDAO.makeProjectOutline(outline);
+			
+			if(result > 0) {
+				projectNo = outline.getProjectNo();
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		
+		return projectNo; 
+	}
+
+//	소민
+	@Override
+	public int makeProjectProfile(com.kh.fundit.member.model.vo.Profile profile) {
+
+		return projectDAO.makeProjectProfile(profile);
+	}
+
+//	소민
+	@Override
+	public int makeProjectFunding(ProjectFunding funding) {
+
+		int projectNo = 0;
+		
+		try {
+			int result = projectDAO.makeProjectFunding(funding);
+			
+			if(result > 0) {
+				projectNo = funding.getProjectNo();
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		
+		return projectNo; 
+	}
+
+//	소민
+	@Override
+	public Item insertItem(Item item) {
+				
+		Item result_item = new Item();
+		
+		try {
+			int result = projectDAO.insertItem(item);
+			
+			if(result > 0) {
+				result_item = item;
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		
+		return result_item; 
+	}
+
+	@Override
+	public void updateItem(Item item) {
+		
+		projectDAO.updateItem(item);
+	}
+
+	@Override
+	public List<Item> selectItemList(int projectNo) {
+		
+		return projectDAO.selectItemList(projectNo);
 	}
 
 }

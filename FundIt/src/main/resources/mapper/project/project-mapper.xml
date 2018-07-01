@@ -180,9 +180,32 @@
 		 where 1=1 and i.projectno = p.projectno and i.email = #{email} and rownum <![CDATA[>=]]> 1 and rownum <![CDATA[<=]]> 8)
 	</select>
 	
-	<select id="makeProjectOutline" resultType="profile">
+	<select id="makeProject" resultType="profile">
 	select * from profile where email = #{email}
 	</select>
 	
+	<insert id="makeProjectOutline">
+	insert into project_outline values(seq_project_no.nextval,#{email},#{projectTitle},#{projectImage},#{projectSummary},#{categoryCode},default,default,default,default)
+	</insert>
+	
+	<update id="makeProjectProfile">
+	update profile set profileimage=#{profileImage}, profileintroduce=#{profileIntroduce}, localcode=#{localCode} where email=#{email}
+	</update>
+	
+	<insert id="makeProjectFunding">
+	insert into project_funding values(#{projectNo},#{supportGoal},#{deadlineDate},#{calculateDueDate})
+	</insert>
+	
+	<insert id="insertItem">
+	insert into item values(seq_item_no.nextval,#{itemName},#{projectNo})
+	</insert>
+	
+	<update id="updateItem">
+	update item set itemname=#{itemName} where itemno=#{itemno}
+	</update>
+	
+	<select id="selectItemList" resultType="item">
+	select * from item where projectno=#{projectNo}
+	</select>
 	
 </mapper>

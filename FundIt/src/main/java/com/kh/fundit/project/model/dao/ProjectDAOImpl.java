@@ -11,9 +11,11 @@ import org.springframework.stereotype.Repository;
 
 
 import com.kh.fundit.member.model.vo.Member;
+import com.kh.fundit.project.model.vo.Item;
 import com.kh.fundit.project.model.vo.ListProjectView;
 import com.kh.fundit.project.model.vo.Profile;
 import com.kh.fundit.project.model.vo.ProjectDelivery;
+import com.kh.fundit.project.model.vo.ProjectFunding;
 import com.kh.fundit.project.model.vo.ProjectGift;
 import com.kh.fundit.project.model.vo.ProjectOutline;
 import com.kh.fundit.project.model.vo.ProjectSupport;
@@ -172,7 +174,47 @@ public class ProjectDAOImpl implements ProjectDAO {
 	@Override
 	public com.kh.fundit.member.model.vo.Profile makeProject(String email) {
 		
-		return sqlSession.selectOne("project.makeProjectOutline", email);
+		return sqlSession.selectOne("project.makeProject", email);
+	}
+
+//	소민
+	@Override
+	public int makeProjectOutline(ProjectOutline outline) {
+
+		return sqlSession.insert("project.makeProjectOutline", outline);
+	}
+
+//	소민
+	@Override
+	public int makeProjectProfile(com.kh.fundit.member.model.vo.Profile profile) {
+
+		return sqlSession.update("project.makeProjectProfile", profile);
+	}
+
+//	소민
+	@Override
+	public int makeProjectFunding(ProjectFunding funding) {
+
+		return sqlSession.insert("project.makeProjectFunding", funding); 
+	}
+
+//	소민
+	@Override
+	public int insertItem(Item item) {
+		
+		return sqlSession.insert("project.insertItem", item);
+	}
+
+	@Override
+	public void updateItem(Item item) {
+		
+		sqlSession.update("project.updateItem", item);
+	}
+
+	@Override
+	public List<Item> selectItemList(int projectNo) {
+		
+		return sqlSession.selectList("project.selectItemList", projectNo);
 	}
 
 }

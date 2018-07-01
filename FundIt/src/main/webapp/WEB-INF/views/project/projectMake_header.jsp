@@ -258,7 +258,23 @@ $(function(){
 						d.setDate(d.getDate()+7);
 						
 						var text = "펀딩에 성공할 경우, 마감일 다음날부터 7일간 결제가 진행되어 "+d.getFullYear()+"년 "+(d.getMonth()+1)+"월 "+d.getDate()+"일에 모든 후원자의 결제가 종료됩니다.<br>";
-						text += "결제 종료일로부터 추가로 은행 영업일 기준 7일(공휴일 및 주말 제외) 후 모듬액이 창작자님의 계좌로 입금됩니다.";
+						text += "결제 종료일로부터 추가로 7일 후 모금액이 창작자님의 계좌로 입금됩니다.";
+						
+						d.setDate(d.getDate()+7);
+						var day = d.getDate();
+						var month = d.getMonth()+1;
+						var year = d.getFullYear();
+						
+						if(day<10){
+							day = "0"+day;
+						}
+						if(month<10){
+							month = "0"+month;
+						}
+						
+						var d_date = year+"-"+month+"-"+day;
+						
+						text += '<input type="hidden" name="calculateDueDate" value="'+d_date+'" />';
 						
 						$("#fund-duedate").html(text);
 						$("#fund-duedate").css({"text-align":"left","padding-top":"30px"});
@@ -354,7 +370,7 @@ function previewImage(fileObj, imgPreviewId) {
 		  프로젝트를 개설하려면 네 개의 섹션을 완성해야 합니다. 해당 섹션을 완성해야 다음 섹션으로 넘어갈 수 있습니다.
 		</div>
 		<div class="alert alert-secondary" role="alert">
-		 내용을 입력한 뒤 하단의 "다음" 버튼을 눌러야 저장이 되며, 다음 섹션으로 이동합니다.
+		 내용을 입력한 뒤 하단의 "저장" 버튼을 눌러야 저장이 되며, 저장 후 다음 섹션으로 이동합니다.
 		</div>
 		<div class="alert alert-secondary" role="alert">
 		  완성된 섹션은 
@@ -366,11 +382,11 @@ function previewImage(fileObj, imgPreviewId) {
 	</div>
 	
 	<div class="make-project-btn">
-		<button type="button">
+		<button type="button" id="previewProject">
 			<img src="${pageContext.request.contextPath }/resources/images/makeProject/binoculars.png" />
 			미리보기
 		</button>
-		<button type="button">
+		<button type="button" id="confirmProject">
 			<img src="${pageContext.request.contextPath }/resources/images/makeProject/paper-plane.png" />
 			검토 요청하기
 		</button>

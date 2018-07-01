@@ -132,6 +132,8 @@ $(function(){
 
 <form action="${pageContext.request.contextPath }/project/makeProject/story" onsubmit="return project_validate('#funding-gift');" method="post" >
 
+	<input type="hidden" id="projectNo" name="projectNo" value="${projectNo }" />
+	
 	<!-- 펀딩 목표 설정 -->
 	<div class="make-project-section">
 		<p class="title">펀딩 목표 설정</p>
@@ -163,7 +165,7 @@ $(function(){
 					<span class="red-font" id="money-warning">** 목표 금액은 5,000원 이상입니다.</span>
 				</p>
 				<p>
-					<input type="number" id="funding-money" name="fundingMoney" value="0" min="5000"/> 
+					<input type="number" id="funding-money" name="supportGoal" value="0" min="5000"/> 
 					<span class="bold-font">원</span>
 					<!-- 수수료 -->
 				</p>
@@ -286,7 +288,7 @@ $(function(){
 						아이템은 <span class="bold-font">선물에 포함되는 구성 품목</span>을 말합니다. <br />
 						이 금액대의 선물을 선택한 후원자에게 어떤 아이템들을 전달하실지 선택해주세요.
 					</p>
-					<table>
+					<table id="tbl_item">
 						<thead>
 							<tr>
 								<td>포함</td>
@@ -327,7 +329,7 @@ $(function(){
 						구성된 선물에 대해 추가적으로 알리고 싶은 내용을 적어주세요.
 					</p>
 					<p>
-						<input type="text" id="gift-explain" name="giftExplain" placeholder="예) 배송비 포함, &lt선물세트A> 등" />
+						<input type="text" id="gift-explain" name="giftexplain" placeholder="예) 배송비 포함, &lt선물세트A> 등" />
 						<span class="letter-cnt"><span class="total-letter">50</span>자 남았습니다</span>
 					</p>
 				</div>
@@ -337,9 +339,9 @@ $(function(){
 						배송이 필요한 선물인 경우 후원자에게 주소지를 요청합니다.
 					</p>
 					<p style="position: relative">
-						<input type="radio" name="giftDelivery" id="giftDeliveryYES" value="Y" checked/>
+						<input type="radio" name="deliveryYN" id="giftDeliveryYES" value="Y" checked/>
 						<label for="giftDeliveryYES">배송이 필요한 선물입니다</label>
-						<input type="radio" name="giftDelivery" id="giftDeliveryNO" value="N"/>
+						<input type="radio" name="deliveryYN" id="giftDeliveryNO" value="N"/>
 						<label for="giftDeliveryNO">배송이 필요하지 않은 선물입니다</label>
 					</p>
 				</div>
@@ -389,7 +391,7 @@ $(function(){
 					이 프로젝트에 꼭 맞는 환불 및 교환 정책을 신중하게 작성해주세요.
 				</p>
 				<p>
-					<textarea name="refund" id="refund" cols="30" rows="10" placeholder="환불 및 교환 정책을 입력해주세요"></textarea>
+					<textarea name="giftrefund" id="refund" cols="30" rows="10" placeholder="환불 및 교환 정책을 입력해주세요"></textarea>
 					<span class="letter-cnt"><span class="total-letter">1000</span>자 남았습니다</span>
 				</p>
 				<p>

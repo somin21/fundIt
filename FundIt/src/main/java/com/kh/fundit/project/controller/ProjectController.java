@@ -5,25 +5,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.mail.Session;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttribute;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.fundit.member.model.vo.Member;
 import com.kh.fundit.member.model.vo.Profile;
 import com.kh.fundit.project.model.service.ProjectService;
+import com.kh.fundit.project.model.vo.Item;
 import com.kh.fundit.project.model.vo.ListProjectView;
-import com.kh.fundit.project.model.vo.ProjectDelivery;
+import com.kh.fundit.project.model.vo.ProjectFunding;
 import com.kh.fundit.project.model.vo.ProjectGift;
 /*import com.kh.fundit.project.model.vo.Profile;*/
 import com.kh.fundit.project.model.vo.ProjectOutline;
@@ -449,20 +446,58 @@ public class ProjectController {
 		System.out.println(outline);
 		System.out.println(profile);
 		
-		int o_result = projectService.makeProjectOutline(outline);
-		int p_result = projectService.makeProjectOutline(profile);
+		int projectNo = projectService.makeProjectOutline(outline);
+		int p_result = projectService.makeProjectProfile(profile);
 		
-		
-//		mav.addObject("projectNo", projectNo);
-		mav.setViewName("project/projectMake_funding_gift");
+		if(p_result <= 0) {
+			
+			throw new RuntimeException("프로젝트 올리기 오류");
+			
+		} else {
+			
+			mav.addObject("projectNo", projectNo);
+			mav.setViewName("project/projectMake_funding_gift");
+		}
 		
 		return mav;
 	}
 	
 //	소민
 	@RequestMapping("/project/makeProject/story")
-	public String makeProjectStory() {
-		return "project/projectMake_story";
+	public ModelAndView makeProjectStory(ProjectFunding funding) {
+		
+		ModelAndView mav = new ModelAndView();
+		
+		int projectNo = projectService.makeProjectFunding(funding);
+		
+		mav.addObject("projectNo", projectNo);
+		mav.setViewName("project/projectMake_story");
+		
+		return mav;
+	}
+	
+//	소민
+	@RequestMapping("/project/insertItem")
+	@ResponseBody
+	public Item insertItem(Item item) {
+		
+		return projectService.insertItem(item);
+	}
+	
+//	소민
+	@RequestMapping("/project/updateItem")
+	@ResponseBody
+	public void updateItem(Item item) {
+		
+		projectService.updateItem(item);
+	}
+	
+//	소민
+	@RequestMapping("/project/selectItemList")
+	@ResponseBody
+	public List<Item> selectItemList(int projectNo) {
+		
+		return projectService.selectItemList(projectNo);
 	}
 	
 //	소민

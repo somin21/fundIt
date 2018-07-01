@@ -14,7 +14,6 @@
 <form action="${pageContext.request.contextPath }/project/makeProject/funding-gift" onsubmit="return project_validate('#outline');" method="post" >
 
 	<input type="hidden" name="email" value="${memberLoggedIn.email }" />
-	<input type="hidden" name="phone" value="${profile.phone }" />
 	
 	<!-- 프로젝트 개요 -->
 	<div class="make-project-section">
