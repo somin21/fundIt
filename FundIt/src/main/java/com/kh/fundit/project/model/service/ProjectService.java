@@ -50,8 +50,6 @@ public interface ProjectService {
 	int interestDelete(Map<String, Object> map);
 
 	List<ProjectGift> projectGiftList(Map<String, Object> map);
-
-	int rownum(String email);
 	
 	int insertPayment(Map<String, Object> map);
 
@@ -71,5 +69,12 @@ public interface ProjectService {
 
 	int communityInsert(Map<String, Object> map);
 
+	List<ListProjectView> interestList2(String email);
+
+	List<ListProjectView> interestList1(String email);
+
+	List<ListProjectView> interestList3(String email);
+
+	List<ListProjectView> interestList4(String email);
 
 }

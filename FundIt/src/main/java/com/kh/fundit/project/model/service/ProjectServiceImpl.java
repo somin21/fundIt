@@ -131,13 +131,7 @@ public class ProjectServiceImpl implements ProjectService {
 	public List<ProjectGift> projectGiftList(Map<String, Object> map) {
 		return projectDAO.projectGiftList(map);
 	}
-	
-//영준
-	@Override
-	public int rownum(String email) {
-		return projectDAO.rownum(email);
-	}
-	
+		
 //희영
 	@Override
 	public int insertPayment(Map<String, Object> map) {
@@ -184,5 +178,25 @@ public class ProjectServiceImpl implements ProjectService {
 		return projectDAO.communityInsert(map);
 	}
 
+//영준
+	@Override
+	public List<ListProjectView> interestList2(String email) {
+		return projectDAO.interestList2(email);
+	}
+	//영준
+	@Override
+	public List<ListProjectView> interestList1(String email) {
+		return projectDAO.interestList1(email);
+	}
+	//영준
+	@Override
+	public List<ListProjectView> interestList3(String email) {
+		return projectDAO.interestList3(email);
+	}
+	//영준
+	@Override
+	public List<ListProjectView> interestList4(String email) {
+		return projectDAO.interestList4(email);
+	}
 
 }

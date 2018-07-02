@@ -138,10 +138,6 @@ public class ProjectDAOImpl implements ProjectDAO {
 	public List<ProjectGift> projectGiftList(Map<String, Object> map) {
 		return sqlSession.selectList("project.projectGiftList", map);
 	}
-//영준
-	public int rownum(String email) {
-		return sqlSession.selectOne("project.rownum",email);
-	}
 	
 //	희영
 	@Override
@@ -189,5 +185,25 @@ public class ProjectDAOImpl implements ProjectDAO {
 		return sqlSession.insert("project.communityInsert", map);
 	}
 
+//영준
+	@Override
+	public List<ListProjectView> interestList2(String email) {
+		return sqlSession.selectList("project.interestList2",email);
+	}
+	//영준
+	@Override
+	public List<ListProjectView> interestList1(String email) {
+		return sqlSession.selectList("project.interestList1",email);
+	}
+	//영준
+	@Override
+	public List<ListProjectView> interestList3(String email) {
+		return sqlSession.selectList("project.interestList3",email);
+	}
+	//영준
+	@Override
+	public List<ListProjectView> interestList4(String email) {
+		return sqlSession.selectList("project.interestList4",email);
+	}
 
 }

@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-
+<script src="${pageContext.request.contextPath }/resources/js/jquery-3.3.1.js"></script>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
@@ -52,7 +52,7 @@ color: red;
 	</tr>
 	<tr>
 		<td>
-			<button type="button" id="naver-join" class="btn btn-success" >N 네이버 아이디로 가입하기</button>
+			<button type="button" id="naver-join" class="btn btn-success" onclick="naver_button();" >N 네이버 아이디로 가입하기</button>
 		</td>
 	</tr>
 	<tr>
@@ -62,6 +62,12 @@ color: red;
 	</table>
 	</div>
 	<script>
+	function naver_button(){
+		location="${pageContext.request.contextPath }/login.do";
+		
+		
+	}
+		
 	
 	</script>
 	

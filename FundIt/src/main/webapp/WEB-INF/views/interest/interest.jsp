@@ -24,10 +24,11 @@ div.project  div.delete{
    display: inline-block;
    margin: 0 10px;
    text-align: left;
+
 }
 div.delete{
 display: inline-block;
-
+   margin: 20px;
 width: 240px;
 }
 div.project:hover{
@@ -132,7 +133,7 @@ div.project div.summary span.no-project{
    }
 }
 @media (max-width: 2070px){
-   div#index-container{text-align: center;}
+   div#index-container{text-align: center;width: 80%;  margin: auto;}
    div.maincontainer{text-align: center; padding: 80px;}
    div.maincontainer2{text-align: left; padding: 7px 10px 7px 16.1%;}
 }
@@ -186,15 +187,26 @@ select#select {
     <hr />
     <div class="maincontainer2">
         <div id="selectList">
-        <select name="" id="select">
-            <option value="">최다 후원순</option>
-            <option value="">최다 금액순</option>
-            <option value="">마감 임박순</option>
-            <option value="">최신순</option>
+        <select name="select" id="select">
+          <option value="0">검색</option>
+            <option value="1">최다 후원순</option>
+            <option value="2">최다 금액순</option>
+            <option value="3">마감 임박순</option>
+            <option value="4">최신순</option>
         </select>
         </div>
     </div>
     <hr />
+    
+    <script>
+    $("#select").change(function() {
+    	var a=($(this).val());
+    	console.log(a);
+    	location.href="${pageContext.request.contextPath }/interest/interestselect.do?email=${memberLoggedIn.email}&a="+a
+    	});
+
+    	
+    </script>
     
    <div id="index-container">
       <!-- 프로젝트 리스트 -->
@@ -239,6 +251,8 @@ select#select {
          <h1>아직 프로젝트가 등록되지 않았습니다~~~~ㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎ</h1>
       </c:if>
    </div>
+   <button>더보기</button>
+
 <script>
    $(function(){
       $(".project").click(function(){
@@ -259,7 +273,6 @@ select#select {
    
 
 </script>
-
 
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
