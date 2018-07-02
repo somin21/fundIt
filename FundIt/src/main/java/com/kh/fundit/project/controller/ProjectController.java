@@ -10,7 +10,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
@@ -21,9 +23,11 @@ import com.kh.fundit.member.model.vo.Member;
 import com.kh.fundit.member.model.vo.Profile;
 import com.kh.fundit.project.model.service.ProjectService;
 import com.kh.fundit.project.model.vo.ListProjectView;
+import com.kh.fundit.project.model.vo.ProjectDelivery;
 import com.kh.fundit.project.model.vo.ProjectGift;
 /*import com.kh.fundit.project.model.vo.Profile;*/
 import com.kh.fundit.project.model.vo.ProjectOutline;
+import com.kh.fundit.project.model.vo.ProjectSupport;
 import com.kh.fundit.project.model.vo.ProjectView;
 
 @Controller
@@ -314,9 +318,7 @@ public class ProjectController {
 		for(ProjectView v : list) {
 			title = v.getProjectTitle();
 			calculateduedDate = v.getCalculateduedDate();
-		}
-		System.out.println(title);
-		
+		}		
 		
 		mav.addObject("List",List);
 		mav.addObject("projectNo",no);
@@ -326,13 +328,126 @@ public class ProjectController {
 		
 		return mav;
 	}
-	
-	
+//	희영
+	@RequestMapping("/project/approval.do")
+	public ModelAndView approval(@RequestParam int projectNo, String itemName, int itemnumber, int num, String title ) {
+		ModelAndView mav = new ModelAndView();
+		
+		System.out.println("projectNo="+projectNo+"itemName="+itemName+"itemnumber="+itemnumber+"num="+num);
+
+		mav.addObject("projectNo",projectNo);
+		mav.addObject("itemName",itemName);
+		mav.addObject("itemnumber",itemnumber);
+		mav.addObject("num",num);
+		mav.addObject("title",title);
+		mav.setViewName("project/approval");
+		
+		return mav;
+	}
+//	희영
+	@RequestMapping(value="/project/payments.do",method=RequestMethod.POST,produces="application/json; charset=utf8")
+	public ModelAndView approval(@RequestParam String imp_uid, String merchant_uid, String apply_num, int amount, 
+			String buyer_id, int projectNo, String itemName, String postcode, String address) {
+		ModelAndView mav = new ModelAndView();
+		
+		System.out.println("코드="+imp_uid+" merchant_uid="+merchant_uid+" 카드번호="+apply_num+" 결제금액="+amount+" 유저아이디="+buyer_id+"프로젝트번호="+projectNo+"아이템="+itemName+"주소="+address);
+		/*System.out.println("projectNo="+projectNo+"itemName="+itemName+"itemnumber="+itemnumber+"num="+num);
+
+		mav.addObject("projectNo",projectNo);
+		mav.addObject("itemName",itemName);
+		mav.addObject("itemnumber",itemnumber);
+		mav.addObject("num",num);
+		mav.addObject("title",title);*/
+		
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("imp_uid", imp_uid);
+		map.put("merchant_uid", merchant_uid);
+		map.put("apply_num", apply_num);
+		map.put("amount", amount);
+		map.put("buyer_id", buyer_id);
+		map.put("projectNo", projectNo);
+		map.put("itemName", itemName);
+		map.put("postcode", postcode);
+		map.put("address", address);
+		
+		//기프트 정보가져오기
+		List<ProjectGift> list = projectService.projectSeelctGift(map);
+		
+		System.out.println("GiftList="+list);
+		//기프트 가격 및 추가 가격 구분하기
+		int itemMoney = 0;
+		int addMoney = 0;
+		for(ProjectGift v : list) {
+			itemMoney = v.getMinMoney();
+			addMoney = Math.abs(amount - itemMoney);
+		}
+		map.put("itemMoney", itemMoney);
+		map.put("addMoney", addMoney);
+		
+		System.out.println("아이템 가격="+itemMoney+"추가금액="+addMoney);
+		
+		//서포트테이블 추가
+		int result = projectService.supportInsert(map);
+		//서포트테이블 리스트 및 넘버
+		ProjectSupport ps = projectService.supportList(map);
+		System.out.println("서포터리스트="+ps);
+		int supportNo = ps.getSupportNo();
+		map.put("supportNo", supportNo);
+		
+		//프로젝트리스트뽑기
+		List<ProjectView> pList = projectService.projectView(map);
+		//결재날짜=배송시작날짜 뽑기
+		Date calculateduedDate = null;
+		for(ProjectView v : pList) {
+			calculateduedDate = v.getCalculateduedDate();
+		}
+		map.put("calculateduedDate", calculateduedDate);
+		
+		//배송정보 테이블 추가
+		int result2 = projectService.deliveryInsert(map);
+		
+		
+		//결재정보테이블 추가
+		int result3 = projectService.insertPayment(map);
+		
+		boolean isUsable = false;
+		
+		if(result3>0) {
+			isUsable = true;
+		}
+		System.out.println("result="+result+"result2="+result2+"result3="+result3+"isUsable="+isUsable);
+		
+		Map<String,Object> map2 = new HashMap<>();
+		map2.put("isUsable", isUsable);
+		
+		mav.addAllObjects(map2);
+		mav.setViewName("jsonView");
+		
+		return mav;
+	}
 
 //	소민
 	@RequestMapping("/project/makeProject/outline")
-	public String makeProject() {
+	public String makeProjectOutline() {
 		return "project/projectMake_outline";
+	}
+	
+//	소민
+	@RequestMapping("/project/makeProject/funding-gift")
+	public String makeProjectFundingGift() {
+		return "project/projectMake_funding_gift";
+	}
+	
+//	소민
+	@RequestMapping("/project/makeProject/story")
+	public String makeProjectStory() {
+		return "project/projectMake_story";
+	}
+	
+//	소민
+	@RequestMapping("/project/makeProject/account")
+	public String makeProjectAccount() {
+		return "project/projectMake_account";
 	}
 
 }

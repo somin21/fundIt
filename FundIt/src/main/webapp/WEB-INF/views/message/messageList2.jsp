@@ -40,7 +40,21 @@
 }
 
   div.maincontainer{text-align: center; padding: 80px;}
+  
+.content{
+width:300px;
+display:inline-block;
+overflow: hidden;
+text-overflow: ellipsis;
+white-space:nowrap;
+} 
 </style>
+<script>
+window.onload = function () {
+	$("#loggedinemail").hide();
+	
+}
+</script>
     <div class="maincontainer">
         <h1 id="messageContainer">
            <img src="${pageContext.request.contextPath }/resources/images/message/message.png" alt="" />Message
@@ -49,24 +63,26 @@
 
 <section>
 <div id="container" class="container">
-
-<input type="button" value="보낸 메세지" id="btn-add" class="btn btn-outline-success" onclick="location.href='${pageContext.request.contextPath}/message/messageList2.do?email=${memberLoggedIn.email }'" />
+<input type="button" value="받은 메세지함" id="btn-add" class="btn btn-outline-success" onclick="location.href='${pageContext.request.contextPath}/message/messageList.do?email=${memberLoggedIn.email }'" />
+<input type="button" value="보낸 메세지함" id="btn-add" class="btn btn-outline-success" onclick="location.href='${pageContext.request.contextPath}/message/messageList2.do?email=${memberLoggedIn.email }'" />
+<input type="button" value="읽은 메세지함" id="btn-add" class="btn btn-outline-success" onclick="location.href='${pageContext.request.contextPath}/message/messageList5.do?email=${memberLoggedIn.email }'" />
+<br /><br />
 <table class="table">
 	<tr>
-		<th>번호</th>
-		<th>내용</th>
+		<!-- <th>번호</th> -->
+		<th class="content">내용</th>
 		<th>수신 여부</th>
-		<th>보낸이</th>
+		<!-- <th>보낸이</th> -->
 		<th>받은사람</th>
 		<th>받은시간</th>
 	</tr>
 
 	<c:forEach items="${list}" var="message">
 		<tr>
-			<td>${message.messageNo}</td>
-			<td><a href="${pageContext.request.contextPath }/message/messageModal3.do?email=${message.receiveEmail}&email2=${message.sendEmail}&messageNo=${message.messageNo}">${message.messageContent }</a></td>
+			<%-- <td>${message.messageNo}</td> --%>
+			<td><a href="${pageContext.request.contextPath }/message/messageModal3.do?email=${message.receiveEmail}&email2=${message.sendEmail}&messageNo=${message.messageNo}" class="content">${message.messageContent }</a></td>
 			<td>${message.readyn }</td>
-			<td>${message.sendEmail }</td>
+			<%-- <td>${message.sendEmail }</td> --%>
 			<td>${message.receiveEmail }</td>
 			<td>${message.messageDate }</td>
 		</tr>
@@ -74,7 +90,11 @@
 <c:if test="${empty list }">
 			<h1>아직 메세지가 등록되지 않았습니다~~~~ㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎ</h1>
 		</c:if>
-<input type="text" value="${param.email }" name="email" />
+		<form action="messageSelect2.do">
+<input type="text" value="${param.email }" name="email" id="loggedinemail"/> 
+<input type="text" placeholder="메일검색" onkeydown="JavaScript:Enter_Check();" name="messageSelect" value="" />
+<input type="submit" value="검색" />
+</form>
 </table>
 </div>
 <!-- 페이지바 -->

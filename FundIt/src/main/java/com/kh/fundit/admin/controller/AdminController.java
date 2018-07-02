@@ -1,12 +1,25 @@
 package com.kh.fundit.admin.controller;
 
+import java.sql.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.fundit.admin.model.service.AdminService;
+import com.kh.fundit.admin.model.vo.AdminMember;
+import com.kh.fundit.admin.model.vo.AdminProjectView;
 import com.kh.fundit.project.model.vo.ListProjectView;
+import com.kh.fundit.project.model.vo.Profile;
+import com.kh.fundit.project.model.vo.ProjectGift;
 
 @Controller
 public class AdminController {
@@ -14,25 +27,147 @@ public class AdminController {
 	@Autowired
 	private AdminService adminService;
 	
+	//관리자 index
 	@RequestMapping("/admin")
 	public String adminLogin() {
 		
 		return "admin/adminIndex";
 	}
 	
-	@RequestMapping("/admin/indexProject")
-	public ModelAndView adminProject() {
+	//모든 프로젝트 리스트 보기 -index선택
+	@RequestMapping("/admin/indexProject") // 모든 프로젝트.
+	public ModelAndView indexProject(HttpServletResponse response) {
 		ModelAndView mav = new ModelAndView();
-		/*ListProjectView pList = adminService.selectpListView();*/
+
+		List<ListProjectView> list = adminService.indexProject();
 		
+		mav.addObject("list", list);
 		
 		return mav;
 	}
 	
-	@RequestMapping("/admin/projectConfirm")
-	public String projectConfirm() {
+	//인덱스 선택 업뎃
+	@RequestMapping(value="/admin/indexProjectEnd" , method = RequestMethod.GET)
+	public ModelAndView indexProjectEnd(@RequestParam(value="no", required=false) String no, 
+										HttpServletResponse response) {
+		ModelAndView mav = new ModelAndView();
 		
-		return "admin/projectConfirm";
+		//배열에다가 다시 넣고 그 배열 그대로 가져가서 sql에서  배열이름[0]으로 넣어주면됨
+		
+		String proNo0 = no.split(",")[0];
+		String proNo1 = no.split(",")[1];
+		String proNo2 = no.split(",")[2];
+		String proNo3 = no.split(",")[3];
+		
+		String arr[] = {proNo0, proNo1, proNo2, proNo3};
+		
+		int result = adminService.updateIndexYN(arr);
+		String msg="";
+		String loc="/";
+		if(result==4) {
+			msg="수정 성공!";
+			loc="/admin/indexProject";
+		}else {
+			msg="실패!";
+			loc="redirect:/";
+		}
+		mav.addObject("msg", msg);
+	    mav.addObject("loc", loc);
+	    mav.setViewName("common/msg");
+	    
+		return mav;
+	}
+	
+	//프로젝트 승인대기 리스트 보기
+	@RequestMapping("/admin/projectConfirmList")
+	public ModelAndView projectConfirmList(HttpServletResponse response) {
+		
+		ModelAndView mav = new ModelAndView();
+		List<ListProjectView> list = adminService.projectConfirmList();
+		
+		mav.addObject("list",list);
+		mav.setViewName("admin/projectConfirmList");
+		
+		return mav;
+	}
+	
+	// 프로젝트 선택해서 프로젝트 보기
+	@RequestMapping("/admin/projectConfirmView")
+	public ModelAndView projectConfirmListEnd(@RequestParam("projectNo") int no,
+											  HttpServletResponse response)	{
+		ModelAndView mav = new ModelAndView();
+		
+		Map<String,Object> map = new HashMap<>();
+		map.put("projectNo",no);
+		
+		//프로젝트리스트뽑기
+		List<AdminProjectView> list = adminService.adminProjectView(map);
+		
+		//선물리스트 받아오기
+		List<ProjectGift> gList = adminService.projectGiftList(map);
+		String userEmail = "";
+		Date calculateduedDate = null;
+		for(AdminProjectView v : list) {
+			userEmail = v.getEmail();
+			calculateduedDate = v.getCalculateduedDate();
+		}
+		Profile p = adminService.profileUser(userEmail);
+		
+		mav.addObject("list",list);
+		mav.addObject("gList",gList);
+		mav.addObject("p",p);
+		mav.addObject("projectNo",no);
+		mav.addObject("calculateduedDate",calculateduedDate);
+		mav.setViewName("admin/projectConfirmView");
+		
+		return mav;
+
+	}
+	
+	//프로젝스 승인하기
+	@RequestMapping("/admin/projectConfirmY")
+	public ModelAndView projectConfirmY(@RequestParam String no) {
+
+		ModelAndView mav = new ModelAndView();
+		
+		int result = adminService.projectConfirmY(no);
+		
+		String msg="";
+		String loc="/";
+		if(result>0) {
+			msg="프로젝트를 승인하였습니다.!";
+			loc="/admin/projectConfirmList";
+		}else {
+			msg="실패!";
+			loc="redirect:/";
+		}
+		mav.addObject("msg", msg);
+	    mav.addObject("loc", loc);
+	    mav.setViewName("common/msg");
+		return mav;
+	}
+	
+	//프로젝트 거절하기
+	@RequestMapping("/admin/projectConfirmF")
+	public ModelAndView projectConfirmF(@RequestParam String no) {
+		
+		ModelAndView mav = new ModelAndView();
+		
+		int result = adminService.projectConfirmF(no);
+		
+		String msg="";
+		String loc="/";
+		if(result>0) {
+			msg="프로젝트를 거절하였습니다.!";
+			loc="/admin/projectConfirmList";
+		}else {
+			msg="실패!";
+			loc="redirect:/";
+		}
+		mav.addObject("msg", msg);
+	    mav.addObject("loc", loc);
+	    mav.setViewName("common/msg");
+		return mav;
 	}
 	
 	@RequestMapping("/admin/projectDeadline")
@@ -41,10 +176,41 @@ public class AdminController {
 		return "admin/projectDeadline";
 	}
 	
-	@RequestMapping("/admin/member")
-	public String adminMember() {
+	@RequestMapping("/admin/adminMemberList")
+	public ModelAndView adminMember() {
+		ModelAndView mav = new ModelAndView();
 		
-		return "admin/member";
+		List<AdminMember> list = adminService.memberList();
+		System.out.println("121dafdsfdsfsadf"+list);
+		mav.addObject("list", list);
+		
+		mav.setViewName("admin/adminMemberList");
+		return mav;
+	}
+	
+	@RequestMapping("/admin/adminMemberDelete")
+	public ModelAndView adminMemberDelete(@RequestParam String email){
+		
+		ModelAndView mav = new ModelAndView();
+		
+		System.out.println(email);
+		int result = adminService.adminMemberDelete(email);
+		
+		String msg="";
+		String loc="/";
+		
+		if(result>0) {
+			msg= email+"회원을 삭제하였습니다.!";
+			
+		}else {
+			msg="삭제 실패!";
+		}
+		loc="/admin/adminMemberList";
+		
+		mav.addObject("msg", msg);
+	    mav.addObject("loc", loc);
+	    mav.setViewName("common/msg");
+		return mav;
 	}
 	
 	@RequestMapping("/admin/message")

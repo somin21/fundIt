@@ -152,7 +152,9 @@ select#select {
   border: 1px solid white;
   border-radius: 0px;
 }
+
 </style>
+
     <!-- 프로젝트 -->
     <hr />
     <div class="maincontainer">
@@ -196,8 +198,12 @@ select#select {
     
    <div id="index-container">
       <!-- 프로젝트 리스트 -->
+    
+      	
+      	
       <c:if test="${not empty list }">
       <c:forEach var="i" items="${ list}">
+      
        <div class="delete">
          <div class="project">
          <input type="hidden" value="${i.projectNo }" id="projectNo"/>
@@ -217,12 +223,13 @@ select#select {
                   <img src="${pageContext.request.contextPath }/resources/images/money.png"/>
                   <fmt:formatNumber>${i.supportMoney }</fmt:formatNumber>
                   (${i.supportPercent }%)
+                
                </div>
-              
+             
             </div>
            
          </div>
-       
+     
         
          <button type="button" id="delete" class="aaa" value="${i.projectNo }">삭제</button>
          </div>

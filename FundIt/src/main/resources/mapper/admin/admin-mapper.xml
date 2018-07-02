@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="admin">
+	
+<!-- 	<select id="indexProject" resultType="project_outline">
+	select * from project_outline where projectconfirmyn='Y' and projectdeadlineyn='N'
+	</select>
+	 -->
+	<select id="indexProject" resultType="list_project_view">
+	<![CDATA[
+		select p.projectno, p.projectimage, p.projecttitle, 
+	        (select name from member m where p.email = m.email) name,
+	        (select trunc(deadlinedate - sysdate) from project_funding f where p.projectno = f.projectno) deadlineday,
+	        s.supportmoney, s.supportpercent
+		from (select * from project_outline where projectconfirmyn='Y' and projectdeadlineyn='N' order by projectdate desc) p join project_summary s on p.projectno = s.projectno
+	 ]]>
+	</select>
+	
+	<update id="updateIndex">
+		update project_outline set projectindexyn='N' where projectindexyn='Y'
+	</update>
+	
+	<update id="updateAdminIndexYN">
+		update project_outline set projectindexyn='Y' where projectno in
+		<foreach collection="array" item="no" index="index" open="(" separator="," close=")" >
+		 #{no} 
+		</foreach>
+	</update>
+	
+	<select id="projectConfirmList" resultType="list_project_view">
+	<![CDATA[
+		select p.projectno, p.projectimage, p.projecttitle, 
+	        (select name from member m where p.email = m.email) name,
+	        (select trunc(deadlinedate - sysdate) from project_funding f where p.projectno = f.projectno) deadlineday
+		from (select * from project_outline where projectconfirmyn='N') p
+	 ]]>
+	</select>
+	
+	<select id="adminProjectView" resultType="adminProjectView">
+		select p.projectno, p.email, p.projectimage, p.projecttitle, p.categorycode,
+        	(select name from member m where p.email = m.email) name,
+        	(select trunc(deadlinedate - sysdate) from project_funding f where p.projectno = f.projectno) deadlineday,
+        	(select supportgoal from project_funding f where p.projectno = f.projectno) supportgoal,
+            (select CALCULATEDUEDATE from project_funding f where p.projectno = f.projectno) calculatedueddate,
+            (select introducemovie from project_story s where p.projectno = s.projectno) movie,
+            (select projectstory from project_story s where p.projectno = s.projectno) story
+		from (select * from project_outline where projectconfirmyn='N' and projectdeadlineyn='N' order by projectdate desc) p
+        where p.projectno = ${projectNo}
+	</select>
+	
+	<select id="projectGiftList" resultType="ProjectGift">
+		select p.projectno, p.minmoney, p.itemnumber, i.itemname, p.itemno, p.giftexplain, p.deliveryyn, p.giftrefund 
+		from project_gift p join item i on p.projectno = i.projectno
+		where p.projectno = ${projectNo}
+		order by itemno
+	</select>
+	
+	<select id="profileUser" resultType="profile2">
+		select * from profile where email = #{userEmail}
+	</select>
+	
+	<update id="projectConfirmY">
+		update project_outline set projectconfirmyn='Y' where projectno=#{no}
+	</update>
+	
+	<update id="projectConfirmF">
+		update project_outline set projectconfirmyn='F' where projectno=#{no}
+	</update>
+	<select id="memberList" resultType="adminMember">
+		select m.email, nvl(l.projecting,0) projecting, nvl(ss.supporting,0) supporting
+		from member m left join (select email, count(*) projecting from project_outline  where projectdeadlineyn='N' and projectconfirmyn='Y' group by email) l on m.email= l.email
+		            left join (select s.email, count(*) supporting from project_outline o join support s on o.projectno=s.projectno where o.projectdeadlineyn='N' and o.projectconfirmyn='Y' group by s.email) ss on ss.email=m.email
+		where m.deleteyn='N'
+	</select>
+	<update id="adminMemberDelete">
+		update member set deleteyn='Y' where email=#{email}
+	</update>
+</mapper>
