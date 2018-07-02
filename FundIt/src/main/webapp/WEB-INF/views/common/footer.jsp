@@ -10,9 +10,9 @@
 <div id="footer">
 	<p>
 		<span id="help">
-			<a href="">헬프센터</a>
+			<a href="${pageContext.request.contextPath }/help/helpView.do">헬프센터</a>
 		</span>
-		<button id="messageToAdmin" class="btn btn-outline-secondary">
+		<button id="messageToAdmin" class="btn btn-outline-secondary" onclick="fn_help();">
 			<img src="${pageContext.request.contextPath }/resources/images/questions.png" />
 			<span>문의하기</span>
 		</button>
@@ -27,6 +27,11 @@
 	</p>
 	
 </div>
+<script>
+function fn_help(){
+	location.href="${pageContext.request.contextPath }/help/helpView.do";
+};
 
+</script>
 </body>
 </html>

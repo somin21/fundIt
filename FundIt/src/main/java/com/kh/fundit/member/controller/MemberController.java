@@ -402,9 +402,7 @@ public class MemberController {
 	      mav.addObject("msg", msg);
 	      mav.setViewName("common/msg");
 	      return mav;
-	      
-	      
-	      
+
 	   }
 	   
 //  태윤
