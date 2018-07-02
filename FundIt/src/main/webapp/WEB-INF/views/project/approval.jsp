@@ -29,6 +29,10 @@ table td#td{width: 70%}
 				<td id="td"><input type="text" id="title" class="form-control" value="${title }" readonly/><br /></td>
 			</tr>
 			<tr>
+				<td><label for="itemName" id="a">아이템명   : </label></td>
+				<td id="td"><input type="text" id="title" class="form-control" value="${itemName }" readonly/><br /></td>
+			</tr>
+			<tr>
 				<td><label for="amount" id="a">후원금액 : </label></td>
 				<td id="td"><input type="number" id="amount" class="form-control" value="${num }" readonly/><br /></td>
 			</tr>
@@ -92,6 +96,9 @@ table td#td{width: 70%}
 	var address = $("#sample4_roadAddress").val()+" "+$("#sample4_jibunAddress").val();
 	var projectNo = ${projectNo};
 	var minMoney = ${minMoney==null? '0':minMoney};
+	var itemName = '${itemName}';
+	var itemNum = '${itemNum}';
+	var delivery = '${delivery==null?'N':delivery}';
 	
 	IMP.init('imp17080880');
 	IMP.request_pay({
@@ -124,7 +131,10 @@ table td#td{width: 70%}
 		    		title : title, 				//타이틀명
 		    		postcode : postcode, 		//우편번호
 		    		address : address, 			//주소
-		    		minMoney : minMoney 		//최소금액
+		    		minMoney : minMoney, 		//최소금액
+		    		itemName : itemName, 		//아이템이름
+		    		itemNum : itemNum, 			//아이템갯수
+		    		delivery : delivery 		//배송여부
 	    		}
 	    		,
 /* 	    		success:function(data){

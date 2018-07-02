@@ -105,7 +105,7 @@ div#profile-click-div hr{
 
 
 /* body{background-color:#cce2ff; } */
-div.ground{background-color: #faf8f8; margin: 0 auto; vertical-align: top;} 
+div.ground{background-color: #f7f5f5; margin: 0 auto; vertical-align: top;} 
 div.mainDIV{text-align: center; }
 div.mainTitle{height: 480px; width: 960px; display: inline-block;}
 div.sideDiv{display: inline-block; vertical-align: top;}
@@ -119,15 +119,20 @@ span#sp2{font-size: 25px; font-weight: bold;}
 span.sp{font-size: 15px; font-weight: bold; padding-bottom:10px; display: inline-block;}
 span.sp2{font-size: 14px;}
 
+span#story:hover{cursor: pointer;}
+span#community:hover{cursor: pointer;}
+span#change:hover{cursor: pointer;}
+
 div.menuDiv{text-align: left; padding: 5px 0 18px 18%; }
 div.mainContext{width: 700px;display: inline-block; background:white; margin-top: 15px; box-shadow: 1px 1px silver; margin-bottom: 30px;}
 
 div.communityDiv{width: 700px;display: inline-block; background:#faf8f8; margin-top: 15px; }
-div.communityS{width: 700px; display: inline-block; background:white; margin-top: 15px; box-shadow: 1px 1px silver;}
+div.communityS{width: 700px; display: inline-block; padding-bottom:10px; padding-top:10px; background:white; margin-top: 15px; box-shadow: 1px 1px silver;}
 div.communityMain{width: 700px;display: inline-block; background:#faf8f8; margin-top: 15px;}
-div.community{border:1px solid; background: white;}
+div.community{background: white; box-shadow: 1px 1px silver; text-align: left; padding-left: 30px; padding-bottom:10px; padding-top:10px;}
 
-div.changeDiv{width: 700px;border: 1px solid;display: inline-block; background:white; margin-top: 15px; box-shadow: 1px 1px silver;}
+div.changeDiv{width: 700px;display: inline-block; background:white; margin-top: 15px; box-shadow: 1px 1px silver; padding-bottom:10px; padding-top:10px;}
+span.refundSp{font-weight: bold;}
 
 div.originator{width: 270px;display: inline-block; text-align: left; padding: 15px; background:white; margin: 10px; margin-top: 15px; box-shadow: 1px 1px silver;}
 #originatorStory{font-weight: bold; padding-bottom:10px; display: inline-block;}
@@ -371,21 +376,25 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
 		        		<c:if test="${empty cList}">
 		        			<br /><br /><br /><span>게시글이 없습니다</span>
 		        		</c:if>
+		        		
 		        		<c:if test="${not empty cList}">
 		        			<c:forEach var="s" items="${cList }">
+		        			<br />
 		        			<div class="community">
 		        				<span>등록ID : ${s.email }</span><br />
-		        				<textarea rows="10" cols="50%">
-		        				${s.communityContent }
-		        				</textarea>
-		        				<span>등록일자:${s.communityDate }</span>
+		        				<span>등록일자:${s.communityDate }</span><br />
+		        				<textarea rows="10" cols="80%" readonly="readonly">${s.communityContent }</textarea>
 		        			</div>
 		        			</c:forEach>
 		        		</c:if>
 		        	</div>
 		        </div>
 		        <!-- 커뮤니티 끝 -->
-		        <div class="changeDiv">환불 및 교환</div>
+		        <div class="changeDiv">
+		        	<span class="refundSp">이 프로젝트의 환불 및 교환 정책</span><br />
+		        	<br />
+		        	<span>${refund }</span>
+		        </div>
 		        
 		        <div class="sideDiv">
 		        <div class="originator">
@@ -424,7 +433,7 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
 		        		</li>
 		        		<hr />
 		        	</ul>
-		        		<button class="button2 button3">선물 선택하고 후원하기</button>
+		        		<button class="button2 button3" onclick="fn_supportGo('${projectNo}','${gList[gg.index] }');">선물 선택하고 후원하기</button>
 		        	</div>
 		        </div>
 				</c:forEach>
@@ -440,7 +449,7 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
 		        		</li>
 		        		<hr />
 		        	</ul>
-		        		<button class="button2 button3">후원하기</button>
+		        		<button class="button2 button3" onclick="fn_supportGo('${projectNo}');">후원하기</button>
 		        	</div>
 		        </div>
 		        </c:if>
@@ -506,13 +515,16 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
         });
         
     });
-    function fn_supportGo(no){
+    function fn_supportGo(no,minmoney){
     	var user = '${memberLoggedIn}';
     	if(user==''){
     		alert("로그인이 필요한 서비스입니다.");
     	}else{
 	    	var email = '${memberLoggedIn.email }';
-    		location.href="${pageContext.request.contextPath}/project/supportGo.do?no="+no+"&email="+email;
+	    	if(minmoney==null){
+	    		minmoney='0';
+	    	}
+    		location.href="${pageContext.request.contextPath}/project/supportGo.do?no="+no+"&email="+email+"&minmoney="+minmoney;
     	} 
     };
     function fn_community(){

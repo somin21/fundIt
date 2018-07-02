@@ -221,10 +221,12 @@ public class ProjectController {
 		String userEmail = "";
 		Date calculateduedDate = null;
 		int deadlineDay = 0;
+		String refund="";
 		for(ProjectView v : list) {
 			userEmail = v.getEmail();
 			calculateduedDate = v.getCalculateduedDate();
 			deadlineDay = v.getDeadlineDay();
+			refund = v.getRefund();
 		}
 
 		com.kh.fundit.project.model.vo.Profile p = projectService.profileUser(userEmail);
@@ -240,6 +242,7 @@ public class ProjectController {
 		mav.addObject("p",p);
 		mav.addObject("projectNo",projectNo);
 		mav.addObject("calculateduedDate",calculateduedDate);
+		mav.addObject("refund",refund);
 		mav.addObject("deadlineDay",deadlineDay);
 		mav.setViewName("project/projectView");
 		
@@ -347,9 +350,9 @@ public class ProjectController {
 	}
 //	희영
 	@RequestMapping("/project/supportGo.do")
-	public ModelAndView supportGo(@RequestParam String no, String email) {
+	public ModelAndView supportGo(@RequestParam String no, String email, int minmoney) {
 		ModelAndView mav = new ModelAndView();
-		
+		System.out.println("");
 		Map<String,Object> map = new HashMap<>();
 		map.put("projectNo",no);
 		map.put("buyer_id",email);
@@ -390,6 +393,7 @@ public class ProjectController {
 		
 		String[] strarr = new String[gList.size()];
 		String[] strarr2 = new String[gList.size()];
+		String[] strarr3 = new String[gList.size()];
 		/*System.out.println("strarr="+strarr.toString());
 		System.out.println("strarr크기="+strarr.length);*/
 		
@@ -399,9 +403,11 @@ public class ProjectController {
 					if(strarr[i]==null) {
 						strarr[i]=String.valueOf(gList2.get(j).get("ITEMNAME"));
 						strarr2[i]=String.valueOf(gList2.get(j).get("ITEMNUMBER"));
+						strarr3[i]=String.valueOf(gList2.get(j).get("DELIVERYYN"));
 					}else {
 						strarr[i]+=", "+String.valueOf(gList2.get(j).get("ITEMNAME"));
 						strarr2[i]+=", "+String.valueOf(gList2.get(j).get("ITEMNUMBER"));
+						strarr3[i]+=", "+String.valueOf(gList2.get(j).get("DELIVERYYN"));
 					}
 				}
 			}
@@ -409,9 +415,11 @@ public class ProjectController {
 		}
 		
 		mav.addObject("gList",gList);
-		mav.addObject("strarr",strarr);
-		mav.addObject("strarr2",strarr2);
+		mav.addObject("strarr",strarr);		//아이템명
+		mav.addObject("strarr2",strarr2);	//아이템갯수
+		mav.addObject("strarr3",strarr3);	//배송여부
 		mav.addObject("projectNo",no);
+		mav.addObject("minmoney",minmoney);
 		mav.addObject("title",title);
 		mav.addObject("calculateduedDate",calculateduedDate);
 		mav.setViewName("project/giftList");
@@ -420,15 +428,18 @@ public class ProjectController {
 	}
 //	희영
 	@RequestMapping("/project/approval.do")
-	public ModelAndView approval(@RequestParam int projectNo, int minMoney, int num, String title ) {
+	public ModelAndView approval(@RequestParam int projectNo, int minMoney, int num, String title, String itemName, String itemNum, String delivery ) {
 		ModelAndView mav = new ModelAndView();
 		
 		/*System.out.println("projectNo="+projectNo+"minMoney="+minMoney+"num="+num);*/
 
 		mav.addObject("projectNo",projectNo);
+		mav.addObject("itemName",itemName);
+		mav.addObject("itemNum",itemNum);
 		mav.addObject("minMoney",minMoney);
 		mav.addObject("num",num);
 		mav.addObject("title",title);
+		mav.addObject("delivery",delivery);
 		mav.setViewName("project/approval");
 		
 		return mav;
@@ -450,12 +461,8 @@ public class ProjectController {
 //	희영
 	@RequestMapping(value="/project/payments.do",method=RequestMethod.POST,produces="application/json; charset=utf8")
 	public ModelAndView approval(@RequestParam String imp_uid, String merchant_uid, String apply_num, int amount, 
-			String buyer_id, int projectNo, String itemName, String postcode, String address, int minMoney) {
+			String buyer_id, int projectNo, String title, String postcode, String address, int minMoney, String itemName, String itemNum, String delivery) {
 		ModelAndView mav = new ModelAndView();
-		
-		System.out.println("코드="+imp_uid+" merchant_uid="+merchant_uid+" 카드번호="+apply_num+" 결제금액="+amount+" 유저아이디="+buyer_id
-				+"프로젝트번호="+projectNo+"아이템="+itemName+"주소="+address+"최소금액="+minMoney);
-		//System.out.println("projectNo="+projectNo+"itemName="+itemName+"itemnumber="+itemnumber+"num="+num);
 		
 		Map<String,Object> map = new HashMap<String, Object>();
 		map.put("imp_uid", imp_uid);
@@ -468,6 +475,8 @@ public class ProjectController {
 		map.put("postcode", postcode);
 		map.put("address", address);
 		map.put("minMoney", minMoney);	//최소금액
+		map.put("itemNum", itemNum);	//아이템갯수
+		map.put("delivery", delivery);	//배송여부
 		
 		//기프트 가격 및 추가 가격 구분하기
 		int addMoney = 0;

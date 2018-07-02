@@ -16,6 +16,7 @@ public class ProjectView {
 	private int supportPercent;
 	private int supportor;
 	private String categoryCode;
+	private String refund;
 	
 	public ProjectView() {
 		super();
@@ -24,7 +25,7 @@ public class ProjectView {
 
 	public ProjectView(int rowNum, int projectNo, String email, String projectImage, String projectTitle, String name,
 			int deadlineDay, int supportGoal, Date calculateduedDate, int supportMoney, int supportPercent,
-			int supportor, String categoryCode) {
+			int supportor, String categoryCode, String refund) {
 		super();
 		this.rowNum = rowNum;
 		this.projectNo = projectNo;
@@ -39,6 +40,7 @@ public class ProjectView {
 		this.supportPercent = supportPercent;
 		this.supportor = supportor;
 		this.categoryCode = categoryCode;
+		this.refund = refund;
 	}
 
 	public int getRowNum() {
@@ -145,14 +147,24 @@ public class ProjectView {
 		this.categoryCode = categoryCode;
 	}
 
+	public String getRefund() {
+		return refund;
+	}
+
+	public void setRefund(String refund) {
+		this.refund = refund;
+	}
+
 	@Override
 	public String toString() {
 		return "[rowNum=" + rowNum + ", projectNo=" + projectNo + ", email=" + email + ", projectImage="
 				+ projectImage + ", projectTitle=" + projectTitle + ", name=" + name + ", deadlineDay=" + deadlineDay
 				+ ", supportGoal=" + supportGoal + ", calculateduedDate=" + calculateduedDate + ", supportMoney="
 				+ supportMoney + ", supportPercent=" + supportPercent + ", supportor=" + supportor + ", categoryCode="
-				+ categoryCode + "]";
+				+ categoryCode + ", refund=" + refund + "]";
 	}
+
+	
 	
 	
 	

@@ -103,7 +103,8 @@
         	(select trunc(deadlinedate - sysdate) from project_funding f where p.projectno = f.projectno) deadlineday,
         	(select supportgoal from project_funding f where p.projectno = f.projectno) supportgoal,
             (select CALCULATEDUEDATE from project_funding f where p.projectno = f.projectno) calculatedueddate,
-            s.supportmoney, s.supportpercent, s.supportor, p.categorycode
+            s.supportmoney, s.supportpercent, s.supportor, p.categorycode, 
+            (select refund from project_funding f where p.projectno = f.projectno) refund
 		from (select * from project_outline where projectconfirmyn='Y' and projectdeadlineyn='N' order by projectdate desc) p join project_summary s on p.projectno = s.projectno
         where p.projectno = ${projectNo}
 	</select>
@@ -146,13 +147,13 @@
 	</delete>
 	
 	<select id="projectGiftList" resultType="ProjectGift">
-		select p.projectno, p.minmoney, p.itemnumber, i.itemname, p.itemno, p.giftexplain, p.deliveryyn, p.giftrefund 
+		select p.projectno, p.minmoney, p.itemnumber, i.itemname, p.itemno, p.giftexplain, p.deliveryyn 
 		from project_gift p left join item i on p.projectno = i.projectno and p.itemno = i.itemno
 		where p.projectno = ${projectNo} 
 		order by minmoney
 	</select>
 	<select id="projectSeelctGift" resultType="ProjectGift">
-		select p.projectno, p.minmoney, p.itemnumber, i.itemname, p.itemno, p.giftexplain, p.deliveryyn, p.giftrefund 
+		select p.projectno, p.minmoney, p.itemnumber, i.itemname, p.itemno, p.giftexplain, p.deliveryyn 
 		from project_gift p join item i on p.projectno = i.projectno and p.itemno = i.itemno
 		where p.projectno = ${projectNo}
 		order by itemno
@@ -164,7 +165,7 @@
 		select * from support where projectno = ${projectNo} and payyn is null and email='${buyer_id}'
 	</select>
 	<insert id="deliveryInsert">
-		insert into delivery values(${supportNo},'${buyer_id}','${projectNo}','${address}','${calculateduedDate}','${postcode}')
+		insert into delivery values(${supportNo},'${buyer_id}','${projectNo}','${address}','${calculateduedDate}','${postcode}','${itemName}','${itemNum}','${delivery}')
 	</insert>
 	<insert id="insertPayment">
 		insert into payment values('${imp_uid}','${amount}','${buyer_id}','${apply_num}','${supportNo}','${merchant_uid}')
@@ -176,7 +177,7 @@
 		order by minmoney
 	</select>
 	<select id="projectGiftName" resultType="map">
-		select p.projectno, p.minmoney, p.itemnumber, i.itemname, p.itemno, p.giftexplain, p.deliveryyn, p.giftrefund 
+		select p.projectno, p.minmoney, p.itemnumber, i.itemname, p.itemno, p.giftexplain, p.deliveryyn 
 		from project_gift p left join item i on p.projectno = i.projectno and p.itemno = i.itemno
 		where p.projectno = ${projectNo}  
 		order by minmoney
