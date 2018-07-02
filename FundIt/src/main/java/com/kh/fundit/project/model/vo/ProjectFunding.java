@@ -8,14 +8,17 @@ public class ProjectFunding {
 	private int supportGoal;
 	private Date deadlineDate;
 	private Date calculateDueDate;
+	private String refund;
 	
 	public ProjectFunding() {}
 	
-	public ProjectFunding(int projectNo, int supportGoal, Date deadlineDate, Date calculateDueDate) {
+	public ProjectFunding(int projectNo, int supportGoal, Date deadlineDate, Date calculateDueDate, String refund) {
+		super();
 		this.projectNo = projectNo;
 		this.supportGoal = supportGoal;
 		this.deadlineDate = deadlineDate;
 		this.calculateDueDate = calculateDueDate;
+		this.refund = refund;
 	}
 
 	public int getProjectNo() {
@@ -48,6 +51,14 @@ public class ProjectFunding {
 
 	public void setCalculateDueDate(Date calculateDueDate) {
 		this.calculateDueDate = calculateDueDate;
+	}
+
+	public String getRefund() {
+		return refund;
+	}
+
+	public void setRefund(String refund) {
+		this.refund = refund;
 	}
 
 	@Override

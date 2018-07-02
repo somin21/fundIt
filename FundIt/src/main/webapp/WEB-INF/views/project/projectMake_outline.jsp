@@ -245,9 +245,7 @@
 			<div class="shown">
 				<p>진행자 이름</p>
 				<p>
-					<span style="font-weight:bold;font-size:20px;color:black;">
-						${memberLoggedIn.name }
-					</span>
+					<span style="font-weight:bold;font-size:20px;color:black;">${memberLoggedIn.name }</span>
 					<span>
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/write.png" />
 						&nbsp;
@@ -262,7 +260,7 @@
 					팀으로 진행하신다면 팀 이름을 쓰셔도 됩니다.
 				</p>
 				<p>
-					<input type="text" id="profile-name" name="profileName" placeholder="이름을 입력해주세요" />
+					<input type="text" id="profile-name" name="profileName" placeholder="이름을 입력해주세요" value="${memberLoggedIn.name }"/>
 					<span class="letter-cnt"><span class="total-letter">10</span>자 남았습니다</span>
 				</p>
 				<p>
@@ -310,7 +308,7 @@
 					2~3문장으로 간략하게 어떤 작업을 위주로 활동해 온 창작자인지 알려주시면 좋습니다.
 				</p>
 				<p>
-					<textarea name="profileIntroduce" id="profileIntroduce" cols="30" rows="10"></textarea>
+					<textarea name="profileIntroduce" id="profileIntroduce" cols="30" rows="10">${profile.profileIntroduce ne null?profile.profileIntroduce:""}</textarea>
 					<span class="letter-cnt"><span class="total-letter">100</span>자 남았습니다</span>
 				</p>
 				<p>

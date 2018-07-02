@@ -126,7 +126,7 @@ $(function(){
 		
 	});
 	
-	$(".checkItem").click(function(){
+	$("#tbl_item").on("click",".checkItem",function(){
 		
 		if($(this).attr("src") == "${pageContext.request.contextPath }/resources/images/makeProject/checked_black.png"){
 			
@@ -149,9 +149,9 @@ $(function(){
 		
 	});
 	
-	$(".minusItem").click(function(){
+	$("#tbl_item").on("click",".minusItem",function(){
 		
-		var itemNumber = $(this).siblings(".gift-number").text();
+		var itemNumber = parseInt($(this).siblings(".gift-number").text());
 		
 		if(itemNumber == 0){
 			
@@ -174,9 +174,9 @@ $(function(){
 		
 	});
 	
-	$(".plusItem").click(function(){
+	$("#tbl_item").on("click",".plusItem",function(){
 		
-		var itemNumber = $(this).siblings(".gift-number").text();
+		var itemNumber = parseInt($(this).siblings(".gift-number").text());
 		
 		if(itemNumber == 0){
 			
@@ -226,43 +226,55 @@ $(function(){
 			var itemnumber = $(this).find("#itemnumber").val();
 			var itemName = $(this).find("#itemno").parent().text();
 			
-			$.ajax({
-				url : "insertGift",
-				data : {isFirst : isFirst, projectNo : projectNo, minMoney : minMoney, giftexplain : giftExplain, deliveryYN : deliveryYN, itemno : itemno, itemnumber : itemnumber},			
-				success : function(data){
-					
-					var check_el = "#"+minMoney; 
-					if($(check_el).length){
+			if(itemnumber != 0){
+				
+				$.ajax({
+					url : "insertGift",
+					data : {isFirst : isFirst, projectNo : projectNo, minMoney : minMoney, giftexplain : giftExplain, deliveryYN : deliveryYN, itemno : itemno, itemnumber : itemnumber},			
+					success : function(data){
 						
-						$(".giftItemList").children("ul").append('<li>'+itemName+'&nbsp;( X '+data.itemnumber+' )');
-						
-					} else {
-						
-						var html = '<div class="giftList" id="'+data.minMoney+'">';
-						html += '<div>';
-						html += '<span class="successMinMoney">'+data.minMoney+'</span>원 이상 밀어주시는 분께';
-						html += '<span class="deleteGift">삭제하기</div>';
-						html += '</div>';
-						html += '<div class="giftItemList">';
-						html += '<ul>';
-						html += '<li>'+itemName+'&nbsp;( X '+data.itemnumber+' )';
-						html += '</ul>';
-						html += '</div>';
-						html += '<div class="successDeliveryYN">';
-						if(data.deliveryYN == "Y"){
-							html += '<span class="choice" id="successDelivery">배송 필요</span>';
+						var check_el = "#"+minMoney;
+						if($(check_el).length){
+							
+							console.log("이미만들엇다");
+							console.log($(check_el));
+							$(check_el).find(".giftItemList").find("ul").append('<li>'+data.itemName+'&nbsp;( X '+data.itemnumber+' )</li>');
+							
+						} else {
+							
+							console.log("안만들엇다");
+							console.log($(check_el));
+							var html = '<div class="giftList" id="'+data.minMoney+'">';
+							html += '<div>';
+							html += '<span class="successMinMoney">'+data.minMoney+'</span>원 이상 밀어주시는 분께';
+							html += '<span class="deleteGift">삭제하기</span>';
+							html += '</div>';
+							html += '<div class="giftItemList">';
+							html += '<ul>';
+							html += '<li>'+data.itemName+'&nbsp;( X '+data.itemnumber+' )</li>';				
+							html += '</ul>';
+							html += '</div>';
+							html += '<div class="successDeliveryYN">';
+							if(data.deliveryYN == "Y"){
+								html += '<span class="choice" id="successDelivery">배송 필요</span>';
+							}
+							html += '</div>';
+							html += '</div>';
+																			
+							$("#checkedGift").append(html);
 						}
-						html += '</div>';
-						html += '</div>';
 						
-						$("#gift").prepend(html);
+						$("#add-gift").slideUp(500);
+						$("#gift").slideDown(500);
+						
+						
+					},
+					error : function(jqxhr,textStatus,errorThrown){
+						console.log("ajax실패");
 					}
-					
-				},
-				error : function(jqxhr,textStatus,errorThrown){
-					console.log("ajax실패");
-				}
-			});
+				});
+			}
+			
 		});
 	});
 	
@@ -407,7 +419,7 @@ $(function(){
 	<div class="make-project-section">
 		<p class="title">선물 구성</p>
 		<div class="make-project-content">
-			
+			<div id="checkedGift"></div>
 			<!-- 선물 추가하기 START -->
 			<div class="shown" id="gift">
 				<p>선물 추가하기</p>
@@ -550,7 +562,7 @@ $(function(){
 					이 프로젝트에 꼭 맞는 환불 및 교환 정책을 신중하게 작성해주세요.
 				</p>
 				<p>
-					<textarea name="giftrefund" id="refund" cols="30" rows="10" placeholder="환불 및 교환 정책을 입력해주세요"></textarea>
+					<textarea name="refund" id="refund" cols="30" rows="10" placeholder="환불 및 교환 정책을 입력해주세요"></textarea>
 					<span class="letter-cnt"><span class="total-letter">1000</span>자 남았습니다</span>
 				</p>
 				<p>

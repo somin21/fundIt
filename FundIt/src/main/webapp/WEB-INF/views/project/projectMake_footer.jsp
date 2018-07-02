@@ -19,7 +19,7 @@
 					<img src="${pageContext.request.contextPath }/resources/images/makeProject/prev.png" />
 					이전
 				</button>
-				<button type="button" class="nextBtn" >
+				<button type="submit" class="nextBtn" >
 					저장
 					<img src="${pageContext.request.contextPath }/resources/images/makeProject/next.png" />
 				</button>
@@ -30,7 +30,7 @@
 					<img src="${pageContext.request.contextPath }/resources/images/makeProject/prev.png" />
 					이전
 				</button>
-				<button type="button" class="nextBtn" >
+				<button type="submit" class="nextBtn" >
 					저장
 					<img src="${pageContext.request.contextPath }/resources/images/makeProject/next.png" />
 				</button>
@@ -41,7 +41,7 @@
 					<img src="${pageContext.request.contextPath }/resources/images/makeProject/prev.png" />
 					이전
 				</button>
-				<button type="button" class="nextBtn" >
+				<button type="submit" class="nextBtn" >
 					저장
 					<img src="${pageContext.request.contextPath }/resources/images/makeProject/checked_gray.png" />
 				</button>

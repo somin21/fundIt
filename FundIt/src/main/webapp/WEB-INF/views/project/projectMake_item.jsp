@@ -326,9 +326,7 @@ $(function(){
     		</div>
     		
     		<div class="addItemDivContent">
-    			<div class="item-list">
-    				
-    			</div>
+    			<div class="item-list"></div>
    			</div>
       	</div>
       	<!-- 아이템목록 끝 -->

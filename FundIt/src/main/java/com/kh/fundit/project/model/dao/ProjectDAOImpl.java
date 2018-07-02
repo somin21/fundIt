@@ -186,9 +186,9 @@ public class ProjectDAOImpl implements ProjectDAO {
 
 //	소민
 	@Override
-	public int makeProjectProfile(com.kh.fundit.member.model.vo.Profile profile) {
-
-		return sqlSession.update("project.makeProjectProfile", profile);
+	public void makeProjectProfile(com.kh.fundit.member.model.vo.Profile profile) {
+		
+		sqlSession.update("project.makeProjectProfile", profile);
 	}
 
 //	소민
@@ -245,6 +245,12 @@ public class ProjectDAOImpl implements ProjectDAO {
 	public void deleteGift(Map<String, Integer> map) {
 
 		sqlSession.delete("project.deleteGiftOne", map);
+	}
+
+	@Override
+	public ProjectGift selectGift(Map<String, Integer> map) {
+		
+		return sqlSession.selectOne("project.selectGift", map);
 	}
 
 }

@@ -68,7 +68,7 @@ public interface ProjectDAO {
 
 	int makeProjectOutline(ProjectOutline outline);
 
-	int makeProjectProfile(com.kh.fundit.member.model.vo.Profile profile);
+	void makeProjectProfile(com.kh.fundit.member.model.vo.Profile profile);
 
 	int makeProjectFunding(ProjectFunding funding);
 		
@@ -85,5 +85,7 @@ public interface ProjectDAO {
 	int insertGift(ProjectGift gift);
 
 	void deleteGift(Map<String, Integer> map);
+
+	ProjectGift selectGift(Map<String, Integer> map);
 
 }

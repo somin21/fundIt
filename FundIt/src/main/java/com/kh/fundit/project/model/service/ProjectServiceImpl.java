@@ -174,7 +174,7 @@ public class ProjectServiceImpl implements ProjectService {
 
 //	소민
 	@Override
-	public int makeProjectOutline(ProjectOutline outline) {
+	public int makeProjectOutline(ProjectOutline outline, com.kh.fundit.member.model.vo.Profile profile) {
 
 		int projectNo = 0;
 		
@@ -183,20 +183,17 @@ public class ProjectServiceImpl implements ProjectService {
 			
 			if(result > 0) {
 				projectNo = outline.getProjectNo();
+				System.out.println(projectNo);
+				projectDAO.makeProjectProfile(profile);
 			}
+			System.out.println(projectNo);
 		} catch(Exception e) {
 			e.printStackTrace();
 			throw e;
 		}
 		
+		System.out.println("projectNo : " + projectNo);
 		return projectNo; 
-	}
-
-//	소민
-	@Override
-	public int makeProjectProfile(com.kh.fundit.member.model.vo.Profile profile) {
-
-		return projectDAO.makeProjectProfile(profile);
 	}
 
 //	소민
@@ -277,7 +274,11 @@ public class ProjectServiceImpl implements ProjectService {
 			int result = projectDAO.insertGift(gift);
 			
 			if(result > 0) {
-				result_gift = gift;
+				Map<String, Integer> map = new HashMap<>();
+				map.put("projectNo", gift.getProjectNo());
+				map.put("minMoney", gift.getMinMoney());
+				map.put("itemno", gift.getItemno());
+				result_gift = projectDAO.selectGift(map);
 			}
 		} catch(Exception e) {
 			e.printStackTrace();

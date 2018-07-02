@@ -446,18 +446,10 @@ public class ProjectController {
 		System.out.println(outline);
 		System.out.println(profile);
 		
-		int projectNo = projectService.makeProjectOutline(outline);
-		int p_result = projectService.makeProjectProfile(profile);
+		int projectNo = projectService.makeProjectOutline(outline, profile);
 		
-		if(p_result <= 0) {
-			
-			throw new RuntimeException("프로젝트 올리기 오류");
-			
-		} else {
-			
-			mav.addObject("projectNo", projectNo);
-			mav.setViewName("project/projectMake_funding_gift");
-		}
+		mav.addObject("projectNo", projectNo);
+		mav.setViewName("project/projectMake_funding_gift");
 		
 		return mav;
 	}
@@ -477,7 +469,7 @@ public class ProjectController {
 	}
 	
 //	소민
-	@RequestMapping("/project/insertItem")
+	@RequestMapping("/project/makeProject/insertItem")
 	@ResponseBody
 	public Item insertItem(@RequestParam boolean isFirst, Item item) {
 		
@@ -489,7 +481,7 @@ public class ProjectController {
 	}
 	
 //	소민
-	@RequestMapping("/project/updateItem")
+	@RequestMapping("/project/makeProject/updateItem")
 	@ResponseBody
 	public void updateItem(Item item) {
 		
@@ -497,7 +489,7 @@ public class ProjectController {
 	}
 	
 //	소민
-	@RequestMapping("/project/selectItemList")
+	@RequestMapping("/project/makeProject/selectItemList")
 	@ResponseBody
 	public List<Item> selectItemList(int projectNo) {
 		
@@ -505,19 +497,19 @@ public class ProjectController {
 	}
 
 //	소민
-	@RequestMapping("/project/insertGift")
+	@RequestMapping("/project/makeProject/insertGift")
 	@ResponseBody
 	public ProjectGift insertGift(@RequestParam boolean isFirst, ProjectGift gift) {
 		
 		if(isFirst == true) {
 			projectService.deleteGift(gift.getProjectNo());
 		}
-		
+		 
 		return projectService.insertGift(gift);
 	}
 	
 //	소민
-	@RequestMapping("/project/deleteGift")
+	@RequestMapping("/project/makeProject/deleteGift")
 	@ResponseBody
 	public void deleteGift(@RequestParam int projectNo, @RequestParam int minMoney) {
 		

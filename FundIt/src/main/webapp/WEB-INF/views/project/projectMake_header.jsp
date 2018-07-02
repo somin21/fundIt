@@ -16,18 +16,27 @@ function project_validate(sectionName){
 	var select = el.find("select");
 	var textarea = el.find("textarea");
 	
+	if(sectionName == "#funding-gift"){
+		if(!$(".giftList").length){
+			bool = false;
+		}
+	}
+	
 	input.each(function(){
-		if($(this).attr("id") != "gift-explain" && $(this).attr("id") != "project-movie" && ($(this).val() == "0" || $(this).val() == "")){
+		if($(this).attr("id") != "min-money" && $(this).attr("id") != "gift-explain" && $(this).attr("id") != "project-movie" && ($(this).val() == "0" || $(this).val() == "")){
+			console.log($(this));
 			bool = false;
 		}
 	});
 	select.each(function(){
 		if($(this).val() == null || $(this).val() == ""){
+			console.log($(this));
 			bool = false;
 		}
 	});
 	textarea.each(function(){
 		if($(this).val() == ""){
+			console.log($(this));
 			bool = false;
 		}
 	});
