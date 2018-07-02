@@ -74,31 +74,35 @@ ul {
   padding-bottom: 15px;
 }
 
-.search {
+#label {
   position: relative;
 }
 
-.search input[type="search"] {
-  border: 1px solid #ddd;
-  box-sizing: border-box;
-  color: #999;
-  height: 40px;
-  padding-left: 40px;
-  padding-right: 20px;
-  -webkit-appearance: none;
-  width: 100%;
+#label {
+   width: 400px;
+   height: 46px;
+   padding-left: 30px;
+   font-size: 20px;
+   color: #006fff;
+   border: 2px solid #006fff;
+   border-radius: 8px;
+   -webkit-appearance: none; 
+   appearance: none;
+   background: url('https://cdn.namuwikiusercontent.com/s/ac72b6099588a73d3812ef402d3446b61c44ed0495df339efbfa7022542b3b51278ee92a336a9c5941fa8640823c8c512f5ad5bc549506cdd06135438043bc80b8eb5158cddb45cf77be3118a2e8a178?e=1532695520&k=8tU69D9iI-FQ9c_hrNvZpQ') no-repeat 95% 50%;      
 }
 
-.search::before {
-  position: relative;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: #fff;
-  color: #ddd;
-  content: "\1F50D";
-  font-size: 18px;
-  position: absolute;
-  left: 15px;
+#label::-ms-expand {
+   display: none;            
+}
+
+select option:checked, select option:hover {    
+    background: #0099ff; 
+    color: #fff;
+}
+
+select option:checked, select option:hover { 
+    box-shadow: 0 0 10px 100px #0099ff inset;  
+    color: #fff;
 }
 
 .crumbs {
@@ -195,10 +199,15 @@ ul {
         </li>
     </ol>
     
-    <form role="search" class="search" data-search="" action="" accept-charset="UTF-8" method="get">
-        <input name="utf8" type="hidden" value="✓">
-        <input type="search" name="query" id="query" placeholder="검색" aria-label="검색">
-    </form>
+    <select name="label" id="label" onchange="location.href= this.value">
+	   <option value="">원하시는 내용을 선택하세요</option>
+       <option value="${pageContext.request.contextPath}/help/helpView.do">재결제</option>
+       <option value="${pageContext.request.contextPath}/help/helpView.do">펀딩과 후원</option>
+       <option value="${pageContext.request.contextPath}/help/helpView.do">결제 수단 변경</option>
+       <option value="${pageContext.request.contextPath}/help/helpView.do">아이템 제약</option>
+       <option value="${pageContext.request.contextPath}/help/helpView.do">홍보기준</option>
+       <option value="${pageContext.request.contextPath}/help/helpView.do">모금액 정산</option>      
+    </select>
     </nav>
     
     <h1>펀드잇에 문의하기</h1>
@@ -228,6 +237,11 @@ ul {
       </div>
 
     </main>
+<script>
+function fn_click(){
+	location.href = "${pageContext.request.contextPath }/help/helpView.do";
+}
 
+</script>
   
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>	
