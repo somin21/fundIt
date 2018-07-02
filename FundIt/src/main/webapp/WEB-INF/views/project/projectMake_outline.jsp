@@ -11,7 +11,7 @@
 </jsp:include>
 
 
-<form action="${pageContext.request.contextPath }/project/makeProject/funding-gift" onsubmit="return project_validate('#outline');" method="post" >
+<form action="${pageContext.request.contextPath }/project/makeProject/funding-gift" onsubmit="return project_validate('#outline');" method="post" enctype="multipart/form-data">
 
 	<input type="hidden" name="email" value="${memberLoggedIn.email }" />
 	

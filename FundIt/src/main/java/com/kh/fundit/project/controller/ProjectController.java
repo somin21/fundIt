@@ -1,10 +1,14 @@
 package com.kh.fundit.project.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.fundit.member.model.vo.Member;
@@ -570,13 +575,57 @@ public class ProjectController {
 	
 //	소민
 	@RequestMapping("/project/makeProject/funding-gift")
-	public ModelAndView makeProjectFundingGift(ProjectOutline outline, Profile profile) {
+	public ModelAndView makeProjectFundingGift(@RequestParam(value="projectImage") MultipartFile projectImage, 
+											   @RequestParam(value="profileImage") MultipartFile profileImage, 
+											   ProjectOutline outline, Profile profile,
+											   HttpServletRequest request) {
 		
 		ModelAndView mav = new ModelAndView();
 		
 		System.out.println(outline);
 		System.out.println(profile);
 		
+		// 프로젝트 이미지 업로드
+		String firstDir = request.getSession().getServletContext().getRealPath("/resources/images/projects");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String secondDir = sdf.format(new Date(System.currentTimeMillis()));
+		File saveDir = new File(firstDir+"/"+secondDir);
+		if(!saveDir.exists()) {
+			saveDir.mkdirs();
+		}		
+		String originalName = projectImage.getOriginalFilename();
+		String p_ext = originalName.substring(originalName.lastIndexOf(".")+1);
+		String email_id = outline.getEmail().substring(0, outline.getEmail().indexOf("@"));
+		SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMddHHmmss");
+		int rndNum = (int)(Math.random()*1000);
+		String renamedName = email_id+"_"+sdf2.format(new Date(System.currentTimeMillis()))+"_"+rndNum+"."+p_ext;
+		try {
+			projectImage.transferTo(new File(firstDir+"/"+secondDir+"/"+renamedName));
+		} catch (IllegalStateException | IOException e1) {
+			e1.printStackTrace();
+		}
+		outline.setProjectImage(secondDir+"/"+renamedName);
+		// 프로젝트 이미지 업로드 끝
+
+        // 프로필 이미지 업로드
+		String saveDirectory = request.getSession().getServletContext().getRealPath("/resources/upload/profileImg");
+		String realName = profileImage.getOriginalFilename();
+		String ext = realName.substring(realName.lastIndexOf(".")+1);
+		String id = profile.getEmail().replaceAll("\\.","_");
+		String id2 = id.replaceAll("@", "_");
+		String renamedFileName = id2 + "."+ext;
+		File profileImgFile = new File(saveDirectory+"/"+renamedFileName);
+		if(profileImgFile.exists() == true) {
+			profileImgFile.delete();
+		}
+        try {
+			profileImage.transferTo(profileImgFile);
+		} catch (IllegalStateException | IOException e) {
+			e.printStackTrace();
+		}
+        profile.setProfileImage(renamedFileName);
+		// 프로필 이미지 업로드 끝
+        
 		int projectNo = projectService.makeProjectOutline(outline, profile);
 		
 		mav.addObject("projectNo", projectNo);
