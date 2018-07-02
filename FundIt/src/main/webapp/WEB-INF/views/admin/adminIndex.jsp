@@ -73,13 +73,13 @@ $(function(){
 	    	<div class="col-sm align-items-center col" id="wrap-a1">
 	    	  	<button id="project-inner-btn" class="" onclick="location.href='${pageContext.request.contextPath}/admin/indexProject.do'">인덱스 프로젝트 관리</button>
 	    	  	<button id="project-inner-btn" onclick="location.href='${pageContext.request.contextPath}/admin/projectConfirmList.do'">프로젝트 승인 관리</button>
-	    	  	<button id="project-inner-btn" onclick="location.href='${pageContext.request.contextPath}/admin/projectDeadline.do'">프로젝트 마감 관리</button>
+	    	  	<button id="project-inner-btn" onclick="location.href='${pageContext.request.contextPath}/admin/projectDeadlineList.do'">프로젝트 마감 관리</button>
 	    	</div>
 	    	<div class="col-sm align-items-center col" id="wrap-a">
 		      	<button id="project-btn" onclick="location.href='${pageContext.request.contextPath}/admin/adminMemberList.do'">회원 관리</button>
 	    	</div>
 	    	<div class="col-sm align-items-center col" id="wrap-a">
-		      	<button id="project-btn" onclick="location.href='${pageContext.request.contextPath}/admin/message.do'">메세지 관리</button>
+		      	<button id="project-btn" onclick="location.href='${pageContext.request.contextPath}/admin/messageList.do'">메세지 관리</button>
 	    	</div>
 	  	</div>
 	</div>

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.kh.fundit.admin.model.vo.AdminMember;
+import com.kh.fundit.admin.model.vo.AdminMessage;
 import com.kh.fundit.admin.model.vo.AdminProjectView;
 import com.kh.fundit.project.model.vo.ListProjectView;
 import com.kh.fundit.project.model.vo.Profile;
@@ -30,4 +31,18 @@ public interface AdminService {
 	List<AdminMember> memberList();
 
 	int adminMemberDelete(String email);
+
+	List<ListProjectView> projectDeadLineList();
+
+	List<AdminProjectView> projectDeadlineView(Map<String, Object> map);
+
+	List<AdminMember> memberSearchList(String email);
+
+	List<AdminMessage> adminMessageList();
+
+	AdminMessage selectMessage(String messageNo);
+
+	int updateReadyn(String messageNo);
+
+	List<AdminMessage> selectReadN();
 }

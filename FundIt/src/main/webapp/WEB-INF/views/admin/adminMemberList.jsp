@@ -10,9 +10,41 @@
 #search{margin-bottom: 2%; text-align: center;}
 #btn1{border:}
 </style>
+<script>
+$(function(){
+	$("#searchInput").on("keyup",function(){
+		var email = $(this).val().trim();
+		
+		$.ajax({
+			url:"${pageContext.request.contextPath}/admin/adminMemberSearch.do",
+			dataType: "json",
+			data:{email:email},
+			success:function(data){
+				var html='';
+				if(data.list!=null){
+					$("#tb-data").html("");
+					for(var i=0; i<data.list.length; i++){
+						html+='<tr><th scope="'+i+'"id="email1">'+data.list[i].email+'</th>';
+						html+='<td>'+data.list[i].projecting+'</td>';
+						html+='<td>'+data.list[i].supporting+'</td>';
+						if(data.list[i].projecting == 0 && data.list[i].supporting ==0){
+							html+='<td><button id="btn1" class="btn btn-danger btn-sm" onclick="fn_delete('+"'"+data.list[i].email+"'" +');">삭제</button></td>';
+						}else{
+							html+='<td><button id="btn1" class="btn btn-danger btn-sm" disabled="disabled">삭제</button></td>';
+						}
+						html+='</tr>'
+					}
+					$("#tb-data").append(html);
+				}
+			}
+		});
+	});
+});
+
+</script>
 <div id="wrap-out" >
 	<div id="title">회원 관리</div>
-	<div id="search">검색 : <input type="text" /></div>
+	<div id="search"><input type="text" class="form-control" id="searchInput" aria-label="이메일 검색" aria-describedby="inputGroup-sizing-sm"></div>
 	<div id="table-container">
 		<table class="table table-hover table-bordered">
 		  <thead>
@@ -23,10 +55,11 @@
 		      <th scope="col">삭제</th>
 		    </tr>
 		  </thead>
-		  <tbody>
+		  <tbody id="tb-data">
 		  <c:if test="${not empty list }">
 		  	<c:forEach var="list" items="${list }" varStatus="i">
 			    <input type="hidden" value="${list.email }" id="email1"/>
+			    <input type="hidden" value="${list.email }" id="email2"/>
 		  		<tr>
 		  			<th scope="${i.count }" id="email1">${list.email }</th>
 			    	<td>${list.projecting }</td>
