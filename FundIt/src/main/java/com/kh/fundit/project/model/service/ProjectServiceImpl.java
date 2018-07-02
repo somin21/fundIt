@@ -156,5 +156,25 @@ public class ProjectServiceImpl implements ProjectService {
 	public int deliveryInsert(Map<String, Object> map) {
 		return projectDAO.deliveryInsert(map);
 	}
+//영준
+	@Override
+	public List<ListProjectView> interestList2(String email) {
+		return projectDAO.interestList2(email);
+	}
+	//영준
+	@Override
+	public List<ListProjectView> interestList1(String email) {
+		return projectDAO.interestList1(email);
+	}
+	//영준
+	@Override
+	public List<ListProjectView> interestList3(String email) {
+		return projectDAO.interestList3(email);
+	}
+	//영준
+	@Override
+	public List<ListProjectView> interestList4(String email) {
+		return projectDAO.interestList4(email);
+	}
 
 }

@@ -60,4 +60,12 @@ public interface ProjectService {
 
 	int deliveryInsert(Map<String, Object> map);
 
+	List<ListProjectView> interestList2(String email);
+
+	List<ListProjectView> interestList1(String email);
+
+	List<ListProjectView> interestList3(String email);
+
+	List<ListProjectView> interestList4(String email);
+
 }

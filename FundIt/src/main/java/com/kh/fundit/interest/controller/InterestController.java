@@ -81,5 +81,37 @@ public class InterestController {
 		return mav;
 	}
 	
+	@RequestMapping("/interest/interestselect.do")
+	public ModelAndView projectList2(@RequestParam("email") String email,@RequestParam("a") int a) {
+		ModelAndView mav = new ModelAndView();
+		
+		System.out.println(email);
+		System.out.println(a);
+		
+		List<ListProjectView> list = null;
+		
+		switch(a) {
+		
+		case 1 :  list = projectService.interestList1(email);
+		 		  break;
+		
+		case 2 :  list = projectService.interestList2(email);
+				
+				 break;
+		case 3 :  list = projectService.interestList3(email);
+				break;
+		case 4 :  list = projectService.interestList4(email);
+				break; 
+		}
+		
+		mav.addObject("list",list);
+		mav.setViewName("interest/interest");
+		System.out.println("여기도달했당");
+	
+		
+		return mav;
+	
+}
+			
 	
 }

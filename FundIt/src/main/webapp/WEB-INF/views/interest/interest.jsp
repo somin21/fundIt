@@ -187,15 +187,26 @@ select#select {
     <hr />
     <div class="maincontainer2">
         <div id="selectList">
-        <select name="" id="select">
-            <option value="">최다 후원순</option>
-            <option value="">최다 금액순</option>
-            <option value="">마감 임박순</option>
-            <option value="">최신순</option>
+        <select name="select" id="select">
+          <option value="0">검색</option>
+            <option value="1">최다 후원순</option>
+            <option value="2">최다 금액순</option>
+            <option value="3">마감 임박순</option>
+            <option value="4">최신순</option>
         </select>
         </div>
     </div>
     <hr />
+    
+    <script>
+    $("#select").change(function() {
+    	var a=($(this).val());
+    	console.log(a);
+    	location.href="${pageContext.request.contextPath }/interest/interestselect.do?email=${memberLoggedIn.email}&a="+a
+    	});
+
+    	
+    </script>
     
    <div id="index-container">
       <!-- 프로젝트 리스트 -->
@@ -240,6 +251,7 @@ select#select {
          <h1>아직 프로젝트가 등록되지 않았습니다~~~~ㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎ</h1>
       </c:if>
    </div>
+   <button>더보기</button>
 
 <script>
    $(function(){

@@ -163,5 +163,25 @@ public class ProjectDAOImpl implements ProjectDAO {
 	public int deliveryInsert(Map<String, Object> map) {
 		return sqlSession.insert("project.deliveryInsert", map);
 	}
+//영준
+	@Override
+	public List<ListProjectView> interestList2(String email) {
+		return sqlSession.selectList("project.interestList2",email);
+	}
+	//영준
+	@Override
+	public List<ListProjectView> interestList1(String email) {
+		return sqlSession.selectList("project.interestList1",email);
+	}
+	//영준
+	@Override
+	public List<ListProjectView> interestList3(String email) {
+		return sqlSession.selectList("project.interestList3",email);
+	}
+	//영준
+	@Override
+	public List<ListProjectView> interestList4(String email) {
+		return sqlSession.selectList("project.interestList4",email);
+	}
 
 }
