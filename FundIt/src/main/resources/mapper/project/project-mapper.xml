@@ -48,7 +48,7 @@
 	<select id="selectMyProjectYet" resultType = "list_project_view">
 	select *
 	from
-		(select p.projectno, p.projecttitle, p.projectimage,  
+		(select p.projectno, p.projecttitle, p.projectimage,p.projectconfirmyn as "confirmYn",  
 			    (select name from member m where p.email = m.email) name,
 			    (select trunc(deadlinedate - sysdate) from project_funding f where p.projectno = f.projectno) deadlineday,
 			     s.supportmoney, s.supportpercent
@@ -60,7 +60,7 @@
 	<select id="selectMyProjectYes" resultType = "list_project_view">
 	select *
 	from
-		(select p.projectno, p.projecttitle, p.projectimage,  
+		(select p.projectno, p.projecttitle, p.projectimage,p.projectconfirmyn as "confirmYn",  
 			    (select name from member m where p.email = m.email) name,
 			    (select trunc(deadlinedate - sysdate) from project_funding f where p.projectno = f.projectno) deadlineday,
 			     s.supportmoney, s.supportpercent
@@ -72,7 +72,7 @@
 	<select id="selectMyProjectNo" resultType = "list_project_view">
 	select *
 	from
-		(select p.projectno, p.projecttitle, p.projectimage,  
+		(select p.projectno, p.projecttitle, p.projectimage,p.projectconfirmyn as "confirmYn",  
 			    (select name from member m where p.email = m.email) name,
 			    (select trunc(deadlinedate - sysdate) from project_funding f where p.projectno = f.projectno) deadlineday,
 			     s.supportmoney, s.supportpercent

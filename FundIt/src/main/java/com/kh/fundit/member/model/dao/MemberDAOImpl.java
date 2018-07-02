@@ -3,6 +3,7 @@ package com.kh.fundit.member.model.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.fundit.member.model.vo.Member;
 import com.kh.fundit.member.model.vo.Profile;
+import com.kh.fundit.member.model.vo.Support;
 
 @Repository
 public class MemberDAOImpl implements MemberDAO {
@@ -82,6 +84,16 @@ public class MemberDAOImpl implements MemberDAO {
 	@Override
 	public int insertNaver(Map<String, Object> map) {
 		return sqlSession.insert("member.insertNaver",map);
+	}
+
+
+	@Override
+	public List<Support> selectSupportList(Map<String, String> map, int numPerPage) {
+		// TODO Auto-generated method stub
+		
+		RowBounds rowBounds = new RowBounds(0, numPerPage);
+		
+		return sqlSession.selectList("member.selectSupportList", map, rowBounds);
 	}
 
 

@@ -2,6 +2,7 @@ package com.kh.fundit.member.controller;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.mail.internet.MimeMessage;
@@ -27,6 +28,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.kh.fundit.member.model.service.MemberService;
 import com.kh.fundit.member.model.vo.Member;
 import com.kh.fundit.member.model.vo.Profile;
+import com.kh.fundit.member.model.vo.Support;
 
 
 @SessionAttributes({"memberLoggedIn"})
@@ -417,6 +419,43 @@ public class MemberController {
 		   logger.debug(profileImg);
 		   return profileImg;
 	   }
+	   
+	//  태윤
+		@RequestMapping("/member/mySupport.do")
+		public  ModelAndView goToMySupport(@RequestParam String email) {
+			ModelAndView mav = new ModelAndView();
+			if(email == null) {
+			mav.setViewName("/");
+			}else {
+			mav.setViewName("member/mySupportList");
+			}
+			return mav;
+		}
+		
+	//태윤
+		@RequestMapping("/member/selectMySupport")
+		@ResponseBody
+		public List<Support> selectSupprtList(@RequestParam String email,
+				                              @RequestParam (value = "numPerPage", required = false, defaultValue = "4") int numPerPage,
+											  @RequestParam (value="searchType", required = false, defaultValue = "searchAll") String searchType,
+											  @RequestParam (value="searchKeyword", required = false, defaultValue = "") String searchKeyword ){
+		
+		System.out.println(numPerPage);
+		System.out.println(searchType);
+		System.out.println(searchKeyword);
+		
+		
+			
+		Map<String, String> map = new HashMap<>();
+		map.put("email", email);
+		map.put("searchType", searchType);
+		map.put("searchKeyword", searchKeyword);
+		
+		List<Support> list = memberService.selectSupportList(map, numPerPage);
+		System.out.println(list);	
+		return list;
+			
+		}
 
 
 }

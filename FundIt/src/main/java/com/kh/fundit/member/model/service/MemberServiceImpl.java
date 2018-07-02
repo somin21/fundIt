@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.kh.fundit.member.model.dao.MemberDAO;
 import com.kh.fundit.member.model.vo.Member;
 import com.kh.fundit.member.model.vo.Profile;
+import com.kh.fundit.member.model.vo.Support;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -78,6 +79,12 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int insertNaver(Map<String, Object> map) {
 		return memberDAO.insertNaver(map);
+	}
+
+	@Override
+	public List<Support> selectSupportList(Map<String, String> map, int numPerPage) {
+		// TODO Auto-generated method stub
+		return memberDAO.selectSupportList(map, numPerPage);
 	}
 
 }

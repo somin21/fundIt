@@ -559,6 +559,7 @@ public class ProjectController {
 		return "project/projectMake_outline";
 	}
 	
+
 //	소민
 	@RequestMapping("/project/makeProject/funding-gift")
 	public String makeProjectFundingGift() {
@@ -576,5 +577,6 @@ public class ProjectController {
 	public String makeProjectAccount() {
 		return "project/projectMake_account";
 	}
+
 
 }

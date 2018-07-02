@@ -185,7 +185,7 @@ function htmlAppend(gift, div_name){
 		 +gift.projectTitle+'<img src="${pageContext.request.contextPath }/resources/images/right-arrow-gray.png" style="width:15px; height: 15px;"/></a></h5>';
 	html += '<p style = "color : lightgray;">'+gift.projectWriter+'</p>';
 	html += '</hr>';
-	if(gift.deliveryYn == "Y"){
+	if(gift.deliveryYn.includes("Y")){
 	html += '<span style = "font-size :20px; font-weight: 20px; color : yellowgreen;">'+gift.itemName+'</span>(배송상품) ';
 
 	}else{
@@ -239,7 +239,7 @@ function htmlAppendNone(startIndex, div_name){
 
 function toNextAjax(){
 	email = $("#email").val().trim();
-	searchType = $("#searchType option:selected").val();
+	searchType = $("#searchType option:selected").val().trim();
 	var page = numPerPage+ 8;
 	numPerPage = page;
 	console.log(page);
