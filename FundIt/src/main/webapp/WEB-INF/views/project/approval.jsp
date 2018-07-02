@@ -91,7 +91,7 @@ table td#td{width: 70%}
 	var buyer_id = $("#buyer_id").val();
 	var buyer_name = $("#buyer_name").val();
 	var buyer_email = $("#buyer_email").val();
-	var buyer_tel = $("#buyer_tel").val();
+	var buyer_tel = $("#buyer_tel").val().replace(/-/gi,'');;
 	var postcode = $("#sample4_postcode").val()
 	var address = $("#sample4_roadAddress").val()+" "+$("#sample4_jibunAddress").val();
 	var projectNo = ${projectNo};
@@ -99,13 +99,23 @@ table td#td{width: 70%}
 	var itemName = '${itemName}';
 	var itemNum = '${itemNum}';
 	var delivery = '${delivery==null?'N':delivery}';
-	
-	/* var regExp = /^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$/;
 
-	if ( !regExp.test( $(buyer_tel).val() ) ) {
-	      alert("잘못된 휴대폰 번호입니다. 숫자, - 를 포함한 숫자만 입력하세요.");
+	/* 전화번호유효성검사 */
+	var regExp = /^01([0|1|6|7|8|9]?)([0-9]{3,4})([0-9]{4})$/;
+	if ( !regExp.test( buyer_tel ) ) {
+	      alert("잘못된 휴대폰 번호입니다. 숫자만 입력하세요.\n잘못적을시 책임지지않습니다.");
 	      return false
-	} 	 */
+	}
+	if(postcode==null || postcode==''){
+		alert("우편번호찾기로 정확한 우편번호를 작성해주세요.\n*주소로 의한 배송오류는 책임지지않습니다.");
+	      return false
+	}
+
+	console.log(a);
+	if((address==null || address==' ')&& adress.length<10){
+		alert("우편번호찾기로 정확한 주소를 작성해주세요.\n*주소로 의한 배송오류는 책임지지않습니다.");
+	      return false
+	}
 	
 	IMP.init('imp17080880');
 	IMP.request_pay({
