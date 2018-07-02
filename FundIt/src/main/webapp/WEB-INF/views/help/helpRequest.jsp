@@ -210,6 +210,7 @@ select option:checked, select option:hover {
     </select>
     </nav>
     
+    
     <h1>펀드잇에 문의하기</h1>
     <p>
         펀드잇에 가입하신 이메일 주소와 함께 문의를 남겨주세요. 영업일 기준 최대 2일 내에 답변을 드리겠습니다. 
