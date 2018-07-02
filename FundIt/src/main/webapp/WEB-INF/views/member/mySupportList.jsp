@@ -78,7 +78,7 @@ $(function(){
 			
 		},
 		error : function(jqxhr,textStatus,errorThrown){
-			console.log("ajax실패");
+			console.log("ajax실패!!");
 		}
 	});
 	
