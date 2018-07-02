@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.fundit.admin.model.dao.AdminDAO;
 import com.kh.fundit.admin.model.vo.AdminMember;
+import com.kh.fundit.admin.model.vo.AdminMessage;
 import com.kh.fundit.admin.model.vo.AdminProjectView;
 import com.kh.fundit.project.model.vo.ListProjectView;
 import com.kh.fundit.project.model.vo.Profile;
@@ -78,6 +79,41 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public int adminMemberDelete(String email) {
 		return adminDAO.adminMemberDelete(email);
+	}
+
+	@Override
+	public List<ListProjectView> projectDeadLineList() {
+		return adminDAO.projectDeadLineList();
+	}
+
+	@Override
+	public List<AdminProjectView> projectDeadlineView(Map<String, Object> map) {
+		return adminDAO.projectDeadlineView(map);
+	}
+
+	@Override
+	public List<AdminMember> memberSearchList(String email) {
+		return adminDAO.memberSearchList(email);
+	}
+
+	@Override
+	public List<AdminMessage> adminMessageList() {
+		return adminDAO.adminMessageList();
+	}
+
+	@Override
+	public AdminMessage selectMessage(String messageNo) {
+		return adminDAO.selectMessage(messageNo);
+	}
+
+	@Override
+	public int updateReadyn(String messageNo) {
+		return adminDAO.updateReadyn(messageNo);
+	}
+
+	@Override
+	public List<AdminMessage> selectReadN() {
+		return adminDAO.selectReadN();
 	}
 
 	

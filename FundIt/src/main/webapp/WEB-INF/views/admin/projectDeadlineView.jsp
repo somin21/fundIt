@@ -90,9 +90,7 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
   transition: 0.5s;
 }
 
-.button:hover span {
-  padding-right: 25px;
-}
+
 
 .button:hover span:after {
   opacity: 1;
@@ -142,27 +140,31 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
             <img src="${pageContext.request.contextPath }/resources/images/projects/${i.projectImage }" alt="메인사진" class="mainImg">
             <div class="goal">
                 모인금액 <br>
-                 <span id="sp1">0</span>원<br><br>
+               <span id="sp1"><fmt:formatNumber>${i.supportMoney }</fmt:formatNumber></span>원 <br><br>
                 남은시간 <br>
-                 <span id="sp1">0</span>일<br><br>
+               <span id="sp1">${i.deadlineDay gt 0 ? i.deadlineDay:'0' }</span>일<br><br>
                 후원자 <br>
-                <span id="sp1">0</span>명 <br><br>
+                <span id="sp1">${i.supportor }</span>명 <br><br>
                 <div class="notice">
-                    <span class="sp">승인 대기</span><br />
-                    <span class="sp2">목표금액인 <fmt:formatNumber>${i.supportGoal }</fmt:formatNumber>원이 모여야 결제됩니다.</span><br />
-                    <span class="sp2">결제는 <fmt:formatDate value="${i.calculateduedDate }" pattern="yyyy년 MM월 dd일"/> 에 다함께 진행됩니다.</span>
+	                <c:if test="${i.deadlineDay le 0 and i.supportGoal le i.supportMoney } ">
+	                	<span class="sp">펀딩 성공!</span><br />
+	                    <span class="sp2">목표금액인 <fmt:formatNumber>${i.supportGoal }</fmt:formatNumber>원이 모였습니다.</span><br />
+	                    <span class="sp2">결제는 <fmt:formatDate value="${i.calculateduedDate }" pattern="yyyy년 MM월 dd일"/> 에 다함께 결제됩니다.</span>
+	                </c:if>
+	                <c:if test="${i.deadlineDay le 0 and i.supportGoal gt i.supportMoney }">
+	                	<span class="sp" style="color:red">펀딩 실패!</span><br />
+	                    <span class="sp2">목표금액인 <fmt:formatNumber>${i.supportGoal }</fmt:formatNumber>원이 모이지 않았습니다.</span><br />
+	                    <span class="sp2">결제는 모두 진행되지 않습니다.</span>
+	                </c:if>
+	                
                 </div>
-               
-                <button class="button" style="vertical-align:middle" onclick="fn_projectConfirmY('${i.projectNo}');"><span>승인</span></button>
-                <button class="button" style="vertical-align:middle" onclick="fn_projectConfirmF('${i.projectNo}');"><span>거절</span></button>
-                <script>
-                function fn_projectConfirmY(no){
-                	location.href="${pageContext.request.contextPath}/admin/projectConfirmY.do?no="+no;
-                }
-                function fn_projectConfirmF(no){
-                	location.href="${pageContext.request.contextPath}/admin/projectConfirmF.do?no="+no;
-                }
-                </script>
+                <c:if test="${i.deadlineDay le 0 and i.supportGoal le i.supportMoney } ">
+                	<button class="button" style="vertical-align:middle"><span>결제하기</span></button>
+                </c:if>
+                <c:if test="${i.deadlineDay le 0 and i.supportGoal gt i.supportMoney }">
+	                <button class="button" style="vertical-align:middle"><span>결제취소</span></button>
+                </c:if>
+                
 
             </div>
         </div>

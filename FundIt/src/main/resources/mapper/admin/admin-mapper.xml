@@ -2,10 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="admin">
 	
-<!-- 	<select id="indexProject" resultType="project_outline">
-	select * from project_outline where projectconfirmyn='Y' and projectdeadlineyn='N'
-	</select>
-	 -->
 	<select id="indexProject" resultType="list_project_view">
 	<![CDATA[
 		select p.projectno, p.projectimage, p.projecttitle, 
@@ -75,4 +71,54 @@
 	<update id="adminMemberDelete">
 		update member set deleteyn='Y' where email=#{email}
 	</update>
+	
+	<select id="projectDeadlineList" resultType="list_project_view">
+	<![CDATA[
+		select *
+        from (select p.projectno, p.projectimage, p.projecttitle, 
+	        (select name from member m where p.email = m.email) name,
+	        (select trunc(deadlinedate - sysdate) from project_funding f where p.projectno = f.projectno) deadlineday,
+	        nvl(s.supportmoney,0) supportmoney, nvl(s.supportpercent,0) supportpercent
+			from (select * from project_outline where projectconfirmyn='Y' and projectdeadlineyn='N' order by projectdate desc) p join project_summary s on p.projectno = s.projectno where p.projectdeadlineyn='N')
+        where deadlineday <=0
+	 ]]>
+	</select>
+	
+	<select id="projectDeadlineView" resultType="adminProjectView">
+		select p.projectno, p.email, p.projectimage, p.projecttitle, 
+        	(select name from member m where p.email = m.email) name,
+        	(select trunc(deadlinedate - sysdate) from project_funding f where p.projectno = f.projectno) deadlineday,
+        	(select supportgoal from project_funding f where p.projectno = f.projectno) supportgoal,
+            (select CALCULATEDUEDATE from project_funding f where p.projectno = f.projectno) calculatedueddate,
+            s.supportmoney, s.supportpercent, s.supportor, p.categorycode
+		from (select * from project_outline) p join project_summary s on p.projectno = s.projectno
+        where p.projectno = ${projectNo}
+	</select>
+	<select id="memberSearchList" resultType="adminMember">
+	<![CDATA[
+	select *
+	from(select m.email, nvl(l.projecting,0) projecting, nvl(ss.supporting,0) supporting
+		 from member m left join (select email, count(*) projecting from project_outline  where projectdeadlineyn='N' and projectconfirmyn='Y' group by email) l on m.email= l.email
+		 left join (select s.email, count(*) supporting from project_outline o join support s on o.projectno=s.projectno where o.projectdeadlineyn='N' and o.projectconfirmyn='Y' group by s.email) ss on ss.email=m.email
+		 where m.deleteyn='N') p
+    where p.email like '%' ||  #{email} || '%'
+
+    ]]>
+	</select>
+	<select id="adminMessage" resultType="adminMessage">
+		select * from message where receiveemail=(select email from member where adminyn='Y') order by messagedate desc
+	</select>
+	
+	<select id="selectMessage" resultType="adminMessage" parameterType="String">
+		select messageno, messagecontent, readyn, sendemail, receiveemail, TO_CHAR(TO_DATE(messagedate), 'yyyy/mm/dd') as messagedate from message where messageno= #{messageNo} 
+	</select>
+	
+	<update id="updateReadyn">
+		update message set readyn='Y' where messageno = #{messageNo}
+	</update>
+	
+	<select id="selectReadN" resultType="adminMessage">
+		select * from message where receiveemail=(select email from member where adminyn='Y') and readyn='N' order by messagedate desc
+	</select>
+	
 </mapper>
