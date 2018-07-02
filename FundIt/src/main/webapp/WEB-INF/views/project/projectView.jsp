@@ -384,6 +384,35 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
 		        				<span>등록ID : ${s.email }</span><br />
 		        				<span>등록일자:${s.communityDate }</span><br />
 		        				<textarea rows="10" cols="80%" readonly="readonly">${s.communityContent }</textarea>
+		        				<br />
+		        				<!-- 수정모달 시작 -->
+							  <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">수정</button>
+		        				<!-- Modal -->
+							  <div class="modal fade" id="myModal" role="dialog">
+							    <div class="modal-dialog">
+							 
+							      <!-- Modal content-->
+							      <div class="modal-content">
+							        <div class="modal-header">
+							       		<h4 class="modal-title">게시글 작성</h4>
+							          	<button type="button" class="close" data-dismiss="modal">&times;</button>
+							        </div>
+							        <div class="modal-body">
+							        	<label for="">ID : </label>
+							          <input type="text" id="contextId" value="${memberLoggedIn.email }" readonly /><br /><br />
+							          <label for="">글 내용</label><br />
+							          <textarea name="" id="communityContext" cols="50%" rows="10">${s.communityContent }</textarea>
+							        </div>
+							        <div class="modal-footer">
+							        	<button type="button" class="btn btn-default" onclick="fn_community();">수 정</button>
+							          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+							        </div>
+							      </div>
+							      
+							    </div>
+							  </div>
+						    <!-- 수정모달사용끝 -->
+						    
 		        			</div>
 		        			</c:forEach>
 		        		</c:if>
@@ -532,6 +561,9 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
     	var communityContext = $("#communityContext").val();
     	/* console.log(contextId,communityContext); */
 		location.href="${pageContext.request.contextPath}/project/community.do?projectNo="+projectNo+"&contextId="+contextId+"&communityContext="+communityContext;
+    }
+    function fn_conUpdate(){
+    	/* $(".btn-info").click(); */
     }
     
     </script>

@@ -94,6 +94,7 @@ table td#td{width: 70%}
 	var buyer_tel = $("#buyer_tel").val().replace(/-/gi,'');;
 	var postcode = $("#sample4_postcode").val()
 	var address = $("#sample4_roadAddress").val()+" "+$("#sample4_jibunAddress").val();
+	var addresslength = $("#sample4_roadAddress").val();
 	var projectNo = ${projectNo};
 	var minMoney = ${minMoney==null? '0':minMoney};
 	var itemName = '${itemName}';
@@ -106,16 +107,16 @@ table td#td{width: 70%}
 	      alert("잘못된 휴대폰 번호입니다. 숫자만 입력하세요.\n잘못적을시 책임지지않습니다.");
 	      return false
 	}
+	/* 주소유효성검사 */
 	if(postcode==null || postcode==''){
 		alert("우편번호찾기로 정확한 우편번호를 작성해주세요.\n*주소로 의한 배송오류는 책임지지않습니다.");
 	      return false
 	}
-
-	console.log(a);
-	if((address==null || address==' ')&& adress.length<10){
+	if((address==null || address==' ')&& addresslength.length<12){
 		alert("우편번호찾기로 정확한 주소를 작성해주세요.\n*주소로 의한 배송오류는 책임지지않습니다.");
 	      return false
 	}
+	/* 주소유효성검사 */
 	
 	IMP.init('imp17080880');
 	IMP.request_pay({
