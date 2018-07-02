@@ -13,6 +13,17 @@ public class ProjectGift {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
+
+	public ProjectGift(int projectNo, int minMoney, int itemnumber, int itemno, String giftexplain, String deliveryYN) {
+		super();
+		this.projectNo = projectNo;
+		this.minMoney = minMoney;
+		this.itemnumber = itemnumber;
+		this.itemno = itemno;
+		this.giftexplain = giftexplain;
+		this.deliveryYN = deliveryYN;
+	}
 
 	public ProjectGift(int projectNo, int minMoney, int itemnumber, String itemName, int itemno, String giftexplain,
 			String deliveryYN) {

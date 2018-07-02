@@ -45,7 +45,7 @@ $(function(){
 		</span>
 		&nbsp;&nbsp;&nbsp;
 		<span>
-			<a href="${pageContext.request.contextPath }/project/makeProject/outline" >
+			<a href="${pageContext.request.contextPath }/project/makeProject/outline?email=${memberLoggedIn.email}" >
 				프로젝트 올리기
 			</a>
 		</span>

@@ -54,7 +54,6 @@
 			     s.supportmoney, s.supportpercent
 		from (select * from project_outline where projectconfirmyn = null and  email = #{email} order by projectdate desc) p join project_summary s on p.projectno = s.projectno
 		order by deadlineday)
-	
 	</select>
 	
 	<select id="selectMyProjectYes" resultType = "list_project_view">
@@ -66,7 +65,6 @@
 			     s.supportmoney, s.supportpercent
 		from (select * from project_outline where projectconfirmyn = 'Y' and  email = #{email} order by projectdate desc) p join project_summary s on p.projectno = s.projectno
 		order by deadlineday)
-	
 	</select>
 	
 	<select id="selectMyProjectNo" resultType = "list_project_view">
@@ -78,7 +76,6 @@
 			     s.supportmoney, s.supportpercent
 		from (select * from project_outline where projectconfirmyn = 'N' and  email = #{email} order by projectdate desc) p join project_summary s on p.projectno = s.projectno
 		order by deadlineday)
-	
 	</select>
 	
 	<select id="selectMyProjectCnt" resultType = "_int">
@@ -131,7 +128,6 @@
 	        s.supportmoney, s.supportpercent
 		from (select * from project_outline where projectconfirmyn='Y' and projectdeadlineyn='N' order by projectdate desc) p join project_summary s on p.projectno = s.projectno join interest i on i.projectno = p.projectno
 		 where 1=1 and i.projectno = p.projectno and i.email = #{email} order by S.SUPPORTOR desc
-		
 	</select>
 	
 	<insert id="interestInsert">
@@ -152,21 +148,26 @@
 		where p.projectno = ${projectNo} 
 		order by minmoney
 	</select>
+	
 	<select id="projectSeelctGift" resultType="ProjectGift">
 		select p.projectno, p.minmoney, p.itemnumber, i.itemname, p.itemno, p.giftexplain, p.deliveryyn 
 		from project_gift p join item i on p.projectno = i.projectno and p.itemno = i.itemno
 		where p.projectno = ${projectNo}
 		order by itemno
 	</select>
+	
 	<insert id="supportInsert">
 		insert into support values(seq_support_no.nextval,'${buyer_id}','${projectNo}','${minMoney}','${addMoney}',default)
 	</insert>
+	
 	<select id="supportList" resultType="projectSupport">
 		select * from support where projectno = ${projectNo} and payyn is null and email='${buyer_id}'
 	</select>
+	
 	<insert id="deliveryInsert">
 		insert into delivery values(${supportNo},'${buyer_id}','${projectNo}','${address}','${calculateduedDate}','${postcode}','${itemName}','${itemNum}','${delivery}')
 	</insert>
+	
 	<insert id="insertPayment">
 		insert into payment values('${imp_uid}','${amount}','${buyer_id}','${apply_num}','${supportNo}','${merchant_uid}')
 	</insert>
@@ -177,6 +178,7 @@
 		where p.projectno = ${projectNo} 
 		order by minmoney
 	</select>
+	
 	<select id="projectGiftName" resultType="map">
 		select p.projectno, p.minmoney, p.itemnumber, i.itemname, p.itemno, p.giftexplain, p.deliveryyn 
 		from project_gift p left join item i on p.projectno = i.projectno and p.itemno = i.itemno
@@ -209,7 +211,7 @@
 	        s.supportmoney, s.supportpercent
 		from (select * from project_outline where projectconfirmyn='Y' and projectdeadlineyn='N' order by projectdate desc) p join project_summary s on p.projectno = s.projectno join interest i on i.projectno = p.projectno
 		where 1=1 and i.projectno = p.projectno and i.email = #{email} order by S.SUPPORTMONEY desc
-		</select>
+	</select>
 		
 	<select id="interestList1" resultType="list_project_view">
 		select p.projectno, p.projectimage, p.projecttitle,
@@ -237,5 +239,56 @@
 		from (select * from project_outline where projectconfirmyn='Y' and projectdeadlineyn='N' order by projectdate desc) p join project_summary s on p.projectno = s.projectno join interest i on i.projectno = p.projectno
 		where 1=1 and i.projectno = p.projectno and i.email = #{email} order by p.projectdate desc
 	</select>
+	
+	<select id="makeProject" resultType="profile">
+	select * from profile where email = #{email}
+	</select>
+	
+	<insert id="makeProjectOutline">
+	insert into project_outline values(seq_project_no.nextval, #{email},#{projectTitle},#{projectImage},#{projectSummary},#{categoryCode},default,default,default,default)
+		<selectKey keyProperty="projectNo" resultType="_int" order="AFTER">
+		select seq_project_no.currval from dual
+		</selectKey>
+	</insert>
+	
+	<update id="makeProjectProfile">
+	update profile set profileimage=#{profileImage}, profileintroduce=#{profileIntroduce}, localcode=#{localCode} where email=#{email}
+	</update>
+	
+	<insert id="makeProjectFunding">
+	insert into project_funding values(#{projectNo},#{supportGoal},#{deadlineDate},#{calculateDueDate},#{refund})
+	</insert>
+	
+	<delete id="deleteItem">
+	delete from item where projectno=#{projectNo}
+	</delete>
+	
+	<insert id="insertItem">
+	insert into item values(seq_item_no.nextval,#{itemName},#{projectNo})
+	</insert>
+	
+	<update id="updateItem">
+	update item set itemname=#{itemName} where itemno=#{itemno}
+	</update>
+	
+	<select id="selectItemList" resultType="item">
+	select * from item where projectno=#{projectNo}
+	</select>
+	
+	<delete id="deleteGift">
+	delete from project_gift where projectno=#{projectNo}
+	</delete>
+	
+	<insert id="insertGift">
+	insert into project_gift values(#{projectNo},#{minMoney},#{itemnumber},#{itemno},#{giftexplain},#{deliveryYN},seq_gift_no.nextval)
+	</insert>
+	
+	<select id="selectGift" resultType="projectGift">
+	select g.*, i.itemname from project_gift g join item i on g.itemno = i.itemno where g.projectno=#{projectNo} and g.minmoney=#{minMoney} and i.itemno=#{itemno}
+	</select>
+	
+	<delete id="deleteGiftOne">
+	delete from project_gift where projectno=#{projectNo} and minMoney=#{minMoney}
+	</delete>
 	
 </mapper>

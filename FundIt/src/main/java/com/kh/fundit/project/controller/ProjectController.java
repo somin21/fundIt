@@ -5,26 +5,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.mail.Session;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttribute;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.fundit.member.model.vo.Member;
 import com.kh.fundit.member.model.vo.Profile;
 import com.kh.fundit.project.model.service.ProjectService;
 import com.kh.fundit.project.model.vo.Community;
+import com.kh.fundit.project.model.vo.Item;
 import com.kh.fundit.project.model.vo.ListProjectView;
-import com.kh.fundit.project.model.vo.ProjectDelivery;
+import com.kh.fundit.project.model.vo.ProjectFunding;
 import com.kh.fundit.project.model.vo.ProjectGift;
 /*import com.kh.fundit.project.model.vo.Profile;*/
 import com.kh.fundit.project.model.vo.ProjectOutline;
@@ -80,7 +77,7 @@ public class ProjectController {
 		return list;
 	}
 	
-//태윤
+//	태윤
 	@RequestMapping("/project/myProject.do")
 	public ModelAndView selectMyProject(@RequestParam String email){
 		ModelAndView mav = new ModelAndView();
@@ -88,7 +85,8 @@ public class ProjectController {
 		mav.setViewName("member/myProject");
 		return mav;
 	}
-//태윤
+	
+//	태윤
 	@RequestMapping("/project/selectMyProjectYet")
 	@ResponseBody
 	public List<ListProjectView> selectMyProjectList(@RequestParam String email, @RequestParam(value="page", required=false, defaultValue="4") int numPerpage,HttpServletResponse response){
@@ -102,21 +100,21 @@ public class ProjectController {
 		return list;
 	}
 	
-	//태윤
-		@RequestMapping("/project/selectMyProjectYes")
-		@ResponseBody
-		public List<ListProjectView> selectMyProjectListYes(@RequestParam String email, @RequestParam(value="page", required=false, defaultValue="4") int numPerpage, HttpServletResponse response){
-			
-			Member member = new Member();
-			System.out.println(email);
-			member.setEmail(email);
-			
-			List<ListProjectView> list = projectService.selectMyProjectYes(member, numPerpage);
-			
-			return list;
-		}
+//	태윤
+	@RequestMapping("/project/selectMyProjectYes")
+	@ResponseBody
+	public List<ListProjectView> selectMyProjectListYes(@RequestParam String email, @RequestParam(value="page", required=false, defaultValue="4") int numPerpage, HttpServletResponse response){
 		
-//태윤
+		Member member = new Member();
+		System.out.println(email);
+		member.setEmail(email);
+		
+		List<ListProjectView> list = projectService.selectMyProjectYes(member, numPerpage);
+		
+		return list;
+	}
+		
+//	태윤
 	@RequestMapping("/project/selectMyProjectNo")
 	@ResponseBody
 	public List<ListProjectView> selectMyProjectListNo(@RequestParam String email, @RequestParam(value="page", required=false, defaultValue="4") int numPerpage, HttpServletResponse response){
@@ -130,11 +128,7 @@ public class ProjectController {
 		return list;
 	}
 	
-	
-	
-	
-	
-// 태윤
+//	태윤
 	@RequestMapping("/project/selectMyProjectCnt")
 	@ResponseBody
 	public int selectMyProjectCnt(@RequestParam String email) {
@@ -145,7 +139,6 @@ public class ProjectController {
 		return cnt;
 		
 	}
-	
 	
 //	희영
 	@RequestMapping("/project/projectList.do")
@@ -164,6 +157,7 @@ public class ProjectController {
 		return mav;
 	
 	}
+	
 //	희영
 	@RequestMapping("/project/projectView.do")
 	public ModelAndView projectView(@RequestParam int projectNo, String email) {
@@ -249,6 +243,7 @@ public class ProjectController {
 		return mav;
 	
 	}
+	
 //	희영
 	@RequestMapping("project/originatorView.do")
 	public ModelAndView origitorView(@RequestParam String email) {
@@ -309,6 +304,7 @@ public class ProjectController {
 		
 		return mav;
 	}
+	
 //	희영
 	@RequestMapping("/project/interestInsert.do")
 	public ModelAndView interestInsert(@RequestParam String no,@RequestParam String email) {
@@ -348,6 +344,7 @@ public class ProjectController {
 		return mav;
 	
 	}
+	
 //	희영
 	@RequestMapping("/project/supportGo.do")
 	public ModelAndView supportGo(@RequestParam String no, String email, int minmoney) {
@@ -426,6 +423,7 @@ public class ProjectController {
 		
 		return mav;
 	}
+	
 //	희영
 	@RequestMapping("/project/approval.do")
 	public ModelAndView approval(@RequestParam int projectNo, int minMoney, int num, String title, String itemName, String itemNum, String delivery ) {
@@ -444,6 +442,7 @@ public class ProjectController {
 		
 		return mav;
 	}
+	
 //	희영
 	@RequestMapping("/project/approval2.do")
 	public ModelAndView approval2(@RequestParam int projectNo, int num, String title ) {
@@ -458,6 +457,7 @@ public class ProjectController {
 		
 		return mav;
 	}
+	
 //	희영
 	@RequestMapping(value="/project/payments.do",method=RequestMethod.POST,produces="application/json; charset=utf8")
 	public ModelAndView approval(@RequestParam String imp_uid, String merchant_uid, String apply_num, int amount, 
@@ -524,6 +524,7 @@ public class ProjectController {
 		
 		return mav;
 	}
+	
 //	희영
 	@RequestMapping("/project/community.do")
 	public ModelAndView community(@RequestParam int projectNo, String contextId, String communityContext) {
@@ -555,28 +556,111 @@ public class ProjectController {
 
 //	소민
 	@RequestMapping("/project/makeProject/outline")
-	public String makeProjectOutline() {
-		return "project/projectMake_outline";
+	public ModelAndView makeProjectOutline(@RequestParam String email) {
+		
+		ModelAndView mav = new ModelAndView();
+		
+		Profile profile = projectService.makeProject(email);
+		
+		mav.addObject("profile", profile);
+		mav.setViewName("project/projectMake_outline");
+		
+		return mav;
 	}
 	
-
 //	소민
 	@RequestMapping("/project/makeProject/funding-gift")
-	public String makeProjectFundingGift() {
-		return "project/projectMake_funding_gift";
+	public ModelAndView makeProjectFundingGift(ProjectOutline outline, Profile profile) {
+		
+		ModelAndView mav = new ModelAndView();
+		
+		System.out.println(outline);
+		System.out.println(profile);
+		
+		int projectNo = projectService.makeProjectOutline(outline, profile);
+		
+		mav.addObject("projectNo", projectNo);
+		mav.setViewName("project/projectMake_funding_gift");
+		
+		return mav;
 	}
 	
 //	소민
 	@RequestMapping("/project/makeProject/story")
-	public String makeProjectStory() {
-		return "project/projectMake_story";
+	public ModelAndView makeProjectStory(ProjectFunding funding) {
+		
+		ModelAndView mav = new ModelAndView();
+		
+		int projectNo = projectService.makeProjectFunding(funding);
+		
+		mav.addObject("projectNo", projectNo);
+		mav.setViewName("project/projectMake_story");
+		
+		return mav;
 	}
+	
+//	소민
+	@RequestMapping("/project/makeProject/insertItem")
+	@ResponseBody
+	public Item insertItem(@RequestParam boolean isFirst, Item item) {
+		
+		if(isFirst == true) {
+			projectService.deleteItem(item.getProjectNo());
+		}
+		
+		return projectService.insertItem(item);
+	}
+	
+//	소민
+	@RequestMapping("/project/makeProject/updateItem")
+	@ResponseBody
+	public void updateItem(Item item) {
+		
+		projectService.updateItem(item);
+	}
+	
+//	소민
+	@RequestMapping("/project/makeProject/selectItemList")
+	@ResponseBody
+	public List<Item> selectItemList(int projectNo) {
+		
+		return projectService.selectItemList(projectNo);
+	}
+
+//	소민
+	@RequestMapping("/project/makeProject/insertGift")
+	@ResponseBody
+	public ProjectGift insertGift(@RequestParam boolean isFirst, ProjectGift gift) {
+		
+		if(isFirst == true) {
+			projectService.deleteGift(gift.getProjectNo());
+		}
+		 
+		return projectService.insertGift(gift);
+	}
+	
+//	소민
+	@RequestMapping("/project/makeProject/deleteGift")
+	@ResponseBody
+	public void deleteGift(@RequestParam int projectNo, @RequestParam int minMoney) {
+		
+		Map<String,Integer> map = new HashMap<>();
+		map.put("projectNo", projectNo);
+		map.put("minMoney", minMoney);
+		
+		projectService.deleteGift(map);
+	}	
 	
 //	소민
 	@RequestMapping("/project/makeProject/account")
 	public String makeProjectAccount() {
 		return "project/projectMake_account";
 	}
-
+	
+//	소민
+	@RequestMapping("/project/makeProject/end")
+	public String makeProjectEnd() {
+		return "project/projectMake_account";
+	}
 
 }
