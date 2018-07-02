@@ -48,7 +48,7 @@
 	<select id="selectMyProjectYet" resultType = "list_project_view">
 	select *
 	from
-		(select p.projectno, p.projecttitle, p.projectimage,  
+		(select p.projectno, p.projecttitle, p.projectimage,p.projectconfirmyn as "confirmYn",  
 			    (select name from member m where p.email = m.email) name,
 			    (select trunc(deadlinedate - sysdate) from project_funding f where p.projectno = f.projectno) deadlineday,
 			     s.supportmoney, s.supportpercent
@@ -60,7 +60,7 @@
 	<select id="selectMyProjectYes" resultType = "list_project_view">
 	select *
 	from
-		(select p.projectno, p.projecttitle, p.projectimage,  
+		(select p.projectno, p.projecttitle, p.projectimage,p.projectconfirmyn as "confirmYn",  
 			    (select name from member m where p.email = m.email) name,
 			    (select trunc(deadlinedate - sysdate) from project_funding f where p.projectno = f.projectno) deadlineday,
 			     s.supportmoney, s.supportpercent
@@ -72,7 +72,7 @@
 	<select id="selectMyProjectNo" resultType = "list_project_view">
 	select *
 	from
-		(select p.projectno, p.projecttitle, p.projectimage,  
+		(select p.projectno, p.projecttitle, p.projectimage,p.projectconfirmyn as "confirmYn",  
 			    (select name from member m where p.email = m.email) name,
 			    (select trunc(deadlinedate - sysdate) from project_funding f where p.projectno = f.projectno) deadlineday,
 			     s.supportmoney, s.supportpercent
@@ -124,12 +124,12 @@
 	</select>
 	
 	<select id="interestList" resultType="list_project_view">
-		select p.projectno, p.projectimage, p.projecttitle, 
+		select p.projectno, p.projectimage, p.projecttitle,
 	        (select name from member m where p.email = m.email) name,
 	        (select trunc(deadlinedate - sysdate) from project_funding f where p.projectno = f.projectno) deadlineday,
 	        s.supportmoney, s.supportpercent
 		from (select * from project_outline where projectconfirmyn='Y' and projectdeadlineyn='N' order by projectdate desc) p join project_summary s on p.projectno = s.projectno join interest i on i.projectno = p.projectno
-		 where 1=1 and i.projectno = p.projectno and i.email = #{email}
+		 where 1=1 and i.projectno = p.projectno and i.email = #{email} and rownum <![CDATA[>=]]> 1 and rownum <![CDATA[<=]]> 8
 		
 	</select>
 	
@@ -147,9 +147,38 @@
 	
 	<select id="projectGiftList" resultType="ProjectGift">
 		select p.projectno, p.minmoney, p.itemnumber, i.itemname, p.itemno, p.giftexplain, p.deliveryyn, p.giftrefund 
-		from project_gift p join item i on p.projectno = i.projectno
+		from project_gift p join item i on p.projectno = i.projectno and p.itemno = i.itemno
 		where p.projectno = ${projectNo}
 		order by itemno
 	</select>
+	<select id="projectSeelctGift" resultType="ProjectGift">
+		select p.projectno, p.minmoney, p.itemnumber, i.itemname, p.itemno, p.giftexplain, p.deliveryyn, p.giftrefund 
+		from project_gift p join item i on p.projectno = i.projectno and p.itemno = i.itemno
+		where p.projectno = ${projectNo}
+		order by itemno
+	</select>
+	<insert id="supportInsert">
+		insert into support values(seq_support_no.nextval,'${buyer_id}','${projectNo}','${itemMoney}','${addMoney}',default)
+	</insert>
+	<select id="supportList" resultType="projectSupport">
+		select * from support where projectno = ${projectNo} and payyn is null and email='${buyer_id}'
+	</select>
+	<insert id="deliveryInsert">
+		insert into delivery values(${supportNo},'${buyer_id}','${projectNo}','${address}','${calculateduedDate}','${postcode}')
+	</insert>
+	<insert id="insertPayment">
+		insert into payment values('${imp_uid}','${amount}','${buyer_id}','${apply_num}','${supportNo}','${merchant_uid}')
+	</insert>
+	
+	<select id="rownum" resultType="_int">
+		select count(*) from 
+		(select p.projectno, p.projectimage, p.projecttitle,
+	        (select name from member m where p.email = m.email) name,
+	        (select trunc(deadlinedate - sysdate) from project_funding f where p.projectno = f.projectno) deadlineday,
+	        s.supportmoney, s.supportpercent
+		from (select * from project_outline where projectconfirmyn='Y' and projectdeadlineyn='N' order by projectdate desc) p join project_summary s on p.projectno = s.projectno join interest i on i.projectno = p.projectno
+		 where 1=1 and i.projectno = p.projectno and i.email = #{email} and rownum <![CDATA[>=]]> 1 and rownum <![CDATA[<=]]> 8)
+	</select>
+	
 	
 </mapper>

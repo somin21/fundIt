@@ -7,10 +7,55 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
 
 <script>
-var numPerPage = 4;
-
+let isEnd = false;
 var email = '';
 var searchKeyword = "";
+var searchType = "";
+
+function fn_search(searchTypeBtn){
+	
+	$("#supportList-container").html('');
+	
+	console.log(searchType);
+	searchType = searchTypeBtn.trim();
+	$("#searchType-hidden").val(searchType);
+	console.log("hidden.val = "+$("#searchType-hidden").val());
+	email = $("#email").val().trim();
+	if(searchType == 'searchComplated'){
+		
+		searchKeyword = $("#searchKeyword").val().trim();;
+		console.log(searchKeyword);
+	}
+	
+	
+	$.ajax({
+		url : "${pageContext.request.contextPath}/member/selectMySupport",
+		data : {email : email, searchType : searchType, searchKeyword : searchKeyword},
+		success : function(data){
+			console.log(data)	
+			for(var i = 0; i< data.length; i++){
+				
+				htmlAppend(data[i], "#supportList-container");
+				
+			}
+			if(data.length < 1){
+				htmlAppendNone(data.length+1, "#supportList-container");
+				
+			}
+		},
+		error : function(jqxhr,textStatus,errorThrown){
+			console.log("ajax실패");
+		}
+				
+		});
+	
+	
+}
+
+
+
+
+
 
 $(function(){
 	email = $("#email").val().trim();
@@ -119,39 +164,6 @@ function htmlAppendNone(startIndex, div_name){
 		$(div_name).append(html);	
 	
 }
-function fn_search(searchType){
-	console.log(searchType);
-	email = $("#email").val().trim();
-	if(searchType == 'archComplated'){
-		
-		searchKeyword = $("#searchKeyword").val();
-		
-	}
-	var html = "";
-	$("#supportList-container").append(html);
-	$.ajax({
-		url : "${pageContext.request.contextPath}/member/selectMySupport",
-		data : {email : email, searchType : searchType, searchKeyword : searchKeyword},
-		success : function(data){
-			console.log(data)	
-			for(var i = 0; i< data.length; i++){
-				
-				htmlAppend(data[i], "#supportList-container");
-				
-			}
-			if(data.length < 1){
-				htmlAppendNone(data.length+1, "#supportList-container");
-				
-			}
-		},
-		error : function(jqxhr,textStatus,errorThrown){
-			console.log("ajax실패");
-		}
-				
-		});
-	
-	
-}
 
 
 
@@ -235,21 +247,31 @@ height: 450px;
 </div>
 <hr />
 
-<div id="supportList-container">
+  <input type="hidden" id = "searchType-hidden" />
+	<div id="supportList-container">
 	
 
 
 
 
+	</div>
 </div>
 
+<script>
+	function fn_gotoProjectView(){
+		$(".project").click(function(){
+	        var projectNo = $(this).children("#projectNo").val();
+	        console.log(projectNo)
+	        if(projectNo == null){
+	           return false;
+	        }
+	        console.log(projectNo);
+	        location.href="${pageContext.request.contextPath}/project/projectView.do?projectNo="+projectNo;
+	     });
+	}
 
 
-
-
-
-
-</div>
+</script>
 
 
 

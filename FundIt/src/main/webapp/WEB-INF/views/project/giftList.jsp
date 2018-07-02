@@ -9,13 +9,23 @@
 <style>
 div.title{background:linear-gradient(to right, #0f0051, #320032); padding: 10px 0 10px 0; text-align: center;}
 span.titleSp{color:white; font-size: 23px; font-weight: bold;}
-div.menu{background:rgb(240, 240, 240);  padding: 40px 0 40px 30px;}
+div.menu{background:rgb(240, 240, 240);   border: 1px solid silver; padding: 40px 0 40px 30px;}
 div.menu:hover{background:rgb(220, 220, 220);cursor: pointer;}
 span.money{font-weight: bold; font-size: 18px;}
 input.form-control{width: 180px; display: inline-block; font-size: 20px;}
 div.menu2{display: none;}
 span.moneyMent{font-size: 15px; color:blue;}
+/* div.redBox{width:0.7%;height: 190px; background: tomato; border: 1px solid; display: inline-block;} */
 </style>
+<script>
+function Approval(prjectNo,itemName,itemnumber,title){
+	var num = $("#num").val();
+	console.log(prjectNo,itemName,itemnumber,num,title);
+	
+	location.href="${pageContext.request.contextPath}/project/approval.do?projectNo="
+				+prjectNo+"&itemName="+itemName+"&itemnumber="+itemnumber+"&num="+num+"&title="+title;
+}
+</script>
 <div class="title">
 	<span class="titleSp">${title }</span> 
 </div>
@@ -48,8 +58,8 @@ span.moneyMent{font-size: 15px; color:blue;}
 			<span>예상 전달일 : <fmt:formatDate value="${calculateduedDate }" pattern="yyyy년 MM월 dd일"/></span>
 		</div>
 		<div class="menu2">
-			<input type="number" class="form-control" min="0" max="10000000" value="${i.minMoney }" step="100"/> 원
-			<button>클릭</button>
+			<input type="number" class="form-control" id="num" min="0" max="10000000" value="${i.minMoney }" step="100"/> 원
+			<button onclick="Approval('${projectNo }','${i.itemName }','${i.itemnumber }','${title }');">클릭</button>
 			<br /><br />
 			<span class="moneyMent">더 많이 입력하실 수 있습니다</span>
 			<br /><br /><br />
@@ -66,14 +76,17 @@ span.moneyMent{font-size: 15px; color:blue;}
 <script>
 $(function(){
 	$(".menu").click(function(){
-		$(this).children($(".menu1").hide());
-		$(this).children($(".menu2").show());
+		$(".menu1").show();
+		$(".menu2").hide();
+		$(".menu").css({"background":"rgb(240, 240, 240)"});
+		$(this).children(".menu1").hide();
+		$(this).children(".menu2").show();
+		$(this).children($(".form-control").focus());
+		$(this).css({"background":"rgb(220, 220, 220)"});
 	});
 	/* $(".menu2").click(function(){
 		$(".menu2").hide();
 		$(".menu1").show();
 	}); */
-
 });
 </script>
-	

@@ -165,6 +165,9 @@ function htmlAppend(project, div_name){
 	html += '&nbsp;'+supportMoney+'&nbsp;('+project.supportPercent+'%)';
 	html += '</div>';
 	html += '</div>';
+	if(project.confirmYn == null || project.confirmYn == ""){
+	html += '<input type="button" value="프로젝트 삭제" style = "width : 150px; margin : auto;" class = "btn btn-danger" />'
+	}
 	html += '</div>';
     
     div_name.append(html);
@@ -353,7 +356,7 @@ font-weight : bolder;
 	        console.log(projectNo);
 	        location.href="${pageContext.request.contextPath}/project/projectView.do?projectNo="+projectNo;
 	     });
-	};
+	}
 
 
 </script>

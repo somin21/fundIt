@@ -5,16 +5,17 @@
 	
 	
 	<select id="selectMyGiftList" resultType="gift">
-		select a.projectno, a.supportNo, a.postNum, a.email as "myemail", a.address, to_char(f.calculateduedate + 2,'YYYY-MM-dd') as "deliveryduedate", b.itemname,e.itemnumber, c.projecttitle, c.email as "projectwriter", e.deliveryyn
-		from delivery a
-		 join item b on a.projectno = b.projectno
-		 join project_outline c on a.projectno =  c.projectno
-		 join project_deadline d on c.projectno = d.projectno
-		 join project_gift e on a.projectno = e.projectno
-		 join project_funding f on a.projectno = f.projectno
-		 join support g on a.supportno = g.supportno
-		where 1=1
-		and a.email = #{email}
+		select a.supportno, a.email as myemail, a.projectno, b.address, nvl(b.postnum,'등록안됨') postnum,
+			(select  to_char(calculateduedate + 2,'YYYY-MM-dd') from project_funding d where a.PROJECTNO = d.projectno) as "deliveryduedate",
+			(select projecttitle from project_outline e where a.projectno = e.projectno ) as "projecttitle",
+			(select email from project_outline f where a.projectno = f.projectno) as "projectwriter",
+ 			b.ITEMNAME,
+ 			b.ITEMNUM,
+ 			b.deliveryyn
+		from support a 
+		join delivery b on a.supportno = b.supportno
+		join project_deadline g on a.projectno = g.projectno
+		where a.email = #{email}
 		<if test = "searchType eq 'All'">
 		and 1=1
 		</if>
@@ -22,17 +23,17 @@
 		<if test = "searchType eq 'deliveryBefore'">
 			and to_date(sysdate,'YYYY-MM-dd')
 		 	<![CDATA[-]]>
-			to_date(f.calculateduedate + 2,'YYYY-MM-dd')  <![CDATA[<]]> 0
+			(select  to_date(calculateduedate + 2,'YYYY-MM-dd') from project_funding h where a.PROJECTNO = h.projectno)  <![CDATA[<]]> 0
 		</if>
 		<if test = "searchType eq 'deliveryAfter'">
 			and to_date(sysdate,'YYYY-MM-dd')
 			<![CDATA[-]]>
-			to_date(f.calculateduedate + 2,'YYYY-MM-dd')  <![CDATA[>=]]> 0
+			(select  to_date(calculateduedate + 2,'YYYY-MM-dd') from project_funding i where a.PROJECTNO = i.projectno)  <![CDATA[>=]]> 0
 		</if>
 	</if>
-	and d.SUCCESSYN = 'Y'
-	and g.PAYYN='Y'
-	order by a.projectno, deliveryduedate desc
+	and g.SUCCESSYN = 'Y'
+	and a.PAYYN='Y'
+	order by deliveryduedate
 	 
 	</select>
 	

@@ -442,6 +442,12 @@ public class MemberController {
 											  @RequestParam (value="searchType", required = false, defaultValue = "searchAll") String searchType,
 											  @RequestParam (value="searchKeyword", required = false, defaultValue = "") String searchKeyword ){
 		
+		System.out.println(numPerPage);
+		System.out.println(searchType);
+		System.out.println(searchKeyword);
+		
+		
+			
 		Map<String, String> map = new HashMap<>();
 		map.put("email", email);
 		map.put("searchType", searchType);

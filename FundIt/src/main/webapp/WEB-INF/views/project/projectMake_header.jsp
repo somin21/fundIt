@@ -25,32 +25,110 @@ $(function(){
 		
 	});
 	
+	/* 글자 수 세기 */
+	$(".letter-cnt").prev().keyup(function(){
+		
+		var value = $(this).val();
+		var length = value.length;
+		var letter = $(this).next().children(".total-letter").text();
+		
+		if(length > letter){
+			var cnt = length - letter;
+			$(this).css("border-color","red");
+			$(this).next().css({"color":"red","font-weight":"bold"});
+			$(this).next().html('<span class="total-letter">'+letter+'</span><span class="cnt">'+cnt+'</span>자 초과하였습니다');
+		} else {
+			var cnt = letter - length;
+			$(this).css("border-color","#ccdafc");
+			$(this).next().css({"color":"darkgray","font-weight":"normal"});
+			$(this).next().html('<span class="total-letter">'+letter+'</span><span class="cnt">'+cnt+'</span>자 남았습니다');
+		}
+
+		$(this).next().children(".total-letter").hide();
+	});
+	
 	/* 닫기 버튼 */
 	$(".closeBtn").on("click",function(){
 		
-		var elemInput = $(this).parent().prev().children("input");
-		var elemSelect = $(this).parent().prev().children("select");
-		var elemTextarea = $(this).parent().prev().children("textarea");
-		
+		var elem = $(this).parent().prev().children();
+
 		var firstSpan = $(this).parents(".hidden").prev(".shown").children("p").last().children("span").first();
 		var lastSpan = $(this).parents(".hidden").prev(".shown").children("p").last().children("span").last();
 		
-		if(elemTextarea.attr("id") == "projectSummary" || elemTextarea.attr("id") == "profileIntroduce"){
-			
-			elemTextarea.val(firstSpan.text());
-		
-		} else if(elemSelect.attr("id") == "category" || elemSelect.attr("id") == "local"){
-			
-			elemSelect.children("option").each(function(){
+		if(firstSpan.css("font-size") != "13px"){
+
+			elem.each(function(){
+										
+				if($(this).prop("tagName") == "TEXTAREA"){
+					
+					$(this).val(firstSpan.text());
+				
+				} else if($(this).prop("tagName") == "SELECT"){
+					
+					$(this).children("option").each(function(){
+										
+						if(firstSpan.text() == $(this).text()){
+							$(this).parent().val($(this).val());
+						}
+					});
 								
-				if(firstSpan.text() == $(this).text()){
-					elemSelect.val($(this).val());
+				} else if($(this).prop("tagName") == "INPUT"){
+					
+					if($(this).attr("id") == "funding-money"){
+						
+						var change = firstSpan.text().replace(/,/g,"");
+						change = change.replace(/원/,"");
+						$(this).val(change.trim());
+						$("#money-warning").css("display","none");
+						$(this).css("border-color","#ccdafc");
+						$(this).parent().next().children(".saveBtn").removeAttr("disabled");
+						
+					} else{
+						$(this).val(firstSpan.text());
+					}
+					
+				}
+			});	
+	
+		} else {
+
+			elem.each(function(){
+				
+				if($(this).prop("tagName") == "TEXTAREA"){
+					
+					$(this).val("");
+				
+				} else if($(this).prop("tagName") == "SELECT"){
+														
+					$(this).val("");
+								
+				} else {
+					
+					if($(this).attr("id") == "funding-money"){
+						$(this).val("0");	
+					} else if($(this).attr("id") == "deadline-date"){
+						
+						var tomorrow = new Date();
+						tomorrow.setDate(tomorrow.getDate()+1);
+						
+						var day = tomorrow.getDate();
+						var month = tomorrow.getMonth()+1;
+						var year = tomorrow.getFullYear();
+						
+						if(day<10){
+							day = "0"+day;
+						}
+						if(month<10){
+							month = "0"+month;
+						}
+						
+						$(this).val(year+"-"+month+"-"+day);
+						
+					} else {
+						$(this).val("");
+					}
 				}
 			});
-						
-		} else{
-			
-			elemInput.val(firstSpan.text());
 		}
 		
 		$(this).parents(".hidden").slideUp(500);
@@ -61,44 +139,77 @@ $(function(){
 	/* 저장 버튼 */
 	$(".saveBtn").on("click",function(){
 		
-		var elemInput = $(this).parent().prev().children("input");
-		var inputValue = $(this).parent().prev().children("input").val();
-		var elemSelect = $(this).parent().prev().children("select");
-		var elemTextarea = $(this).parent().prev().children("textarea");
+		
+		var elem = $(this).parent().prev().children();
 		var place = $(this).parents(".hidden").prev(".shown").children("p").last();
 						
 		var html = "";
-		if(elemInput.attr("class") == "hiddenInput"){
-			
-			var imgSRC = elemInput.next("img").attr("src");
-			
-			if(elemInput.attr("id") == "profile-image"){
-				html = '<span><img src="'+imgSRC+'" class="uploadImg rounded-circle" style="width: 250px;height: 250px;"></span><span></span>';
-			} else {
-				html = '<span><img src="'+imgSRC+'" class="uploadImg" style="width: 250px;height: 250px;"></span><span></span>';
-			}
-			
-		} else if(elemTextarea.attr("id") == "projectSummary" || elemTextarea.attr("id") == "profileIntroduce"){
-			
-			if(elemTextarea.val().trim().length > 0){
-				html = "<span style='font-weight:bold;font-size:20px;color:black;'>"+elemTextarea.val()+"</span><span></span>";
-			}
 		
-		} else if(elemSelect.attr("id") == "category" || elemSelect.attr("id") == "local"){
-			
-			var text = "";
-			elemSelect.children("option").each(function(){
-				
-				if($(this).val() == elemSelect.val()){
-					text = $(this).text();
-				}
-			});
-			
-			html = "<span style='font-weight:bold;font-size:20px;color:black;'>"+text+"</span><span></span>";
-			
-		} else{
-			html = "<span style='font-weight:bold;font-size:20px;color:black;'>"+inputValue+"</span><span></span>";
+		if(elem.first().prop("tagName") != "SPAN"){
+			if(elem.first().val() == "" || elem.first().val() == "0" || elem.first().val() == null){
+				return;
+			} 
 		}
+		
+		elem.each(function(){
+			
+			if($(this).prop("tagName") == "INPUT" && $(this).attr("class") == "hiddenInput"){
+				
+				var imgSRC = $(this).next("img").attr("src");
+				
+				if($(this).attr("id") == "profile-image"){
+					html = '<span><img src="'+imgSRC+'" class="uploadImg rounded-circle" style="width: 250px;height: 250px;"></span><span></span>';
+				} else {
+					html = '<span><img src="'+imgSRC+'" class="uploadImg" style="width: 250px;height: 250px;"></span><span></span>';
+				}
+				
+			} else if($(this).prop("tagName") == "TEXTAREA"){
+				
+				console.log($(this));
+				console.log($(this).val());
+				if($(this).val().trim().length > 0){
+					html = "<span style='font-weight:bold;font-size:20px;color:black;'>"+$(this).val()+"</span><span></span>";
+				}
+			
+			} else if($(this).prop("tagName") == "SELECT"){
+				
+				var text = "";
+				$(this).children("option").each(function(){
+					
+					if($(this).val() == $(this).parent().val()){
+						text = $(this).text();
+					}
+				});
+				
+				html = "<span style='font-weight:bold;font-size:20px;color:black;'>"+text+"</span><span></span>";
+				
+			} else if($(this).prop("tagName") == "INPUT"){
+				
+				if($(this).attr("id") == "funding-money"){
+					
+					html = "<span style='font-weight:bold;font-size:20px;color:black;'>"+numberWithCommas($(this).val()) + " 원"+"</span><span></span>";
+				
+				} else {
+					
+					html = "<span style='font-weight:bold;font-size:20px;color:black;'>"+$(this).val()+"</span><span></span>";
+					
+					if($(this).attr("id") == "deadline-date"){
+						
+						var d = new Date();
+						d.setFullYear($(this).val().substring(0,4));						
+						d.setMonth($(this).val().substring(5,7)-1);
+						d.setDate($(this).val().substring(8,10));
+						d.setDate(d.getDate()+7);
+						
+						var text = "펀딩에 성공할 경우, 마감일 다음날부터 7일간 결제가 진행되어 "+d.getFullYear()+"년 "+(d.getMonth()+1)+"월 "+d.getDate()+"일에 모든 후원자의 결제가 종료됩니다.<br>";
+						text += "결제 종료일로부터 추가로 은행 영업일 기준 7일(공휴일 및 주말 제외) 후 모듬액이 창작자님의 계좌로 입금됩니다.";
+						
+						$("#fund-duedate").html(text);
+						$("#fund-duedate").css({"text-align":"left","padding-top":"30px"});
+					}
+				}
+			}
+		});
 		
 		place.html(html);
 		
@@ -113,6 +224,11 @@ $(function(){
 </script>
 
 <script>
+/* 천단위 콤마 포맷 */
+function numberWithCommas(x){
+	return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g,",");
+}
+
 /* 사진 미리보기 */
 function previewImage(fileObj, imgPreviewId) {
     var allowExtention = ".jpg,.bmp,.gif,.png";  //allowed to upload file type

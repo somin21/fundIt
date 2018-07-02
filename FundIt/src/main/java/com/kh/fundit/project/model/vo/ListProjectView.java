@@ -9,6 +9,7 @@ public class ListProjectView {
 	private int deadlineDay;
 	private int supportMoney;
 	private int supportPercent;
+	private String confirmYn;
 	
 	
 	public ListProjectView() {}
@@ -22,6 +23,21 @@ public class ListProjectView {
 		this.deadlineDay = deadlineDay;
 		this.supportMoney = supportMoney;
 		this.supportPercent = supportPercent;
+	}
+	
+	
+
+	public ListProjectView(int projectNo, String projectTitle, String projectImage, String name, int deadlineDay,
+			int supportMoney, int supportPercent, String confirmYn) {
+		super();
+		this.projectNo = projectNo;
+		this.projectTitle = projectTitle;
+		this.projectImage = projectImage;
+		this.name = name;
+		this.deadlineDay = deadlineDay;
+		this.supportMoney = supportMoney;
+		this.supportPercent = supportPercent;
+		this.confirmYn = confirmYn;
 	}
 
 	public int getProjectNo() {
@@ -78,6 +94,16 @@ public class ListProjectView {
 
 	public void setSupportPercent(int supportPercent) {
 		this.supportPercent = supportPercent;
+	}
+	
+	
+
+	public String getConfirmYn() {
+		return confirmYn;
+	}
+
+	public void setConfirmyn(String confirmYn) {
+		this.confirmYn = confirmYn;
 	}
 
 	@Override

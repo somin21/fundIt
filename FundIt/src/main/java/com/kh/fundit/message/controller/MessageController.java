@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.fundit.message.model.service.MessageService;
@@ -42,6 +43,8 @@ public class MessageController {
 		map.put("email", email);
 		map.put("email2", email2);
 		map.put("messageNo", messageNo);
+		
+		int result = messageService.readyn(map);
 		
 		String content = messageService.selectContent(map);
 	
@@ -157,6 +160,8 @@ public class MessageController {
 	public ModelAndView messageList(@RequestParam(value="cPage", required=false, defaultValue="1")int cPage
 			,@RequestParam("email") String email) {
 		
+		
+		
 		ModelAndView mav  = new ModelAndView();
 		int numPerPage = 10;
 		
@@ -181,7 +186,8 @@ public class MessageController {
 	
 	@RequestMapping("/message/messageList2.do")
 	public ModelAndView messageList2(@RequestParam(value="cPage", required=false, defaultValue="1")int cPage
-			,@RequestParam("email") String email) {
+			,@RequestParam("email") String email
+			) {
 		
 		ModelAndView mav  = new ModelAndView();
 		int numPerPage = 10;
@@ -204,5 +210,92 @@ public class MessageController {
 		return mav;
 	}
 	
+	@RequestMapping("message/messageSelect.do")
+	public ModelAndView selectMessage(@RequestParam(name="messageSelect") String messageSelect,
+			@RequestParam(value="cPage", required=false, defaultValue="1")int cPage
+			,@RequestParam("email") String email) {
+		
+		ModelAndView mav  = new ModelAndView();
+		int numPerPage = 10;
+		System.out.println(messageSelect);
+		System.out.println(email);
+		
+		
+		 Map<String ,Object> map = new HashMap<>();
+		 map.put("cPage", cPage);
+		 map.put("email", email);
+		 map.put("numPerPage",numPerPage);
+		 map.put("messageSelect",messageSelect);
+		
+		
+		List<Message> list = messageService.selectMessageList3(map,cPage,numPerPage);
+	
+		int count = messageService.totalMessageCount3(map);
+		
+		mav.addObject("list",list);
+		mav.addObject("count",count);
+		mav.addObject("numPerPage",numPerPage);
+		mav.setViewName("message/messageList3");
+		
+		return mav;
+	}	@RequestMapping("message/messageSelect2.do")
+	public ModelAndView selectMessage2(@RequestParam(name="messageSelect") String messageSelect,
+			@RequestParam(value="cPage", required=false, defaultValue="1")int cPage
+			,@RequestParam("email") String email) {
+		
+		ModelAndView mav  = new ModelAndView();
+		int numPerPage = 10;
+		System.out.println(messageSelect);
+		System.out.println(email);
+		
+		
+		 Map<String ,Object> map = new HashMap<>();
+		 map.put("cPage", cPage);
+		 map.put("email", email);
+		 map.put("numPerPage",numPerPage);
+		 map.put("messageSelect",messageSelect);
+		
+		
+		List<Message> list = messageService.selectMessageList4(map,cPage,numPerPage);
+	
+		int count = messageService.totalMessageCount4(map);
+		
+		mav.addObject("list",list);
+		mav.addObject("count",count);
+		mav.addObject("numPerPage",numPerPage);
+		mav.setViewName("message/messageList3");
+		
+		return mav;
+	}
+	
+	
+	@RequestMapping("/message/messageList5.do")
+	public ModelAndView messageList4(@RequestParam(value="cPage", required=false, defaultValue="1")int cPage
+			,@RequestParam("email") String email
+			) {
+		
+		ModelAndView mav  = new ModelAndView();
+		int numPerPage = 10;
+		
+		 Map<String ,Object> map = new HashMap<>();
+		 map.put("cPage", cPage);
+		 map.put("email", email);
+		 map.put("numPerPage",numPerPage);
+	
+		
+		List<Message> list = messageService.selectMessageList5(map,cPage,numPerPage);
+	
+		int count = messageService.totalMessageCount5(map);;
+		
+		mav.addObject("list",list);
+		mav.addObject("count",count);
+		mav.addObject("numPerPage",numPerPage);
+		mav.setViewName("message/messageList4");
+		
+		return mav;
+	}
+	
+	
+
 	
 }

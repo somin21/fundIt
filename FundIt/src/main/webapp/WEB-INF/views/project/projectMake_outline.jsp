@@ -41,7 +41,7 @@
 				</p>
 				<p>
 					<input type="text" id="project-title" name="projectTitle" placeholder="프로젝트 제목을 입력해주세요" />
-					<br /><span class="letter-cnt">25자 남았습니다</span>
+					<span class="letter-cnt"><span class="total-letter">25</span>자 남았습니다</span>
 				</p>
 				<p>
 					<button type="button" class="closeBtn">
@@ -118,7 +118,7 @@
 				</p>
 				<p>
 					<textarea name="projectSummary" id="projectSummary" cols="30" rows="5"></textarea>
-					<br /><span class="letter-cnt">50자 남았습니다</span>
+					<span class="letter-cnt"><span class="total-letter">50</span>자 남았습니다</span>
 				</p>
 				<p>
 					<button type="button" class="closeBtn">
@@ -260,7 +260,7 @@
 				</p>
 				<p>
 					<input type="text" id="profile-name" name="profileName" placeholder="이름을 입력해주세요" />
-					<br /><span class="letter-cnt">10자 남았습니다</span>
+					<span class="letter-cnt"><span class="total-letter">10</span>자 남았습니다</span>
 				</p>
 				<p>
 					<button type="button" class="closeBtn">
@@ -308,7 +308,7 @@
 				</p>
 				<p>
 					<textarea name="profileIntroduce" id="profileIntroduce" cols="30" rows="10"></textarea>
-					<br /><span class="letter-cnt">100자 남았습니다</span>
+					<span class="letter-cnt"><span class="total-letter">100</span>자 남았습니다</span>
 				</p>
 				<p>
 					<button type="button" class="closeBtn">

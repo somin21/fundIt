@@ -38,11 +38,12 @@ public class InterestController {
 	public ModelAndView projectList(@RequestParam("email") String email) {
 		ModelAndView mav = new ModelAndView();
 		
+		int rownum = projectService.rownum(email);
 		
 		
 		List<ListProjectView> list = projectService.interestList(email);
 		mav.addObject("list",list);
-		
+		mav.addObject("rownum",rownum);
 		
 	
 	

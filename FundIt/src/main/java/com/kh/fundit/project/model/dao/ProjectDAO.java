@@ -8,8 +8,10 @@ import java.util.Map;
 import com.kh.fundit.member.model.vo.Member;
 import com.kh.fundit.project.model.vo.ListProjectView;
 import com.kh.fundit.project.model.vo.Profile;
+import com.kh.fundit.project.model.vo.ProjectDelivery;
 import com.kh.fundit.project.model.vo.ProjectGift;
 import com.kh.fundit.project.model.vo.ProjectOutline;
+import com.kh.fundit.project.model.vo.ProjectSupport;
 import com.kh.fundit.project.model.vo.ProjectView;
 
 public interface ProjectDAO {
@@ -47,5 +49,17 @@ public interface ProjectDAO {
 	int interestDelete(Map<String, Object> map);
 
 	List<ProjectGift> projectGiftList(Map<String, Object> map);
+
+	int rownum(String email);
+	
+	int insertPayment(Map<String, Object> map);
+
+	List<ProjectGift> projectSeelctGift(Map<String, Object> map);
+
+	int supportInsert(Map<String, Object> map);
+
+	ProjectSupport supportList(Map<String, Object> map);
+
+	int deliveryInsert(Map<String, Object> map);
 
 }
