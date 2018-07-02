@@ -11,7 +11,7 @@
 </jsp:include>
 
 
-<form action="${pageContext.request.contextPath }/project/makeProject/funding-gift" onsubmit="return project_validate('#outline');" method="post" enctype="multipart/form-data">
+<form action="${pageContext.request.contextPath }/project/makeProject/funding-gift" enctype="multipart/form-data" onsubmit="return project_validate('#outline');" method="post">
 
 	<input type="hidden" name="email" value="${memberLoggedIn.email }" />
 	
@@ -86,7 +86,7 @@
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/upload.png" />
 						이미지 선택하기
 					</button>
-					<input type="file" class="hiddenInput" id="project-image" name="projectImage" onchange="previewImage(this,'projectImgPreview');" accept="image/*" />
+					<input type="file" class="hiddenInput" id="project-image" name="projectImageFile" onchange="previewImage(this,'projectImgPreview');" accept="image/*" />
 					<img src="" id="projectImgPreview" class="uploadImg" style="width: 250px;height: 250px;display:none;"/>
 				</p>
 				<p>
@@ -231,7 +231,7 @@
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/upload.png" />
 						이미지 선택하기
 					</button>
-					<input type="file" class="hiddenInput" id="profile-image" name="profileImage" onchange="previewImage(this,'profileImgPreview');" accept="image/*" />
+					<input type="file" class="hiddenInput" id="profile-image" name="profileImageFile" onchange="previewImage(this,'profileImgPreview');" accept="image/*" />
 					<img src="" id="profileImgPreview" class="uploadImg rounded-circle" style="width: 250px;height: 250px;display:none;"/>
 				</p>
 				<p>

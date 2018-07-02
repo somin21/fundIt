@@ -574,10 +574,10 @@ public class ProjectController {
 	}
 	
 //	소민
-	@RequestMapping("/project/makeProject/funding-gift")
-	public ModelAndView makeProjectFundingGift(@RequestParam(value="projectImage") MultipartFile projectImage, 
-											   @RequestParam(value="profileImage") MultipartFile profileImage, 
-											   ProjectOutline outline, Profile profile,
+	@RequestMapping(value="/project/makeProject/funding-gift", method=RequestMethod.POST)
+	public ModelAndView makeProjectFundingGift(ProjectOutline outline, Profile profile,
+											   @RequestParam(value="projectImageFile") MultipartFile projectImage, 
+											   @RequestParam(value="profileImageFile") MultipartFile profileImage,
 											   HttpServletRequest request) {
 		
 		ModelAndView mav = new ModelAndView();
@@ -640,9 +640,9 @@ public class ProjectController {
 		
 		ModelAndView mav = new ModelAndView();
 		
-		int projectNo = projectService.makeProjectFunding(funding);
-		
-		mav.addObject("projectNo", projectNo);
+//		int projectNo = projectService.makeProjectFunding(funding);
+//		
+//		mav.addObject("projectNo", projectNo);
 		mav.setViewName("project/projectMake_story");
 		
 		return mav;

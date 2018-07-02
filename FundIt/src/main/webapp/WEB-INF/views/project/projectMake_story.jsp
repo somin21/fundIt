@@ -10,6 +10,39 @@
 	<jsp:param value="story" name="sectionName"/>
 </jsp:include>
 
+<!-- include libraries(jQuery, bootstrap) -->
+<link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script> 
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script> 
+
+<!-- include codemirror (codemirror.css, codemirror.js, xml.js, formatting.js) -->
+<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/codemirror.css">
+<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/theme/monokai.css">
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/codemirror.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/mode/xml/xml.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/codemirror/2.36.0/formatting.js"></script>
+
+<!-- include summernote css/js-->
+<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css" rel="stylesheet">
+<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js"></script>
+
+<script>
+$(document).ready(function(){
+	
+	$("#summernote").summernote({
+		height: 300,
+		focus: true,
+		codemirror: {
+			theme: 'monokai'
+		}
+	});
+	
+	$("#summernote").next("div").css({"border":"0","padding":"0"});
+	$("#summernote").next("div").find("div").each(function(){
+		$(this).css({"text-align":"left"});
+	});
+});
+</script>
 
 <form action="${pageContext.request.contextPath }/project/makeProject/account" onsubmit="return project_validate('#story');" method="post" >
 	
@@ -92,6 +125,7 @@
 				</p>
 				<p>
 					<!-- 에디터 API -->
+					<textarea name="content" id="summernote" value=""></textarea>
 				</p>
 				<p>
 					<button type="button" class="closeBtn">

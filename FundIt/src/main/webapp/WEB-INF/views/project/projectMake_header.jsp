@@ -23,7 +23,7 @@ function project_validate(sectionName){
 	}
 	
 	input.each(function(){
-		if($(this).attr("id") != "min-money" && $(this).attr("id") != "gift-explain" && $(this).attr("id") != "project-movie" && ($(this).val() == "0" || $(this).val() == "")){
+		if($(this).attr("id") != "itemNo" && $(this).attr("id") != "itemName" && $(this).attr("id") != "min-money" && $(this).attr("id") != "gift-explain" && $(this).attr("id") != "project-movie" && ($(this).val() == "0" || $(this).val() == "")){
 			console.log($(this));
 			bool = false;
 		}
@@ -65,6 +65,7 @@ $(function(){
 		$(".make-project-content").children(".hidden").slideUp(500);
 		$(this).slideUp(500);	
 		$(this).next(".hidden").slideDown(500);
+		$(this).next(".hidden").attr("style","display:block!important");
 		
 	});
 	
@@ -228,6 +229,8 @@ $(function(){
 					html = '<span><img src="'+imgSRC+'" class="uploadImg" style="width: 250px;height: 250px;"></span><span></span>';
 				}
 				
+				console.log($(this).val());
+				
 			} else if($(this).prop("tagName") == "TEXTAREA"){
 				
 				console.log($(this));
@@ -269,7 +272,7 @@ $(function(){
 						var text = "펀딩에 성공할 경우, 마감일 다음날부터 7일간 결제가 진행되어 "+d.getFullYear()+"년 "+(d.getMonth()+1)+"월 "+d.getDate()+"일에 모든 후원자의 결제가 종료됩니다.<br>";
 						text += "결제 종료일로부터 추가로 7일 후 모금액이 창작자님의 계좌로 입금됩니다.";
 						
-						d.setDate(d.getDate()+7);
+						d.setDate(d.getDate()+14);
 						var day = d.getDate();
 						var month = d.getMonth()+1;
 						var year = d.getFullYear();

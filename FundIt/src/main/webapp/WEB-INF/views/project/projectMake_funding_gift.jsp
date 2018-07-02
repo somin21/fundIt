@@ -202,6 +202,7 @@ $(function(){
 		var giftExplain = $("#gift-explain").val();
 		var deliveryYN =$("[name=deliveryYN]:checked").val();
 		var isFirst = false;
+		var isValidateMoney = true;
 		
 		/* 처음인지 체크 */
 		if(!$(".giftList").length){
@@ -209,73 +210,72 @@ $(function(){
 		}
 		
 		/* minMoney체크 */
-		if(isFirst == false){
-			$(".successMinMoney").each(function(){
-				var text = $(this).text().replace(/,/g,"");
-				if(text == minMoney){
-					alert("이미 존재하는 최소 후원금액입니다.");
-					$("#min-money").focus();
-					return;
+		$(".successMinMoney").each(function(){
+			var text = $(this).text().replace(/,/g,"");
+			if(text == minMoney){
+				alert("이미 존재하는 최소 후원금액입니다.");
+				isValidateMoney = false;
+			}
+		});
+		
+		if(isValidateMoney){
+			$("#tbl_item").find("tbody").children("tr").each(function(){
+				
+				var itemno = $(this).find("#itemno").val();
+				var itemnumber = $(this).find("#itemnumber").val();
+				var itemName = $(this).find("#itemno").parent().text();
+				
+				if(itemnumber != 0){
+					
+					$.ajax({
+						url : "insertGift",
+						data : {isFirst : isFirst, projectNo : projectNo, minMoney : minMoney, giftexplain : giftExplain, deliveryYN : deliveryYN, itemno : itemno, itemnumber : itemnumber},			
+						success : function(data){
+							
+							var check_el = "#"+minMoney;
+							if($(check_el).length){
+								
+								console.log("이미만들엇다");
+								console.log($(check_el));
+								$(check_el).find(".giftItemList").find("ul").append('<li>'+data.itemName+'&nbsp;( X '+data.itemnumber+' )</li>');
+								
+							} else {
+								
+								console.log("안만들엇다");
+								console.log($(check_el));
+								var html = '<div class="giftList" id="'+data.minMoney+'">';
+								html += '<div>';
+								html += '<span class="successMinMoney">'+data.minMoney+'</span>원 이상 밀어주시는 분께';
+								html += '<span class="deleteGift">삭제하기</span>';
+								html += '</div>';
+								html += '<div class="giftItemList">';
+								html += '<ul>';
+								html += '<li>'+data.itemName+'&nbsp;( X '+data.itemnumber+' )</li>';				
+								html += '</ul>';
+								html += '</div>';
+								html += '<div class="successDeliveryYN">';
+								if(data.deliveryYN == "Y"){
+									html += '<span class="choice" id="successDelivery">배송 필요</span>';
+								}
+								html += '</div>';
+								html += '</div>';
+																				
+								$("#checkedGift").append(html);
+							}
+							
+							$("#add-gift").slideUp(500);
+							$("#gift").slideDown(500);
+							
+							
+						},
+						error : function(jqxhr,textStatus,errorThrown){
+							console.log("ajax실패");
+						}
+					});
 				}
+			
 			});
 		}
-		
-		$("#tbl_item").find("tbody").children("tr").each(function(){
-			
-			var itemno = $(this).find("#itemno").val();
-			var itemnumber = $(this).find("#itemnumber").val();
-			var itemName = $(this).find("#itemno").parent().text();
-			
-			if(itemnumber != 0){
-				
-				$.ajax({
-					url : "insertGift",
-					data : {isFirst : isFirst, projectNo : projectNo, minMoney : minMoney, giftexplain : giftExplain, deliveryYN : deliveryYN, itemno : itemno, itemnumber : itemnumber},			
-					success : function(data){
-						
-						var check_el = "#"+minMoney;
-						if($(check_el).length){
-							
-							console.log("이미만들엇다");
-							console.log($(check_el));
-							$(check_el).find(".giftItemList").find("ul").append('<li>'+data.itemName+'&nbsp;( X '+data.itemnumber+' )</li>');
-							
-						} else {
-							
-							console.log("안만들엇다");
-							console.log($(check_el));
-							var html = '<div class="giftList" id="'+data.minMoney+'">';
-							html += '<div>';
-							html += '<span class="successMinMoney">'+data.minMoney+'</span>원 이상 밀어주시는 분께';
-							html += '<span class="deleteGift">삭제하기</span>';
-							html += '</div>';
-							html += '<div class="giftItemList">';
-							html += '<ul>';
-							html += '<li>'+data.itemName+'&nbsp;( X '+data.itemnumber+' )</li>';				
-							html += '</ul>';
-							html += '</div>';
-							html += '<div class="successDeliveryYN">';
-							if(data.deliveryYN == "Y"){
-								html += '<span class="choice" id="successDelivery">배송 필요</span>';
-							}
-							html += '</div>';
-							html += '</div>';
-																			
-							$("#checkedGift").append(html);
-						}
-						
-						$("#add-gift").slideUp(500);
-						$("#gift").slideDown(500);
-						
-						
-					},
-					error : function(jqxhr,textStatus,errorThrown){
-						console.log("ajax실패");
-					}
-				});
-			}
-			
-		});
 	});
 	
 	$(".deleteGift").click(function(){
@@ -406,7 +406,7 @@ $(function(){
 			
 			<!-- 예상 정산일 START -->
 			<div id="fund-duedate">
-				프로젝트 마감일을 선택하시면, 예상 정산일이 표시됩니다.				
+				프로젝트 마감일을 선택하시면, 예상 정산일이 표시됩니다.
 			</div>
 			<!-- 예상 정산일 END -->
 			
