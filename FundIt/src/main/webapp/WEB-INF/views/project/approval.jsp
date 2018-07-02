@@ -71,7 +71,7 @@ table td#td{width: 70%}
 			</tr>
 			<tr>
 				<td colspan="2" style="text-align: center;">
-					<button onclick="requestPay();">결재</button>
+					<button onclick="return requestPay();">결재</button>
 				</td>
 			</tr>
 		</table>
@@ -99,6 +99,13 @@ table td#td{width: 70%}
 	var itemName = '${itemName}';
 	var itemNum = '${itemNum}';
 	var delivery = '${delivery==null?'N':delivery}';
+	
+	/* var regExp = /^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$/;
+
+	if ( !regExp.test( $(buyer_tel).val() ) ) {
+	      alert("잘못된 휴대폰 번호입니다. 숫자, - 를 포함한 숫자만 입력하세요.");
+	      return false
+	} 	 */
 	
 	IMP.init('imp17080880');
 	IMP.request_pay({
