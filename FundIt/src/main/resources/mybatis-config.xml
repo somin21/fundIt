@@ -12,13 +12,9 @@
 		<typeAlias type="com.kh.fundit.project.model.vo.ProjectGift" alias="projectGift" />
 		<typeAlias type="com.kh.fundit.project.model.vo.ProjectSupport" alias="projectSupport" />
 		<typeAlias type="com.kh.fundit.gift.model.vo.Gift" alias="gift" />
-<<<<<<< HEAD
 		<typeAlias type="com.kh.fundit.message.model.vo.Message" alias="message"/>
-
-=======
 		<typeAlias type="com.kh.fundit.message.model.vo.Message" alias="message"/>
 		<typeAlias type="com.kh.fundit.admin.model.vo.AdminProjectView" alias="adminProjectView" />
 		<typeAlias type="com.kh.fundit.admin.model.vo.AdminMember" alias="adminMember"/>
->>>>>>> branch 'master' of https://github.com/somin21/fundIt.git
 	</typeAliases>
 </configuration>
