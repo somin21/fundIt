@@ -26,6 +26,7 @@
 <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css" rel="stylesheet">
 <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js"></script>
 
+
 <script>
 $(document).ready(function(){
 	
@@ -37,7 +38,7 @@ $(document).ready(function(){
 		}
 	});
 	
-	$("#summernote").next("div").css({"border":"0","padding":"0"});
+	$("#summernote").next("div").css({"border":"2px solid #ccdafc","padding":"0"});
 	$("#summernote").next("div").find("div").each(function(){
 		$(this).css({"text-align":"left"});
 	});
@@ -140,7 +141,30 @@ $(document).ready(function(){
 			</div>
 		</div>
 	</div>
+
+
+<style>
+div.note-editor div.note-toolbar{
+	background: #f0f5ff;
+}
+div.note-editor div.note-statusbar{
+	background: #f0f5ff!important; padding: 0px;
+}
+div.note-editor div.note-statusbar div{
+	padding: 0px;
+} 
+div.note-editor div.note-toolbar div{
+	padding:0px;
+	border-bottom:0px; 
+}
+div.note-editor div.note-editing-area p{
+	text-align: left!important;
+   	color: #000;
+   	font-weight: normal;
+   }
 	
+
+</style>
 
 
 <jsp:include page="/WEB-INF/views/project/projectMake_footer.jsp" >
