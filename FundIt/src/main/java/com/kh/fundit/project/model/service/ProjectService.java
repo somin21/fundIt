@@ -99,4 +99,6 @@ public interface ProjectService {
 
 	void deleteGift(Map<String, Integer> map);
 
+	int communityUpdate(Map<String, Object> map);
+
 }

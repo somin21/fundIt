@@ -342,11 +342,10 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
 		        <div class="communityDiv">
 		        	<div class="communityS"><span>후원자만 글을 쓸 수 있어요</span></div>
 		        	<div class="communityMain">
-		        		<c:if test="${not empty memberLoggedIn and supportStatus==true}">
+		        		<c:if test="${(not empty memberLoggedIn and supportStatus==true)}">
 		        			<!-- 모달사용 -->
 							  <!-- Trigger the modal with a button -->
 							  <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">게시글작성</button>
-							
 							  <!-- Modal -->
 							  <div class="modal fade" id="myModal" role="dialog">
 							    <div class="modal-dialog">
@@ -378,33 +377,37 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
 		        		</c:if>
 		        		
 		        		<c:if test="${not empty cList}">
-		        			<c:forEach var="s" items="${cList }">
+		        			<c:forEach var="s" items="${cList }" varStatus="aa">
 		        			<br />
+		        			<input type="hidden" value="${s.communityNo }" class="communityNo${aa.count }" />
 		        			<div class="community">
 		        				<span>등록ID : ${s.email }</span><br />
 		        				<span>등록일자:${s.communityDate }</span><br />
 		        				<textarea rows="10" cols="80%" readonly="readonly">${s.communityContent }</textarea>
 		        				<br />
 		        				<!-- 수정모달 시작 -->
-							  <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">수정</button>
+		        			<c:if test="${s.email==memberLoggedIn.email }">
+							  <button type="button" class="btn btn-info btn-lg"  onclick="fn_cu('${aa.count }');">수정</button>
+							  <!-- data-toggle="modal" data-target="#myModal2" -->
+		        			</c:if>
 		        				<!-- Modal -->
-							  <div class="modal fade" id="myModal" role="dialog">
+							  <div class="modal${aa.count } fade modal" id="myModal2" role="dialog">
 							    <div class="modal-dialog">
 							 
 							      <!-- Modal content-->
 							      <div class="modal-content">
 							        <div class="modal-header">
-							       		<h4 class="modal-title">게시글 작성</h4>
+							       		<h4 class="modal-title">게시글 수정</h4>
 							          	<button type="button" class="close" data-dismiss="modal">&times;</button>
 							        </div>
 							        <div class="modal-body">
 							        	<label for="">ID : </label>
-							          <input type="text" id="contextId" value="${memberLoggedIn.email }" readonly /><br /><br />
+							          <input type="text" id="contextId" class="contextId${aa.count }" value="${s.email }" readonly /><br /><br />
 							          <label for="">글 내용</label><br />
-							          <textarea name="" id="communityContext" cols="50%" rows="10">${s.communityContent }</textarea>
+							          <textarea name="" id="communityContext" class="communityContext${aa.count }" cols="50%" rows="10">${s.communityContent }</textarea>
 							        </div>
 							        <div class="modal-footer">
-							        	<button type="button" class="btn btn-default" onclick="fn_community();">수 정</button>
+							        	<button type="button" class="btn btn-default" onclick="fn_conUpdate('${aa.count}','${projectNo}')">수 정</button>
 							          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 							        </div>
 							      </div>
@@ -562,10 +565,19 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
     	/* console.log(contextId,communityContext); */
 		location.href="${pageContext.request.contextPath}/project/community.do?projectNo="+projectNo+"&contextId="+contextId+"&communityContext="+communityContext;
     }
-    function fn_conUpdate(){
-    	/* $(".btn-info").click(); */
+    //수정모달실행
+    function fn_cu(a){
+    	var aa = $(".modal"+a);
+    	aa.modal('show');
     }
-    
+    //수정모달 컴플릿
+    function fn_conUpdate(a,projectNo){
+    	var contextId = $(".contextId"+a).val();
+    	var communityContext = $(".communityContext"+a).val();
+    	var communityNo = $(".communityNo"+a).val();
+    	//console.log(contextId,communityContext,communityNo);
+    	location.href="${pageContext.request.contextPath}/project/communityUpdate.do?contextId="+contextId+"&communityContext="+communityContext+"&projectNo="+projectNo+"&communityNo="+communityNo;  	
+    }
     </script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />

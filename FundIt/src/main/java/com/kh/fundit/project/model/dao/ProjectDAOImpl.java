@@ -277,7 +277,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 	public List<Community> communityList(Map<String, Object> map) {
 		return sqlSession.selectList("project.communityList", map);
 	}
-
+//	희영
 	@Override
 	public int communityInsert(Map<String, Object> map) {
 		return sqlSession.insert("project.communityInsert", map);
@@ -305,6 +305,12 @@ public class ProjectDAOImpl implements ProjectDAO {
 	@Override
 	public List<ListProjectView> interestList4(String email) {
 		return sqlSession.selectList("project.interestList4",email);
+	}
+	
+//	희영
+	@Override
+	public int communityUpdate(Map<String, Object> map) {
+		return sqlSession.update("project.communityUpdate",map);
 	}
 
 }

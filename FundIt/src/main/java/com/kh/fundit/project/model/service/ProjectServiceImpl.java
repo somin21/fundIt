@@ -330,6 +330,11 @@ public class ProjectServiceImpl implements ProjectService {
 
 		projectDAO.deleteGift(map);
 	}
+//	희영
+	@Override
+	public int communityUpdate(Map<String, Object> map) {
+		return projectDAO.communityUpdate(map);
+	}
 
 
 }

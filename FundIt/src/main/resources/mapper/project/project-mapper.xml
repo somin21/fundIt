@@ -291,4 +291,8 @@
 	delete from project_gift where projectno=#{projectNo} and minMoney=#{minMoney}
 	</delete>
 	
+	<update id="communityUpdate">
+		update community set communitycontent='${communityContext}' where projectNo=${projectNo} and email='${contextId}' and communityno=${communityNo}
+	</update>
+	
 </mapper>

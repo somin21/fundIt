@@ -553,6 +553,35 @@ public class ProjectController {
 		
 		return mav;
 	}
+//	희영
+	@RequestMapping("/project/communityUpdate.do")
+	public ModelAndView communityUpdate(@RequestParam String contextId, String communityContext, int projectNo, int communityNo) {
+		ModelAndView mav = new ModelAndView();
+	
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("projectNo", projectNo);
+		map.put("communityNo", communityNo);
+		map.put("contextId", contextId);
+		map.put("communityContext", communityContext);
+		
+		int result = projectService.communityUpdate(map);
+		
+		String loc = "/";
+		String msg = "";
+		
+		if(result>0) {
+			msg = "게시글수정 성공!";
+			loc = "/project/projectView.do?projectNo="+projectNo;
+		}else {
+			msg = "게시글수정 실패!\n관리자에게 문의하세요.";
+		}
+
+		mav.addObject("msg",msg);
+		mav.addObject("loc",loc);
+		mav.setViewName("common/msg");
+		
+		return mav;
+	}
 
 //	소민
 	@RequestMapping("/project/makeProject/outline")
