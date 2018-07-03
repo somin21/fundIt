@@ -205,6 +205,17 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
     cursor: not-allowed;
 }
 /* 후원버튼 끝*/
+/* 후원버튼취소 시작 */
+.delbutton{
+	background: #e7e7e7;
+	color:rgba(50,100,100,100);
+	font-weight: bold;
+}
+.delbutton:hover {
+  background: #d9d9d9;
+	color:black;
+}
+/* 후원버튼취소 끝 */
 /* 담기버튼 시작 */
 .button2 {
     background-color: #4CAF50; /* Green */
@@ -305,7 +316,12 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
                 
                 </div>
                 <c:if test="${deadlineDay ge 0 }">
-                <button class="button" style="vertical-align:middle" onclick="fn_supportGo('${i.projectNo}');"><span>후원하기 </span></button>
+                <c:if test="${supportStatus==false }">
+                	<button class="button" style="vertical-align:middle" onclick="fn_supportGo('${i.projectNo}');"><span>후원하기 </span></button>
+                </c:if>
+                <c:if test="${supportStatus==true }">
+                	<button class="button delbutton" style="vertical-align:middle" onclick="fn_paymentCancel('${projectNo}','${email }');"><span>후원 취소하기</span></button>
+               	</c:if>
                 <script>
                 var projectNo = ${i.projectNo};
                 function fn_interest(no){
@@ -346,6 +362,7 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
 		        			<!-- 모달사용 -->
 							  <!-- Trigger the modal with a button -->
 							  <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">게시글작성</button>
+							  <br />
 							  <!-- Modal -->
 							  <div class="modal fade" id="myModal" role="dialog">
 							    <div class="modal-dialog">
@@ -577,6 +594,9 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
     	var communityNo = $(".communityNo"+a).val();
     	//console.log(contextId,communityContext,communityNo);
     	location.href="${pageContext.request.contextPath}/project/communityUpdate.do?contextId="+contextId+"&communityContext="+communityContext+"&projectNo="+projectNo+"&communityNo="+communityNo;  	
+    }
+    function fn_paymentCancel(projectNo, email){
+    	location.href="${pageContext.request.contextPath}/project/paymentCancel.do?projectNo="+projectNo+"&email="+email;
     }
     </script>
 

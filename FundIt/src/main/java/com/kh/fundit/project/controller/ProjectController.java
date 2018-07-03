@@ -27,6 +27,8 @@ import com.kh.fundit.project.model.vo.ProjectGift;
 import com.kh.fundit.project.model.vo.ProjectOutline;
 import com.kh.fundit.project.model.vo.ProjectSupport;
 import com.kh.fundit.project.model.vo.ProjectView;
+import com.siot.IamportRestClient.IamportClient;
+import com.siot.IamportRestClient.request.CancelData;
 
 @Controller
 public class ProjectController {
@@ -226,6 +228,8 @@ public class ProjectController {
 		com.kh.fundit.project.model.vo.Profile p = projectService.profileUser(userEmail);
 		/*System.out.println(p);*/
 		
+		//System.out.println("supportStatus="+supportStatus);
+		
 		mav.addObject("gList",gList);		//최소아이템금액
 		mav.addObject("strarr",strarr);		//아이템이름
 		mav.addObject("strarr2",strarr2);	//아이템갯수
@@ -233,6 +237,7 @@ public class ProjectController {
 		mav.addObject("cList",cList);		//커뮤니티리스트
 		mav.addObject("list",list);
 		mav.addObject("List",List);
+		mav.addObject("email",email);
 		mav.addObject("p",p);
 		mav.addObject("projectNo",projectNo);
 		mav.addObject("calculateduedDate",calculateduedDate);
@@ -582,6 +587,30 @@ public class ProjectController {
 		
 		return mav;
 	}
+//	희영/project/paymentCancel.do
+	@RequestMapping("/project/paymentCancel.do")
+	public ModelAndView paymentCancel(@RequestParam int projectNo, String email) {
+		ModelAndView mav = new ModelAndView();
+	
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("projectNo", projectNo);
+		map.put("email", email);
+		
+		//List<SupportPayment> list = projectService.paymentCancel(map);
+		
+		IamportClient ic = new IamportClient("4713522635694358", "I993CW83GgrgwFXRgDOKXoy66EZ6uSad1khEgqIXG9ecPb36OSQMgoTn3SuyLEMNY3sftbcakqnaBrgq");
+		   
+		CancelData cd = new CancelData("imp_678896468411", true);
+		cd.setReason("후원취소");
+		  
+		System.out.println(ic.cancelPaymentByImpUid(cd).getCode());
+		System.out.println(ic.cancelPaymentByImpUid(cd).getMessage());
+		System.out.println(ic.cancelPaymentByImpUid(cd).getResponse());
+
+		mav.setViewName("common/msg");
+		
+		return mav;
+}
 
 //	소민
 	@RequestMapping("/project/makeProject/outline")
