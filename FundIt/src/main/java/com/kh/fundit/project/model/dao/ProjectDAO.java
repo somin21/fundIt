@@ -103,4 +103,6 @@ public interface ProjectDAO {
 
 	ProjectGift selectGift(Map<String, Integer> map);
 
+	int deleteProject(Map<String, Object> map);
+
 }

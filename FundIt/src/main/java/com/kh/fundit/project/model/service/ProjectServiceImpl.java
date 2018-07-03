@@ -331,5 +331,13 @@ public class ProjectServiceImpl implements ProjectService {
 		projectDAO.deleteGift(map);
 	}
 
+	@Override
+	public int deleteProject(int projectNo, Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return projectDAO.deleteProject(map);
+	}
+
+
+
 
 }

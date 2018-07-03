@@ -116,10 +116,11 @@ function htmlAppend(project, div_name){
 	html += '<input type="hidden" name="projectNo" id ="projectNo" value="'+project.projectNo+'" />';
 	html += '<img src="${pageContext.request.contextPath }/resources/images/projects/'+project.projectImage+'" />';
 	html += '<div class="summary" style = "height : 250px;">';
-	
 	html += '<p>'+project.projectTitle+' : '+project.projectWriter+'</p>';
-	html += '<p>목표금액 - '+project.supportGoal+'</p>';
-	html += '<p>나의 후원금액 - '+project.mySupportMoney+'</p>';
+	var supportGoal = numberWithCommas(project.supportGoal);
+	var mySupportMoney = numberWithCommas(project.mySupportMoney);
+	html += '<p>목표금액 - '+supportGoal+'원</p>';
+	html += '<p>나의 후원금액 - '+mySupportMoney+'원</p>';
 	html += '<p>선물명 - '+project.itemName+'</p>'
 	html += '<div class="progress">';
 	
@@ -163,6 +164,10 @@ function htmlAppendNone(startIndex, div_name){
 		
 		$(div_name).append(html);	
 	
+}
+
+function numberWithCommas(x){
+	return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g,",");
 }
 
 
@@ -259,6 +264,8 @@ height: 450px;
 
 <script>
 	function fn_gotoProjectView(){
+		var email = $("#email").val().trim();
+		console.log(email);
 		$(".project").click(function(){
 	        var projectNo = $(this).children("#projectNo").val();
 	        console.log(projectNo)
@@ -266,7 +273,7 @@ height: 450px;
 	           return false;
 	        }
 	        console.log(projectNo);
-	        location.href="${pageContext.request.contextPath}/project/projectView.do?projectNo="+projectNo;
+	        location.href="${pageContext.request.contextPath}/project/projectView.do?projectNo="+projectNo+"&email="+email;
 	     });
 	}
 

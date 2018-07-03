@@ -83,7 +83,9 @@
  		b.ITEMNAME
 		from support a 
 		join delivery b on a.supportno = b.supportno
-		where 1=1 and a.email = #{email}
+		where 1=1 
+		and a.email = #{email} 
+		and (select projectconfirmyn from project_outline n where a.projectno = n.projectno ) = 'Y'
 	<if test = "searchType != null and searchType != ''" >
 		<if test ="searchType eq 'selectAll'">
 		 and 1=1

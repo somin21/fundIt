@@ -132,8 +132,9 @@ $(function(){
 function htmlAppend(project, div_name){
 	var html = '';
 	
-	html += '<div class="project"  onclick = "fn_gotoProjectView();">';
-	html += '<input type="hidden" name="projectNo" id ="projectNo" value="'+project.projectNo+'" />';
+	
+	html += '<div class="project" style = "max-height : 400px; ">';
+	html += '<div class="context-container" style=" height : 330px;" onclick = "fn_gotoProjectView(event, '+project.projectNo+')">';
 	html += '<img src="${pageContext.request.contextPath }/resources/images/projects/'+project.projectImage+'" />';
 	if(project.deadlineDay > 0 && project.supportPercent >= 100){
 	html +=	'<p style="color:tomato; font-size : 15px;  height:25px; font-weight: bolder; margin-left:15px; margin-top:-23px; margin-bottom:-2px;">성공</p>'
@@ -165,10 +166,12 @@ function htmlAppend(project, div_name){
 	html += '&nbsp;'+supportMoney+'&nbsp;('+project.supportPercent+'%)';
 	html += '</div>';
 	html += '</div>';
-	if(project.confirmYn == null || project.confirmYn == ""){
-	html += '<input type="button" value="프로젝트 삭제" style = "width : 150px; margin : auto;" class = "btn btn-danger" />'
+	html += '</div>';
+	if(project.confirmYn == "N"){
+	html += '<input type="button" value="프로젝트 삭제" style = "width : 150px; margin-top : -50px; margin-left: 16%; position : relative;" class = "btn btn-danger" onclick = "fn_delete(event,'+project.projectNo+');"/>';
 	}
 	html += '</div>';
+	
     
     div_name.append(html);
 }
@@ -346,17 +349,60 @@ font-weight : bolder;
 </div>
 
 <script>
-	function fn_gotoProjectView(){
-		$(".project").click(function(){
-	        var projectNo = $(this).children("#projectNo").val();
-	        console.log(projectNo)
+	function fn_delete(event, projectNo, projectWriter){
+	
+	console.log("fn_delete");
+	var event = event || window.event;
+	var memberLoggedIn =  $("#email").val().trim();
+	//ie를 제외한 브라우져
+     event.stopPropagation();
+     //ie8이하 브라우져
+     event.cancelBubble = true;
+     console.log(projectNo);
+     console.log(memberLoggedIn);
+     
+     
+     $.ajax({
+    	 url :  "${pageContext.request.contextPath}/project/deleteProject.do",
+    	 data : {projectNo : projectNo, memberLoggedIn : memberLoggedIn},
+    	 type : "POST",
+    	 success : function(data){
+    		if(data > 0){
+    			alert("프로젝트 삭제 성공");
+    			location.reload();
+    		}else{
+    			alert("project 삭제 실패");
+    		}
+    	 },
+    	 error : function (jqxhr,textStatus,errorThrown){
+    		 console.log("ajax 실패");
+    	 }
+    	 
+    	 
+    	 
+     })
+     
+     
+	}
+
+	function fn_gotoProjectView(event, projectNo){
+		console.log($(this));
+		var event = event || window.event;
+		var email = $("#email").val().trim();
+		//ie를 제외한 브라우져
+	     event.stopPropagation();
+	     //ie8이하 브라우져
+	     event.cancelBubble = true;
+		 console.log(projectNo)
 	        if(projectNo == null){
 	           return false;
 	        }
 	        console.log(projectNo);
-	        location.href="${pageContext.request.contextPath}/project/projectView.do?projectNo="+projectNo;
-	     });
+	        location.href="${pageContext.request.contextPath}/project/projectView.do?projectNo="+projectNo+"&email="+email;
+	      
 	}
+	
+	
 
 
 </script>

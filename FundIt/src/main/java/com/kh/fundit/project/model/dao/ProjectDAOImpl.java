@@ -307,4 +307,35 @@ public class ProjectDAOImpl implements ProjectDAO {
 		return sqlSession.selectList("project.interestList4",email);
 	}
 
+//  태윤
+	@Override
+	public int deleteProject(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		
+		  sqlSession.delete("project.deleteCommunity", map);
+		
+		  sqlSession.delete("project.deleteInterest", map);
+		
+		  sqlSession.delete("project.deleteAccount", map);
+		
+		  sqlSession.delete("project.deleteDeadline", map);
+		
+		  sqlSession.delete("project.deleteFunding", map);
+	
+		  sqlSession.delete("project.deleteMyGift", map);
+		
+		  sqlSession.delete("project.deleteStory", map);
+		
+		  sqlSession.delete("project.deleteSummary", map);
+		
+		  sqlSession.delete("project.deleteSupport", map);
+		
+		  
+		return sqlSession.delete("project.deleteProject", map);
+	}
+
+
+
+
+
 }

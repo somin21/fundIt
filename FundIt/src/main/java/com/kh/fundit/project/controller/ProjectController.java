@@ -662,5 +662,20 @@ public class ProjectController {
 	public String makeProjectEnd() {
 		return "project/projectMake_account";
 	}
+	
+
+//  태윤
+	@RequestMapping("/project/deleteProject.do")
+	@ResponseBody
+	public int deleteProject(@RequestParam int projectNo, @RequestParam String memberLoggedIn) {
+		
+		Map <String, Object> map = new HashMap<>();
+		map.put("projectNo",projectNo);
+		map.put("memberLoggedIn", memberLoggedIn);
+		
+		int result = projectService.deleteProject(projectNo, map);
+		
+		return result;
+	}
 
 }
