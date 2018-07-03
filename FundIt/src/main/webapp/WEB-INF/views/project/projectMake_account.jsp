@@ -13,6 +13,8 @@
 
 <form action="${pageContext.request.contextPath }/project/makeProject/end" onsubmit="return project_validate('#account');" method="post" >
 	
+	<input type="hidden" name="projectNo" value="${projectNo }" />
+	
 	<!-- 연락처 인증 -->
 	<div class="make-project-section">
 		<p class="title">연락처 인증</p>
@@ -121,7 +123,7 @@
 			<div class="hidden" id="account">
 				<div id="account-title">
 					<p>입금 계좌</p>
-					<p>
+					<p style="text-align:left">
 						후원금을 수령할 은행 계좌 정보를 입력해주세요
 					</p>
 				</div>
@@ -131,7 +133,7 @@
 						모금에 성공할 경우 350원(VAT별도)의 송금 수수료가 발생합니다.
 					</p>
 					<p>
-						<select name="accountBank" id="accountBank">
+						<select name="bankCode" id="accountBank">
 							<option selected disabled value="">은행을 선택하세요</option>
 							<option value="B1">KDB산업은행</option>
 							<option value="B2">BOA</option>
@@ -179,14 +181,13 @@
 					</p>
 					<p>
 						<input type="number" name="accountNumber" id="accountNumber"/>
-						<span id="account-number-cnt">최소 <span id="min-cnt">11</span>자 / <span id="max-cnt">16</span>자 남았습니다</span>
+						<span id="account-number-cnt">최소 <span id="min-cnt">11</span>자 / <span id="max-cnt" style="float:none">16</span>자 남았습니다</span>
 					</p>
 				</div>
 				<div id="account-type">
 					<p>계좌 종류</p>
-					<p>
-					</p>
-					<p style="position: relative">
+					<p></p>
+					<p style="position: relative;text-align:left">
 						<input type="radio" name="accountType" id="individual" value="개인" checked/>
 						<label for="individual"><b>개인</b></label>
 						<input type="radio" name="accountType" id="licensee" value="사업자"/>
@@ -194,10 +195,6 @@
 					</p>
 				</div>
 				<div id="btnAccountCloseSave">
-					<button type="button" class="accountCloseBtn">
-						<img src="${pageContext.request.contextPath }/resources/images/makeProject/x.png" />
-						닫기
-					</button>
 					<button type="button" class="accountSaveBtn">
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/ok.png" />
 						저장
@@ -206,7 +203,57 @@
 			</div>
 		</div>
 	</div>
+
+<script>
+$(function(){
 	
+	$(".accountSaveBtn").on("click",function(){
+		
+		var isEmpty = false;
+		var place = $(this).parents(".hidden").prev(".shown").children("p").last();
+		
+		$(this).parents(".hidden").find("input").each(function(){
+			
+			if($(this).val().trim() == ""){
+				isEmpty = true;
+			}
+			
+			if($(this).attr("id") == "accountNumber"){
+
+				if($(this).val() < 11){
+					isEmpty = true;
+				}
+			}
+			
+		});
+		
+		if($(this).parents(".hidden").find("select").val() == ""){
+			isEmpty = true;
+		}
+		
+		if(!isEmpty){
+			
+			var accountName = $(this).parents(".hidden").find("#accountName").val();
+			var bankName = $(this).parents(".hidden").find("#accountBank option:selected").text();
+			
+			var html = "<span style='font-weight:bold;font-size:20px;color:black;'>"+bankName+"&nbsp;"+accountName+"</span><span></span>";
+			var rightHTML = '<img src="${pageContext.request.contextPath }/resources/images/makeProject/write.png" />&nbsp;<span>수정하기</span>';
+			
+			place.html(html);
+			place.children("span").last().html(rightHTML);
+			
+			$(this).parents(".hidden").slideUp(500);
+			$(this).parents(".hidden").prev(".shown").slideDown(500);
+			
+		} else {
+			
+			alert("모든 항목을 입력하여야 저장 가능합니다.");
+			
+		}
+	});
+	
+})
+</script>
 
 <style>
 div.make-project-content div#account div:first-of-type{

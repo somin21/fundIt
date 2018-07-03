@@ -10,10 +10,12 @@ import com.kh.fundit.project.model.vo.Community;
 import com.kh.fundit.project.model.vo.Item;
 import com.kh.fundit.project.model.vo.ListProjectView;
 import com.kh.fundit.project.model.vo.Profile;
+import com.kh.fundit.project.model.vo.ProjectAccount;
 import com.kh.fundit.project.model.vo.ProjectDelivery;
 import com.kh.fundit.project.model.vo.ProjectFunding;
 import com.kh.fundit.project.model.vo.ProjectGift;
 import com.kh.fundit.project.model.vo.ProjectOutline;
+import com.kh.fundit.project.model.vo.ProjectStory;
 import com.kh.fundit.project.model.vo.ProjectSupport;
 import com.kh.fundit.project.model.vo.ProjectView;
 
@@ -98,5 +100,9 @@ public interface ProjectService {
 	ProjectGift insertGift(ProjectGift gift);
 
 	void deleteGift(Map<String, Integer> map);
+
+	int makeProjectStory(ProjectStory story);
+
+	int makeProjectAccount(ProjectAccount account);
 
 }

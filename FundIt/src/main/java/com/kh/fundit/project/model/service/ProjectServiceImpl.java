@@ -14,10 +14,12 @@ import com.kh.fundit.project.model.vo.Community;
 import com.kh.fundit.project.model.vo.Item;
 import com.kh.fundit.project.model.vo.ListProjectView;
 import com.kh.fundit.project.model.vo.Profile;
+import com.kh.fundit.project.model.vo.ProjectAccount;
 import com.kh.fundit.project.model.vo.ProjectDelivery;
 import com.kh.fundit.project.model.vo.ProjectFunding;
 import com.kh.fundit.project.model.vo.ProjectGift;
 import com.kh.fundit.project.model.vo.ProjectOutline;
+import com.kh.fundit.project.model.vo.ProjectStory;
 import com.kh.fundit.project.model.vo.ProjectSupport;
 import com.kh.fundit.project.model.vo.ProjectView;
 
@@ -329,6 +331,32 @@ public class ProjectServiceImpl implements ProjectService {
 	public void deleteGift(Map<String, Integer> map) {
 
 		projectDAO.deleteGift(map);
+	}
+
+//	소민
+	@Override
+	public int makeProjectStory(ProjectStory story) {
+		
+		int projectNo = 0;
+		
+		try {
+			int result = projectDAO.makeProjectStory(story);
+			
+			if(result > 0) {
+				projectNo = story.getProjectNo();
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		
+		return projectNo; 
+	}
+
+	@Override
+	public int makeProjectAccount(ProjectAccount account) {
+		
+		return projectDAO.makeProjectAccount(account);
 	}
 
 

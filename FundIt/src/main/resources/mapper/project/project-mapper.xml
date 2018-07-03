@@ -291,4 +291,12 @@
 	delete from project_gift where projectno=#{projectNo} and minMoney=#{minMoney}
 	</delete>
 	
+	<insert id="makeProjectStory">
+	insert into project_story values(#{projectNo},#{introduceMovie},#{projectStory})
+	</insert>
+	
+	<insert id="makeProjectAccount">
+	insert into project_account values(#{projectNo},#{email},#{phone},#{accountName},#{accountNumber},#{accountType},#{bankCode})
+	</insert>
+	
 </mapper>

@@ -26,10 +26,12 @@ import com.kh.fundit.project.model.service.ProjectService;
 import com.kh.fundit.project.model.vo.Community;
 import com.kh.fundit.project.model.vo.Item;
 import com.kh.fundit.project.model.vo.ListProjectView;
+import com.kh.fundit.project.model.vo.ProjectAccount;
 import com.kh.fundit.project.model.vo.ProjectFunding;
 import com.kh.fundit.project.model.vo.ProjectGift;
 /*import com.kh.fundit.project.model.vo.Profile;*/
 import com.kh.fundit.project.model.vo.ProjectOutline;
+import com.kh.fundit.project.model.vo.ProjectStory;
 import com.kh.fundit.project.model.vo.ProjectSupport;
 import com.kh.fundit.project.model.vo.ProjectView;
 
@@ -640,9 +642,9 @@ public class ProjectController {
 		
 		ModelAndView mav = new ModelAndView();
 		
-//		int projectNo = projectService.makeProjectFunding(funding);
-//		
-//		mav.addObject("projectNo", projectNo);
+		int projectNo = projectService.makeProjectFunding(funding);
+		
+		mav.addObject("projectNo", projectNo);
 		mav.setViewName("project/projectMake_story");
 		
 		return mav;
@@ -702,14 +704,62 @@ public class ProjectController {
 	
 //	소민
 	@RequestMapping("/project/makeProject/account")
-	public String makeProjectAccount() {
-		return "project/projectMake_account";
+	public ModelAndView makeProjectAccount(ProjectStory story,
+										   @RequestParam(value="projectMovie", required=false) MultipartFile projectMovie,
+										   HttpServletRequest request) {
+		
+		ModelAndView mav = new ModelAndView();
+		
+		// 프로젝트 영상 업로드
+		String firstDir = request.getSession().getServletContext().getRealPath("/resources/images/projects");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String secondDir = sdf.format(new Date(System.currentTimeMillis()));
+		File saveDir = new File(firstDir+"/"+secondDir);
+		if(!saveDir.exists()) {
+			saveDir.mkdirs();
+		}		
+		String originalName = projectMovie.getOriginalFilename();
+		String p_ext = originalName.substring(originalName.lastIndexOf(".")+1);
+		SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMddHHmmss");
+		int rndNum = (int)(Math.random()*1000);
+		String renamedName = story.getProjectNo()+"_"+sdf2.format(new Date(System.currentTimeMillis()))+"_"+rndNum+"."+p_ext;
+		try {
+			projectMovie.transferTo(new File(firstDir+"/"+secondDir+"/"+renamedName));
+		} catch (IllegalStateException | IOException e1) {
+			e1.printStackTrace();
+		}
+		story.setIntroduceMovie(secondDir+"/"+renamedName);
+		// 프로젝트 영상 업로드 끝
+		
+		int projectNo = projectService.makeProjectStory(story);
+		
+		mav.addObject("projectNo",projectNo);
+		mav.setViewName("project/projectMake_account");
+		
+		return mav;
 	}
 	
 //	소민
 	@RequestMapping("/project/makeProject/end")
-	public String makeProjectEnd() {
-		return "project/projectMake_account";
+	public ModelAndView makeProjectEnd(ProjectAccount account) {
+		
+		ModelAndView mav = new ModelAndView();
+		
+		int result = projectService.makeProjectAccount(account);
+		
+		String msg = "";
+		if(result > 0) {
+			msg = "프로젝트 올리기 완료";
+		} else {
+			msg = "프로젝트 올리기 실패";
+		}
+		
+		mav.addObject("msg", msg);
+		mav.addObject("loc", "/");
+		mav.setViewName("common/msg");
+//		mav.setViewName("/project/projectUpdate_outline");
+		
+		return mav;
 	}
 
 }

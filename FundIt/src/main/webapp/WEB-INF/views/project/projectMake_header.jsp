@@ -110,7 +110,7 @@ $(function(){
 			elem.each(function(){
 										
 				if($(this).prop("tagName") == "TEXTAREA"){
-					
+
 					$(this).val(firstSpan.text());
 				
 				} else if($(this).prop("tagName") == "SELECT"){
@@ -152,7 +152,7 @@ $(function(){
 				
 				if($(this).prop("tagName") == "TEXTAREA"){
 					
-					$(this).val("");
+						$(this).val("");
 				
 				} else if($(this).prop("tagName") == "SELECT"){
 														
@@ -206,7 +206,9 @@ $(function(){
 		
 		var elem = $(this).parent().prev().children();
 		var place = $(this).parents(".hidden").prev(".shown").children("p").last();
+		var summerPlace = $(this).parents(".hidden").prev(".shown").find("#story");
 						
+		var isSummer = false;
 		var html = "";
 		
 		if(elem.first().prop("tagName") != "SPAN" && elem.first().prop("tagName") != "BUTTON"){
@@ -223,7 +225,9 @@ $(function(){
 				
 				var imgSRC = $(this).next("img").attr("src");
 				
-				if($(this).attr("id") == "profile-image"){
+				if($(this).attr("id") != "project-movie"){
+					
+				} else if($(this).attr("id") == "profile-image"){
 					html = '<span><img src="'+imgSRC+'" class="uploadImg rounded-circle" style="width: 250px;height: 250px;"></span><span></span>';
 				} else {
 					html = '<span><img src="'+imgSRC+'" class="uploadImg" style="width: 250px;height: 250px;"></span><span></span>';
@@ -233,10 +237,16 @@ $(function(){
 				
 			} else if($(this).prop("tagName") == "TEXTAREA"){
 				
-				console.log($(this));
-				console.log($(this).val());
 				if($(this).val().trim().length > 0){
-					html = "<span style='font-weight:bold;font-size:20px;color:black;'>"+$(this).val()+"</span><span></span>";
+					
+					if($(this).attr("id") == "summernote"){
+						
+						isSummer = true;
+						html = $(this).val();
+						
+					} else {
+						html = "<span style='font-weight:bold;font-size:20px;color:black;'>"+$(this).val()+"</span><span></span>";
+					}
 				}
 			
 			} else if($(this).prop("tagName") == "SELECT"){
@@ -295,10 +305,20 @@ $(function(){
 			}
 		});
 		
-		place.html(html);
-		
 		var rightHTML = '<img src="${pageContext.request.contextPath }/resources/images/makeProject/write.png" />&nbsp;<span>수정하기</span>';
-		place.children("span").last().html(rightHTML);
+		
+		if(isSummer){
+			
+			summerPlace.html(html);
+			summerPlace.css("display","inline-block");
+			summerPlace.children("p").first().css("font-weight","normal");
+			summerPlace.children("p").last().css({"font-size":"15px","color":"#000"});
+			place.html("<span></span><span>"+rightHTML+"</span>");
+			
+		} else {
+			place.html(html);		
+			place.children("span").last().html(rightHTML);
+		}
 
 		$(this).parents(".hidden").slideUp(500);
 		$(this).parents(".hidden").prev(".shown").slideDown(500);

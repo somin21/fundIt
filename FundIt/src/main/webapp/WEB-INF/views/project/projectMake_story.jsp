@@ -10,21 +10,28 @@
 	<jsp:param value="story" name="sectionName"/>
 </jsp:include>
 
+
 <!-- include libraries(jQuery, bootstrap) -->
-<link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
-<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script> 
-<script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script> 
+<!-- bootstrap + jquery -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" />
+<script src="${pageContext.request.contextPath }/resources/js/jquery-3.3.1.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
 
 <!-- include codemirror (codemirror.css, codemirror.js, xml.js, formatting.js) -->
-<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/codemirror.css">
+<!-- <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/codemirror.css">
 <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/theme/monokai.css">
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/codemirror.js"></script>
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/mode/xml/xml.js"></script>
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/codemirror/2.36.0/formatting.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/codemirror/2.36.0/formatting.js"></script> -->
 
 <!-- include summernote css/js-->
-<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css" rel="stylesheet">
-<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js"></script>
+<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-bs4.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-bs4.js"></script>
+
+
+
+
 
 
 <script>
@@ -42,11 +49,14 @@ $(document).ready(function(){
 	$("#summernote").next("div").find("div").each(function(){
 		$(this).css({"text-align":"left"});
 	});
+	
 });
 </script>
 
 <form action="${pageContext.request.contextPath }/project/makeProject/account" onsubmit="return project_validate('#story');" method="post" >
 	
+	<input type="hidden" name="projectNo" value="${projectNo }" />
+		
 	<!-- 프로젝트 소개 영상 -->
 	<div class="make-project-section">
 		<p class="title">프로젝트 소개 영상</p>
@@ -106,6 +116,7 @@ $(document).ready(function(){
 			
 			<div class="shown">
 				<p>프로젝트 스토리</p>
+				<div id="story" style="display:none;color:#000;"></div>
 				<p>
 					<span>
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/hand_pointer.png" />
@@ -117,22 +128,20 @@ $(document).ready(function(){
 						&nbsp;
 						<span>입력하기</span>
 					</span>
+					
 				</p>
 			</div>
-			<div class="hidden">
+			<div class="hidden" id="story-hidden">
 				<p>프로젝트 스토리</p>
 				<p>
 					프로젝트 스토리 잘 작성하기를 읽어보시고 스토리텔링에 필요한 요소들을 확인하여 작성해주세요.
 				</p>
 				<p>
 					<!-- 에디터 API -->
-					<textarea name="content" id="summernote" value=""></textarea>
+					<%-- <jsp:include page="/WEB-INF/views/project/projectMake_editor.jsp" /> --%>
+					<textarea name="projectStory" id="summernote" value=""></textarea>
 				</p>
-				<p>
-					<button type="button" class="closeBtn">
-						<img src="${pageContext.request.contextPath }/resources/images/makeProject/x.png" />
-						닫기
-					</button>
+				<p style="text-align:right">
 					<button type="button" class="saveBtn">
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/ok.png" />
 						저장
@@ -142,13 +151,13 @@ $(document).ready(function(){
 		</div>
 	</div>
 
-
 <style>
 div.note-editor div.note-toolbar{
 	background: #f0f5ff;
 }
-div.note-editor div.note-statusbar{
-	background: #f0f5ff!important; padding: 0px;
+div.note-editor div.note-statusbar, div.note-editor div.note-toolbar-wrapper{
+	background: #f0f5ff!important;
+	padding: 0px;
 }
 div.note-editor div.note-statusbar div{
 	padding: 0px;
@@ -157,15 +166,40 @@ div.note-editor div.note-toolbar div{
 	padding:0px;
 	border-bottom:0px; 
 }
+div.note-editor div.note-editing-area, 
+div.note-editor div.note-editing-area div{
+	padding: 0px;
+	border-bottom: 0px;
+} 
+div.note-editor div.note-editing-area div.note-editable, div.note-editor div.note-editing-area div.CodeMirror-code{
+    padding: 10px;
+}
 div.note-editor div.note-editing-area p{
-	text-align: left!important;
-   	color: #000;
-   	font-weight: normal;
-   }
-	
-
+   	color: #000!important;
+   	font-size: 1rem!important;
+   	font-weight: normal!important;
+}
+div.note-editor div.note-editing-area p span{
+	float: none!important;
+}
+div.note-editor div.modal div.modal-header{
+    padding: 15px;
+    border-bottom: 1px solid #e5e5e5;
+}
+div.note-editor div.modal div.modal-footer{
+    padding: 15px;
+    text-align: right;
+    border-top: 1px solid #e5e5e5;
+}
+div.note-editor div.modal div.modal-body{
+	padding: 15px;
+	overflow: auto!important;
+}
+div.note-editor div.modal div.modal-body div{
+	border-bottom: 0px;
+}
+    
 </style>
-
 
 <jsp:include page="/WEB-INF/views/project/projectMake_footer.jsp" >
 	<jsp:param value="story" name="sectionName"/>
