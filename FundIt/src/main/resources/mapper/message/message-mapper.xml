@@ -54,7 +54,9 @@ insert into message values(seq_message_no.nextval,'${messageContent}',default,'$
 <select id="totalMessageCount5" resultType="_int">
 	select count(*)as cnt from message where receiveEmail = #{email} and readyn ='Y' 
 </select>
-
+<select id="imagereadyn" resultType="_int">
+	select count(*)as cnt from message where receiveEmail = #{email} and readyn ='N' 
+</select>
 
 
 </mapper>

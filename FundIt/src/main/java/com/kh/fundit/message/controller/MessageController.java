@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -295,7 +294,17 @@ public class MessageController {
 		return mav;
 	}
 	
+	@RequestMapping("/message/readyn.do")
+	@ResponseBody
+	public Map<String,Object> imagereadyn(@RequestParam("email") String email)  {
 	
-
+		Map<String,Object> map = new HashMap<String, Object>(); 
+		
+		int count = messageService.imagereadyn(email);
+		map.put("count", count);
+		
+		return map;		  
+		
+	}
 	
 }

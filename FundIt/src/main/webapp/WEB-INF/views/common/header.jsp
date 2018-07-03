@@ -30,8 +30,46 @@ $(function(){
    $(".profile-click").on("click",function(){
       $("#profile-click-div").slideToggle();
    });
+   $(".messageImage").on("click",function(){
+	  location ="${pageContext.request.contextPath }/message/messageList.do?email=${memberLoggedIn.email }"
+	   });
+   
+   
    
 })
+
+
+
+</script>
+
+
+<script>
+window.onload = function () {
+	
+	
+	
+	var email = "${memberLoggedIn.email}";
+	console.log(email);
+	$.ajax({
+		url : "${pageContext.request.contextPath }/message/readyn.do",
+		data:{email:email},
+		dataType:"json",
+		success:function(data){
+			console.log(data);
+			if(data.count>0){
+				$(".messageImage").show();
+			}else{
+				$(".messageImage").hide();
+			}
+		},
+		error:function(jqxhr,textStatus,errorThrown){
+			console.log("ajax실패",jqxhr,textStatus,errorThrown);
+		}
+		
+		
+	});
+	
+}
 </script>
 
 <body>
@@ -72,8 +110,9 @@ $(function(){
 		<c:if test="${memberLoggedIn eq null }">
 			<span>
 			<a href="${pageContext.request.contextPath }/login.do">로그인</a>
-			/
+			
 			<a href="${pageContext.request.contextPath }/member/join.do">회원가입</a>
+			
 			</span>
 			&nbsp;
 			<a href="${pageContext.request.contextPath }/login.do">
@@ -87,6 +126,8 @@ $(function(){
 				${memberLoggedIn.name}
 			</span>
 			<img src="${pageContext.request.contextPath }/resources/images/profile.png" class="profile-click" />
+			
+			<img src="${pageContext.request.contextPath }/resources/images/message/message.png" class="messageImage" />
 			<%-- <c:if test="${memberLoggedIn.profileImage ne null}">
 				<img src="./resources/images/${memberLoggedIn.profileImage}" class="profile-click" />
 			</c:if>

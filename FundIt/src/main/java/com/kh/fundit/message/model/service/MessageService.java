@@ -35,6 +35,7 @@ public interface MessageService {
 
 	int totalMessageCount5(Map<String, Object> map);
 
+	int imagereadyn(String email);
 
 
 

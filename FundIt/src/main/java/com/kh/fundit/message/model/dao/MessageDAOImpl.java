@@ -91,6 +91,12 @@ public class MessageDAOImpl implements MessageDAO {
 		return sqlSession.selectOne("message.totalMessageCount5",map);
 	}
 
+	@Override
+	public int imagereadyn(String email) {
+		return sqlSession.selectOne("message.imagereadyn",email);
+	}
+
+
 
 
 
