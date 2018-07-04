@@ -70,7 +70,7 @@ div.addItemDivContent div.items div{
 }
 div.addItemDivContent div.items div.item-name{
 	border: 0;
-	width: 80%;
+	width: 87%;
 }
 div.addItemDivContent div.items div.update-item{
 	width: 10%;
@@ -131,7 +131,7 @@ $(function(){
 		var projectNo = $("#projectNo").val();
 		var isFirst = false;
 		
-		if(name.length < 1){
+		if(name.length < 1 || name.length > 30){
 			return;
 		}
 		
@@ -157,7 +157,7 @@ $(function(){
 				html += '<input type="text" id="itemUpdateName" name="itemUpdateName" value="'+data.itemName+'"/>';
 				html += '<span class="letter-cnt"><span class="total-letter" style="display:none">30</span><span class="cnt">'+(30-name.length)+'</span>자 남았습니다</span>';
 				html += '</p>';
-				html += '<p>';
+				html += '<p style="text-align:right!important">';
 				html += '<button type="button" class="itemUpdateCloseBtn">';
 				html += '<img src="${pageContext.request.contextPath }/resources/images/makeProject/x.png" />';
 				html += '닫기';
@@ -182,6 +182,29 @@ $(function(){
 		$("#itemName").val("");
 	});
 	
+	$(".item-list").on("keyup","#itemUpdateName",function(){
+		
+		var value = $(this).val();
+		var length = value.length;
+		var letter = $(this).next().children(".total-letter").text();
+		
+		if(length > letter){
+			var cnt = length - letter;
+			$(this).css("border-color","red");
+			$(this).next().css({"color":"red","font-weight":"bold"});
+			$(this).next().html('<span class="total-letter">'+letter+'</span><span class="cnt">'+cnt+'</span>자 초과하였습니다');
+			$(this).parents(".hidden").find(".saveBtn").attr("disabled","disabled");
+		} else {
+			var cnt = letter - length;
+			$(this).css("border-color","#ccdafc");
+			$(this).next().css({"color":"darkgray","font-weight":"normal"});
+			$(this).next().html('<span class="total-letter">'+letter+'</span><span class="cnt">'+cnt+'</span>자 남았습니다');
+			$(this).parents(".hidden").find(".saveBtn").removeAttr("disabled");
+		}
+
+		$(this).next().children(".total-letter").hide();
+	});
+	
 	$(".item-list").on("click", ".update-item" ,function(){
 		$(this).parent().next(".updateItems").slideDown(300);
 	});
@@ -195,6 +218,8 @@ $(function(){
 	$(".item-list").on("click", ".itemUpdateSaveBtn" ,function(){
 				
 		var no = $(this).parent().prev().children("#itemNo").val();
+		var prevEl = $(this).parents(".updateItems").prev(".items").find(".item-name");
+		var prevName = $(this).parents(".updateItems").prev(".items").find(".item-name").text();
 		var name = $(this).parent().prev().children("#itemUpdateName").val();
 				
 		$.ajax({
@@ -202,8 +227,27 @@ $(function(){
 			data : {itemNo : no, itemName : name},
 			success : function(data){
 				
-				console.log(data);
-				$(this).parents(".updateItems").prev(".items").children(".item-name").text(name);
+				prevEl.text(name);
+				
+				$("#tbl_item").children("tbody").find("td").each(function(){
+					
+					if($(this).text() == prevName){
+						$(this).text(name);
+					}
+				});
+				
+				$("#checkedGift").find(".giftItemList").each(function(){
+					
+					$(this).find("li").each(function(){
+						
+						var list_name = $(this).text().substring(0,$(this).text().indexOf("(")).trim();
+						var list_number = $(this).text().substring($(this).text().indexOf("("));
+						if(list_name == prevName){
+							$(this).text(name+" "+list_number);
+						}
+				
+					});
+				});
 				
 			},
 			error : function(jqxhr,textStatus,errorThrown){
@@ -302,7 +346,7 @@ $(function(){
 						<input type="text" id="itemName" name="itemName" placeholder="새로 만들 아이템의 이름을 입력하세요" />
 						<span class="letter-cnt"><span class="total-letter">30</span>자 남았습니다</span>
 					</p>
-					<p>
+					<p style="text-align:right!important">
 						<button type="button" class="itemCloseBtn">
 							<img src="${pageContext.request.contextPath }/resources/images/makeProject/x.png" />
 							닫기

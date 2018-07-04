@@ -269,10 +269,13 @@
 	
 	<insert id="insertItem">
 	insert into item values(seq_item_no.nextval,#{itemName},#{projectNo})
+		<selectKey keyProperty="itemNo" resultType="_int" order="AFTER">
+			select seq_item_no.currval from dual
+		</selectKey>
 	</insert>
 	
 	<update id="updateItem">
-	update item set itemname=#{itemName} where itemno=#{itemno}
+	update item set itemname=#{itemName} where itemno=#{itemNo}
 	</update>
 	
 	<select id="selectItemList" resultType="item">

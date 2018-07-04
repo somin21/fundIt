@@ -37,11 +37,18 @@
 <script>
 $(document).ready(function(){
 	
+	$("#project-movie").on("change",previewMovie);
+	
 	$("#summernote").summernote({
-		height: 300,
-		focus: true,
-		codemirror: {
-			theme: 'monokai'
+		height: 820,
+		callbacks:{
+			onImageUpload: function(image){
+				uploadSummerImage(image[0]);
+			}
+		},
+		placeholder:'멋진 스토리를 작성해주세요',
+		codemirror:{
+			theme:'monokai'
 		}
 	});
 	
@@ -51,9 +58,67 @@ $(document).ready(function(){
 	});
 	
 });
+
+function uploadSummerImage(image) {
+
+    var data = new FormData();
+    data.append("image", image);
+
+    $.ajax({
+        type: "post",
+        cache: false,
+        contentType:false,
+        processData: false,
+        /* dataType :'jsonp', */
+        url: '/cop/bbs/insertSummberNoteFile.do',
+        data: data,
+        success: function(data) {
+
+			//이미지 경로를 작성하면 됩니다 ^  ^
+            var image = $('<img>').attr('src', '/cmm/fms/getImage.do?atchFileId='+data[0].atchFileId+'&fileSn=0');
+            $('#nttCn').summernote("insertNode", image[0]);
+
+        },
+        error: function(data) {
+        	alert('error : ' +data);
+        }
+
+    });
+
+}
 </script>
 
-<form action="${pageContext.request.contextPath }/project/makeProject/account" onsubmit="return project_validate('#story');" method="post" >
+<script>
+function previewMovie(evt){
+	var files = evt.target.files;
+	
+	for(var i = 0; f= files[i]; i++){
+		
+		if(!f.type.match("video/mp4")){
+			alert(".mp4 형식만 지원 가능합니다");
+			return true;
+		}
+		var reader = new FileReader();
+		reader.onload = function(e){
+			$("#previewMovie").attr("src",e.target.result);
+			$("#previewMovie").css("display","inline-block");
+		}
+		reader.readAsDataURL(f);
+	}
+}
+
+function story_validate(){
+	
+	if($("#summernote").val().trim() == ""){
+		alert("프로젝트 스토리는 필수 사항입니다 \n스토리를 작성해주세요");
+		return false;
+	}
+	
+	return true;
+}
+</script>
+
+<form action="${pageContext.request.contextPath }/project/makeProject/account" onsubmit="return story_validate();" method="post" >
 	
 	<input type="hidden" name="projectNo" value="${projectNo }" />
 		
@@ -95,7 +160,8 @@ $(document).ready(function(){
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/upload.png" />
 						영상 선택하기
 					</button>
-					<input type="file" class="hiddenInput" id="project-movie" name="projectMovie" accept="video/*" />
+					<input type="file" class="hiddenInput" id="project-movie" name="projectMovie" accept="video/mp4" />
+					<video src="" autoplay controls id="previewMovie" style="width:540px;height:360px;display:none;">영상이 지원되지 않는 브라우저입니다</video>
 				</p>
 				<p>
 					<button type="button" class="saveBtn">
@@ -133,7 +199,7 @@ $(document).ready(function(){
 			</div>
 			<div class="hidden" id="story-hidden">
 				<p>프로젝트 스토리</p>
-				<p>
+				<p style="font-size: 13px;color: darkgray;">
 					프로젝트 스토리 잘 작성하기를 읽어보시고 스토리텔링에 필요한 요소들을 확인하여 작성해주세요.
 				</p>
 				<p>

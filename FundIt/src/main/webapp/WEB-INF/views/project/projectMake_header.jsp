@@ -7,57 +7,6 @@
 
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/style-make-project.css" />
 
-<script>
-function project_validate(sectionName){
-	
-	var bool = true;
-	var el = $(sectionName);
-	var input = el.find("input");
-	var select = el.find("select");
-	var textarea = el.find("textarea");
-	
-	if(sectionName == "#funding-gift"){
-		if(!$(".giftList").length){
-			bool = false;
-		}
-	}
-	
-	input.each(function(){
-		
-		if($(this).attr("id") == "profile-image"){
-			
-			if($(this).val() == "" && $(this).next("img").attr("src") == ""){
-				bool = false;
-			} else if($(this).val() == "" && $(this).next("img").attr("src") != ""){
-				bool = true;
-			}
-			
-		} else if($(this).attr("id") != "itemnumber" && $(this).attr("id") != "itemNo" && $(this).attr("id") != "itemName" && $(this).attr("id") != "min-money" && $(this).attr("id") != "gift-explain" && $(this).attr("id") != "project-movie" && ($(this).val() == "0" || $(this).val() == "")){
-			console.log($(this));
-			bool = false;
-		}
-	});
-	select.each(function(){
-		if($(this).val() == null || $(this).val() == ""){
-			console.log($(this));
-			bool = false;
-		}
-	});
-	textarea.each(function(){
-		if($(this).val() == ""){
-			console.log($(this));
-			bool = false;
-		}
-	});
-	
-	if(bool == false){
-		alert("선택 항목을 제외한 모든 항목은 필수사항입니다");
-		return false;
-	} else {
-		return true;
-	}
-}
-</script>
 
 <script>
 $(function(){
@@ -90,11 +39,13 @@ $(function(){
 			$(this).css("border-color","red");
 			$(this).next().css({"color":"red","font-weight":"bold"});
 			$(this).next().html('<span class="total-letter">'+letter+'</span><span class="cnt">'+cnt+'</span>자 초과하였습니다');
+			$(this).parents(".hidden").find(".saveBtn").attr("disabled","disabled");
 		} else {
 			var cnt = letter - length;
 			$(this).css("border-color","#ccdafc");
 			$(this).next().css({"color":"darkgray","font-weight":"normal"});
 			$(this).next().html('<span class="total-letter">'+letter+'</span><span class="cnt">'+cnt+'</span>자 남았습니다');
+			$(this).parents(".hidden").find(".saveBtn").removeAttr("disabled");
 		}
 
 		$(this).next().children(".total-letter").hide();
@@ -216,7 +167,9 @@ $(function(){
 		var elem = $(this).parent().prev().children();
 		var place = $(this).parents(".hidden").prev(".shown").children("p").last();
 		var summerPlace = $(this).parents(".hidden").prev(".shown").find("#story");
-						
+
+		var noSlide = false;
+		
 		var isSummer = false;
 		var html = "";
 		
@@ -232,17 +185,25 @@ $(function(){
 			
 			if($(this).prop("tagName") == "INPUT" && $(this).attr("class") == "hiddenInput"){
 				
-				var imgSRC = $(this).next("img").attr("src");
-				
-				if($(this).attr("id") == "project-movie"){
-					
-				} else if($(this).attr("id") == "profile-image"){
-					html = '<span><img src="'+imgSRC+'" class="uploadImg rounded-circle" style="width: 250px;height: 250px;"></span><span></span>';
+				if($(this).val() == "" || $(this).val() == null){
+					alert("파일을 선택해 주세요");
+					noSlide = true;
 				} else {
-					html = '<span><img src="'+imgSRC+'" class="uploadImg" style="width: 250px;height: 250px;"></span><span></span>';
+					
+					var imgSRC = $(this).next("img").attr("src");
+					
+					if($(this).attr("id") == "project-movie"){
+						
+						var movieSRC = $(this).next("video").attr("src");
+						$(this).next("video").trigger('pause');
+						html = '<span><video src="'+movieSRC+'" muted controls id="previewMovie" style="width:540px;height:360px;">영상이 지원되지 않는 브라우저입니다</video></span><span></span>';
+						
+					} else if($(this).attr("id") == "profile-image"){
+						html = '<span><img src="'+imgSRC+'" class="uploadImg rounded-circle" style="width: 250px;height: 250px;"></span><span></span>';
+					} else {
+						html = '<span><img src="'+imgSRC+'" class="uploadImg" style="width:400px;height:300px;"></span><span></span>';
+					}
 				}
-				
-				console.log($(this).val());
 				
 			} else if($(this).prop("tagName") == "TEXTAREA"){
 				
@@ -254,8 +215,16 @@ $(function(){
 						html = $(this).val();
 						
 					} else {
-						html = "<span style='font-weight:bold;font-size:20px;color:black;'>"+$(this).val()+"</span><span></span>";
+						place.css({"overflow":"hidden","text-overflow":"ellipsis","white-space":"nowrap","color":"black","font-size":"20px","font-weight":"bold"});
+						html = "<span style='font-weight:bold;font-size:20px;color:black;'>"+$(this).val()+"</span><span style='font-size:13px;color:#dc3545;font-weight:normal;'></span>";
 					}
+				} else {
+					
+					alert("내용을 입력하세요");
+					$(this).val("");
+					$(this).next(".letter-cnt").find(".total-letter").show();
+					$(this).next(".letter-cnt").find(".cnt").hide();
+					noSlide = true;
 				}
 			
 			} else if($(this).prop("tagName") == "SELECT"){
@@ -272,7 +241,15 @@ $(function(){
 				
 			} else if($(this).prop("tagName") == "INPUT"){
 				
-				if($(this).attr("id") == "funding-money"){
+				if($(this).val().trim().length <= 0){
+					
+					alert("내용을 입력하세요");
+					$(this).val("");
+					$(this).next(".letter-cnt").find(".total-letter").show();
+					$(this).next(".letter-cnt").find(".cnt").hide();
+					noSlide = true;
+					
+				} else if($(this).attr("id") == "funding-money"){
 					
 					html = "<span style='font-weight:bold;font-size:20px;color:black;'>"+numberWithCommas($(this).val()) + " 원"+"</span><span></span>";
 				
@@ -316,21 +293,24 @@ $(function(){
 		
 		var rightHTML = '<img src="${pageContext.request.contextPath }/resources/images/makeProject/write.png" />&nbsp;<span>수정하기</span>';
 		
-		if(isSummer){
-			
-			summerPlace.html(html);
-			summerPlace.css("display","inline-block");
-			summerPlace.children("p").first().css("font-weight","normal");
-			summerPlace.children("p").last().css({"font-size":"15px","color":"#000"});
-			place.html("<span></span><span>"+rightHTML+"</span>");
-			
-		} else {
-			place.html(html);		
-			place.children("span").last().html(rightHTML);
+		if(!noSlide){
+			if(isSummer){
+				
+				summerPlace.html(html);
+				summerPlace.css("display","inline-block");
+				summerPlace.children("p").first().css("font-weight","normal");
+				summerPlace.children("p").last().css({"font-size":"15px","color":"#000"});
+				summerPlace.children("p").find("span").last().css("float","none");
+				place.html("<span></span><span>"+rightHTML+"</span>");
+				
+			} else {
+				place.html(html);		
+				place.children("span").last().html(rightHTML);
+			}
+	
+			$(this).parents(".hidden").slideUp(500);
+			$(this).parents(".hidden").prev(".shown").slideDown(500);
 		}
-
-		$(this).parents(".hidden").slideUp(500);
-		$(this).parents(".hidden").prev(".shown").slideDown(500);
 		
 	});
 })
@@ -383,7 +363,7 @@ function previewImage(fileObj, imgPreviewId) {
             document.getElementById(imgPreviewId).setAttribute("src", fileObj.value);
         }
     } else {
-        alert("only support" + allowExtention + "suffix");
+        alert(allowExtention + "\n위 형식만 지원 가능합니다");
         fileObj.value = ""; //clear Selected file
         if (browserVersion.indexOf("MSIE") > -1) {
             fileObj.select();
@@ -391,7 +371,7 @@ function previewImage(fileObj, imgPreviewId) {
         }
 
     }
-    var css = "width:250px;height:250px;display:auto;";
+    var css = "width:400px;height:300px;display:auto;";
     document.getElementById(imgPreviewId).setAttribute("style",css);
 }
 </script>
@@ -563,7 +543,7 @@ $(function(){
 	</div>
 	
 	
-	<div class="make-project-contents" id="${param.sectionName }">
+	<div class="make-project-contents" >
 	
 	
 		

@@ -266,13 +266,14 @@ public class ProjectServiceImpl implements ProjectService {
 	@Override
 	public Item insertItem(Item item) {
 		
-		Item result_item = new Item();
+		Item result_item = item;
+		int itemNo = 0;
 		
 		try {
 			int result = projectDAO.insertItem(item);
 			
 			if(result > 0) {
-				result_item = item;
+				result_item.setItemNo(item.getItemNo());
 			}
 		} catch(Exception e) {
 			e.printStackTrace();

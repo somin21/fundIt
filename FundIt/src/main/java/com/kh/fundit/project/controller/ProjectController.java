@@ -817,9 +817,9 @@ public class ProjectController {
 		
 		ModelAndView mav = new ModelAndView();
 		
-		int projectNo = projectService.makeProjectFunding(funding);
-		
-		mav.addObject("projectNo", projectNo);
+//		int projectNo = projectService.makeProjectFunding(funding);
+//		
+//		mav.addObject("projectNo", projectNo);
 		mav.setViewName("project/projectMake_story");
 		
 		return mav;
@@ -858,9 +858,9 @@ public class ProjectController {
 	@ResponseBody
 	public ProjectGift insertGift(@RequestParam boolean isFirst, ProjectGift gift) {
 		
-		if(isFirst == true) {
-			projectService.deleteGift(gift.getProjectNo());
-		}
+//		if(isFirst == true) {
+//			projectService.deleteGift(gift.getProjectNo());
+//		}
 		 
 		return projectService.insertGift(gift);
 	}
@@ -868,7 +868,7 @@ public class ProjectController {
 //	소민
 	@RequestMapping("/project/makeProject/deleteGift")
 	@ResponseBody
-	public void deleteGift(@RequestParam int projectNo, @RequestParam int minMoney) {
+	public void deleteGift(@RequestParam(value="projectNo") int projectNo, @RequestParam(value="minMoney") int minMoney) {
 		
 		Map<String,Integer> map = new HashMap<>();
 		map.put("projectNo", projectNo);
