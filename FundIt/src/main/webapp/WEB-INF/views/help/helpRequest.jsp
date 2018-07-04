@@ -236,6 +236,7 @@ select option:checked, select option:hover {
       </div>
 
     </main>
+    
 <script>
 function fn_click(){
 	location.href = "${pageContext.request.contextPath }/help/helpView.do";
