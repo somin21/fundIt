@@ -441,8 +441,16 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
 		        <!-- 커뮤니티 끝 -->
 		        <div class="changeDiv">
 		        	<span class="refundSp">이 프로젝트의 환불 및 교환 정책</span><br />
+		        	<hr />
 		        	<br />
+		        	<c:if test="${not empty refund }">
 		        	<span>${refund }</span>
+		        	</c:if>
+		        	<c:if test="${empty refund }">
+		        	<span>이 프로젝트의 환불정책이 없습니다.</span><br />
+		        	<span>창작에게 직접문의하세요!</span>
+		        	<br /><br />
+		        	</c:if>
 		        </div>
 		        
 		        <div class="sideDiv">
