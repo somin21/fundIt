@@ -80,28 +80,26 @@ ul {
 
 #label {
    width: 400px;
-   height: 46px;
+   height: 48px;
    padding-left: 30px;
-   font-size: 20px;
+   font-size: 18px;
    color: #006fff;
-   border: 2px solid #006fff;
+   border: 1px solid #d2e0fc;
    border-radius: 8px;
    -webkit-appearance: none; 
    appearance: none;
-   background: url('https://cdn.namuwikiusercontent.com/s/ac72b6099588a73d3812ef402d3446b61c44ed0495df339efbfa7022542b3b51278ee92a336a9c5941fa8640823c8c512f5ad5bc549506cdd06135438043bc80b8eb5158cddb45cf77be3118a2e8a178?e=1532695520&k=8tU69D9iI-FQ9c_hrNvZpQ') no-repeat 95% 50%;      
+   background: #d2e0fc;   
+   cursor:pointer;   
 }
 
-#label::-ms-expand {
-   display: none;            
+#label:hover, #label:focus, #label:active {
+  z-index: 10;
+  border: 1px solid #006fff;
 }
 
 select option:checked, select option:hover {    
     background: #0099ff; 
-    color: #fff;
-}
-
-select option:checked, select option:hover { 
-    box-shadow: 0 0 10px 100px #0099ff inset;  
+     box-shadow: 0 0 10px 100px #0099ff inset;  
     color: #fff;
 }
 
@@ -135,7 +133,7 @@ select option:checked, select option:hover {
   display: block;
   padding: 1em 1.5em;
   margin: 1em 0;
-  border-radius: 3px;
+  border-radius: 8px;
   font-size: 14px;
   color: #4473e9;
   background-color: #d2e0fc;
