@@ -125,6 +125,30 @@ $(function(){
 		}
 	});
 	 
+	 /* 마감 앞둔 순  내가만든 프로젝트 컨펌 요청전 */
+	 $.ajax({
+		url : "${pageContext.request.contextPath}/project/selectMyProjectI",
+		data :  {email : email},
+		success : function(data){
+			console.log(data);
+			
+	    	var div_name = $("#myProjectI");
+			
+	    	for(var i = 0; i < data.length; i++){
+	    		
+	    		htmlAppend(data[i], div_name);
+
+			}
+	    	
+	    	if(data.length < 1){
+	    		htmlAppendNone(data.length+1, div_name);
+	    	}
+		},
+		error : function(jqxhr,textStatus,errorThrown){
+			console.log("ajax실패");
+		}
+	});
+	 
 	 
 	
 });
@@ -132,8 +156,9 @@ $(function(){
 function htmlAppend(project, div_name){
 	var html = '';
 	
-	html += '<div class="project"  onclick = "fn_gotoProjectView();">';
-	html += '<input type="hidden" name="projectNo" id ="projectNo" value="'+project.projectNo+'" />';
+	
+	html += '<div class="project" style = "max-height : 400px; ">';
+	html += '<div class="context-container" style=" height : 330px;" onclick = "fn_gotoProjectView(event, '+project.projectNo+')">';
 	html += '<img src="${pageContext.request.contextPath }/resources/images/projects/'+project.projectImage+'" />';
 	if(project.deadlineDay > 0 && project.supportPercent >= 100){
 	html +=	'<p style="color:tomato; font-size : 15px;  height:25px; font-weight: bolder; margin-left:15px; margin-top:-23px; margin-bottom:-2px;">성공</p>'
@@ -165,10 +190,12 @@ function htmlAppend(project, div_name){
 	html += '&nbsp;'+supportMoney+'&nbsp;('+project.supportPercent+'%)';
 	html += '</div>';
 	html += '</div>';
-	if(project.confirmYn == null || project.confirmYn == ""){
-	html += '<input type="button" value="프로젝트 삭제" style = "width : 150px; margin : auto;" class = "btn btn-danger" />'
+	html += '</div>';
+	if(project.confirmYn == "I"){
+	html += '<input type="button" value="프로젝트 삭제" style = "width : 150px; margin-top : -50px; margin-left: 16%; position : relative;" class = "btn btn-danger" onclick = "fn_delete(event,'+project.projectNo+');"/>';
 	}
 	html += '</div>';
+	
     
     div_name.append(html);
 }
@@ -307,10 +334,24 @@ font-weight : bolder;
 
 
 <div id="myProjectList-container">
-		<p class="title">
+<div id="selectBtn-container">
+<button type="button" class="btn btn-outline-secondary" onclick = "fn_search('searchAll');">모두보기</button>
+&nbsp;
+<button type="button" class="btn btn-outline-secondary" onclick = "fn_search('searchYet');">승인대기중</button>
+&nbsp;
+<button type="button" class="btn btn-outline-secondary" onclick = "fn_search('searchYes');">진행중</button>
+&nbsp;
+<button type="button" class="btn btn-outline-secondary" onclick = "fn_search('searchNo');">승인 거절</button> 
+&nbsp;
+<button type="button" class="btn btn-outline-secondary" onclick = "fn_search('searchI');">승인 요청 대기중</button> 
+&nbsp;
+</div>
+<hr />
+
+	<p class="title">
 			내가만든 프로젝트 <span id="cnt" style="color:tomato;"></span> 개 
-		</p>
-		
+	</p>
+	<div id="searchYet">	
 	<!-- 내가 만든 프로젝트(컨펌받은 전) -->
 	<p class="title" style = "margin-bottom : 20px;">
 			승인대기중 
@@ -321,7 +362,9 @@ font-weight : bolder;
 	</div>
 	<input type="button" value="더보기" class = "btn btn-success" style = "width:1024px; margin: auto;"  onclick = "toNextAjax('${pageContext.request.contextPath}/project/selectMyProjectYet','${memberLoggedIn.email}','myProjectYet','myProjectYet');" />
 	<hr />
+	</div>
 	<!-- 내가 만드 프로젝트(진행중) -->
+	<div id="searchYes">
 	<p class="title" >
 			진행 중
 		</p>
@@ -333,7 +376,9 @@ font-weight : bolder;
 	</div>
 	<input type="button" class = "btn btn-success" style = "width:1024px; margin: auto;" value="더보기" onclick = "toNextAjax('${pageContext.request.contextPath}/project/selectMyProjectYes','${memberLoggedIn.email}','myProjectYes','myProjectYes');" />
 	<hr />
+	</div>
 	<!-- 내가 만드 프로젝트(컨펌거부) --> 
+	<div id="searchNo">
 	<p class="title">
 			승인 거절 
 	</p>
@@ -341,22 +386,118 @@ font-weight : bolder;
 		
 		
 	</div>
-	<input type="button" value="더보기" class = "btn btn-success" style = "width:1024px; margin: auto;"  onclick = "toNextAjax('${pageContext.request.contextPath}/project/selectMyProjectNo',${memberLoggedIn.email}','myProjectNo','myProjectNo');" />
+	<input type="button" value="더보기" class = "btn btn-success" style = "width:1024px; margin: auto;"  onclick = "toNextAjax('${pageContext.request.contextPath}/project/selectMyProjectI',${memberLoggedIn.email}','myProjectNo','myProjectNo');" />
+	<hr />
+	</div>
+	<div id="searchI">
+	<!-- 내가 만드 프로젝트(컨펌승인 요청 전) --> 
+	<p class="title">
+			승인요청전
+	</p>
+	<div class="index-project" id="myProjectI">
+		
+		
+	</div>
+	<input type="button" value="더보기" class = "btn btn-success" style = "width:1024px; margin: auto;"  onclick = "toNextAjax('${pageContext.request.contextPath}/project/selectMyProjectNo',${memberLoggedIn.email}','myProjectI','myProjectI');" />
+	<hr />
+	</div>
 	
 </div>
 
 <script>
-	function fn_gotoProjectView(){
-		$(".project").click(function(){
-	        var projectNo = $(this).children("#projectNo").val();
-	        console.log(projectNo)
+	function fn_search(searchTypeStr){
+	 var searchType = searchTypeStr.trim();
+		console.log(searchType);
+		if(searchType == "searchAll"){
+			$("#searchYet").css("display","block");
+			$("#searchYes").css("display","block");
+			$("#searchNo").css("display","block");
+			$("#searchI").css("display","block");
+		}
+		else if(searchType =="searchYet"){
+			$("#searchYet").css("display","block");
+			$("#searchYes").css("display","none");
+			$("#searchNo").css("display","none");
+			$("#searchI").css("display","none");
+			
+		}
+		else if(searchType == "searchYes"){
+			$("#searchYet").css("display","none");
+			$("#searchYes").css("display","block");
+			$("#searchNo").css("display","none");
+			$("#searchI").css("display","none");
+			
+		}
+		else if(searchType == "searchNo"){
+			$("#searchYet").css("display","none");
+			$("#searchYes").css("display","none");
+			$("#searchNo").css("display","block");
+			$("#searchI").css("display","none");
+			
+		}
+		else if(searchType =="searchI"){
+			$("#searchYet").css("display","none");
+			$("#searchYes").css("display","none");
+			$("#searchNo").css("display","none");
+			$("#searchI").css("display","block");
+			
+		}
+	}
+	
+	function fn_delete(event, projectNo, projectWriter){
+	
+	console.log("fn_delete");
+	var event = event || window.event;
+	var memberLoggedIn =  $("#email").val().trim();
+	//ie를 제외한 브라우져
+     event.stopPropagation();
+     //ie8이하 브라우져
+     event.cancelBubble = true;
+     console.log(projectNo);
+     console.log(memberLoggedIn);
+     
+     
+     $.ajax({
+    	 url :  "${pageContext.request.contextPath}/project/deleteProject.do",
+    	 data : {projectNo : projectNo, memberLoggedIn : memberLoggedIn},
+    	 type : "POST",
+    	 success : function(data){
+    		if(data > 0){
+    			alert("프로젝트 삭제 성공");
+    			location.reload();
+    		}else{
+    			alert("project 삭제 실패");
+    		}
+    	 },
+    	 error : function (jqxhr,textStatus,errorThrown){
+    		 console.log("ajax 실패");
+    	 }
+    	 
+    	 
+    	 
+     })
+     
+     
+	}
+
+	function fn_gotoProjectView(event, projectNo){
+		console.log($(this));
+		var event = event || window.event;
+		var email = $("#email").val().trim();
+		//ie를 제외한 브라우져
+	     event.stopPropagation();
+	     //ie8이하 브라우져
+	     event.cancelBubble = true;
+		 console.log(projectNo)
 	        if(projectNo == null){
 	           return false;
 	        }
 	        console.log(projectNo);
-	        location.href="${pageContext.request.contextPath}/project/projectView.do?projectNo="+projectNo;
-	     });
+	        location.href="${pageContext.request.contextPath}/project/projectView.do?projectNo="+projectNo+"&email="+email;
+	      
 	}
+	
+	
 
 
 </script>

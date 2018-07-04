@@ -333,6 +333,7 @@ public class ProjectServiceImpl implements ProjectService {
 
 		projectDAO.deleteGift(map);
 	}
+	
 //	희영
 	@Override
 	public int communityUpdate(Map<String, Object> map) {
@@ -422,6 +423,19 @@ public class ProjectServiceImpl implements ProjectService {
 	public ProjectGift selectProjectGift(int projectNo) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+//  태윤
+	@Override
+	public int deleteProject(int projectNo, Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return projectDAO.deleteProject(map);
+	}
+//  태윤
+	@Override
+	public List<ListProjectView> selectMyProjectI(Member member, int numPerpage) {
+		// TODO Auto-generated method stub
+		return projectDAO.selectMyProjectI(member, numPerpage);
 	}
 
 

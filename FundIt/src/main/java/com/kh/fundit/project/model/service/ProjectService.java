@@ -121,5 +121,9 @@ public interface ProjectService {
 	ProjectFunding selectProjectFunding(int projectNo);
 
 	ProjectGift selectProjectGift(int projectNo);
+	
+	int deleteProject(int projectNo, Map<String, Object> map);
+
+	List<ListProjectView> selectMyProjectI(Member member, int numPerpage);
 
 }

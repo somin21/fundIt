@@ -964,6 +964,32 @@ public class ProjectController {
 		
 		return mav;
 	}
-	
+
+//  태윤
+	@RequestMapping("/project/deleteProject.do")
+	@ResponseBody
+	public int deleteProject(@RequestParam int projectNo, @RequestParam String memberLoggedIn) {
+		
+		Map <String, Object> map = new HashMap<>();
+		map.put("projectNo",projectNo);
+		map.put("memberLoggedIn", memberLoggedIn);
+		
+		int result = projectService.deleteProject(projectNo, map);
+		
+		return result;
+	}
+//태윤
+	@RequestMapping("/project/selectMyProjectI")
+	@ResponseBody
+	public List<ListProjectView> selectMyProjectListI(@RequestParam String email, @RequestParam(value="page", required=false, defaultValue="4") int numPerpage, HttpServletResponse response){
+			
+		Member member = new Member();
+		System.out.println(email);
+		member.setEmail(email);
+					
+		List<ListProjectView> list = projectService.selectMyProjectI(member, numPerpage);
+			
+		return list;
+	}
 
 }

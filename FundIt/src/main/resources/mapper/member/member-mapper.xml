@@ -73,29 +73,44 @@
 	
 	<select id="selectSupportList" resultMap = "supportMap">
 	
-	select a.supportno,a.projectno, (a.minmoney+a.addmoney) as mysupportmoney,
+	select a.supportno,a.projectno,a.payyn, (a.minmoney+a.addmoney) as mysupportmoney,
 		(select trunc(deadlinedate - sysdate) from project_funding g where a.projectno = g.projectno ) as "deadlinedate",
-		(select  supportgoal from project_funding d where a.PROJECTNO = d.projectno) as "supportgoal",
+		(select  nvl(supportgoal,'0') from project_funding d where a.PROJECTNO = d.projectno) as "supportgoal",
 		(select projectimage from project_outline h where a.projectno = h.projectno) as "projectimage",
 		(select projecttitle from project_outline e where a.projectno = e.projectno ) as "projecttitle",
 		(select email from project_outline f where a.projectno = f.projectno) as "projectwriter",
 		(select supportpercent from project_summary i where a.projectno = i.projectno) as "supportpercent",
- 		b.ITEMNAME
+ 		nvl(b.ITEMNAME,'선물없음.')
 		from support a 
 		join delivery b on a.supportno = b.supportno
-		where 1=1 and a.email = #{email}
+		where 1=1 
+		and a.email = #{email}
+		and (select projectconfirmyn from project_outline n where a.projectno = n.projectno ) = 'Y'
 	<if test = "searchType != null and searchType != ''" >
 		<if test ="searchType eq 'selectAll'">
-		 and 1=1
+		 and (a.payyn is null or a.payyn = 'Y' or a.payyn = 'N')
+		<!--  and (
+		 	 (select trunc(deadlinedate - sysdate) from project_funding k where a.projectno = k.projectno ) <![CDATA[>=]]> 0
+		 	 or
+		 	 (select trunc(deadlinedate - sysdate) from project_funding k where a.projectno = k.projectno ) <![CDATA[<]]> 0
+		 	 ) -->
 		</if>
 		<if test ="searchType eq 'searchOnGoing'">
 		 and a.payyn is null 
-		 and (select trunc(deadlinedate - sysdate) from project_funding k where a.projectno = k.projectno ) <![CDATA[>=]]> 0
+<!-- 		 and (select trunc(deadlinedate - sysdate) from project_funding k where a.projectno = k.projectno ) <![CDATA[>=]]> 0
+ -->		</if>
+		<if test ="searchType eq 'searchCancle'">
+		 and a.payyn = 'N' 
+		 <!-- and (
+		 	 (select trunc(deadlinedate - sysdate) from project_funding k where a.projectno = k.projectno ) <![CDATA[>=]]> 0
+		 	 or
+		 	 (select trunc(deadlinedate - sysdate) from project_funding k where a.projectno = k.projectno ) <![CDATA[<]]> 0
+		 	 ) -->
 		</if>
 		<if test ="searchType eq 'searchComplated'">
-		 and a.payyn = 'Y'
-		 and (select trunc(deadlinedate - sysdate) from project_funding k where a.projectno = k.projectno ) <![CDATA[<]]> 0
-		</if>
+		 and (a.payyn = 'Y')
+<!-- 		 and (select trunc(deadlinedate - sysdate) from project_funding k where a.projectno = k.projectno ) <![CDATA[<]]> 0
+ -->	</if>
 	
 		<if test="searchKeyword != null and searchKeyword != ''">
 		 and (a.payyn = 'Y') and
@@ -114,6 +129,7 @@
 	<resultMap type="support" id="supportMap">
       <result column="projectno" property="projectNo"/>
       <result column="supportno" property="supportNo"/>
+      <result column="payyn" property="payYn"/>
       <result column="mysupportmoney" property="mySupportMoney"/>
       <result column="supportgoal" property="supportGoal"/>
       <result column="deadlinedate" property="deadlineDate"/>

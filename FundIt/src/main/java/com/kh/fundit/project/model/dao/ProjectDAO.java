@@ -124,4 +124,8 @@ public interface ProjectDAO {
 
 	ProjectFunding selectProjectFunding(int projectNo);
 
+	int deleteProject(Map<String, Object> map);
+
+	List<ListProjectView> selectMyProjectI(Member member, int numPerpage);
+
 }
