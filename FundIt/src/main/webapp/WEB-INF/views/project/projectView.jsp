@@ -404,7 +404,20 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
 		                <span class="sp"><a id="tagA2" href="${pageContext.request.contextPath }/project/originatorView.do?email=${p.email}" >${p.email }</a></span>
 		                <p class="originContext">${p.profileIntroduce }</p>
 		                <hr />
-		                <button class="button2 button3" onclick="location.href='${pageContext.request.contextPath}/message/messageModal.do?projectNo=${projectNo}&email=${p.email }'"><i style="font-size:24px" class="fa">&#xf0e0;</i> 창작자에게 문의하기</button>
+		                <button class="button2 button3" onclick="fn_message();"><i style="font-size:24px" class="fa">&#xf0e0;</i> 창작자에게 문의하기</button>
+		                <script>
+		                var projectNo = ${projectNo};
+		                function fn_message(){
+		        	    	/* console.log(no); */
+		        	    	var user = '${memberLoggedIn}';
+		        	    	if(user==''){
+		        	    		alert("로그인이 필요한 서비스입니다.");
+		        	    	}else{
+		        		    	var email = '${memberLoggedIn.email }';
+		        		    	location.href="${pageContext.request.contextPath}/message/messageModal.do?projectNo=${projectNo}&email=${p.email }"
+		        	    	}
+		        	    }
+		                </script>
 		            </div>
 		        </div>
 		        

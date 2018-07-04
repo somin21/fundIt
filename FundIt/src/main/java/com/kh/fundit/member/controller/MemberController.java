@@ -51,9 +51,16 @@ public class MemberController {
 		
 //	영준
 	@RequestMapping("/member/login.do")
-		public String memberLogin() {
+		public ModelAndView memberLogin() {
 		
-			return "member/login";
+		int a =1;
+		 ModelAndView mav = new ModelAndView();
+	      
+	      mav.addObject("a", a);
+	      mav.setViewName("member/login");
+	      
+	      return mav;
+		
 	}
 	
 //	영준
@@ -465,5 +472,7 @@ public class MemberController {
 			
 		}
 
-
+		
+		
+		
 }

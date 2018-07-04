@@ -177,11 +177,7 @@ color:red;
 	<form action="emailjoinEnd.do" method="post" onsubmit="return validate();">
 	<table id="login-table">
 	
-		<tr>
-		<td>
-			<button type="button" id="naver" class="btn btn-success">N  네이버 아이디로 가입하기</button>
-		</td>
-	</tr>
+	
 	<tr>
 	<td>
 		<p>이름</p>
