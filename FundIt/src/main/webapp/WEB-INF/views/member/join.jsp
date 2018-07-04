@@ -50,25 +50,13 @@ color: red;
 			<button type="button" id="email-join" class="btn btn-danger" onclick="location='emailjoin.do'">이메일로 가입하기</button>
 		</td>
 	</tr>
-	<tr>
-		<td>
-			<button type="button" id="naver-join" class="btn btn-success" onclick="naver_button();" >N 네이버 아이디로 가입하기</button>
-		</td>
-	</tr>
+	
 	<tr>
 		<td>이미 계정이 있으신가요? <br/><a href="${pageContext.request.contextPath }/login.do" id="login">기존 계정으로 로그인하기</a></td>
 	</tr>
 	
 	</table>
 	</div>
-	<script>
-	function naver_button(){
-		location="${pageContext.request.contextPath }/login.do";
-		
-		
-	}
-		
-	
-	</script>
+
 	
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

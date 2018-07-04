@@ -89,7 +89,11 @@ public class MessageServiceImpl implements MessageService {
 		return messageDAO.totalMessageCount5(map);
 	}
 
-	
+	@Override
+	public int imagereadyn(String email) {
+		return messageDAO.imagereadyn(email);
+	}
+
 
 
 

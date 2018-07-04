@@ -50,6 +50,7 @@ table#login-table a#pwd-find{
 color:red;
 }
 </style>
+
 	<br /><br />
 	<div>
 	<form action="${pageContext.request.contextPath }/member/memberLogin.do" method="post">

@@ -29,9 +29,11 @@ import com.kh.fundit.member.model.service.MemberService;
 import com.kh.fundit.member.model.vo.Member;
 import com.kh.fundit.member.model.vo.Profile;
 import com.kh.fundit.member.model.vo.Support;
+import com.kh.fundit.message.model.service.MessageService;
 
 
 @SessionAttributes({"memberLoggedIn"})
+
 @Controller
 public class MemberController {
 	
@@ -39,6 +41,7 @@ public class MemberController {
 
 	@Autowired
 	private MemberService memberService;
+	private MessageService messageService;
 	
 	@Autowired
 	private BCryptPasswordEncoder bcryptPasswordEncoder;
@@ -48,9 +51,16 @@ public class MemberController {
 		
 //	영준
 	@RequestMapping("/member/login.do")
-		public String memberLogin() {
+		public ModelAndView memberLogin() {
 		
-			return "member/login";
+		int a =1;
+		 ModelAndView mav = new ModelAndView();
+	      
+	      mav.addObject("a", a);
+	      mav.setViewName("member/login");
+	      
+	      return mav;
+		
 	}
 	
 //	영준
@@ -145,6 +155,7 @@ public class MemberController {
 			
 			// 업무 로직
 			Member m = memberService.selectMemberByEmail(email);
+			
 			System.out.println(m);
 			String msg = "";
 			String loc = "/";
@@ -158,6 +169,7 @@ public class MemberController {
 				if(bcryptPasswordEncoder.matches(password, m.getPassword())) {
 					msg = m.getName() + "님, 환영합니다!";
 					mav.addObject("memberLoggedIn", m);
+					
 					
 					//관리자이면 adminIndex페이지로
 					if(m.getAdminyn().equals("Y")) {
@@ -460,5 +472,7 @@ public class MemberController {
 			
 		}
 
-
+		
+		
+		
 }

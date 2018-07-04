@@ -90,15 +90,37 @@ color:red;
 
 		
 		$(".check-pwd").blur(function(){
+			
+			
 			var p1 = $("#join-pwd_").val();
 			var p2 = $("#join-pwd").val();
 			
-			if(p1 != p2){
-				$(".guide.pwdError").show();
-			
-			}else{
-				$(".guide.pwdError").hide();
+			if(!/^[a-zA-Z0-9]{8,20}$/.test(p1)){
+				
+				
+				
+				
+				$("#join-pwd_").val('');
+				$(".guide.pwdError2").show();
+				
 			}
+			
+			else{
+					$(".guide.pwdError2").hide();
+				if(p1 != p2 ){
+					$(".guide.pwdError").show();
+					$(".guide.pwdError2").hide();
+				}else{
+					$(".guide.pwdError").hide();
+					$(".guide.pwdError2").hide();
+					}
+			}
+				
+			
+		
+			
+			
+		
 			
 		});
 	
@@ -155,11 +177,7 @@ color:red;
 	<form action="emailjoinEnd.do" method="post" onsubmit="return validate();">
 	<table id="login-table">
 	
-		<tr>
-		<td>
-			<button type="button" id="naver" class="btn btn-success">N  네이버 아이디로 가입하기</button>
-		</td>
-	</tr>
+	
 	<tr>
 	<td>
 		<p>이름</p>
@@ -187,6 +205,7 @@ color:red;
 			<input type="password" id="join-pwd_"  class="check-pwd" name="password" placeholder="비밀번호를 입력해주세요" required /> <br />
 			<input type="password" id="join-pwd" class="check-pwd" placeholder="비밀번호를 확인합니다" required /> <br />
 			<span class="guide pwdError">패스워드가 일치하지 않습니다.</span> <br />
+			<span class="guide pwdError2">숫자와 영문자  8~20자리를 사용해야 합니다.</span> <br />
 		</td>
 		
 	</tr>

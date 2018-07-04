@@ -57,6 +57,8 @@ public class LoginController {
       /* 생성한 인증 URL을 View로 전달 */
       return "member/login";
    }
+   
+  
 
    //네이버 로그인 성공시 callback호출 메소드
    @RequestMapping(value = "/callback", method = { RequestMethod.GET, RequestMethod.POST })
@@ -120,4 +122,5 @@ public class LoginController {
          return mav;
       }
  
+
 }

@@ -49,6 +49,10 @@ public interface MessageDAO {
 	int totalMessageCount5(Map<String, Object> map);
 
 
+	int imagereadyn(String email);
+
+
+
 
 
 }

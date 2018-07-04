@@ -251,7 +251,7 @@ select#select {
          <h1>아직 프로젝트가 등록되지 않았습니다~~~~ㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎ</h1>
       </c:if>
    </div>
-   <button>더보기</button>
+ 
 
 <script>
    $(function(){

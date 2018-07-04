@@ -48,7 +48,12 @@ text-overflow: ellipsis;
 white-space:nowrap;
 } 
 </style>
-
+<script>
+window.onload = function () {
+	$("#loggedinemail").hide();
+	
+}
+</script>
     <div class="maincontainer">
         <h1 id="messageContainer">
            <img src="${pageContext.request.contextPath }/resources/images/message/message.png" alt="" />Message
