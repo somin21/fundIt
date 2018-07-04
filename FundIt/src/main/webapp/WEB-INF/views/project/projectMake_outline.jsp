@@ -231,12 +231,12 @@
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/upload.png" />
 						이미지 선택하기
 					</button>
-					<input type="file" class="hiddenInput" id="profile-image" name="profileImageFile" onchange="previewImage(this,'profileImgPreview');" accept="image/*" value="${profile.profileImage ne null?profile.profileImage:'' }"/>
+					<input type="file" class="hiddenInput" id="profile-image" name="profileImageFile" onchange="previewImage(this,'profileImgPreview');" accept="image/*" />
 					<c:if test="${profile.profileImage eq null}">
 						<img src="" id="profileImgPreview" class="uploadImg rounded-circle" style="width: 250px;height: 250px;display:none;"/>
 					</c:if>
 					<c:if test="${profile.profileImage ne null}">
-						<img src="${pageContext.request.contextPath }/resources/upload/profileImg/${profile.profileImage }" id="profileImgPreview" class="uploadImg rounded-circle" style="width: 250px;height: 250px;display:none;"/>
+						<img src="${pageContext.request.contextPath }/resources/upload/profileImg/${profile.profileImage }" id="profileImgPreview" class="uploadImg rounded-circle" style="width: 250px;height: 250px;"/>
 					</c:if>
 				</p>
 				<p>

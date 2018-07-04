@@ -23,7 +23,16 @@ function project_validate(sectionName){
 	}
 	
 	input.each(function(){
-		if($(this).attr("id") != "itemNo" && $(this).attr("id") != "itemName" && $(this).attr("id") != "min-money" && $(this).attr("id") != "gift-explain" && $(this).attr("id") != "project-movie" && ($(this).val() == "0" || $(this).val() == "")){
+		
+		if($(this).attr("id") == "profile-image"){
+			
+			if($(this).val() == "" && $(this).next("img").attr("src") == ""){
+				bool = false;
+			} else if($(this).val() == "" && $(this).next("img").attr("src") != ""){
+				bool = true;
+			}
+			
+		} else if($(this).attr("id") != "itemnumber" && $(this).attr("id") != "itemNo" && $(this).attr("id") != "itemName" && $(this).attr("id") != "min-money" && $(this).attr("id") != "gift-explain" && $(this).attr("id") != "project-movie" && ($(this).val() == "0" || $(this).val() == "")){
 			console.log($(this));
 			bool = false;
 		}
