@@ -37,13 +37,21 @@ function Approval(prjectNo,minMoney,title){
 		var itemName = $(this).children(".menu2").children("ul").children(".itemName").val();
 		var itemNum = $(this).children(".menu2").children("ul").children(".itemNum").val();
 		var delivery = $(this).children(".menu2").children("ul").children(".delivery").val();
-		location.href="${pageContext.request.contextPath}/project/approval.do?projectNo="
-				+prjectNo+"&minMoney="+minMoney+"&num="+num3+"&title="+title+"&itemName="+itemName+"&itemNum="+itemNum+"&delivery="+delivery;
+		if(num3>=1000){
+			location.href="${pageContext.request.contextPath}/project/approval.do?projectNo="
+					+prjectNo+"&minMoney="+minMoney+"&num="+num3+"&title="+title+"&itemName="+itemName+"&itemNum="+itemNum+"&delivery="+delivery;
+		}else{
+			alert("결제는 1000원이상 결제해주세요~");
+		}
 	});
 }
 function Approval2(projectNo,title){
 	var num2 = $("#num2").val();	//일반결재
-	location.href="${pageContext.request.contextPath}/project/approval2.do?projectNo="+projectNo+"&num="+num2+"&title="+title;
+	if(num2>=1000){
+		location.href="${pageContext.request.contextPath}/project/approval2.do?projectNo="+projectNo+"&num="+num2+"&title="+title;
+	}else{
+		alert("결제는 1000원이상 결제해주세요~");
+	}
 }
 </script>
 <div class="title">

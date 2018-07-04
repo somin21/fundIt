@@ -515,6 +515,7 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
 	        
 		</div>
 
+
     </div>
     <script>
     $(function(){
@@ -608,10 +609,10 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
    	    if( retVal == true ){
    		 	location.href="${pageContext.request.contextPath}/project/paymentCancel.do?projectNo="+projectNo+"&email="+email;
    	    }else{
-   	      	alert("취소되었습니다.");
+   	      	//alert("취소되었습니다.");
    	    }
     }
     </script>
-
+    <br /><br />
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
 	
