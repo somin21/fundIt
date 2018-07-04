@@ -668,7 +668,7 @@ public class ProjectController {
 			
 			mav.addObject("msg", "로그인 후 사용가능합니다");
 			mav.addObject("loc", "/login");
-			mav.setViewName("common.msg");
+			mav.setViewName("common/msg");
 			
 		} else {
 		

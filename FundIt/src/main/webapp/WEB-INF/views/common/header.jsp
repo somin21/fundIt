@@ -110,7 +110,7 @@ window.onload = function () {
 		<c:if test="${memberLoggedIn eq null }">
 			<span>
 			<a href="${pageContext.request.contextPath }/login.do">로그인</a>
-			
+			/
 			<a href="${pageContext.request.contextPath }/member/join.do">회원가입</a>
 			
 			</span>
