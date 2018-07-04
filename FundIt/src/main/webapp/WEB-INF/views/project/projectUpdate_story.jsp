@@ -118,7 +118,7 @@ $(document).ready(function(){
 				<p>프로젝트 스토리</p>
 				<div id="story" style="display:none;color:#000;"></div>
 				<p>
-					<span>
+					<span style="display:none">
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/hand_pointer.png" />
 						&nbsp;&nbsp;
 						프로젝트 스토리를 입력해주세요
@@ -126,9 +126,8 @@ $(document).ready(function(){
 					<span>
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/write.png" />
 						&nbsp;
-						<span>입력하기</span>
+						<span>수정하기</span>
 					</span>
-					
 				</p>
 			</div>
 			<div class="hidden" id="story-hidden">

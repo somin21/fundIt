@@ -14,10 +14,12 @@ import com.kh.fundit.project.model.vo.Community;
 import com.kh.fundit.project.model.vo.Item;
 import com.kh.fundit.project.model.vo.ListProjectView;
 import com.kh.fundit.project.model.vo.Profile;
+import com.kh.fundit.project.model.vo.ProjectAccount;
 import com.kh.fundit.project.model.vo.ProjectDelivery;
 import com.kh.fundit.project.model.vo.ProjectFunding;
 import com.kh.fundit.project.model.vo.ProjectGift;
 import com.kh.fundit.project.model.vo.ProjectOutline;
+import com.kh.fundit.project.model.vo.ProjectStory;
 import com.kh.fundit.project.model.vo.ProjectSupport;
 import com.kh.fundit.project.model.vo.ProjectView;
 import com.kh.fundit.project.model.vo.SupportPayment;
@@ -345,6 +347,81 @@ public class ProjectServiceImpl implements ProjectService {
 	@Override
 	public int paymentCancelDel(Map<String, Object> map) {
 		return projectDAO.paymentCancelDel(map);
+	}
+
+//	소민
+	@Override
+	public int makeProjectStory(ProjectStory story) {
+		
+		int projectNo = 0;
+		
+		try {
+			int result = projectDAO.makeProjectStory(story);
+			
+			if(result > 0) {
+				projectNo = story.getProjectNo();
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		
+		return projectNo; 
+	}
+
+//	소민
+	@Override
+	public int makeProjectAccount(ProjectAccount account) {
+		
+		return projectDAO.makeProjectAccount(account);
+	}
+
+//	소민
+	@Override
+	public int projectConfirm(int projectNo) {
+		
+		return projectDAO.projectConfirm(projectNo);
+	}
+
+//	소민
+	@Override
+	public ProjectOutline selectProjectOutline(int projectNo) {
+		
+		return projectDAO.selectProjectOutline(projectNo);
+	}
+
+//	소민
+	@Override
+	public int updateProjectOutline(ProjectOutline outline, com.kh.fundit.member.model.vo.Profile profile) {
+
+		int result = 0;
+		
+		try {
+			result = projectDAO.updateProjectOutline(outline);
+			if(result >0) {
+				projectDAO.makeProjectProfile(profile);
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		
+		return result;
+		
+	}
+
+//	소민
+	@Override
+	public ProjectFunding selectProjectFunding(int projectNo) {
+		
+		return projectDAO.selectProjectFunding(projectNo);
+	}
+
+//	소민
+	@Override
+	public ProjectGift selectProjectGift(int projectNo) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

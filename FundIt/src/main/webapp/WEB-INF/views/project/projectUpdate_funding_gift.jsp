@@ -301,7 +301,7 @@ $(function(){
 </script>
 
 
-<form action="${pageContext.request.contextPath }/project/makeProject/story" onsubmit="return project_validate('#funding-gift');" method="post" >
+<form action="${pageContext.request.contextPath }/project/updateProject/story" onsubmit="return project_validate('#funding-gift');" method="post" >
 
 	<input type="hidden" id="projectNo" name="projectNo" value="${projectNo }" />
 	
@@ -314,15 +314,11 @@ $(function(){
 			<div class="shown">
 				<p>목표 금액</p>
 				<p>
-					<span>
-						<img src="${pageContext.request.contextPath }/resources/images/makeProject/hand_pointer.png" />
-						&nbsp;&nbsp;
-						목표 금액을 입력해주세요
-					</span>
+					<span style="font-weight:bold;font-size:20px;color:black;">${funding.supportGoal }</span>
 					<span>
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/write.png" />
 						&nbsp;
-						<span>입력하기</span>
+						<span>수정하기</span>
 					</span>
 				</p>
 			</div>
@@ -336,7 +332,7 @@ $(function(){
 					<span class="red-font" id="money-warning">** 목표 금액은 5,000원 이상입니다.</span>
 				</p>
 				<p>
-					<input type="number" id="funding-money" name="supportGoal" value="0" min="5000"/> 
+					<input type="number" id="funding-money" name="supportGoal" value="${funding.supportGoal }" min="5000"/> 
 					<span class="bold-font">원</span>
 					<!-- 수수료 -->
 				</p>
@@ -357,15 +353,11 @@ $(function(){
 			<div class="shown">
 				<p>프로젝트 마감일</p>
 				<p>
-					<span>
-						<img src="${pageContext.request.contextPath }/resources/images/makeProject/hand_pointer.png" />
-						&nbsp;&nbsp;
-						프로젝트 마감일을 입력해주세요
-					</span>
+					<span style="font-weight:bold;font-size:20px;color:black;"><fmt:parseDate var="dateString" value="${funding.deadlineDate}" pattern="yyyy-MM-dd" /></span>
 					<span>
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/write.png" />
 						&nbsp;
-						<span>입력하기</span>
+						<span>수정하기</span>
 					</span>
 				</p>
 			</div>

@@ -23,7 +23,7 @@ function project_validate(sectionName){
 	}
 	
 	input.each(function(){
-		if($(this).attr("id") != "min-money" && $(this).attr("id") != "gift-explain" && $(this).attr("id") != "project-movie" && ($(this).val() == "0" || $(this).val() == "")){
+		if($(this).attr("id") != "itemNo" && $(this).attr("id") != "itemName" && $(this).attr("id") != "min-money" && $(this).attr("id") != "gift-explain" && $(this).attr("id") != "project-movie" && ($(this).val() == "0" || $(this).val() == "")){
 			console.log($(this));
 			bool = false;
 		}
@@ -65,6 +65,7 @@ $(function(){
 		$(".make-project-content").children(".hidden").slideUp(500);
 		$(this).slideUp(500);	
 		$(this).next(".hidden").slideDown(500);
+		$(this).next(".hidden").attr("style","display:block!important");
 		
 	});
 	
@@ -109,7 +110,7 @@ $(function(){
 			elem.each(function(){
 										
 				if($(this).prop("tagName") == "TEXTAREA"){
-					
+
 					$(this).val(firstSpan.text());
 				
 				} else if($(this).prop("tagName") == "SELECT"){
@@ -151,7 +152,7 @@ $(function(){
 				
 				if($(this).prop("tagName") == "TEXTAREA"){
 					
-					$(this).val("");
+						$(this).val("");
 				
 				} else if($(this).prop("tagName") == "SELECT"){
 														
@@ -205,7 +206,9 @@ $(function(){
 		
 		var elem = $(this).parent().prev().children();
 		var place = $(this).parents(".hidden").prev(".shown").children("p").last();
+		var summerPlace = $(this).parents(".hidden").prev(".shown").find("#story");
 						
+		var isSummer = false;
 		var html = "";
 		
 		if(elem.first().prop("tagName") != "SPAN" && elem.first().prop("tagName") != "BUTTON"){
@@ -222,18 +225,28 @@ $(function(){
 				
 				var imgSRC = $(this).next("img").attr("src");
 				
-				if($(this).attr("id") == "profile-image"){
+				if($(this).attr("id") != "project-movie"){
+					
+				} else if($(this).attr("id") == "profile-image"){
 					html = '<span><img src="'+imgSRC+'" class="uploadImg rounded-circle" style="width: 250px;height: 250px;"></span><span></span>';
 				} else {
 					html = '<span><img src="'+imgSRC+'" class="uploadImg" style="width: 250px;height: 250px;"></span><span></span>';
 				}
 				
+				console.log($(this).val());
+				
 			} else if($(this).prop("tagName") == "TEXTAREA"){
 				
-				console.log($(this));
-				console.log($(this).val());
 				if($(this).val().trim().length > 0){
-					html = "<span style='font-weight:bold;font-size:20px;color:black;'>"+$(this).val()+"</span><span></span>";
+					
+					if($(this).attr("id") == "summernote"){
+						
+						isSummer = true;
+						html = $(this).val();
+						
+					} else {
+						html = "<span style='font-weight:bold;font-size:20px;color:black;'>"+$(this).val()+"</span><span></span>";
+					}
 				}
 			
 			} else if($(this).prop("tagName") == "SELECT"){
@@ -269,7 +282,7 @@ $(function(){
 						var text = "펀딩에 성공할 경우, 마감일 다음날부터 7일간 결제가 진행되어 "+d.getFullYear()+"년 "+(d.getMonth()+1)+"월 "+d.getDate()+"일에 모든 후원자의 결제가 종료됩니다.<br>";
 						text += "결제 종료일로부터 추가로 7일 후 모금액이 창작자님의 계좌로 입금됩니다.";
 						
-						d.setDate(d.getDate()+7);
+						d.setDate(d.getDate()+14);
 						var day = d.getDate();
 						var month = d.getMonth()+1;
 						var year = d.getFullYear();
@@ -292,10 +305,20 @@ $(function(){
 			}
 		});
 		
-		place.html(html);
-		
 		var rightHTML = '<img src="${pageContext.request.contextPath }/resources/images/makeProject/write.png" />&nbsp;<span>수정하기</span>';
-		place.children("span").last().html(rightHTML);
+		
+		if(isSummer){
+			
+			summerPlace.html(html);
+			summerPlace.css("display","inline-block");
+			summerPlace.children("p").first().css("font-weight","normal");
+			summerPlace.children("p").last().css({"font-size":"15px","color":"#000"});
+			place.html("<span></span><span>"+rightHTML+"</span>");
+			
+		} else {
+			place.html(html);		
+			place.children("span").last().html(rightHTML);
+		}
 
 		$(this).parents(".hidden").slideUp(500);
 		$(this).parents(".hidden").prev(".shown").slideDown(500);
@@ -364,6 +387,36 @@ function previewImage(fileObj, imgPreviewId) {
 }
 </script>
 
+<script>
+$(function(){
+	
+	$("#previewProject").on("click",function(){
+		alert("아직 제공하지않는 서비스입니다");
+	});
+	
+	$("#confirmProject").on("click",function(){
+		
+		var validate = false;
+		
+		var checkEl = $(".make-project-title").find("img").last();
+			
+		if(checkEl.attr("src") == "${pageContext.request.contextPath }/resources/images/makeProject/check_circle.png"){
+			validate = true;
+		} else {
+			validate = false;
+		}
+			
+		
+		if(validate){
+			location.href = "${pageContext.request.contextPath}/project/confirm?projectNo=${projectNo}";
+		} else {
+			alert("프로젝트 내용이 완성되지 않았습니다.\n완성 후 다시 검토 요청해주십시오");
+		}
+		
+	});
+	
+});
+</script>
 
 
 <div id="make-project">
@@ -475,6 +528,25 @@ function previewImage(fileObj, imgPreviewId) {
 			</div>
 			<div class="section-title selected-title">
 				<img src="${pageContext.request.contextPath }/resources/images/makeProject/empty_circle.png" />
+				계좌 설정
+			</div>
+		</c:if>
+		
+		<c:if test="${param.sectionName eq 'done' }">
+			<div class="section-title">
+				<img src="${pageContext.request.contextPath }/resources/images/makeProject/check_circle.png" />
+				프로젝트 개요
+			</div>
+			<div class="section-title">
+				<img src="${pageContext.request.contextPath }/resources/images/makeProject/check_circle.png" />
+				펀딩 및 선물 구성
+			</div>
+			<div class="section-title">
+				<img src="${pageContext.request.contextPath }/resources/images/makeProject/check_circle.png" />
+				스토리텔링
+			</div>
+			<div class="section-title">
+				<img src="${pageContext.request.contextPath }/resources/images/makeProject/check_circle.png" />
 				계좌 설정
 			</div>
 		</c:if>

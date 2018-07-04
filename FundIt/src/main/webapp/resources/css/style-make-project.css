@@ -163,10 +163,10 @@ div.make-project-content div p:last-of-type{
 	font-size: 13px;
 	color: #dc3545; 
 }
-div.make-project-content div p:last-of-type span:last-of-type{
+div.make-project-content div:not(#story) p:last-of-type span:last-of-type{
 	float: right;
 }
-div.make-project-content div.hidden p:nth-of-type(2){
+div.make-project-content div.hidden:not(#story-hidden) p:nth-of-type(2){
 	font-size: 13px;
 	color: darkgray;
 }
@@ -183,7 +183,7 @@ div.make-project-content div.hidden textarea{
 	border: 2px solid #ccdafc;
 	padding: 10px;
 }
-div.make-project-content div.hidden p:nth-of-type(3){
+div.make-project-content div.hidden:not(#story-hidden) p:nth-of-type(3){
 	text-align: right;
 }
 div.make-project-content div.hidden span.letter-cnt{
@@ -205,7 +205,7 @@ div.make-project-content div.hidden button.uploadBtn{
 div.make-project-content div.hidden input.hiddenInput{
 	visibility: hidden;
 }
-div.make-project-content div.hidden p:last-of-type{
+div.make-project-content div.hidden:not(#story-hidden) p:last-of-type{
 	text-align: right;
 }
 div.make-project-content div.hidden p:last-of-type button{

@@ -15,10 +15,12 @@ import com.kh.fundit.project.model.vo.Community;
 import com.kh.fundit.project.model.vo.Item;
 import com.kh.fundit.project.model.vo.ListProjectView;
 import com.kh.fundit.project.model.vo.Profile;
+import com.kh.fundit.project.model.vo.ProjectAccount;
 import com.kh.fundit.project.model.vo.ProjectDelivery;
 import com.kh.fundit.project.model.vo.ProjectFunding;
 import com.kh.fundit.project.model.vo.ProjectGift;
 import com.kh.fundit.project.model.vo.ProjectOutline;
+import com.kh.fundit.project.model.vo.ProjectStory;
 import com.kh.fundit.project.model.vo.ProjectSupport;
 import com.kh.fundit.project.model.vo.ProjectView;
 import com.kh.fundit.project.model.vo.SupportPayment;
@@ -322,6 +324,47 @@ public class ProjectDAOImpl implements ProjectDAO {
 	@Override
 	public int paymentCancelDel(Map<String, Object> map) {
 		return sqlSession.update("project.paymentCancelDel",map);
+	}
+
+//	소민
+	@Override
+	public int makeProjectStory(ProjectStory story) {
+
+		return sqlSession.insert("project.makeProjectStory",story);
+	}
+
+//	소민
+	@Override
+	public int makeProjectAccount(ProjectAccount account) {
+		
+		return sqlSession.insert("project.makeProjectAccount",account);
+	}
+
+//	소민
+	@Override
+	public int projectConfirm(int projectNo) {
+		
+		return sqlSession.update("project.projectConfirm", projectNo);
+	}
+
+//	소민
+	@Override
+	public ProjectOutline selectProjectOutline(int projectNo) {
+		
+		return sqlSession.selectOne("project.selectProjectOutline", projectNo);
+	}
+
+//	소민
+	@Override
+	public int updateProjectOutline(ProjectOutline outline) {
+		
+		return sqlSession.selectOne("project.updateProjectOutline", outline);
+	}
+
+	@Override
+	public ProjectFunding selectProjectFunding(int projectNo) {
+		
+		return sqlSession.selectOne("project.selectProjectFunding",projectNo);
 	}
 
 }
