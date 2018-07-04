@@ -48,5 +48,7 @@ public interface AdminDAO {
 
 	List<AdminMessage> selectReadN();
 
+	int replyMessage(Map<String,String> map1);
+
 
 }

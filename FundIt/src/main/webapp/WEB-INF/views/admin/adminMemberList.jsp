@@ -44,7 +44,7 @@ $(function(){
 </script>
 <div id="wrap-out" >
 	<div id="title">회원 관리</div>
-	<div id="search"><input type="text" class="form-control" id="searchInput" aria-label="이메일 검색" aria-describedby="inputGroup-sizing-sm"></div>
+	<div id="search"><input type="text" class="form-control col-4" id="searchInput" aria-label="이메일 검색" aria-describedby="inputGroup-sizing-sm" placeholder="이메일을 검색하세요"></div>
 	<div id="table-container">
 		<table class="table table-hover table-bordered">
 		  <thead>

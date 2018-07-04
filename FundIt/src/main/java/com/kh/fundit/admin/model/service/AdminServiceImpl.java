@@ -116,6 +116,11 @@ public class AdminServiceImpl implements AdminService {
 		return adminDAO.selectReadN();
 	}
 
+	@Override
+	public int replyMessage(Map<String,String> map1) {
+		return adminDAO.replyMessage(map1);
+	}
+
 	
 	
 	

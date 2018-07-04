@@ -40,7 +40,6 @@ th{
 	text-align: center;
 }
 #btn-group{
-	border: 1px solid red;
 	margin-bottom: 2%;
 }
 #content-list11{
@@ -51,11 +50,25 @@ th{
 #t-img{
 	width: 200px;
 }
-
+#btnM{
+	border: 1px solid white;
+	width: 60px;
+	height: 40px;
+	border-radius: 5px;
+	
+}
+#tam{
+	width:100%;
+	height:250px;
+}
 </style>
 <script>
+var replyReceiveEmail="";
+var replySendEmail="";
+
 function fn_open(messageNo){
-	console.log(messageNo);
+	fn_readY(messageNo);
+	
 	$.ajax({
 		url:"${pageContext.request.contextPath}/admin/selectMessage.do",
 		dataType:"json",
@@ -63,7 +76,6 @@ function fn_open(messageNo){
 		success:function(data){
 			var html='';
 			$("#m-cont").html("");
-			console.log(data.m.messageContent);
 			html+='<div id="send-con1"> ';
 			html+='보낸 이메일 : <input type="text" id="sendE-in" class="col-sm-3 form-control" value="'+data.m.sendEmail + '"/><br>';
 			html+='</div>';
@@ -75,15 +87,21 @@ function fn_open(messageNo){
 			html+='<div id="receive-cont"> ';
 			html+='받은 이메일 : <input type="text" id="receiveE-in" class="col-sm-3 form-control" value="'+ data.m.receiveEmail + '"/><br>';
 			html+='</div>';
+
+			replyReceiveEmail = data.m.sendEmail;
+			replySendEmail = data.m.receiveEmail;
 			
+			$("#sendBtn").hide();
+			$("#btnM").show();
 			$("#m-cont").append(html);
 			$("#exampleModalCenter").modal('show');
+			
+			
 		}
+		
 	});
-}
-$("#close-btn").click(function(){
 	
-});
+}
 //전체 메세지 보여주기
 function fn_allMessage(){
 	$.ajax({
@@ -129,6 +147,75 @@ function fn_readNSelect(){
 						html+='<td id="t-img"><img src="${pageContext.request.contextPath}/resources/images/mail.png" alt="읽지않음"/></td>';
 					}
 					html+='<td>'+data.list[i].messageDate+'</td>';
+					
+				}
+				$("#tb-data").append(html);
+			}
+		}
+	});
+}
+
+//답장
+function fn_reply(){
+	$("#sendBtn").show();
+	$("#btnM").hide();
+	
+	var html="";
+	
+	$("#m-cont").html("");
+	
+	html+='<div id="send-con1"> ';
+	html+='받는사람 : <input type="text" id="sendE-in" class="col-sm-3 form-control" value="'+replyReceiveEmail + '"/><br>';
+	html+='</div>';
+	html+='<hr/>';
+	html+='<div id="mcontent-cont" height="550">';
+	html+='<textarea id="tam" style="resize: none;" rows="7" placeholder="보내실 메세지를 입력하여주세요."></textarea>' + '<br>';
+	html+='</div>';
+	
+	$("#m-cont").append(html);
+	
+	$("#sendBtn").click(function(){
+		var content = $("#tam").val();
+		
+		$.ajax({
+			url:"${pageContext.request.contextPath}/admin/reply.do",
+			dataType:"json",
+			data:{replyReceiveEmail:replyReceiveEmail, replySendEmail:replySendEmail, content:content},
+			success:function(data){
+				alert(data.map1.replyReceiveEmail+"님께 메세지를 보냈습니다.");
+				$("#exampleModalCenter").modal('hide');
+				replyReceiveEmail=' ';
+				replySendEmail=' ';
+			}
+		}).done(function(){
+			location.href="${pageContext.request.contextPath}/admin/messageList.do";
+		});
+	});
+	
+}
+
+//열때마다
+function fn_readY(x){
+	messageNo = x;
+	
+	$.ajax({
+		url:"${pageContext.request.contextPath}/admin/readY.do",
+		dataType:"json",
+		data:{messageNo:messageNo},
+		success:function(data){
+			var html='';
+			if(data.list!=null){
+				$("#tb-data").html("");
+				for(var i=0; i<data.list.length; i++){
+					html+='<tr><th scope="'+i+'"id="email1">'+data.list[i].sendEmail+'</th>';
+					html+='<td id="content-list11" onclick="fn_open('+"'"+data.list[i].messageNo+"'"+');">'+data.list[i].messageContent+'</td>';
+					html+='<td>'+data.list[i].receiveEmail+'</td>';
+					if(data.list[i].readyn=='Y'){
+						html+='<td id="t-img"><img src="${pageContext.request.contextPath}/resources/images/email.png" alt="읽음"/></td>';
+					}else{
+						html+='<td id="t-img"><img src="${pageContext.request.contextPath}/resources/images/mail.png" alt="읽지않음"/></td>';
+					}
+					html+='<td>'+data.list[i].messageDate+'</td>';
 				}
 				$("#tb-data").append(html);
 			}
@@ -158,6 +245,7 @@ function fn_readNSelect(){
 		  <c:if test="${not empty list }">
 		  	<c:forEach var="list" items="${list }" varStatus="i">
 		  	<input type="hidden" id="sendE" value="${list.sendEmail }" />
+		  	<input type="hidden" id="receiveE" value="${list.receiveEmail }" />
 		  		<tr>
 		  			<th scope="${i.count }" id="sendE">${list.sendEmail }</th>
 			    	<td id="content-list11" onclick="fn_open('${list.messageNo}')">${list.messageContent }</td>
@@ -182,7 +270,7 @@ function fn_readNSelect(){
     <div class="modal-content">
       <div class="modal-header" id="modal-header">
         <h5 class="modal-title" id="exampleModalCenterTitle">메세지</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -190,8 +278,10 @@ function fn_readNSelect(){
          
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" id="close-btn">Close</button>
-        <button type="button" class="btn btn-primary">Send</button>
+        <button type="button" class="btn btn-secondary" id="close-btn" data-dismiss="modal" >Close</button>
+        <button type="button" class="btn btn-primary" id="sendBtn" >Send</button>
+        <button type="button" id="btnM" onclick="fn_reply();">답장</button>
+         <!-- onclick="fn_reply();" -->
       </div>
     </div>
   </div>

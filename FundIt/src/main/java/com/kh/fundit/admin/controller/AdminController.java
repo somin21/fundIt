@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -180,8 +181,6 @@ public class AdminController {
 		
 		List<ListProjectView> list = adminService.projectDeadLineList();
 		
-		System.out.println(list);
-		
 		mav.addObject("list",list);
 		mav.setViewName("admin/projectDeadlineList");
 		
@@ -227,7 +226,6 @@ public class AdminController {
 		ModelAndView mav = new ModelAndView();
 		
 		List<AdminMember> list = adminService.memberList();
-		System.out.println("121dafdsfdsfsadf"+list);
 		mav.addObject("list", list);
 		
 		mav.setViewName("admin/adminMemberList");
@@ -239,7 +237,6 @@ public class AdminController {
 		
 		ModelAndView mav = new ModelAndView();
 		
-		System.out.println(email);
 		int result = adminService.adminMemberDelete(email);
 		
 		String msg="";
@@ -278,7 +275,6 @@ public class AdminController {
 		ModelAndView mav = new ModelAndView();
 		
 		List<AdminMessage> list = adminService.adminMessageList();
-		System.out.println("$$$$$$$$ \n"+list);
 		mav.addObject("list",list);
 		mav.setViewName("admin/adminMessageList");
 		
@@ -287,11 +283,11 @@ public class AdminController {
 	@RequestMapping("/admin/selectMessage.do")
 	public ModelAndView selectMessage(@RequestParam String messageNo, HttpServletResponse response) throws IOException {
 		response.setContentType("text/html;charset=UTF-8"); 
+		
 		ModelAndView mav = new ModelAndView();
 		Map<String,Object> map = new HashMap<>();
-		int result = adminService.updateReadyn(messageNo);
+		
 		AdminMessage m = adminService.selectMessage(messageNo);
-		System.out.println("%%%%%%"+m.getReadyn());
 		
 		map.put("m",m);
 		mav.addAllObjects(map);
@@ -318,6 +314,37 @@ public class AdminController {
 
 		map.put("list", list);
 		
+		return map;
+	}
+	@RequestMapping("/admin/reply.do")
+	@ResponseBody
+	public Map<String,Object> replyMessage(@RequestParam String replyReceiveEmail, @RequestParam String replySendEmail, @RequestParam String content, HttpServletResponse response) throws JsonProcessingException{
+		
+		Map<String,Object> map = new HashMap<>();
+		
+		Map<String,String> map1 = new HashMap<>();
+		map1.put("replyReceiveEmail", replyReceiveEmail);
+		map1.put("replySendEmail", replySendEmail);
+		map1.put("content", content);
+		
+		int result = adminService.replyMessage(map1);
+		if(result>0) {
+			map.put("map1", map1);
+		}
+		return map;
+	}
+	
+	@RequestMapping("/admin/readY.do")
+	@ResponseBody
+	public Map<String,Object> readY(@RequestParam String messageNo, HttpServletResponse response) throws IOException{
+		
+		Map<String,Object> map = new HashMap<>();
+		
+		int result = adminService.updateReadyn(messageNo);
+
+		List<AdminMessage> list = adminService.adminMessageList();
+		
+		map.put("list", list);
 		return map;
 	}
 	

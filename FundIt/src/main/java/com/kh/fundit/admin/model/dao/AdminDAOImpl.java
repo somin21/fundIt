@@ -112,4 +112,9 @@ public class AdminDAOImpl implements AdminDAO {
 	public List<AdminMessage> selectReadN() {
 		return sqlSession.selectList("admin.selectReadN");
 	}
+
+	@Override
+	public int replyMessage(Map<String,String> map1) {
+		return sqlSession.insert("admin.replyMessage",map1);
+	}
 }
