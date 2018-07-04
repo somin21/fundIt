@@ -109,4 +109,12 @@ public interface ProjectDAO {
 
 	int makeProjectAccount(ProjectAccount account);
 
+	int projectConfirm(int projectNo);
+
+	ProjectOutline selectProjectOutline(int projectNo);
+
+	int updateProjectOutline(ProjectOutline outline);
+
+	ProjectFunding selectProjectFunding(int projectNo);
+
 }

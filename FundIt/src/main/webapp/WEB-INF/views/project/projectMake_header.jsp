@@ -387,6 +387,36 @@ function previewImage(fileObj, imgPreviewId) {
 }
 </script>
 
+<script>
+$(function(){
+	
+	$("#previewProject").on("click",function(){
+		alert("아직 제공하지않는 서비스입니다");
+	});
+	
+	$("#confirmProject").on("click",function(){
+		
+		var validate = false;
+		
+		var checkEl = $(".make-project-title").find("img").last();
+			
+		if(checkEl.attr("src") == "${pageContext.request.contextPath }/resources/images/makeProject/check_circle.png"){
+			validate = true;
+		} else {
+			validate = false;
+		}
+			
+		
+		if(validate){
+			location.href = "${pageContext.request.contextPath}/project/confirm?projectNo=${projectNo}";
+		} else {
+			alert("프로젝트 내용이 완성되지 않았습니다.\n완성 후 다시 검토 요청해주십시오");
+		}
+		
+	});
+	
+});
+</script>
 
 
 <div id="make-project">
@@ -498,6 +528,25 @@ function previewImage(fileObj, imgPreviewId) {
 			</div>
 			<div class="section-title selected-title">
 				<img src="${pageContext.request.contextPath }/resources/images/makeProject/empty_circle.png" />
+				계좌 설정
+			</div>
+		</c:if>
+		
+		<c:if test="${param.sectionName eq 'done' }">
+			<div class="section-title">
+				<img src="${pageContext.request.contextPath }/resources/images/makeProject/check_circle.png" />
+				프로젝트 개요
+			</div>
+			<div class="section-title">
+				<img src="${pageContext.request.contextPath }/resources/images/makeProject/check_circle.png" />
+				펀딩 및 선물 구성
+			</div>
+			<div class="section-title">
+				<img src="${pageContext.request.contextPath }/resources/images/makeProject/check_circle.png" />
+				스토리텔링
+			</div>
+			<div class="section-title">
+				<img src="${pageContext.request.contextPath }/resources/images/makeProject/check_circle.png" />
 				계좌 설정
 			</div>
 		</c:if>

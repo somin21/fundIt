@@ -105,4 +105,14 @@ public interface ProjectService {
 
 	int makeProjectAccount(ProjectAccount account);
 
+	int projectConfirm(int projectNo);
+
+	ProjectOutline selectProjectOutline(int projectNo);
+
+	int updateProjectOutline(ProjectOutline outline, com.kh.fundit.member.model.vo.Profile profile);
+
+	ProjectFunding selectProjectFunding(int projectNo);
+
+	ProjectGift selectProjectGift(int projectNo);
+
 }

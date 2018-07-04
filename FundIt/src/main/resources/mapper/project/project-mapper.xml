@@ -241,7 +241,7 @@
 	</select>
 	
 	<select id="makeProject" resultType="profile">
-	select * from profile where email = #{email}
+	select p.*, l.localname from profile p join location l on p.localcode = l.localcode where email = #{email}
 	</select>
 	
 	<insert id="makeProjectOutline">
@@ -299,4 +299,19 @@
 	insert into project_account values(#{projectNo},#{email},#{phone},#{accountName},#{accountNumber},#{accountType},#{bankCode})
 	</insert>
 	
+	<update id="projectConfirm">
+	update project_outline set projectconfirmyn='N' where projectno=#{projectNo}
+	</update>
+	
+	<select id="selectProjectOutline" resultType="project_outline">
+	select o.*, c.categoryname from project_outline o join category c on o.categorycode = c.categorycode
+	</select>
+	
+	<update id="updateProjectOutline">
+	update project_outline set projecttitle=#{projectTitle}, projectimage=#{projectImage}, projectsummary=#{projectSummary}, categorycode=#{categoryCode} where projectno=#{projectNo}
+	</update>
+	
+	<select id="selectProjectFunding">
+	select * from project_funding where projectno=#{projectNo}
+	</select>
 </mapper>

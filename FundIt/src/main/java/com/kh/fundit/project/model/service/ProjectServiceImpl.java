@@ -353,10 +353,59 @@ public class ProjectServiceImpl implements ProjectService {
 		return projectNo; 
 	}
 
+//	소민
 	@Override
 	public int makeProjectAccount(ProjectAccount account) {
 		
 		return projectDAO.makeProjectAccount(account);
+	}
+
+//	소민
+	@Override
+	public int projectConfirm(int projectNo) {
+		
+		return projectDAO.projectConfirm(projectNo);
+	}
+
+//	소민
+	@Override
+	public ProjectOutline selectProjectOutline(int projectNo) {
+		
+		return projectDAO.selectProjectOutline(projectNo);
+	}
+
+//	소민
+	@Override
+	public int updateProjectOutline(ProjectOutline outline, com.kh.fundit.member.model.vo.Profile profile) {
+
+		int result = 0;
+		
+		try {
+			result = projectDAO.updateProjectOutline(outline);
+			if(result >0) {
+				projectDAO.makeProjectProfile(profile);
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		
+		return result;
+		
+	}
+
+//	소민
+	@Override
+	public ProjectFunding selectProjectFunding(int projectNo) {
+		
+		return projectDAO.selectProjectFunding(projectNo);
+	}
+
+//	소민
+	@Override
+	public ProjectGift selectProjectGift(int projectNo) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 
