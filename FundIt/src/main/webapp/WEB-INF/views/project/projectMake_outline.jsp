@@ -358,22 +358,22 @@
 				<p>
 					<select name="localCode" id="local">
 						<option selected disabled value="">활동 지역을 정해주세요</option>
-						<option value="L1">서울</option>
-						<option value="L2">부산</option>
-						<option value="L3">대구</option>
-						<option value="L4">인천</option>
-						<option value="L5">광주</option>
-						<option value="L6">대전</option>
-						<option value="L7">울산</option>
-						<option value="L8">경기</option>
-						<option value="L9">강원</option>
-						<option value="L10">충북</option>
-						<option value="L11">충남</option>
-						<option value="L12">전북</option>
-						<option value="L13">전남</option>
-						<option value="L14">경북</option>
-						<option value="L15">경남</option>
-						<option value="L16">제주</option>
+						<option value="L1" ${profile.localName eq "L1"? "selected":"" }>서울</option>
+						<option value="L2" ${profile.localName eq "L2"? "selected":"" }>부산</option>
+						<option value="L3" ${profile.localName eq "L3"? "selected":"" }>대구</option>
+						<option value="L4" ${profile.localName eq "L4"? "selected":"" }>인천</option>
+						<option value="L5" ${profile.localName eq "L5"? "selected":"" }>광주</option>
+						<option value="L6" ${profile.localName eq "L6"? "selected":"" }>대전</option>
+						<option value="L7" ${profile.localName eq "L7"? "selected":"" }>울산</option>
+						<option value="L8" ${profile.localName eq "L8"? "selected":"" }>경기</option>
+						<option value="L9" ${profile.localName eq "L9"? "selected":"" }>강원</option>
+						<option value="L10" ${profile.localName eq "L10"? "selected":"" }>충북</option>
+						<option value="L11" ${profile.localName eq "L11"? "selected":"" }>충남</option>
+						<option value="L12" ${profile.localName eq "L12"? "selected":"" }>전북</option>
+						<option value="L13" ${profile.localName eq "L13"? "selected":"" }>전남</option>
+						<option value="L14" ${profile.localName eq "L14"? "selected":"" }>경북</option>
+						<option value="L15" ${profile.localName eq "L15"? "selected":"" }>경남</option>
+						<option value="L16" ${profile.localName eq "L16"? "selected":"" }>제주</option>
 					</select>
 				</p>
 				<p>
