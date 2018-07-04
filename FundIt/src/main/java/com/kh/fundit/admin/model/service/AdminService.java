@@ -45,4 +45,6 @@ public interface AdminService {
 	int updateReadyn(String messageNo);
 
 	List<AdminMessage> selectReadN();
+
+	int replyMessage(Map<String,String> map1);
 }

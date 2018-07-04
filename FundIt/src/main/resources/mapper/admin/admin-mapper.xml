@@ -45,10 +45,10 @@
 	</select>
 	
 	<select id="projectGiftList" resultType="ProjectGift">
-		select p.projectno, p.minmoney, p.itemnumber, i.itemname, p.itemno, p.giftexplain, p.deliveryyn, p.giftrefund 
-		from project_gift p join item i on p.projectno = i.projectno
-		where p.projectno = ${projectNo}
-		order by itemno
+		select p.projectno, p.minmoney, p.itemnumber, i.itemname, p.itemno, p.giftexplain, p.deliveryyn 
+		from project_gift p left join item i on p.projectno = i.projectno and p.itemno = i.itemno
+		where p.projectno = ${projectNo} 
+		order by minmoney
 	</select>
 	
 	<select id="profileUser" resultType="profile2">
@@ -120,5 +120,9 @@
 	<select id="selectReadN" resultType="adminMessage">
 		select * from message where receiveemail=(select email from member where adminyn='Y') and readyn='N' order by messagedate desc
 	</select>
+	
+	<insert id="replyMessage">
+		insert into message values(seq_message_no.nextval, '${content}',default,'${replySendEmail}','${replyReceiveEmail}',default)
+	</insert>
 	
 </mapper>

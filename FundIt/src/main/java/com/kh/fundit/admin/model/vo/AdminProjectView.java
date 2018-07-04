@@ -18,6 +18,7 @@ public class AdminProjectView {
 	private int supportMoney;
 	private int supportPercent;
 	private int supportor;
+	private String refund;
 	
 	public AdminProjectView() {
 		super();
@@ -25,7 +26,7 @@ public class AdminProjectView {
 
 	public AdminProjectView(int rowNum, int projectNo, String email, String projectImage, String projectTitle,
 			String name, int deadlineDay, int supportGoal, Date calculateduedDate, String categoryCode, String movie,
-			String story, int supportMoney, int supportPercent, int supportor) {
+			String story, int supportMoney, int supportPercent, int supportor, String refund) {
 		super();
 		this.rowNum = rowNum;
 		this.projectNo = projectNo;
@@ -42,6 +43,7 @@ public class AdminProjectView {
 		this.supportMoney = supportMoney;
 		this.supportPercent = supportPercent;
 		this.supportor = supportor;
+		this.refund = refund;
 	}
 
 	public int getRowNum() {
@@ -164,6 +166,14 @@ public class AdminProjectView {
 		this.supportor = supportor;
 	}
 
+	public String getRefund() {
+		return refund;
+	}
+
+	public void setRefund(String refund) {
+		this.refund = refund;
+	}
+
 	@Override
 	public String toString() {
 		return "AdminProjectView [rowNum=" + rowNum + ", projectNo=" + projectNo + ", email=" + email
@@ -171,8 +181,12 @@ public class AdminProjectView {
 				+ ", deadlineDay=" + deadlineDay + ", supportGoal=" + supportGoal + ", calculateduedDate="
 				+ calculateduedDate + ", categoryCode=" + categoryCode + ", movie=" + movie + ", story=" + story
 				+ ", supportMoney=" + supportMoney + ", supportPercent=" + supportPercent + ", supportor=" + supportor
-				+ "]";
+				+ ", refund=" + refund + "]";
 	}
+	
+	
+
+	
 	
 	
 	

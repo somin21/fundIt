@@ -177,7 +177,7 @@ function handleFileSelect(evt){
 			<h4>프로필 설정</h4>
 		</div>
 		<div id="around2">
-		<form action="profileUpdate.do" id="proFrm"name="proFrm" method="post" enctype="multipart/form-data" autocomplete="off">
+		<form action="profileUpdate.do" id="proFrm"name="proFrm" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="email" value="${param.email }" />
 		<div id="profile-image1" class="form-group row">
 			<label for="profile-img1" class="col-form-label col-sm-3"  >프로필 사진 </label>
@@ -228,7 +228,7 @@ function handleFileSelect(evt){
 		<hr />
 		<div id="profile-local" class="form-group row">
 			<label for="introduce" class="col-form-label col-sm-3">소개</label>
-		 	<textarea name="profileIntroduce" class="form-control col-6" id="introduce" rows="4" placeholder="100자이내" onkeyup="fnChkByte(this);">${profile.profileIntroduce }</textarea> <br />
+		 	<textarea style="resize: none;" name="profileIntroduce" class="form-control col-6" id="introduce" rows="4" placeholder="100자이내" onkeyup="fnChkByte(this);">${profile.profileIntroduce }</textarea> <br />
 <!-- 		 	<span id="byteCheck">0</span>/100byte
 		 	<span id="byInfo">0</span>/100byte -->
 		</div>
