@@ -8,15 +8,25 @@ public class ProjectGift {
 	private int itemno;
 	private String giftexplain;
 	private String deliveryYN;
-	private String giftrefund;
 	
 	public ProjectGift() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
+
+	public ProjectGift(int projectNo, int minMoney, int itemnumber, int itemno, String giftexplain, String deliveryYN) {
+		super();
+		this.projectNo = projectNo;
+		this.minMoney = minMoney;
+		this.itemnumber = itemnumber;
+		this.itemno = itemno;
+		this.giftexplain = giftexplain;
+		this.deliveryYN = deliveryYN;
+	}
 
 	public ProjectGift(int projectNo, int minMoney, int itemnumber, String itemName, int itemno, String giftexplain,
-			String deliveryYN, String giftrefund) {
+			String deliveryYN) {
 		super();
 		this.projectNo = projectNo;
 		this.minMoney = minMoney;
@@ -25,7 +35,6 @@ public class ProjectGift {
 		this.itemno = itemno;
 		this.giftexplain = giftexplain;
 		this.deliveryYN = deliveryYN;
-		this.giftrefund = giftrefund;
 	}
 
 	public int getProjectNo() {
@@ -84,19 +93,11 @@ public class ProjectGift {
 		this.deliveryYN = deliveryYN;
 	}
 
-	public String getGiftrefund() {
-		return giftrefund;
-	}
-
-	public void setGiftrefund(String giftrefund) {
-		this.giftrefund = giftrefund;
-	}
-
 	@Override
 	public String toString() {
 		return "[projectNo=" + projectNo + ", minMoney=" + minMoney + ", itemnumber=" + itemnumber
 				+ ", itemName=" + itemName + ", itemno=" + itemno + ", giftexplain=" + giftexplain + ", deliveryYN="
-				+ deliveryYN + ", giftrefund=" + giftrefund + "]";
+				+ deliveryYN + ", giftrefund=" + "]";
 	}
 	
 	

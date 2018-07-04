@@ -10,7 +10,9 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <!-- 창작자문의 메세지이모티콘 링크 --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
-
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <style>
 /**************************** header ****************************/
 body{
@@ -103,7 +105,7 @@ div#profile-click-div hr{
 
 
 /* body{background-color:#cce2ff; } */
-div.ground{background-color: #faf8f8; margin: 0 auto; vertical-align: top;} 
+div.ground{background-color: #f7f5f5; margin: 0 auto; vertical-align: top;} 
 div.mainDIV{text-align: center; }
 div.mainTitle{height: 480px; width: 960px; display: inline-block;}
 div.sideDiv{display: inline-block; vertical-align: top;}
@@ -117,10 +119,20 @@ span#sp2{font-size: 25px; font-weight: bold;}
 span.sp{font-size: 15px; font-weight: bold; padding-bottom:10px; display: inline-block;}
 span.sp2{font-size: 14px;}
 
+span#story:hover{cursor: pointer;}
+span#community:hover{cursor: pointer;}
+span#change:hover{cursor: pointer;}
+
 div.menuDiv{text-align: left; padding: 5px 0 18px 18%; }
 div.mainContext{width: 700px;display: inline-block; background:white; margin-top: 15px; box-shadow: 1px 1px silver; margin-bottom: 30px;}
-div.communityDiv{width: 700px;border: 1px solid;display: inline-block; background:white; margin-top: 15px; box-shadow: 1px 1px silver;}
-div.changeDiv{width: 700px;border: 1px solid;display: inline-block; background:white; margin-top: 15px; box-shadow: 1px 1px silver;}
+
+div.communityDiv{width: 700px;display: inline-block; background:#faf8f8; margin-top: 15px; }
+div.communityS{width: 700px; display: inline-block; padding-bottom:10px; padding-top:10px; background:white; margin-top: 15px; box-shadow: 1px 1px silver;}
+div.communityMain{width: 700px;display: inline-block; background:#faf8f8; margin-top: 15px;}
+div.community{background: white; box-shadow: 1px 1px silver; text-align: left; padding-left: 30px; padding-bottom:10px; padding-top:10px;}
+
+div.changeDiv{width: 700px;display: inline-block; background:white; margin-top: 15px; box-shadow: 1px 1px silver; padding-bottom:10px; padding-top:10px;}
+span.refundSp{font-weight: bold;}
 
 div.originator{width: 270px;display: inline-block; text-align: left; padding: 15px; background:white; margin: 10px; margin-top: 15px; box-shadow: 1px 1px silver;}
 #originatorStory{font-weight: bold; padding-bottom:10px; display: inline-block;}
@@ -295,6 +307,7 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
                 <c:if test="${deadlineDay ge 0 }">
                 <button class="button" style="vertical-align:middle" onclick="fn_supportGo('${i.projectNo}');"><span>후원하기 </span></button>
                 <script>
+                var projectNo = ${i.projectNo};
                 function fn_interest(no){
         	    	/* console.log(no); */
         	    	var user = '${memberLoggedIn}';
@@ -325,8 +338,63 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
 	        </div>
 	        <div class="ground">
 		        <div class="mainContext"><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /></b><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /></b><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /></b><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /></b><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /></b><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /></b><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /></b><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /></b><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /></b><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /></b><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /></b><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /></b><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /></b><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /></b></div>
-		        <div class="communityDiv">커뮤니티</div>
-		        <div class="changeDiv">환불 및 교환</div>
+		        <!-- 커뮤니티 -->
+		        <div class="communityDiv">
+		        	<div class="communityS"><span>후원자만 글을 쓸 수 있어요</span></div>
+		        	<div class="communityMain">
+		        		<c:if test="${not empty memberLoggedIn and supportStatus==true}">
+		        			<!-- 모달사용 -->
+							  <!-- Trigger the modal with a button -->
+							  <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">게시글작성</button>
+							
+							  <!-- Modal -->
+							  <div class="modal fade" id="myModal" role="dialog">
+							    <div class="modal-dialog">
+							 
+							      <!-- Modal content-->
+							      <div class="modal-content">
+							        <div class="modal-header">
+							       		<h4 class="modal-title">게시글 작성</h4>
+							          	<button type="button" class="close" data-dismiss="modal">&times;</button>
+							        </div>
+							        <div class="modal-body">
+							        	<label for="">ID : </label>
+							          <input type="text" id="contextId" value="${memberLoggedIn.email }" readonly /><br /><br />
+							          <label for="">글 내용</label><br />
+							          <textarea name="" id="communityContext" cols="50%" rows="10"></textarea>
+							        </div>
+							        <div class="modal-footer">
+							        	<button type="button" class="btn btn-default" onclick="fn_community();">등 록</button>
+							          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+							        </div>
+							      </div>
+							      
+							    </div>
+							  </div>
+						    <!-- 모달사용끝 -->
+		        		</c:if>
+		        		<c:if test="${empty cList}">
+		        			<br /><br /><br /><span>게시글이 없습니다</span>
+		        		</c:if>
+		        		
+		        		<c:if test="${not empty cList}">
+		        			<c:forEach var="s" items="${cList }">
+		        			<br />
+		        			<div class="community">
+		        				<span>등록ID : ${s.email }</span><br />
+		        				<span>등록일자:${s.communityDate }</span><br />
+		        				<textarea rows="10" cols="80%" readonly="readonly">${s.communityContent }</textarea>
+		        			</div>
+		        			</c:forEach>
+		        		</c:if>
+		        	</div>
+		        </div>
+		        <!-- 커뮤니티 끝 -->
+		        <div class="changeDiv">
+		        	<span class="refundSp">이 프로젝트의 환불 및 교환 정책</span><br />
+		        	<br />
+		        	<span>${refund }</span>
+		        </div>
 		        
 		        <div class="sideDiv">
 		        <div class="originator">
@@ -340,31 +408,38 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
 		            </div>
 		        </div>
 		        
-		        <c:if test="${deadlineDay gt 0 }">
-		        <c:if test="${not empty List}">
-		        <c:forEach var="v" items="${List }">
-		        <br /><br />
+		        <c:if test="${deadlineDay gt 0 }"> 
+		        
+		        <c:if test="${not empty gList}">
+		        <c:forEach var="g" items="${gList }" begin="0" end="${gList.size() }" step="1" varStatus="gg">
+				<br /><br />
 		        <div class="gift">
 		        	<div class="gift2">
 		        	<ul>
 		        		<li>
-		        			<span id="sp2">${v.minMoney }원 +</span>
+		        			<span id="sp2"><fmt:formatNumber>${gList[gg.index] }</fmt:formatNumber>원 +</span>
 		        		</li>
 		        		<li>
-		        			${v.itemName }.(X${v.itemnumber })
+		        		<c:forEach var="g2" items="${strarr }" begin="0" end="${gList.size() }" step="1" varStatus="gg2">
+		        			<c:forEach var="g3" items="${strarr2 }" begin="0" end="${gList.size() }" step="1" varStatus="gg3">
+		        			<c:if test="${gg.index == gg2.index and  gg2.index == gg3.index }">
+		        				${strarr[gg2.index] } (X ${strarr2[gg3.index]})
+		        			</c:if>
+		        			</c:forEach>
+		        		</c:forEach>
 		        		</li>
 		        		<li>
 		        			예상전달일 <fmt:formatDate value="${calculateduedDate }" pattern="yyyy년 MM월 dd일"/> 후 순차배송됩니다.
 		        		</li>
 		        		<hr />
 		        	</ul>
-		        		<button class="button2 button3">선물 선택하고 후원하기</button>
+		        		<button class="button2 button3" onclick="fn_supportGo('${projectNo}','${gList[gg.index] }');">선물 선택하고 후원하기</button>
 		        	</div>
 		        </div>
-		        </c:forEach>
-		        </c:if>
-		        
-		        <c:if test="${empty List }">
+				</c:forEach>
+				</c:if>
+				
+		        <c:if test="${empty gList }">
 		        <br /><br />
 		        <div class="gift">
 		        	<div class="gift2">
@@ -374,7 +449,7 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
 		        		</li>
 		        		<hr />
 		        	</ul>
-		        		<button class="button2 button3">후원하기</button>
+		        		<button class="button2 button3" onclick="fn_supportGo('${projectNo}');">후원하기</button>
 		        	</div>
 		        </div>
 		        </c:if>
@@ -416,7 +491,6 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
             $("#community").css({"color": "black", "background-color": "white", "border-bottom": "0px solid black", "padding-bottom": "0"});
             $("#change").css({"color": "black", "background-color": "white", "border-bottom": "0px solid black", "padding-bottom": "0"});
             hiddenNum = 1;
-            console.log(hiddenNum);
             $(".mainContext").show();
             $(".communityDiv").hide();
             $(".changeDiv").hide();
@@ -426,7 +500,6 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
             $("#community").css({"color": "black", "background-color": "#F3F3F3", "border-bottom": "4px solid black", "padding-bottom": "0"});
             $("#change").css({"color": "black", "background-color": "white", "border-bottom": "0px solid black", "padding-bottom": "0"});
             hiddenNum = 2;
-            console.log(hiddenNum);
             $(".mainContext").hide();
             $(".communityDiv").show();
             $(".changeDiv").hide();
@@ -436,17 +509,30 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
             $("#community").css({"color": "black", "background-color": "white", "border-bottom": "0px solid black", "padding-bottom": "0"});
             $("#change").css({"color": "black", "background-color": "#F3F3F3", "border-bottom": "4px solid black", "padding-bottom": "0"});
             hiddenNum = 3;
-            console.log(hiddenNum);
             $(".mainContext").hide();
             $(".communityDiv").hide();
             $(".changeDiv").show();
         });
         
     });
-    function fn_supportGo(no){
-    	/* console.log(no); */
-    	location.href="${pageContext.request.contextPath}/project/supportGo.do?no="+no;
+    function fn_supportGo(no,minmoney){
+    	var user = '${memberLoggedIn}';
+    	if(user==''){
+    		alert("로그인이 필요한 서비스입니다.");
+    	}else{
+	    	var email = '${memberLoggedIn.email }';
+	    	if(minmoney==null){
+	    		minmoney='0';
+	    	}
+    		location.href="${pageContext.request.contextPath}/project/supportGo.do?no="+no+"&email="+email+"&minmoney="+minmoney;
+    	} 
     };
+    function fn_community(){
+    	var contextId = $("#contextId").val();
+    	var communityContext = $("#communityContext").val();
+    	/* console.log(contextId,communityContext); */
+		location.href="${pageContext.request.contextPath}/project/community.do?projectNo="+projectNo+"&contextId="+contextId+"&communityContext="+communityContext;
+    }
     
     </script>
 

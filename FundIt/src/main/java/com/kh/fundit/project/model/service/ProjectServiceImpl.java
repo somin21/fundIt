@@ -10,9 +10,12 @@ import org.springframework.stereotype.Service;
 
 import com.kh.fundit.member.model.vo.Member;
 import com.kh.fundit.project.model.dao.ProjectDAO;
+import com.kh.fundit.project.model.vo.Community;
+import com.kh.fundit.project.model.vo.Item;
 import com.kh.fundit.project.model.vo.ListProjectView;
 import com.kh.fundit.project.model.vo.Profile;
 import com.kh.fundit.project.model.vo.ProjectDelivery;
+import com.kh.fundit.project.model.vo.ProjectFunding;
 import com.kh.fundit.project.model.vo.ProjectGift;
 import com.kh.fundit.project.model.vo.ProjectOutline;
 import com.kh.fundit.project.model.vo.ProjectSupport;
@@ -130,13 +133,7 @@ public class ProjectServiceImpl implements ProjectService {
 	public List<ProjectGift> projectGiftList(Map<String, Object> map) {
 		return projectDAO.projectGiftList(map);
 	}
-	
-//영준
-	@Override
-	public int rownum(String email) {
-		return projectDAO.rownum(email);
-	}
-	
+		
 //희영
 	@Override
 	public int insertPayment(Map<String, Object> map) {
@@ -157,10 +154,182 @@ public class ProjectServiceImpl implements ProjectService {
 	public ProjectSupport supportList(Map<String, Object> map) {
 		return projectDAO.supportList(map);
 	}
-
+//희영
 	@Override
 	public int deliveryInsert(Map<String, Object> map) {
 		return projectDAO.deliveryInsert(map);
 	}
+//희영
+	@Override
+	public List<String> projectGiftLevel(Map<String, Object> map) {
+		return projectDAO.projectGiftLevel(map);
+	}
+//희영
+	@Override
+	public List<Map<String, String>> projectGiftName(Map<String, Object> map) {
+		return projectDAO.projectGiftName(map);
+	}
+//희영
+	@Override
+	public List<Community> communityList(Map<String, Object> map) {
+		return projectDAO.communityList(map);
+	}
+
+	@Override
+	public int communityInsert(Map<String, Object> map) {
+		return projectDAO.communityInsert(map);
+	}
+
+//영준
+	@Override
+	public List<ListProjectView> interestList2(String email) {
+		return projectDAO.interestList2(email);
+	}
+	//영준
+	@Override
+	public List<ListProjectView> interestList1(String email) {
+		return projectDAO.interestList1(email);
+	}
+	//영준
+	@Override
+	public List<ListProjectView> interestList3(String email) {
+		return projectDAO.interestList3(email);
+	}
+	//영준
+	@Override
+	public List<ListProjectView> interestList4(String email) {
+		return projectDAO.interestList4(email);
+	}
+
+//	소민
+	@Override
+	public com.kh.fundit.member.model.vo.Profile makeProject(String email) {
+
+		return projectDAO.makeProject(email);
+	}
+
+//	소민
+	@Override
+	public int makeProjectOutline(ProjectOutline outline, com.kh.fundit.member.model.vo.Profile profile) {
+
+		int projectNo = 0;
+		
+		try {
+			int result = projectDAO.makeProjectOutline(outline);
+			
+			if(result > 0) {
+				projectNo = outline.getProjectNo();
+				System.out.println(projectNo);
+				projectDAO.makeProjectProfile(profile);
+			}
+			System.out.println(projectNo);
+		} catch(Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		
+		System.out.println("projectNo : " + projectNo);
+		return projectNo; 
+	}
+
+//	소민
+	@Override
+	public int makeProjectFunding(ProjectFunding funding) {
+
+		int projectNo = 0;
+		
+		try {
+			int result = projectDAO.makeProjectFunding(funding);
+			
+			if(result > 0) {
+				projectNo = funding.getProjectNo();
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		
+		return projectNo; 
+	}
+	
+//	소민
+	@Override
+	public void deleteItem(int projectNo) {
+
+		projectDAO.deleteItem(projectNo);
+	}
+	
+//	소민
+	@Override
+	public Item insertItem(Item item) {
+		
+		Item result_item = new Item();
+		
+		try {
+			int result = projectDAO.insertItem(item);
+			
+			if(result > 0) {
+				result_item = item;
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		
+		return result_item; 
+	}
+
+//	소민
+	@Override
+	public void updateItem(Item item) {
+		
+		projectDAO.updateItem(item);
+	}
+
+//	소민
+	@Override
+	public List<Item> selectItemList(int projectNo) {
+		
+		return projectDAO.selectItemList(projectNo);
+	}
+
+//	소민
+	@Override
+	public void deleteGift(int projectNo) {
+
+		projectDAO.deleteGift(projectNo);
+	}
+
+//	소민
+	@Override
+	public ProjectGift insertGift(ProjectGift gift) {
+		
+		ProjectGift result_gift = new ProjectGift();
+		
+		try {
+			int result = projectDAO.insertGift(gift);
+			
+			if(result > 0) {
+				Map<String, Integer> map = new HashMap<>();
+				map.put("projectNo", gift.getProjectNo());
+				map.put("minMoney", gift.getMinMoney());
+				map.put("itemno", gift.getItemno());
+				result_gift = projectDAO.selectGift(map);
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		
+		return result_gift; 
+	}
+
+//	소민
+	@Override
+	public void deleteGift(Map<String, Integer> map) {
+
+		projectDAO.deleteGift(map);
+	}
+
 
 }

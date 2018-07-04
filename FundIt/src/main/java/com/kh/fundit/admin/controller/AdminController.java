@@ -1,5 +1,6 @@
 package com.kh.fundit.admin.controller;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -12,10 +13,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.kh.fundit.admin.model.service.AdminService;
 import com.kh.fundit.admin.model.vo.AdminMember;
+import com.kh.fundit.admin.model.vo.AdminMessage;
 import com.kh.fundit.admin.model.vo.AdminProjectView;
 import com.kh.fundit.project.model.vo.ListProjectView;
 import com.kh.fundit.project.model.vo.Profile;
@@ -170,10 +174,52 @@ public class AdminController {
 		return mav;
 	}
 	
-	@RequestMapping("/admin/projectDeadline")
-	public String projectDeadline() {
+	@RequestMapping("/admin/projectDeadlineList")
+	public ModelAndView projectDeadlineList() {
+		ModelAndView mav = new ModelAndView();
 		
-		return "admin/projectDeadline";
+		List<ListProjectView> list = adminService.projectDeadLineList();
+		
+		System.out.println(list);
+		
+		mav.addObject("list",list);
+		mav.setViewName("admin/projectDeadlineList");
+		
+		return mav;
+	}
+	
+	@RequestMapping("admin/projectDeadlineView")
+	public ModelAndView projectDeadlineView(@RequestParam("projectNo") int no,
+			  								 HttpServletResponse response) {
+		ModelAndView mav = new ModelAndView();
+		Map<String,Object> map = new HashMap<>();
+		map.put("projectNo",no);
+		
+		//프로젝트리스트뽑기
+		List<AdminProjectView> list = adminService.projectDeadlineView(map);
+		
+		//선물리스트 받아오기
+		List<ProjectGift> gList = adminService.projectGiftList(map);
+		String userEmail = "";
+		Date calculateduedDate = null;
+		int deadlineDay = 0;
+		
+		for(AdminProjectView v : list) {
+			userEmail = v.getEmail();
+			calculateduedDate = v.getCalculateduedDate();
+			deadlineDay = v.getDeadlineDay();
+		}
+		Profile p = adminService.profileUser(userEmail);
+		
+		mav.addObject("list",list);
+		mav.addObject("gList",gList);
+		mav.addObject("p",p);
+		mav.addObject("projectNo",no);
+		mav.addObject("calculateduedDate",calculateduedDate);
+		mav.addObject("deadlineDay",deadlineDay);
+		mav.setViewName("admin/projectDeadlineView");
+		
+		return mav;
 	}
 	
 	@RequestMapping("/admin/adminMemberList")
@@ -213,9 +259,66 @@ public class AdminController {
 		return mav;
 	}
 	
-	@RequestMapping("/admin/message")
-	public String adminMessage() {
+	//검색
+	@RequestMapping("/admin/adminMemberSearch.do")
+	public ModelAndView adminMemberSearch(@RequestParam String email, HttpServletResponse response) throws IOException{
+		ModelAndView mav = new ModelAndView();
+		Map<String,Object> map = new HashMap<>();
+		List<AdminMember> list = adminService.memberSearchList(email);
 		
-		return "admin/message";
+		map.put("list", list);
+		mav.addAllObjects(map);
+		
+		mav.setViewName("jsonView");
+		return mav;
 	}
+	
+	@RequestMapping("/admin/messageList.do")
+	public ModelAndView adminMessageList() {
+		ModelAndView mav = new ModelAndView();
+		
+		List<AdminMessage> list = adminService.adminMessageList();
+		System.out.println("$$$$$$$$ \n"+list);
+		mav.addObject("list",list);
+		mav.setViewName("admin/adminMessageList");
+		
+		return mav;
+	}
+	@RequestMapping("/admin/selectMessage.do")
+	public ModelAndView selectMessage(@RequestParam String messageNo, HttpServletResponse response) throws IOException {
+		response.setContentType("text/html;charset=UTF-8"); 
+		ModelAndView mav = new ModelAndView();
+		Map<String,Object> map = new HashMap<>();
+		int result = adminService.updateReadyn(messageNo);
+		AdminMessage m = adminService.selectMessage(messageNo);
+		System.out.println("%%%%%%"+m.getReadyn());
+		
+		map.put("m",m);
+		mav.addAllObjects(map);
+		
+		mav.setViewName("jsonView");
+		return mav;
+	}
+	@RequestMapping("/admin/selectAllMessage.do")
+	@ResponseBody
+	public Map<String,Object> selectAllMessage(HttpServletResponse response)throws JsonProcessingException{
+		Map<String,Object> map = new HashMap<>();
+		
+		List<AdminMessage> list = adminService.adminMessageList();
+		map.put("list", list);
+		
+		return map;
+	}
+	@RequestMapping("/admin/selectReadN.do")
+	@ResponseBody
+	public Map<String,Object> selectReadN( HttpServletResponse response)throws JsonProcessingException{
+		Map<String,Object> map = new HashMap<>();
+		
+		List<AdminMessage> list = adminService.selectReadN();
+
+		map.put("list", list);
+		
+		return map;
+	}
+	
 }

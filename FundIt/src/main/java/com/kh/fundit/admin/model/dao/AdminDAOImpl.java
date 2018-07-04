@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.fundit.admin.model.vo.AdminMember;
+import com.kh.fundit.admin.model.vo.AdminMessage;
 import com.kh.fundit.admin.model.vo.AdminProjectView;
 import com.kh.fundit.project.model.vo.ListProjectView;
 import com.kh.fundit.project.model.vo.Profile;
@@ -75,5 +76,40 @@ public class AdminDAOImpl implements AdminDAO {
 	@Override
 	public int adminMemberDelete(String email) {
 		return sqlSession.update("admin.adminMemberDelete",email);
+	}
+
+	@Override
+	public List<ListProjectView> projectDeadLineList() {
+		return sqlSession.selectList("admin.projectDeadlineList");
+	}
+
+	@Override
+	public List<AdminProjectView> projectDeadlineView(Map<String, Object> map) {
+		return sqlSession.selectList("admin.projectDeadlineView",map);
+	}
+
+	@Override
+	public List<AdminMember> memberSearchList(String email) {
+		return sqlSession.selectList("admin.memberSearchList",email);
+	}
+
+	@Override
+	public List<AdminMessage> adminMessageList() {
+		return sqlSession.selectList("admin.adminMessage");
+	}
+
+	@Override
+	public AdminMessage selectMessage(String messageNo) {
+		return sqlSession.selectOne("admin.selectMessage", messageNo);
+	}
+
+	@Override
+	public int updateReadyn(String messageNo) {
+		return sqlSession.update("admin.updateReadyn",messageNo);
+	}
+
+	@Override
+	public List<AdminMessage> selectReadN() {
+		return sqlSession.selectList("admin.selectReadN");
 	}
 }

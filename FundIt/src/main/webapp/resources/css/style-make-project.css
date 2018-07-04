@@ -236,6 +236,14 @@ div.make-project-content div.hidden p:last-of-type button:last-of-type:hover{
 	cursor: pointer;
 	border: 0;
 }
+div.make-project-content span.choice{
+    background: white;
+    font-size: 12px;
+    border: 1px solid #616161;
+    padding: 2px 8px;
+    border-radius: 3px;
+    margin-left: 10px;
+}
 /* funding_gift */
 input#funding-money::-webkit-outer-spin-button,
 input#funding-money::-webkit-inner-spin-button {

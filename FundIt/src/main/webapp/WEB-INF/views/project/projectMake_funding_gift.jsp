@@ -126,12 +126,185 @@ $(function(){
 		
 	});
 	
+	$("#tbl_item").on("click",".checkItem",function(){
+		
+		if($(this).attr("src") == "${pageContext.request.contextPath }/resources/images/makeProject/checked_black.png"){
+			
+			$(this).parents("tr").css("background","white");
+			$(this).attr("src","${pageContext.request.contextPath }/resources/images/makeProject/checked_gray.png");
+			$(this).parents("tr").find(".minusItem").attr("src","${pageContext.request.contextPath }/resources/images/makeProject/minus_gray.png");
+			$(this).parents("tr").find(".plusItem").attr("src","${pageContext.request.contextPath }/resources/images/makeProject/plus_gray.png");
+			$(this).parents("tr").find(".gift-number").text("0");
+			$(this).parents("tr").find("#itemnumber").val("0");
+			
+		} else{
+			
+			$(this).parents("tr").css("background","#f2eeff");
+			$(this).attr("src","${pageContext.request.contextPath }/resources/images/makeProject/checked_black.png");
+			$(this).parents("tr").find(".minusItem").attr("src","${pageContext.request.contextPath }/resources/images/makeProject/minus_black.png");
+			$(this).parents("tr").find(".plusItem").attr("src","${pageContext.request.contextPath }/resources/images/makeProject/plus_black.png");
+			$(this).parents("tr").find(".gift-number").text("1");
+			$(this).parents("tr").find("#itemnumber").val("1");
+		}
+		
+	});
+	
+	$("#tbl_item").on("click",".minusItem",function(){
+		
+		var itemNumber = parseInt($(this).siblings(".gift-number").text());
+		
+		if(itemNumber == 0){
+			
+			return;
+			
+		} else if(itemNumber-1 == 0){
+			
+			$(this).parents("tr").css("background","white");
+			$(this).parents("tr").find(".checkItem").attr("src","${pageContext.request.contextPath }/resources/images/makeProject/checked_gray.png");
+			$(this).attr("src","${pageContext.request.contextPath }/resources/images/makeProject/minus_gray.png");
+			$(this).siblings(".plusItem").attr("src","${pageContext.request.contextPath }/resources/images/makeProject/plus_gray.png");
+			$(this).siblings(".gift-number").text("0");
+			$(this).siblings("#itemnumber").val("0");
+			
+		} else{
+
+			$(this).siblings(".gift-number").text(itemNumber-1);
+			$(this).siblings("#itemnumber").val(itemNumber-1);	
+		}
+		
+	});
+	
+	$("#tbl_item").on("click",".plusItem",function(){
+		
+		var itemNumber = parseInt($(this).siblings(".gift-number").text());
+		
+		if(itemNumber == 0){
+			
+			$(this).parents("tr").css("background","#f2eeff");
+			$(this).parents("tr").find(".checkItem").attr("src","${pageContext.request.contextPath }/resources/images/makeProject/checked_black.png");
+			$(this).siblings(".minusItem").attr("src","${pageContext.request.contextPath }/resources/images/makeProject/minus_black.png");
+			$(this).attr("src","${pageContext.request.contextPath }/resources/images/makeProject/plus_black.png");
+			$(this).siblings(".gift-number").text("1");
+			$(this).siblings("#itemnumber").val("1");
+			
+		} else {
+			
+			$(this).siblings(".gift-number").text(itemNumber+1);
+			$(this).siblings("#itemnumber").val(itemNumber+1);
+		}
+		
+	});
+	
+	$(".giftSaveBtn").click(function(){
+
+		var projectNo = $("#projectNo").val();
+		var minMoney = $("#min-money").val();
+		var giftExplain = $("#gift-explain").val();
+		var deliveryYN =$("[name=deliveryYN]:checked").val();
+		var isFirst = false;
+		
+		/* 처음인지 체크 */
+		if(!$(".giftList").length){
+			isFirst = true;
+		}
+		
+		/* minMoney체크 */
+		if(isFirst == false){
+			$(".successMinMoney").each(function(){
+				var text = $(this).text().replace(/,/g,"");
+				if(text == minMoney){
+					alert("이미 존재하는 최소 후원금액입니다.");
+					$("#min-money").focus();
+					return;
+				}
+			});
+		}
+		
+		$("#tbl_item").find("tbody").children("tr").each(function(){
+			
+			var itemno = $(this).find("#itemno").val();
+			var itemnumber = $(this).find("#itemnumber").val();
+			var itemName = $(this).find("#itemno").parent().text();
+			
+			if(itemnumber != 0){
+				
+				$.ajax({
+					url : "insertGift",
+					data : {isFirst : isFirst, projectNo : projectNo, minMoney : minMoney, giftexplain : giftExplain, deliveryYN : deliveryYN, itemno : itemno, itemnumber : itemnumber},			
+					success : function(data){
+						
+						var check_el = "#"+minMoney;
+						if($(check_el).length){
+							
+							console.log("이미만들엇다");
+							console.log($(check_el));
+							$(check_el).find(".giftItemList").find("ul").append('<li>'+data.itemName+'&nbsp;( X '+data.itemnumber+' )</li>');
+							
+						} else {
+							
+							console.log("안만들엇다");
+							console.log($(check_el));
+							var html = '<div class="giftList" id="'+data.minMoney+'">';
+							html += '<div>';
+							html += '<span class="successMinMoney">'+data.minMoney+'</span>원 이상 밀어주시는 분께';
+							html += '<span class="deleteGift">삭제하기</span>';
+							html += '</div>';
+							html += '<div class="giftItemList">';
+							html += '<ul>';
+							html += '<li>'+data.itemName+'&nbsp;( X '+data.itemnumber+' )</li>';				
+							html += '</ul>';
+							html += '</div>';
+							html += '<div class="successDeliveryYN">';
+							if(data.deliveryYN == "Y"){
+								html += '<span class="choice" id="successDelivery">배송 필요</span>';
+							}
+							html += '</div>';
+							html += '</div>';
+																			
+							$("#checkedGift").append(html);
+						}
+						
+						$("#add-gift").slideUp(500);
+						$("#gift").slideDown(500);
+						
+						
+					},
+					error : function(jqxhr,textStatus,errorThrown){
+						console.log("ajax실패");
+					}
+				});
+			}
+			
+		});
+	});
+	
+	$(".deleteGift").click(function(){
+
+		var projectNo = $("#projectNo").val();
+		var minMoney = $(this).siblings(".successMinMoney").text();
+		
+		$.ajax({
+			url : "deleteGift",
+			data : {projectNo : projectNo, minMoney : minMoney},			
+			success : function(data){
+				
+				$(this).parents(".giftList").remove();
+				
+			},
+			error : function(jqxhr,textStatus,errorThrown){
+				console.log("ajax실패");
+			}
+		});
+	});
+	
 })
 </script>
 
 
-<form action="">
+<form action="${pageContext.request.contextPath }/project/makeProject/story" onsubmit="return project_validate('#funding-gift');" method="post" >
 
+	<input type="hidden" id="projectNo" name="projectNo" value="${projectNo }" />
+	
 	<!-- 펀딩 목표 설정 -->
 	<div class="make-project-section">
 		<p class="title">펀딩 목표 설정</p>
@@ -163,7 +336,7 @@ $(function(){
 					<span class="red-font" id="money-warning">** 목표 금액은 5,000원 이상입니다.</span>
 				</p>
 				<p>
-					<input type="number" id="funding-money" name="fundingMoney" value="0" min="5000"/> 
+					<input type="number" id="funding-money" name="supportGoal" value="0" min="5000"/> 
 					<span class="bold-font">원</span>
 					<!-- 수수료 -->
 				</p>
@@ -246,7 +419,7 @@ $(function(){
 	<div class="make-project-section">
 		<p class="title">선물 구성</p>
 		<div class="make-project-content">
-			
+			<div id="checkedGift"></div>
 			<!-- 선물 추가하기 START -->
 			<div class="shown" id="gift">
 				<p>선물 추가하기</p>
@@ -286,7 +459,7 @@ $(function(){
 						아이템은 <span class="bold-font">선물에 포함되는 구성 품목</span>을 말합니다. <br />
 						이 금액대의 선물을 선택한 후원자에게 어떤 아이템들을 전달하실지 선택해주세요.
 					</p>
-					<table>
+					<table id="tbl_item">
 						<thead>
 							<tr>
 								<td>포함</td>
@@ -319,12 +492,15 @@ $(function(){
 					</p>
 				</div>
 				<div id="gift-explain">
-					<p>선물 설명</p>
+					<p>
+						선물 설명
+						<span class="choice">선택 항목</span>
+					</p>
 					<p>
 						구성된 선물에 대해 추가적으로 알리고 싶은 내용을 적어주세요.
 					</p>
 					<p>
-						<input type="text" id="gift-explain" name="giftExplain" placeholder="예) 배송비 포함, &lt선물세트A> 등" />
+						<input type="text" id="gift-explain" name="giftexplain" placeholder="예) 배송비 포함, &lt선물세트A> 등" />
 						<span class="letter-cnt"><span class="total-letter">50</span>자 남았습니다</span>
 					</p>
 				</div>
@@ -334,9 +510,9 @@ $(function(){
 						배송이 필요한 선물인 경우 후원자에게 주소지를 요청합니다.
 					</p>
 					<p style="position: relative">
-						<input type="radio" name="giftDelivery" id="giftDeliveryYES" value="Y" checked/>
+						<input type="radio" name="deliveryYN" id="giftDeliveryYES" value="Y" checked/>
 						<label for="giftDeliveryYES">배송이 필요한 선물입니다</label>
-						<input type="radio" name="giftDelivery" id="giftDeliveryNO" value="N"/>
+						<input type="radio" name="deliveryYN" id="giftDeliveryNO" value="N"/>
 						<label for="giftDeliveryNO">배송이 필요하지 않은 선물입니다</label>
 					</p>
 				</div>
@@ -404,7 +580,6 @@ $(function(){
 			
 		</div>
 	</div>
-</form>
 
 <jsp:include page="/WEB-INF/views/project/projectMake_footer.jsp" >
 	<jsp:param value="funding-gift" name="sectionName"/>

@@ -113,7 +113,8 @@ $(function(){
 
 function htmlAppend(project, div_name){
 	var html = '';
-	var loc = "location.href='${pageContext.request.contextPath}/project/projectView.do?projectNo="+project.projectNo+"'";	
+	var email = '${memberLoggedIn.email}';
+	var loc = "location.href='${pageContext.request.contextPath}/project/projectView.do?projectNo="+project.projectNo+"&email="+email+"'";	
 	html += '<div class="project" onclick="';
 	html += loc+'">';
 	html += '<img src="${pageContext.request.contextPath }/resources/images/projects/'+project.projectImage+'" />';

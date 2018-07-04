@@ -45,7 +45,7 @@ $(function(){
 		</span>
 		&nbsp;&nbsp;&nbsp;
 		<span>
-			<a href="${pageContext.request.contextPath }/project/makeProject/outline" >
+			<a href="${pageContext.request.contextPath }/project/makeProject/outline?email=${memberLoggedIn.email}" >
 				프로젝트 올리기
 			</a>
 		</span>
@@ -100,7 +100,7 @@ $(function(){
 		<p><a href="${pageContext.request.contextPath }/message/messageList.do?email=${memberLoggedIn.email }">메시지</a></p>
 		<hr />
 		<p><a href="${pageContext.request.contextPath }/interest/interest.do?email=${memberLoggedIn.email }">관심 프로젝트</a></p>
-		<p><a href="">후원 현황</a></p>
+		<p><a href="${pageContext.request.contextPath}/member/mySupport.do?email=${memberLoggedIn.email} ">후원 현황</a></p>
 		<p><a href="${pageContext.request.contextPath}/gift/giftDeliveryList.do?email="+${memberLoggedIn.email}>선물 배송리스트</a></p>
 		<p><a href="${pageContext.request.contextPath}/project/myProject.do?email=?"+${memberLoggedIn.email}>내가 만든 프로젝트</a></p>
 		<hr />

@@ -6,16 +6,19 @@
 		<typeAlias type="com.kh.fundit.project.model.vo.ListProjectView" alias="list_project_view" />
 		<typeAlias type="com.kh.fundit.member.model.vo.Member" alias="member"/>
 		<typeAlias type="com.kh.fundit.member.model.vo.Profile" alias="profile"/>
+		<typeAlias type="com.kh.fundit.member.model.vo.Support" alias="support"/>
 		<typeAlias type="com.kh.fundit.project.model.vo.ProjectView" alias="projectView" />
 		<typeAlias type="com.kh.fundit.help.model.vo.Help" alias="help" />
 		<typeAlias type="com.kh.fundit.project.model.vo.Profile" alias="profile2" />
 		<typeAlias type="com.kh.fundit.project.model.vo.ProjectGift" alias="projectGift" />
 		<typeAlias type="com.kh.fundit.project.model.vo.ProjectSupport" alias="projectSupport" />
+		<typeAlias type="com.kh.fundit.project.model.vo.Community" alias="community" />
 		<typeAlias type="com.kh.fundit.gift.model.vo.Gift" alias="gift" />
 		<typeAlias type="com.kh.fundit.message.model.vo.Message" alias="message"/>
-		<typeAlias type="com.kh.fundit.message.model.vo.Message" alias="message"/>
 		<typeAlias type="com.kh.fundit.admin.model.vo.AdminProjectView" alias="adminProjectView" />
+		<typeAlias type="com.kh.fundit.project.model.vo.Item" alias="item" />
 		<typeAlias type="com.kh.fundit.admin.model.vo.AdminMember" alias="adminMember"/>
+		<typeAlias type="com.kh.fundit.admin.model.vo.AdminMessage" alias="adminMessage"/>
 	</typeAliases>
 	
 </configuration>

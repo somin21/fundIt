@@ -2,6 +2,7 @@ package com.kh.fundit.member.controller;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.mail.internet.MimeMessage;
@@ -27,6 +28,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.kh.fundit.member.model.service.MemberService;
 import com.kh.fundit.member.model.vo.Member;
 import com.kh.fundit.member.model.vo.Profile;
+import com.kh.fundit.member.model.vo.Support;
 
 
 @SessionAttributes({"memberLoggedIn"})
@@ -147,9 +149,12 @@ public class MemberController {
 			String msg = "";
 			String loc = "/";
 			
-			if(m == null) {
-				msg = "존재하지 않는 아이디 입니다.";
-			} else {
+			if(m==null) {
+					msg = "존재하지 않은 아이디";
+				}else if(m.getDeleteyn().equals("Y")) {
+					msg = "삭제된 아이디 입니다";
+				}
+			 else {
 				if(bcryptPasswordEncoder.matches(password, m.getPassword())) {
 					msg = m.getName() + "님, 환영합니다!";
 					mav.addObject("memberLoggedIn", m);
@@ -417,6 +422,43 @@ public class MemberController {
 		   logger.debug(profileImg);
 		   return profileImg;
 	   }
+	   
+	//  태윤
+		@RequestMapping("/member/mySupport.do")
+		public  ModelAndView goToMySupport(@RequestParam String email) {
+			ModelAndView mav = new ModelAndView();
+			if(email == null) {
+			mav.setViewName("/");
+			}else {
+			mav.setViewName("member/mySupportList");
+			}
+			return mav;
+		}
+		
+	//태윤
+		@RequestMapping("/member/selectMySupport")
+		@ResponseBody
+		public List<Support> selectSupprtList(@RequestParam String email,
+				                              @RequestParam (value = "numPerPage", required = false, defaultValue = "4") int numPerPage,
+											  @RequestParam (value="searchType", required = false, defaultValue = "searchAll") String searchType,
+											  @RequestParam (value="searchKeyword", required = false, defaultValue = "") String searchKeyword ){
+		
+		System.out.println(numPerPage);
+		System.out.println(searchType);
+		System.out.println(searchKeyword);
+		
+		
+			
+		Map<String, String> map = new HashMap<>();
+		map.put("email", email);
+		map.put("searchType", searchType);
+		map.put("searchKeyword", searchKeyword);
+		
+		List<Support> list = memberService.selectSupportList(map, numPerPage);
+		System.out.println(list);	
+		return list;
+			
+		}
 
 
 }

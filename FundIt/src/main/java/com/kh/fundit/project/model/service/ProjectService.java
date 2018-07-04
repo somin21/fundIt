@@ -6,9 +6,12 @@ import java.util.Map;
 
 
 import com.kh.fundit.member.model.vo.Member;
+import com.kh.fundit.project.model.vo.Community;
+import com.kh.fundit.project.model.vo.Item;
 import com.kh.fundit.project.model.vo.ListProjectView;
 import com.kh.fundit.project.model.vo.Profile;
 import com.kh.fundit.project.model.vo.ProjectDelivery;
+import com.kh.fundit.project.model.vo.ProjectFunding;
 import com.kh.fundit.project.model.vo.ProjectGift;
 import com.kh.fundit.project.model.vo.ProjectOutline;
 import com.kh.fundit.project.model.vo.ProjectSupport;
@@ -49,8 +52,6 @@ public interface ProjectService {
 	int interestDelete(Map<String, Object> map);
 
 	List<ProjectGift> projectGiftList(Map<String, Object> map);
-
-	int rownum(String email);
 	
 	int insertPayment(Map<String, Object> map);
 
@@ -61,5 +62,41 @@ public interface ProjectService {
 	ProjectSupport supportList(Map<String, Object> map);
 
 	int deliveryInsert(Map<String, Object> map);
+
+	List<String> projectGiftLevel(Map<String, Object> map);
+
+	List<Map<String, String>> projectGiftName(Map<String, Object> map);
+
+	List<Community> communityList(Map<String, Object> map);
+
+	int communityInsert(Map<String, Object> map);
+
+	List<ListProjectView> interestList2(String email);
+
+	List<ListProjectView> interestList1(String email);
+
+	List<ListProjectView> interestList3(String email);
+
+	List<ListProjectView> interestList4(String email);
+
+	com.kh.fundit.member.model.vo.Profile makeProject(String email);
+
+	int makeProjectOutline(ProjectOutline outline, com.kh.fundit.member.model.vo.Profile profile);
+
+	int makeProjectFunding(ProjectFunding funding);
+	
+	void deleteItem(int projectNo);
+	
+	Item insertItem(Item item);
+
+	void updateItem(Item item);
+
+	List<Item> selectItemList(int projectNo);
+
+	void deleteGift(int projectNo);
+
+	ProjectGift insertGift(ProjectGift gift);
+
+	void deleteGift(Map<String, Integer> map);
 
 }

@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.kh.fundit.member.model.vo.Member;
 import com.kh.fundit.member.model.vo.Profile;
+import com.kh.fundit.member.model.vo.Support;
 
 public interface MemberDAO {
 
@@ -32,6 +33,8 @@ public interface MemberDAO {
 	Member selectNaverByEmail(String naverEmail);
 
 	int insertNaver(Map<String, Object> map);
+
+	List<Support> selectSupportList(Map<String, String> map, int numPerPage);
 
 
 

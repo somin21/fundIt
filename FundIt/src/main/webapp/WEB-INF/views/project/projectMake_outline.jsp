@@ -11,7 +11,10 @@
 </jsp:include>
 
 
-<form action="">
+<form action="${pageContext.request.contextPath }/project/makeProject/funding-gift" onsubmit="return project_validate('#outline');" method="post" >
+
+	<input type="hidden" name="email" value="${memberLoggedIn.email }" />
+	
 	<!-- 프로젝트 개요 -->
 	<div class="make-project-section">
 		<p class="title">프로젝트 개요</p>
@@ -156,7 +159,7 @@
 					(프로젝트 성격과 맞지 않는 카테고리를 선택하실 시 후원자가 해당 프로젝트를 찾기 어려워지기에 에디터에 의해 조정될 수 있습니다.)
 				</p>
 				<p>
-					<select name="category" id="category">
+					<select name="categoryCode" id="category">
 						<option selected disabled value="">프로젝트 카테고리를 정해주세요</option>
 						<option value="C1">게임</option>
 						<option value="C2">푸드</option>
@@ -242,9 +245,7 @@
 			<div class="shown">
 				<p>진행자 이름</p>
 				<p>
-					<span style="font-weight:bold;font-size:20px;color:black;">
-						${memberLoggedIn.name }
-					</span>
+					<span style="font-weight:bold;font-size:20px;color:black;">${memberLoggedIn.name }</span>
 					<span>
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/write.png" />
 						&nbsp;
@@ -259,7 +260,7 @@
 					팀으로 진행하신다면 팀 이름을 쓰셔도 됩니다.
 				</p>
 				<p>
-					<input type="text" id="profile-name" name="profileName" placeholder="이름을 입력해주세요" />
+					<input type="text" id="profile-name" name="profileName" placeholder="이름을 입력해주세요" value="${memberLoggedIn.name }"/>
 					<span class="letter-cnt"><span class="total-letter">10</span>자 남았습니다</span>
 				</p>
 				<p>
@@ -307,7 +308,7 @@
 					2~3문장으로 간략하게 어떤 작업을 위주로 활동해 온 창작자인지 알려주시면 좋습니다.
 				</p>
 				<p>
-					<textarea name="profileIntroduce" id="profileIntroduce" cols="30" rows="10"></textarea>
+					<textarea name="profileIntroduce" id="profileIntroduce" cols="30" rows="10">${profile.profileIntroduce ne null?profile.profileIntroduce:""}</textarea>
 					<span class="letter-cnt"><span class="total-letter">100</span>자 남았습니다</span>
 				</p>
 				<p>
@@ -355,7 +356,7 @@
 					활동 지역을 구체적으로 기입해주시면  프로젝트의 신뢰를 높이는데 도움이 됩니다.
 				</p>
 				<p>
-					<select name="local" id="local">
+					<select name="localCode" id="local">
 						<option selected disabled value="">활동 지역을 정해주세요</option>
 						<option value="L1">서울</option>
 						<option value="L2">부산</option>
@@ -389,7 +390,6 @@
 			
 		</div>
 	</div>
-</form>
 
 
 <jsp:include page="/WEB-INF/views/project/projectMake_footer.jsp" >
