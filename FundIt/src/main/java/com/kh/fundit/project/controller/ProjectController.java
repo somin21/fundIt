@@ -27,6 +27,7 @@ import com.kh.fundit.project.model.vo.ProjectGift;
 import com.kh.fundit.project.model.vo.ProjectOutline;
 import com.kh.fundit.project.model.vo.ProjectSupport;
 import com.kh.fundit.project.model.vo.ProjectView;
+import com.kh.fundit.project.model.vo.SupportPayment;
 import com.siot.IamportRestClient.IamportClient;
 import com.siot.IamportRestClient.request.CancelData;
 
@@ -333,13 +334,13 @@ public class ProjectController {
 			
 			if(result>0) {
 				msg = "관심등록 성공! 마이페이지에서 확인하세요.";
-				loc = "/project/projectView.do?projectNo="+no;
+				loc = "/project/projectView.do?projectNo="+no+"&email"+email;
 			}else {
 				msg = "관심등록 실패";
 			}
 		}else if(cnt>0) {
 			msg = "이미 관심등록이 되어있습니다. 마이페이지에서 확인하세요.";
-			loc = "/project/projectView.do?projectNo="+no;
+			loc = "/project/projectView.do?projectNo="+no+"&email"+email;
 		}
 		
 		mav.addObject("msg",msg);
@@ -367,7 +368,7 @@ public class ProjectController {
 
 		if(sList!=null) {
 			msg = "같은 프로젝트 후원은 한번만 가능합니다!";
-			loc = "/project/projectView.do?projectNo="+no;
+			loc = "/project/projectView.do?projectNo="+no+"&email"+email;
 			
 			mav.addObject("msg",msg);
 			mav.addObject("loc",loc);
@@ -547,7 +548,7 @@ public class ProjectController {
 		
 		if(result>0) {
 			msg = "게시글등록 성공!";
-			loc = "/project/projectView.do?projectNo="+projectNo;
+			loc = "/project/projectView.do?projectNo="+projectNo+"&email"+contextId;
 		}else {
 			msg = "게시글등록 실패!\n관리자에게 문의하세요.";
 		}
@@ -576,7 +577,7 @@ public class ProjectController {
 		
 		if(result>0) {
 			msg = "게시글수정 성공!";
-			loc = "/project/projectView.do?projectNo="+projectNo;
+			loc = "/project/projectView.do?projectNo="+projectNo+"&email"+contextId;
 		}else {
 			msg = "게시글수정 실패!\n관리자에게 문의하세요.";
 		}
@@ -596,17 +597,57 @@ public class ProjectController {
 		map.put("projectNo", projectNo);
 		map.put("email", email);
 		
-		//List<SupportPayment> list = projectService.paymentCancel(map);
+		//결제정보리스트
+		List<SupportPayment> list = projectService.paymentCancel(map);
 		
-		IamportClient ic = new IamportClient("4713522635694358", "I993CW83GgrgwFXRgDOKXoy66EZ6uSad1khEgqIXG9ecPb36OSQMgoTn3SuyLEMNY3sftbcakqnaBrgq");
-		   
-		CancelData cd = new CancelData("imp_678896468411", true);
-		cd.setReason("후원취소");
-		  
-		System.out.println(ic.cancelPaymentByImpUid(cd).getCode());
-		System.out.println(ic.cancelPaymentByImpUid(cd).getMessage());
-		System.out.println(ic.cancelPaymentByImpUid(cd).getResponse());
+		String msg="결제 정보를 찾을수가 없습니다.\n관리자에게 문의해주세요ㅠㅠ";
+		String loc="/";
+		
+		String payNo="";
+		
+		for(SupportPayment sp : list) {
+			payNo = sp.getPayNo();
+		}
+		
+		if(payNo!=null) {
+			//임포트에서 결제취소작업
+			IamportClient ic = new IamportClient("4713522635694358", "I993CW83GgrgwFXRgDOKXoy66EZ6uSad1khEgqIXG9ecPb36OSQMgoTn3SuyLEMNY3sftbcakqnaBrgq");
+			   
+			CancelData cd = new CancelData(payNo, true);
+	
+			cd.setReason("후원취소");
+			int success = ic.cancelPaymentByImpUid(cd).getCode();
+			System.out.println(ic.cancelPaymentByImpUid(cd).getCode());
+			System.out.println(success);
+			System.out.println(ic.cancelPaymentByImpUid(cd).getMessage());
+			System.out.println(ic.cancelPaymentByImpUid(cd).getResponse());
+			
+			if(success==0) {
+				//결제DB수정작업
+				int result = projectService.paymentCancelDel(map);
+				if(result>0) {
+					msg = "결제 취소가 완료되었습니다.\n다음에 더 좋은 프로젝트로 찾아뵙겠습니다^^";
+					loc = "/project/projectView.do?projectNo="+projectNo+"&email"+email;
+					
+					mav.addObject("msg",msg);
+					mav.addObject("loc",loc);
+					mav.setViewName("common/msg");
+				}else {
+					msg = "시스템오류...관리자에게 문의해주세요!!!";
+					loc = "/project/projectView.do?projectNo="+projectNo+"&email"+email;
+					
+					mav.addObject("msg",msg);
+					mav.addObject("loc",loc);
+					mav.setViewName("common/msg");
+				}
+			}else {
+				msg = "이미 결제 취소가 완료된 프로젝트입니다.";
+				loc = "/project/projectView.do?projectNo="+projectNo+"&email"+email;
+			}
+		}
 
+		mav.addObject("msg",msg);
+		mav.addObject("loc",loc);
 		mav.setViewName("common/msg");
 		
 		return mav;

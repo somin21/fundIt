@@ -20,6 +20,7 @@ import com.kh.fundit.project.model.vo.ProjectGift;
 import com.kh.fundit.project.model.vo.ProjectOutline;
 import com.kh.fundit.project.model.vo.ProjectSupport;
 import com.kh.fundit.project.model.vo.ProjectView;
+import com.kh.fundit.project.model.vo.SupportPayment;
 
 @Service
 public class ProjectServiceImpl implements ProjectService {
@@ -334,6 +335,16 @@ public class ProjectServiceImpl implements ProjectService {
 	@Override
 	public int communityUpdate(Map<String, Object> map) {
 		return projectDAO.communityUpdate(map);
+	}
+//	희영
+	@Override
+	public List<SupportPayment> paymentCancel(Map<String, Object> map) {
+		return projectDAO.paymentCancel(map);
+	}
+//	희영
+	@Override
+	public int paymentCancelDel(Map<String, Object> map) {
+		return projectDAO.paymentCancelDel(map);
 	}
 
 

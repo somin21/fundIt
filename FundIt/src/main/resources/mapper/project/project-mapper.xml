@@ -295,4 +295,13 @@
 		update community set communitycontent='${communityContext}' where projectNo=${projectNo} and email='${contextId}' and communityno=${communityNo}
 	</update>
 	
+	<select id="paymentCancel" resultType="supportPayment">
+		select * 
+		from support s join payment p on s.supportno=p.supportno
+		where s.email='${email}' and s.projectno=${projectNo} and payyn is null
+	</select>
+	<update id="paymentCancelDel">
+		update support set payyn='N' where projectNo='${projectNo}' and email='${email}' and payyn is null
+	</update>
+	
 </mapper>

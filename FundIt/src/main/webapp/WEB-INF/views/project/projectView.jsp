@@ -596,7 +596,12 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
     	location.href="${pageContext.request.contextPath}/project/communityUpdate.do?contextId="+contextId+"&communityContext="+communityContext+"&projectNo="+projectNo+"&communityNo="+communityNo;  	
     }
     function fn_paymentCancel(projectNo, email){
-    	location.href="${pageContext.request.contextPath}/project/paymentCancel.do?projectNo="+projectNo+"&email="+email;
+    	var retVal = confirm("후원이 취소됩니다.진행하시겠습니까?");
+   	    if( retVal == true ){
+   		 	location.href="${pageContext.request.contextPath}/project/paymentCancel.do?projectNo="+projectNo+"&email="+email;
+   	    }else{
+   	      	alert("취소되었습니다.");
+   	    }
     }
     </script>
 

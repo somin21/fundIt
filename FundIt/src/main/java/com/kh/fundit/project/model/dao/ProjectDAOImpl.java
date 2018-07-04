@@ -21,6 +21,7 @@ import com.kh.fundit.project.model.vo.ProjectGift;
 import com.kh.fundit.project.model.vo.ProjectOutline;
 import com.kh.fundit.project.model.vo.ProjectSupport;
 import com.kh.fundit.project.model.vo.ProjectView;
+import com.kh.fundit.project.model.vo.SupportPayment;
 
 @Repository
 public class ProjectDAOImpl implements ProjectDAO {
@@ -311,6 +312,16 @@ public class ProjectDAOImpl implements ProjectDAO {
 	@Override
 	public int communityUpdate(Map<String, Object> map) {
 		return sqlSession.update("project.communityUpdate",map);
+	}
+//	희영
+	@Override
+	public List<SupportPayment> paymentCancel(Map<String, Object> map) {
+		return sqlSession.selectList("project.paymentCancel",map);
+	}
+//	희영
+	@Override
+	public int paymentCancelDel(Map<String, Object> map) {
+		return sqlSession.update("project.paymentCancelDel",map);
 	}
 
 }

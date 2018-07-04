@@ -16,6 +16,7 @@ import com.kh.fundit.project.model.vo.ProjectGift;
 import com.kh.fundit.project.model.vo.ProjectOutline;
 import com.kh.fundit.project.model.vo.ProjectSupport;
 import com.kh.fundit.project.model.vo.ProjectView;
+import com.kh.fundit.project.model.vo.SupportPayment;
 
 public interface ProjectService {
 
@@ -100,5 +101,9 @@ public interface ProjectService {
 	void deleteGift(Map<String, Integer> map);
 
 	int communityUpdate(Map<String, Object> map);
+
+	List<SupportPayment> paymentCancel(Map<String, Object> map);
+
+	int paymentCancelDel(Map<String, Object> map);
 
 }
