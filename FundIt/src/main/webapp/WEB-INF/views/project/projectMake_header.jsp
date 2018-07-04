@@ -225,7 +225,7 @@ $(function(){
 				
 				var imgSRC = $(this).next("img").attr("src");
 				
-				if($(this).attr("id") != "project-movie"){
+				if($(this).attr("id") == "project-movie"){
 					
 				} else if($(this).attr("id") == "profile-image"){
 					html = '<span><img src="'+imgSRC+'" class="uploadImg rounded-circle" style="width: 250px;height: 250px;"></span><span></span>';
