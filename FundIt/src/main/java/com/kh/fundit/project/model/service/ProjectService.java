@@ -101,4 +101,6 @@ public interface ProjectService {
 
 	int deleteProject(int projectNo, Map<String, Object> map);
 
+	List<ListProjectView> selectMyProjectI(Member member, int numPerpage);
+
 }

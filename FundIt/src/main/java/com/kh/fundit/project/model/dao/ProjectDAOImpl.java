@@ -333,6 +333,13 @@ public class ProjectDAOImpl implements ProjectDAO {
 		  
 		return sqlSession.delete("project.deleteProject", map);
 	}
+//  태윤
+	@Override
+	public List<ListProjectView> selectMyProjectI(Member member, int numPerpage) {
+		// TODO Auto-generated method stub
+		RowBounds rowBounds = new RowBounds(0, numPerpage);
+		return sqlSession.selectList("project.selectMyProjectI", member, rowBounds);
+	}
 
 
 

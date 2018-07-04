@@ -7,10 +7,45 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
 
 <script>
-let isEnd = false;
+
 var email = '';
 var searchKeyword = "";
 var searchType = "";
+var numPerPage = 4;
+
+function toNextAjax(){
+	email = $("#email").val().trim();
+	$("#supportList-container").html('');
+	searchType = $("#searchType-hidden").val().trim();
+	numPerPage += 4;
+	console.log(searchType+" , "+numPerPage)
+	if(searchType == 'searchComplated'){
+		
+		searchKeyword = $("#searchKeyword").val().trim();;
+		console.log(searchKeyword);
+	}
+	$.ajax({
+		url : "${pageContext.request.contextPath}/member/selectMySupport",
+		data : {email : email, searchType : searchType, searchKeyword : searchKeyword, numPerPage : numPerPage},
+		success : function(data){
+			console.log(data)	
+			for(var i = 0; i< data.length; i++){
+				
+				htmlAppend(data[i], "#supportList-container");
+				
+			}
+			if(data.length < 1){
+				htmlAppendNone(data.length+1, "#supportList-container");
+				
+			}
+		},
+		error : function(jqxhr,textStatus,errorThrown){
+			console.log("ajax실패");
+		}
+				
+		});
+	
+}
 
 function fn_search(searchTypeBtn){
 	
@@ -115,13 +150,16 @@ function htmlAppend(project, div_name){
 	html += '<div class="project"  onclick = "fn_gotoProjectView();">';
 	html += '<input type="hidden" name="projectNo" id ="projectNo" value="'+project.projectNo+'" />';
 	html += '<img src="${pageContext.request.contextPath }/resources/images/projects/'+project.projectImage+'" />';
-	html += '<div class="summary" style = "height : 250px;">';
+	html += '<div class="summary" style = "height : 300px;">';
 	html += '<p>'+project.projectTitle+' : '+project.projectWriter+'</p>';
 	var supportGoal = numberWithCommas(project.supportGoal);
 	var mySupportMoney = numberWithCommas(project.mySupportMoney);
 	html += '<p>목표금액 - '+supportGoal+'원</p>';
 	html += '<p>나의 후원금액 - '+mySupportMoney+'원</p>';
-	html += '<p>선물명 - '+project.itemName+'</p>'
+	html += '<p>선물명 - '+project.itemName+'</p>';
+	if(project.payYn == "N"){
+	html += '<p style = "color:tomato;">결제취소됨</p>'	;
+	}
 	html += '<div class="progress">';
 	
 	if(project.supportPercent < 100){
@@ -132,7 +170,7 @@ function htmlAppend(project, div_name){
 	
 	html += '</div>';
 	html += '<br />';
-	html += '<div class="days">';
+	html += '<div class="days" style="margin-top : 15px;">';
 	html += '<img src="${pageContext.request.contextPath }/resources/images/calendar.png"/>';
 	html += '&nbsp;'+project.deadlineDate+'일 남음';
 	html += '</div>';
@@ -148,7 +186,7 @@ function htmlAppend(project, div_name){
 
 function htmlAppendNone(startIndex, div_name){
 		
-		var html = '<div class="project">';
+		var html = '<div class="project" style="height : 300px;">';
 		html += '<div class="project-img">';
 		html += '<img src="${pageContext.request.contextPath }/resources/images/empty.png" />';
 		html += '</div>';
@@ -203,7 +241,7 @@ padding-top : 100px;
 div.input-group{
 width : 40%;
 margin-top : -38px;
-margin-left : 230px;
+margin-left : 335px;
 }
 div#supportList-container{
 width : 100%;
@@ -212,12 +250,17 @@ margin-top : 100px;
 div#mySupport-container{
 margin : auto;
 margin-top : 150px;
-width: 70%;
+width : 70%;
+
 }
 div.project {
 width : 250px;
-height: 450px;
+height: 500px;
 }
+div#selectBtn-container{
+text-align : left;
+}
+
 
 
 </style>
@@ -241,12 +284,14 @@ height: 450px;
 &nbsp;
 <button type="button" class="btn btn-outline-secondary" onclick = "fn_search('searchOnGoing');">펀딩 진행중</button> <!-- searchOnGoing  -->
 &nbsp;
+<button type="button" class="btn btn-outline-secondary" onclick = "fn_search('searchCancle');">결제 취소</button> <!-- searchOnGoing  -->
+&nbsp;
 <div class="input-group mb-3">
   <div class="input-group-prepend" >
-    <button class="btn btn-outline-secondary" type="button" onclick = "fn_search('searchComplated');">후원 완료</button>
+    <button class="btn btn-outline-secondary" type="button" onclick = "fn_search('searchComplated');">결제 완료</button>
   </div>
   <!-- searchComplated  -->
-  <input type="text" id="searchKeyword" class="search" placeholder="프로젝트/선물/창작자를 검색하세요" size=40 min="3" max="40" aria-describedby="basic-addon1">
+  <input type="text" id="searchKeyword" class="search" placeholder="프로젝트/선물/창작자를 검색하세요" size=35 min="0" max="35" aria-describedby="basic-addon1">
 </div>
 
 </div>
@@ -260,6 +305,7 @@ height: 450px;
 
 
 	</div>
+	<input type="button" value="더보기" class = "btn btn-success" style = "width:100%; margin: auto; margin-top : 100px;"  onclick = "toNextAjax();" />
 </div>
 
 <script>

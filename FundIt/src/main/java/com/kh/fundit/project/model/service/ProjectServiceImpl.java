@@ -330,11 +330,17 @@ public class ProjectServiceImpl implements ProjectService {
 
 		projectDAO.deleteGift(map);
 	}
-
+//  태윤
 	@Override
 	public int deleteProject(int projectNo, Map<String, Object> map) {
 		// TODO Auto-generated method stub
 		return projectDAO.deleteProject(map);
+	}
+//  태윤
+	@Override
+	public List<ListProjectView> selectMyProjectI(Member member, int numPerpage) {
+		// TODO Auto-generated method stub
+		return projectDAO.selectMyProjectI(member, numPerpage);
 	}
 
 

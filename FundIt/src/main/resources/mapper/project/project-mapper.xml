@@ -331,4 +331,15 @@
 	delete from project_outline where projectno = #{projectNo} and email = #{memberLoggedIn} 
 	</delete>
 	
+	<select id="selectMyProjectI" resultType = "list_project_view">
+	select *
+	from
+		(select p.projectno, p.projecttitle, p.projectimage,p.projectconfirmyn as "confirmYn",  
+			    (select name from member m where p.email = m.email) name,
+			    (select trunc(deadlinedate - sysdate) from project_funding f where p.projectno = f.projectno) deadlineday,
+			     s.supportmoney, s.supportpercent
+		from (select * from project_outline where projectconfirmyn = 'I' and  email = #{email} order by projectdate desc) p join project_summary s on p.projectno = s.projectno
+		order by deadlineday)
+	</select>
+	
 </mapper>

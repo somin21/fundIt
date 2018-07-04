@@ -105,4 +105,6 @@ public interface ProjectDAO {
 
 	int deleteProject(Map<String, Object> map);
 
+	List<ListProjectView> selectMyProjectI(Member member, int numPerpage);
+
 }

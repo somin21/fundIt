@@ -677,5 +677,18 @@ public class ProjectController {
 		
 		return result;
 	}
+//태윤
+	@RequestMapping("/project/selectMyProjectI")
+	@ResponseBody
+	public List<ListProjectView> selectMyProjectListI(@RequestParam String email, @RequestParam(value="page", required=false, defaultValue="4") int numPerpage, HttpServletResponse response){
+			
+		Member member = new Member();
+		System.out.println(email);
+		member.setEmail(email);
+					
+		List<ListProjectView> list = projectService.selectMyProjectI(member, numPerpage);
+			
+		return list;
+	}
 
 }
