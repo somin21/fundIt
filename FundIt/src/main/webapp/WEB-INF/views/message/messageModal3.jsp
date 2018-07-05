@@ -27,7 +27,17 @@ function receive(){
 }
 
 </script>
-
+<script>
+function check(){
+	var a = $(".messagearea").val();
+	if(a==''){
+		alert("내용을 입력하세요");
+		return false;
+	}else{
+		return true;
+	}
+	}
+</script>
 <style>
 
 body{
@@ -54,7 +64,7 @@ width:100%;
         <div class="modal-header">
           <h4 class="modal-title">상세보기 및 답장하기</h4> <button type="button" onclick="receive();" class="btn btn-default">답장하기</button>
         </div>
-       	<form action="messageModalEnd2.do">
+       	<form action="messageModalEnd2.do" onsubmit="return check()" method="post">
         <div class="modal-body">
         	<h4 class="bbb">메세지 내용</h4>
         	<hr class="bbb"/>
@@ -69,7 +79,7 @@ width:100%;
         </div>
         <input type="text" value="${param.messageNo }" name="messageNo" id="messageNo" />
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal"  onclick="location.href='${pageContext.request.contextPath}/message/messageList2.do?email=${memberLoggedIn.email }'">Close</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" onclick="aaa();">Close</button>
           <input type="submit" value="보내기" class="btn btn-default" id="receive" />
         </form>
         </div>
@@ -77,8 +87,15 @@ width:100%;
     </div>
   </div>
 </div>
+<form action="${pageContext.request.contextPath}/message/messageList2.do" method="post">
+<input type="text" name="email" value="${memberLoggedIn.email }" style="display: none;"/>
+<input type="submit" id="modalpost" style="display: none;"/>
+</form>
 <script>
 $('#myModal').modal({backdrop: 'static'});
+function aaa(){
+	$("#modalpost").click();
+}
 </script>
 
 

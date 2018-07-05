@@ -196,10 +196,12 @@ public class Utils {
 			pageBar += "</li>";
 		}
 		
+
 		pageBar += "</ul>";
 		
 		//2.스크립트 태그 작성
 		//fn_paging함수
+		
 		pageBar += "<script>";
 		pageBar += "function fn_paging(cPage,numPerPage){";
 		pageBar += "location.href='"+url+"?email="+email+"&cPage='+cPage;";

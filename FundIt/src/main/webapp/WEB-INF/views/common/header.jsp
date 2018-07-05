@@ -138,7 +138,16 @@ window.onload = function () {
 	</div>
 	
 	<div id="profile-click-div">
-		<p><a href="${pageContext.request.contextPath }/message/messageList.do?email=${memberLoggedIn.email }">메시지</a></p>
+	<form action="${pageContext.request.contextPath }/message/messageList.do" method="post">
+		<p><a href="#" onclick="messageList();">메시지</a></p>
+		<input type="text" value="${memberLoggedIn.email }" name="email" style="display: none;" />
+		<input type="submit" id="aaaa" style="display: none;"/>
+		</form>
+		<script>
+		function messageList(){
+			$("#aaaa").click();
+		}
+		</script>
 		<hr />
 		<p><a href="${pageContext.request.contextPath }/interest/interest.do?email=${memberLoggedIn.email }">관심 프로젝트</a></p>
 		<p><a href="${pageContext.request.contextPath}/member/mySupport.do?email=${memberLoggedIn.email} ">후원 현황</a></p>
