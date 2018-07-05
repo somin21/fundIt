@@ -437,10 +437,20 @@ public class ProjectServiceImpl implements ProjectService {
 		// TODO Auto-generated method stub
 		return projectDAO.selectMyProjectI(member, numPerpage);
 	}
-
+//희영
 	@Override
 	public ProjectStory projectStoryList(Map<String, Object> map) {
 		return projectDAO.projectStoryList(map);
+	}
+//희영
+	@Override
+	public int emailAuthentication(Map<String, Object> map) {
+		return projectDAO.emailAuthentication(map);
+	}
+//희영
+	@Override
+	public List<String> emailAuthenticationList(Map<String, Object> map) {
+		return projectDAO.emailAuthenticationList(map);
 	}
 
 

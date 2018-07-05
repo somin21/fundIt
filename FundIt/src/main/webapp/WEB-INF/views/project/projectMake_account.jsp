@@ -19,6 +19,8 @@ input#authentication{
 //인증번호시작
 function fn_emailAtion(){
 	var email = $("#confirmEmail").val();
+	var emailId= 'asd@co.kr';
+		/* '${memberLoggedIn.email }'; */
 	console.log(email);
 	console.log(email.length);
 	if(email.length==0){
@@ -29,7 +31,8 @@ function fn_emailAtion(){
 			type: 'POST',
 			dataType: 'json',
 			data: {
-				email : email				//이메일
+				email : email,				//이메일
+				emailId : emailId			//fundit이메일
 			},
 			error : function(jqxhr,textStatus,errorThrown){
 				console.log("ajax실패",jqxhr,textStatus,errorThrown);

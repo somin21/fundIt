@@ -401,4 +401,12 @@
 	<select id="projectStoryList" resultType="projectStory">
 		select * from project_story where projectno = ${projectNo}
 	</select>
+	
+	<insert id="emailAuthentication">
+		insert into confirm values('${emailId}','${email}','${joinCode}',default)
+	</insert>
+	
+	<select id="emailAuthenticationList" resultType="string">
+		select * from confirm where confirmyn='Y' and confirmemail='${emailId}'
+	</select>
 </mapper>

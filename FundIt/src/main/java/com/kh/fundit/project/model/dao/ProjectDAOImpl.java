@@ -406,5 +406,15 @@ public class ProjectDAOImpl implements ProjectDAO {
 		return sqlSession.selectOne("project.projectStoryList", map);
 
 	}
+//	희영
+	@Override
+	public int emailAuthentication(Map<String, Object> map) {
+		return sqlSession.insert("project.emailAuthentication", map);
+	}
+//	희영
+	@Override
+	public List<String> emailAuthenticationList(Map<String, Object> map) {
+		return sqlSession.selectList("project.emailAuthenticationList", map);
+	}
 
 }

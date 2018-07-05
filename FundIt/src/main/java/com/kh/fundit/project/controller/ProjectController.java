@@ -2,6 +2,7 @@ package com.kh.fundit.project.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
@@ -899,42 +900,69 @@ public class ProjectController {
 		return "project/projectMake_account";
 	}
 //	희영
-/*	@RequestMapping(value="/project/emailAuthentication.do",method=RequestMethod.POST,produces="application/json; charset=utf8")
-	public ModelAndView emailAuthentication(@RequestParam String email, HttpServletRequest request) {
+	@RequestMapping(value="/project/emailAuthentication.do",method=RequestMethod.POST,produces="application/json; charset=utf8")
+	public ModelAndView emailAuthentication(@RequestParam String email,String emailId, HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mav = new ModelAndView();
 		
 		Map<String,Object> map = new HashMap<String, Object>();
 		map.put("email", email);
+		map.put("emailId", emailId);
 		
 		System.out.println("email="+email);
+		System.out.println("emailId="+emailId);
 		
 		int ran = new Random().nextInt(100000) + 10000; // 10000 ~ 99999
-        final String joinCode = String.valueOf(ran);
-
-		final String sendEmail = email;
 		
+		boolean emailAuthentication = false;
+		
+        final String joinCode = String.valueOf(ran);
+        map.put("joinCode", joinCode);
+        
+        //Y인경우찾기
+        List<String> list = projectService.emailAuthenticationList(map);
+        System.out.println("list="+list);
+       /* if(list==null) {	//Y가없는 경우 N을 찾음
+*/        	//N인겨웅찾기
+        	//List<String> list2 = projectService.emailAuthenticationList(map);
+        	/*if(list2==null) {	//N이 없는경우 인증번호를 생성해줌*/
+	        	int result = projectService.emailAuthentication(map);
+	        
+				final String sendEmail = email;
+	
+				if(result>0) {
+				    final MimeMessagePreparator preparator = new MimeMessagePreparator() {
+				        @Override
+				        public void prepare(MimeMessage mimeMessage) throws Exception {
+				            final MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+				            helper.setFrom("flyingboy147@gmail.com");
+				            helper.setTo(sendEmail);
+				            helper.setSubject("fundit에서 이메일 인증번호를 보내드립니다.");
+				            helper.setText("인증번호는 【"+joinCode+"】");
+				 
+				            }
+				        };
+				        mailSender.send(preparator);
+				}
+				System.out.println("result="+result);
+        	/*}*/
+       /* }else {
+        	emailAuthentication = true;//인증트루표시
+        	response.setContentType("text/html; charset=UTF-8");
+        	PrintWriter out;
+        	try {
+        		out = response.getWriter();
+        		out.println("<script>alert('인증된 이메일입니다!')</script>");
+        		out.flush();
+        	} catch (IOException e) {
+        		e.printStackTrace();
+        	}
+        }*/
 
-        final MimeMessagePreparator preparator = new MimeMessagePreparator() {
-            @Override
-            public void prepare(MimeMessage mimeMessage) throws Exception {
-     
-                final MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
-                helper.setFrom("flyingboy147@gmail.com");
-                helper.setTo(sendEmail);
-                helper.setSubject("fundit에서 이메일 인증번호를 보내드립니다.");
-                helper.setText("인증번호는 【"+joinCode+"】");
- 
-            }
-        };
-        mailSender.send(preparator);
-        System.out.println("email5="+sendEmail);
-
-
-	    
+		mav.addObject("emailAuthentication", emailAuthentication);
 		mav.setViewName("jsonView");
 		
 		return mav;
-	}*/
+	}
 /*	@RequestMapping("/project/makeProject/account")
 	public ModelAndView makeProjectAccount(ProjectStory story,
 										   @RequestParam(value="projectMovie", required=false) MultipartFile projectMovie,

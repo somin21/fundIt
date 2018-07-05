@@ -130,4 +130,8 @@ public interface ProjectDAO {
 
 	ProjectStory projectStoryList(Map<String, Object> map);
 
+	int emailAuthentication(Map<String, Object> map);
+
+	List<String> emailAuthenticationList(Map<String, Object> map);
+
 }
