@@ -8,7 +8,6 @@
 	<jsp:param value="" name="pageTitle"/>		
 </jsp:include> 	
 
-
 <style>
 body {
     background-color: #F7F7F7;
@@ -43,10 +42,6 @@ h4 {
     font-size: 16px;
 }
 
-a {
-    color: #1056d6;
-    text-decoration: none;
-}
 
 .container-divider {
     border-top: 1px solid #ddd;
@@ -140,7 +135,6 @@ select option:checked, select option:hover {
 }
 
 #textarea {
-    width: 100%;
     padding: 12px 20px;
     margin: 8px 0;
     box-sizing: border-box;
@@ -150,7 +144,7 @@ select option:checked, select option:hover {
 }
 
 #textarea:focus {
-    border: 2px solid #3242d1;
+    border: 1px solid #3242d1;
 }
 
 .inp {
@@ -179,6 +173,7 @@ select option:checked, select option:hover {
   font-size: 12px;
   margin: 5px 0;
 }
+
 </style>
 
 <body class="">
@@ -209,24 +204,26 @@ select option:checked, select option:hover {
     </nav>
     
     
-    <h1>펀드잇에 문의하기</h1>
+    <h1><펀드잇에 문의하기></h1>
+    <br />
     <p>
         펀드잇에 가입하신 이메일 주소와 함께 문의를 남겨주세요. 영업일 기준 최대 2일 내에 답변을 드리겠습니다. 
     </p>
     
     <div class="warning">
         특정 프로젝트와 관련한 질문은 해당 프로젝트 페이지의 <b>창작자에게 문의하기</b> 기능을 이용해주세요.<br>
-        후원 결제에 대한 문의는 <b>후원번호</b>를 문의와 함께 알려주시면 빠른 안내가 가능합니다. 후원번호는 <a href=""><b>내 후원 현황</b></a>에서 확인하실 수 있습니다.<br>
-        텀블벅 서비스와의 제휴/협력 제안은 <a href=""><b>xxxx@fundit.com</b></a>으로 보내주시기 바랍니다.
+        후원 결제에 대한 문의는 <b>후원번호</b>를 문의와 함께 알려주시면 빠른 안내가 가능합니다. 후원번호는<b>내 후원 현황</b>에서 확인하실 수 있습니다.<br>
+        텀블벅 서비스와의 제휴/협력 제안은 <b>xxxx@fundit.com</b>으로 보내주시기 바랍니다.
     </div>
+	<br />
 	
     <div class="form">
         <p class="a1">*문의하실 내용을 알려주세요.*</p>
         <form action="${pageContext.request.contextPath}/help/helpRequestEnd.do">
         	<input type="hidden" name="userId" value="${memberLoggedIn.email }"/>
         	<input type="hidden" name="reciver" value="hoyjung34@naver.com"/>
-	        <textarea id="textarea" name="context" rows="10" style="width:100%;">
-	        </textarea>
+	        <p><span id="counter">0</span>/700</p>
+	        <textarea id="textarea" name="context" rows="10" style="width:100%;" placeholder = "700자 이하로  입력하시오..."></textarea>
 	        <input class="inp" type="submit" value="제출"/>
 	 	 </form>
         </div>
@@ -238,10 +235,25 @@ select option:checked, select option:hover {
     </main>
     
 <script>
-function fn_click(){
-	location.href = "${pageContext.request.contextPath }/help/helpView.do";
-}
+$("textarea").keydown(function(){
+    var input = $(this).val().length;
+    $("#counter").html(input);
+    var remain = 700 - input;
+    $("#counter").css("color", "black");
+});
 
+$(document).ready(function() {
+	var textCountLimit = 700;
+    $('textarea[name=context]').keyup(function() {
+        var textLength = $(this).val().length;
+ 
+        $('#textCount').text(textLength);
+         
+        if (textLength > textCountLimit) {
+            $(this).val($(this).val().substr(0, textCountLimit));
+        }
+    });
+});
 </script>
   
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>	
