@@ -31,7 +31,7 @@ function account_validate(){
 	}
 	
 	var phoneRegExp = /^(01[016789]{1}|02|0[3-9]{1}[0-9]{1})([0-9]{3,4})([0-9]{4})$/;
-	if(!$(phoneRegExp.test($("#phone").val())){
+	if(!phoneRegExp.test($("#phone").val())){
 		
 		alert("휴대폰 번호를 확인해주세요");
 		return false;
