@@ -90,14 +90,14 @@ window.onload = function () {
 	</div>
 	
 	<div id="menu-click-div">
-		<p><a href="${pageContext.request.contextPath }/project/projectList.do?categoryCode=">모든프로젝트</a></p>
+		<p><a href="${pageContext.request.contextPath }/project/projectList.do?categoryCode=&select=0">모든프로젝트</a></p>
 		<p style="color:darkgray;font-size:0.8em;text-align:center;padding-top:15px;">카테고리</p>
-		<p><a href="${pageContext.request.contextPath }/project/projectList.do?categoryCode=C1">게임</a></p>
-		<p><a href="${pageContext.request.contextPath }/project/projectList.do?categoryCode=C2">푸드</a></p>
-		<p><a href="${pageContext.request.contextPath }/project/projectList.do?categoryCode=C3">예술</a></p>
-		<p><a href="${pageContext.request.contextPath }/project/projectList.do?categoryCode=C4">패션</a></p>
-		<p><a href="${pageContext.request.contextPath }/project/projectList.do?categoryCode=C5">출판</a></p>
-		<p><a href="${pageContext.request.contextPath }/project/projectList.do?categoryCode=C6">테크놀리지</a></p>
+		<p><a href="${pageContext.request.contextPath }/project/projectList.do?categoryCode=C1&select=0">게임</a></p>
+		<p><a href="${pageContext.request.contextPath }/project/projectList.do?categoryCode=C2&select=0">푸드</a></p>
+		<p><a href="${pageContext.request.contextPath }/project/projectList.do?categoryCode=C3&select=0">예술</a></p>
+		<p><a href="${pageContext.request.contextPath }/project/projectList.do?categoryCode=C4&select=0">패션</a></p>
+		<p><a href="${pageContext.request.contextPath }/project/projectList.do?categoryCode=C5&select=0">출판</a></p>
+		<p><a href="${pageContext.request.contextPath }/project/projectList.do?categoryCode=C6&select=0">테크놀리지</a></p>
 	</div>
 	
 	<div id="nav-title">

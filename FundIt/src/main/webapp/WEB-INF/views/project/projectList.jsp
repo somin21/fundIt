@@ -149,6 +149,7 @@ select#select {
   border-radius: 0px;
 }
 </style>
+   
     <!-- 프로젝트 -->
     <hr />
     <div class="maincontainer">
@@ -181,13 +182,23 @@ select#select {
     <div class="maincontainer2">
         <div id="selectList">
         <select name="" id="select">
-            <option value="">최다 후원순</option>
-            <option value="">최다 금액순</option>
-            <option value="">마감 임박순</option>
-            <option value="">최신순</option>
+            <option value="0">검색</option>
+            <option value="1" ${select==1? 'selected':'' }>최다 후원순</option>
+            <option value="2" ${select==2? 'selected':'' }>최다 금액순</option>
+            <option value="3" ${select==3? 'selected':'' }>마감 임박순</option>
+            <option value="4" ${select==4? 'selected':'' }>최신순</option>
         </select>
         </div>
     </div>
+ <script>
+    $("#select").change(function() {
+    	var select=$(this).val();
+    	var category = '${categoryCode==''?'':categoryCode}';
+    	//console.log(select);
+    	location.href="${pageContext.request.contextPath }/project/projectList.do?categoryCode="+category+"&select="+select;
+    
+    });
+    </script>
     <hr />
     <div id="all">
 	<div id="index-container">
