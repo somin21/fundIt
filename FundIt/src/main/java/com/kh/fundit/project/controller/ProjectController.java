@@ -7,11 +7,16 @@ import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -40,6 +45,8 @@ import com.siot.IamportRestClient.request.CancelData;
 
 @Controller
 public class ProjectController {
+	@Autowired
+	private JavaMailSenderImpl mailSender;
 	
 	@Autowired
 	private ProjectService projectService;
@@ -887,6 +894,48 @@ public class ProjectController {
 	
 //	소민
 	@RequestMapping("/project/makeProject/account")
+	public String makeProjectAccount() {
+		
+		return "project/projectMake_account";
+	}
+//	희영
+/*	@RequestMapping(value="/project/emailAuthentication.do",method=RequestMethod.POST,produces="application/json; charset=utf8")
+	public ModelAndView emailAuthentication(@RequestParam String email, HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView();
+		
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("email", email);
+		
+		System.out.println("email="+email);
+		
+		int ran = new Random().nextInt(100000) + 10000; // 10000 ~ 99999
+        final String joinCode = String.valueOf(ran);
+
+		final String sendEmail = email;
+		
+
+        final MimeMessagePreparator preparator = new MimeMessagePreparator() {
+            @Override
+            public void prepare(MimeMessage mimeMessage) throws Exception {
+     
+                final MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+                helper.setFrom("flyingboy147@gmail.com");
+                helper.setTo(sendEmail);
+                helper.setSubject("fundit에서 이메일 인증번호를 보내드립니다.");
+                helper.setText("인증번호는 【"+joinCode+"】");
+ 
+            }
+        };
+        mailSender.send(preparator);
+        System.out.println("email5="+sendEmail);
+
+
+	    
+		mav.setViewName("jsonView");
+		
+		return mav;
+	}*/
+/*	@RequestMapping("/project/makeProject/account")
 	public ModelAndView makeProjectAccount(ProjectStory story,
 										   @RequestParam(value="projectMovie", required=false) MultipartFile projectMovie,
 										   HttpServletRequest request) {
@@ -921,7 +970,7 @@ public class ProjectController {
 		
 		return mav;
 	}
-
+*/
 	
 //	소민
 	@RequestMapping("/project/makeProject/end")
