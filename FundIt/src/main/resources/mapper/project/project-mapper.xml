@@ -267,7 +267,11 @@
 	</insert>
 	
 	<update id="makeProjectProfile">
-	update profile set profileimage=#{profileImage}, profileintroduce=#{profileIntroduce}, localcode=#{localCode} where email=#{email}
+	update profile set 
+		<if test="profileImage == null">
+		profileimage=#{profileImage}, 
+		</if>
+	profileintroduce=#{profileIntroduce}, localcode=#{localCode} where email=#{email}
 	</update>
 	
 	<insert id="makeProjectFunding">
