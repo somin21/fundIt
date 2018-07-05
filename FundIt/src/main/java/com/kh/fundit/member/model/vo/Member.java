@@ -79,8 +79,12 @@ public class Member {
 		this.deleteyn = deleteyn;
 	}
 	
-   public Member(String email,String newsyn) {}
 
-   public Member() {}
+   public Member(String email, String newsyn) {
+		super();
+		this.email = email;
+		this.newsyn = newsyn;
+	}
+public Member() {}
    
 }

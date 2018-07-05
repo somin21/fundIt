@@ -685,7 +685,7 @@ public class ProjectController {
 	@RequestMapping(value="/project/makeProject/funding-gift", method=RequestMethod.POST)
 	public ModelAndView makeProjectFundingGift(ProjectOutline outline, Profile profile,
 											   @RequestParam(value="projectImageFile") MultipartFile projectImage, 
-											   @RequestParam(value="profileImageFile") MultipartFile profileImage,
+											   @RequestParam(value="profileImageFile", required=false) MultipartFile profileImage,
 											   HttpServletRequest request) {
 		
 		ModelAndView mav = new ModelAndView();
@@ -913,6 +913,7 @@ public class ProjectController {
 		
 		return mav;
 	}
+
 	
 //	소민
 	@RequestMapping("/project/makeProject/end")

@@ -441,7 +441,7 @@ a {
 		console.log(email);
 		if(email.length == 0 || email == null){
 			alert("먼저 로그인 해주세요");
-			location.href="${pageContext.request.contextPath}/member/login.do";
+			location.href="${pageContext.request.contextPath}/login.do";
 		}else{
 			location.href="${pageContext.request.contextPath}/help/helpRequest.do";
 		}
