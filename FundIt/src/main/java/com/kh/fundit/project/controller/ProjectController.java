@@ -846,9 +846,9 @@ public class ProjectController {
 	@ResponseBody
 	public Item insertItem(@RequestParam boolean isFirst, Item item) {
 		
-		if(isFirst == true) {
-			projectService.deleteItem(item.getProjectNo());
-		}
+//		if(isFirst == true) {
+//			projectService.deleteItem(item.getProjectNo());
+//		}
 		
 		return projectService.insertItem(item);
 	}
@@ -893,12 +893,6 @@ public class ProjectController {
 		projectService.deleteGift(map);
 	}	
 	
-//	소민
-	@RequestMapping("/project/makeProject/account")
-	public String makeProjectAccount() {
-		
-		return "project/projectMake_account";
-	}
 //	희영
 	@RequestMapping(value="/project/emailAuthentication.do",method=RequestMethod.POST,produces="application/json; charset=utf8")
 	public ModelAndView emailAuthentication(@RequestParam String email,String emailId, HttpServletRequest request, HttpServletResponse response) {
@@ -963,6 +957,13 @@ public class ProjectController {
 		
 		return mav;
 	}
+	
+//	소민
+	@RequestMapping("/project/makeProject/account")
+	public String makeProjectAccount() {
+		
+		return "project/projectMake_account";
+	}
 /*	@RequestMapping("/project/makeProject/account")
 	public ModelAndView makeProjectAccount(ProjectStory story,
 										   @RequestParam(value="projectMovie", required=false) MultipartFile projectMovie,
@@ -1003,6 +1004,7 @@ public class ProjectController {
 		return mav;
 	}
 */
+
 	
 //	소민
 	@RequestMapping("/project/makeProject/end")
