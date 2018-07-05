@@ -128,4 +128,10 @@ public interface ProjectDAO {
 
 	List<ListProjectView> selectMyProjectI(Member member, int numPerpage);
 
+	ProjectStory projectStoryList(Map<String, Object> map);
+
+	int emailAuthentication(Map<String, Object> map);
+
+	List<String> emailAuthenticationList(Map<String, Object> map);
+
 }

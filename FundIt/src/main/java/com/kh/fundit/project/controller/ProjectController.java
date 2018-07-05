@@ -2,16 +2,22 @@ package com.kh.fundit.project.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -40,6 +46,8 @@ import com.siot.IamportRestClient.request.CancelData;
 
 @Controller
 public class ProjectController {
+	@Autowired
+	private JavaMailSenderImpl mailSender;
 	
 	@Autowired
 	private ProjectService projectService;
@@ -152,16 +160,20 @@ public class ProjectController {
 	
 //	희영
 	@RequestMapping("/project/projectList.do")
-	public ModelAndView projectList(@RequestParam String categoryCode) {
+	public ModelAndView projectList(@RequestParam String categoryCode, String select) {
 		ModelAndView mav = new ModelAndView();
 		
 		Map<String,String> map = new HashMap<String, String>();
 		map.put("categoryCode",categoryCode);
+		map.put("select",select);
 		
+		System.out.println("select="+select);
 		List<ListProjectView> list = projectService.projectList(map);
+		System.out.println("list="+list);
 		
 		mav.addObject("list",list);
 		mav.addObject("categoryCode",categoryCode);
+		mav.addObject("select",select);
 		mav.setViewName("project/projectList");
 		
 		return mav;
@@ -178,6 +190,9 @@ public class ProjectController {
 		map.put("projectNo",projectNo);
 		map.put("buyer_id",email);
 		
+		//프로젝트 스토리 뽑기
+		ProjectStory ps = projectService.projectStoryList(map);
+
 		//후원현황중인지 확인
 		ProjectSupport sList = projectService.supportList(map);
 		boolean supportStatus = false;
@@ -245,6 +260,7 @@ public class ProjectController {
 		mav.addObject("cList",cList);		//커뮤니티리스트
 		mav.addObject("list",list);
 		mav.addObject("List",List);
+		mav.addObject("ps",ps);				//프로젝트스토리
 		mav.addObject("email",email);
 		mav.addObject("p",p);
 		mav.addObject("projectNo",projectNo);
@@ -457,7 +473,7 @@ public class ProjectController {
 	}
 	
 //	희영
-	@RequestMapping("/project/approval2.do")
+	@RequestMapping(value="/project/approval2.do", method = RequestMethod.POST)
 	public ModelAndView approval2(@RequestParam int projectNo, int num, String title ) {
 		ModelAndView mav = new ModelAndView();
 		
@@ -624,6 +640,7 @@ public class ProjectController {
 	
 			cd.setReason("후원취소");
 			int success = ic.cancelPaymentByImpUid(cd).getCode();
+			System.out.println(success);
 			System.out.println(ic.cancelPaymentByImpUid(cd).getCode());
 			System.out.println(success);
 			System.out.println(ic.cancelPaymentByImpUid(cd).getMessage());
@@ -632,14 +649,14 @@ public class ProjectController {
 			if(success==0) {
 				//결제DB수정작업
 				int result = projectService.paymentCancelDel(map);
-				System.out.println("result="+result);
+				
+				//System.out.println("result="+result);
+				
 				if(result>0) {
-					msg = "결제 취소가 완료되었습니다.\n다음에 더 좋은 프로젝트로 찾아뵙겠습니다^^";
+					msg = "결제 취소가 완료되었습니다.다음에 더 좋은 프로젝트로 찾아뵙겠습니다.";
+					//loc = "/";
 					loc = "/project/projectView.do?projectNo="+projectNo+"&email="+email;
-					System.out.println(msg+", "+loc);
-					mav.addObject("msg",msg);
-					mav.addObject("loc",loc);
-					mav.setViewName("common/msg");
+					//System.out.println(msg+", "+loc);
 				}else {
 					msg = "시스템오류...관리자에게 문의해주세요!!!";
 					loc = "/project/projectView.do?projectNo="+projectNo+"&email="+email;
@@ -649,8 +666,7 @@ public class ProjectController {
 				loc = "/project/projectView.do?projectNo="+projectNo+"&email="+email;
 			}
 		}
-		
-		System.out.println(msg+", @"+loc);
+
 		mav.addObject("msg",msg);
 		mav.addObject("loc",loc);
 		mav.setViewName("common/msg");
@@ -879,6 +895,75 @@ public class ProjectController {
 	
 //	소민
 	@RequestMapping("/project/makeProject/account")
+	public String makeProjectAccount() {
+		
+		return "project/projectMake_account";
+	}
+//	희영
+	@RequestMapping(value="/project/emailAuthentication.do",method=RequestMethod.POST,produces="application/json; charset=utf8")
+	public ModelAndView emailAuthentication(@RequestParam String email,String emailId, HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mav = new ModelAndView();
+		
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("email", email);
+		map.put("emailId", emailId);
+		
+		System.out.println("email="+email);
+		System.out.println("emailId="+emailId);
+		
+		int ran = new Random().nextInt(100000) + 10000; // 10000 ~ 99999
+		
+		boolean emailAuthentication = false;
+		
+        final String joinCode = String.valueOf(ran);
+        map.put("joinCode", joinCode);
+        
+        //Y인경우찾기
+        List<String> list = projectService.emailAuthenticationList(map);
+        System.out.println("list="+list);
+       /* if(list==null) {	//Y가없는 경우 N을 찾음
+*/        	//N인겨웅찾기
+        	//List<String> list2 = projectService.emailAuthenticationList(map);
+        	/*if(list2==null) {	//N이 없는경우 인증번호를 생성해줌*/
+	        	int result = projectService.emailAuthentication(map);
+	        
+				final String sendEmail = email;
+	
+				if(result>0) {
+				    final MimeMessagePreparator preparator = new MimeMessagePreparator() {
+				        @Override
+				        public void prepare(MimeMessage mimeMessage) throws Exception {
+				            final MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+				            helper.setFrom("flyingboy147@gmail.com");
+				            helper.setTo(sendEmail);
+				            helper.setSubject("fundit에서 이메일 인증번호를 보내드립니다.");
+				            helper.setText("인증번호는 【"+joinCode+"】");
+				 
+				            }
+				        };
+				        mailSender.send(preparator);
+				}
+				System.out.println("result="+result);
+        	/*}*/
+       /* }else {
+        	emailAuthentication = true;//인증트루표시
+        	response.setContentType("text/html; charset=UTF-8");
+        	PrintWriter out;
+        	try {
+        		out = response.getWriter();
+        		out.println("<script>alert('인증된 이메일입니다!')</script>");
+        		out.flush();
+        	} catch (IOException e) {
+        		e.printStackTrace();
+        	}
+        }*/
+
+		mav.addObject("emailAuthentication", emailAuthentication);
+		mav.setViewName("jsonView");
+		
+		return mav;
+	}
+/*	@RequestMapping("/project/makeProject/account")
 	public ModelAndView makeProjectAccount(ProjectStory story,
 										   @RequestParam(value="projectMovie", required=false) MultipartFile projectMovie,
 										   HttpServletRequest request) {
@@ -917,7 +1002,7 @@ public class ProjectController {
 		
 		return mav;
 	}
-
+*/
 	
 //	소민
 	@RequestMapping("/project/makeProject/end")

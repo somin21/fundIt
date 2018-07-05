@@ -73,6 +73,42 @@ input#phone::-webkit-inner-spin-button {
 }
 </style>
 
+<style>
+input#authentication{
+	width: 80%; 
+	display: inline-block;
+}
+</style>
+<script>
+//인증번호시작
+function fn_emailAtion(){
+	var email = $("#confirmEmail").val();
+	var emailId= 'asd@co.kr';
+		/* '${memberLoggedIn.email }'; */
+	console.log(email);
+	console.log(email.length);
+	if(email.length==0){
+		alert("이메일을 입력하세요!");
+	}else{
+		jQuery.ajax({
+			url: "/fundit/project/emailAuthentication.do", //이메일인증
+			type: 'POST',
+			dataType: 'json',
+			data: {
+				email : email,				//이메일
+				emailId : emailId			//fundit이메일
+			},
+			error : function(jqxhr,textStatus,errorThrown){
+				console.log("ajax실패",jqxhr,textStatus,errorThrown);
+			}
+		}).done(function(data){
+			
+		});
+	}
+}
+//인증번호끝
+</script>
+
 
 <form action="${pageContext.request.contextPath }/project/makeProject/end" onsubmit="return account_validate();" method="post" >
 	
@@ -108,6 +144,10 @@ input#phone::-webkit-inner-spin-button {
 				</p>
 				<p>
 					<input type="text" id="confirmEmail" name="confirmEmail" value="${memberLoggedIn.email }" />
+				</p>
+				<p>
+					<label for="">인증번호:</label>
+					<input type="text" id="authentication" name="confirmAuthentication" /><button type="button" class="Authentication" onclick="fn_emailAtion();">확인</button>
 				</p>
 				<p>
 					<button type="button" class="closeBtn">
@@ -346,6 +386,7 @@ $(function(){
 			
 		}
 	});
+	
 	
 })
 </script>
