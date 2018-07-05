@@ -10,8 +10,71 @@
 	<jsp:param value="account" name="sectionName"/>
 </jsp:include>
 
+<script>
+function account_validate(){
+	
+	/* 이메일 유효성 확인 */
+	/* var emailRegExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i; */
+	
+	/* 인증여부확인 */
+	var isEmailConfirm = false;
+	if(!isEmailConfirm){
+		
+		alert("이메일 인증은 필수 항목입니다\n이메일 인증을 해주세요");
+		return false;
+	}
+	
+	if($("#phone").val().trim() == ""){
+		
+		alert("휴대폰 번호는 필수 항목입니다\n휴대폰 번호를 입력해주세요");
+		return false;
+	}
+	
+	var phoneRegExp = /^(01[016789]{1}|02|0[3-9]{1}[0-9]{1})([0-9]{3,4})([0-9]{4})$/;
+	if(!$(phoneRegExp.test($("#phone").val())){
+		
+		alert("휴대폰 번호를 확인해주세요");
+		return false;
+	}
+	
+	if($("#accountBank").val() == "" || $("#accountBank").val() == null){
+		
+		alert("입금 계좌 내용은 필수 항목입니다\n거래 은행을 입력해주세요");
+		return false;
+	}
+	
+	if($("#accountName").val().trim().length < 1){
 
-<form action="${pageContext.request.contextPath }/project/makeProject/end" onsubmit="return project_validate('#account');" method="post" >
+		alert("입금 계좌 내용은 필수 항목입니다\n예금주명을 입력해주세요");
+		return false;
+	}
+	
+	if($("#accountNumber").val() == ""){
+
+		alert("입금 계좌 내용은 필수 항목입니다\n계좌번호를 입력해주세요");
+		return false;
+	}
+	
+	if($("#accountNumber").val().length < 11 || $("#accountNumber").val().length > 16){
+
+		alert("계좌번호를 확인해주세요");
+		return false;
+	}
+	
+	return true;
+}
+</script>
+
+<style>
+input#phone::-webkit-outer-spin-button,
+input#phone::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+</style>
+
+
+<form action="${pageContext.request.contextPath }/project/makeProject/end" onsubmit="return account_validate();" method="post" >
 	
 	<input type="hidden" name="projectNo" value="${projectNo }" />
 	
@@ -207,6 +270,34 @@
 <script>
 $(function(){
 	
+	$("#accountNumber").keyup(function(){
+		
+		var letter = $(this).val().length;
+		var max = $(this).next().find("#max-cnt").text();
+		var min = $(this).next().find("#min-cnt").text();
+		var place = $(this).next("#account-number-cnt");
+		
+		if(letter < min){
+			var cnt = max - letter;
+			$(this).css("border-color","red");
+			place.css({"color":"red","font-weight":"bold"});
+			place.html('최소 <span id="min-cnt">11</span>자 / <span id="cnt">'+cnt+'</span><span id="max-cnt" style="float:none;display:none;">16</span>자 남았습니다');
+			$(this).parents(".hidden").find(".accountSaveBtn").attr("disabled","disabled");
+		} else if(letter > max){
+			var cnt = letter - max;
+			$(this).css("border-color","red");
+			place.css({"color":"red","font-weight":"bold"});
+			place.html('최대 <span id="max-cnt">16</span><span id="min-cnt" style="display:none">11</span>자 / <span id="cnt" style="float:none;">'+cnt+'</span>자 초과했습니다');
+			$(this).parents(".hidden").find(".accountSaveBtn").attr("disabled","disabled");
+		} else {
+			var cnt = max - letter;
+			$(this).css("border-color","#ccdafc");
+			place.css({"color":"darkgray","font-weight":"normal"});
+			place.html('최소 <span id="min-cnt">11</span>자 / <span id="cnt">'+cnt+'</span><span id="max-cnt" style="float:none;display:none;">16</span>자 남았습니다');
+			$(this).parents(".hidden").find(".accountSaveBtn").removeAttr("disabled");
+		}
+	});
+	
 	$(".accountSaveBtn").on("click",function(){
 		
 		var isEmpty = false;
@@ -220,7 +311,11 @@ $(function(){
 			
 			if($(this).attr("id") == "accountNumber"){
 
-				if($(this).val() < 11){
+				if($(this).val().length < 11){
+					isEmpty = true;
+				}
+				
+				if($(this).val().length >= 16){
 					isEmpty = true;
 				}
 			}

@@ -135,7 +135,7 @@ function story_validate(){
 
 <form action="${pageContext.request.contextPath }/project/makeProject/account" enctype="multipart/form-data" onsubmit="return story_validate();" method="post" >
 	
-	<input type="hidden" name="projectNo" value="${projectNo }" />
+	<input type="hidden" name="projectNo" value="113" />
 		
 	<!-- 프로젝트 소개 영상 -->
 	<div class="make-project-section">
