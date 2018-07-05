@@ -37,21 +37,37 @@ function Approval(prjectNo,minMoney,title){
 		var itemName = $(this).children(".menu2").children("ul").children(".itemName").val();
 		var itemNum = $(this).children(".menu2").children("ul").children(".itemNum").val();
 		var delivery = $(this).children(".menu2").children("ul").children(".delivery").val();
-		if(num3>=1000){
-			location.href="${pageContext.request.contextPath}/project/approval.do?projectNo="
-					+prjectNo+"&minMoney="+minMoney+"&num="+num3+"&title="+title+"&itemName="+itemName+"&itemNum="+itemNum+"&delivery="+delivery;
+		if(num3>=100){
+			if(num3>10000000){
+				alert("10000000만원이하로만 결제가됩니다ㅠㅠ");
+			}else{
+				location.href="${pageContext.request.contextPath}/project/approval.do?projectNo="
+						+prjectNo+"&minMoney="+minMoney+"&num="+num3+"&title="+title+"&itemName="+itemName+"&itemNum="+itemNum+"&delivery="+delivery;
+			}
 		}else{
-			alert("결제는 1000원이상 결제해주세요~");
+			alert("결제는 100원이상 결제해주세요~");
 		}
+		
 	});
 }
-function Approval2(projectNo,title){
-	var num2 = $("#num2").val();	//일반결재
-	if(num2>=1000){
-		location.href="${pageContext.request.contextPath}/project/approval2.do?projectNo="+projectNo+"&num="+num2+"&title="+title;
-	}else{
-		alert("결제는 1000원이상 결제해주세요~");
-	}
+function Approval2(){
+		var num = $("#num").val();	//일반결재
+
+		if(num>=100){
+			if(num>10000000){
+				alert("10000000만원이하로만 결제가됩니다ㅠㅠ");
+				return false;
+			}else{
+				//location.href="${pageContext.request.contextPath}/project/approval2.do?projectNo="+projectNo+"&num="+num2+"&title="+title;
+			    return $(".form1").submit();
+			}
+		}else{
+			alert("결제는 100원이상 결제해주세요~");
+			return false;
+		}
+
+
+
 }
 </script>
 <div class="title">
@@ -65,14 +81,20 @@ function Approval2(projectNo,title){
 			<span>선물을 선택하지 않고, 밀어만 줍니다.</span>
 		</div>
 		<div class="menu2">
-			<input type="number" id="num2" class="form-control" min="0" max="10000000" value="1000" step="100"/> 원
-			<button onclick="Approval2('${projectNo }','${title }');">결제</button>
+	<form action="approval2.do" class="form1" method="post">
+		<input type="hidden" name="projectNo" id="projectNo" value="${projectNo }" />		
+		<input type="number" name="num" id="num" class="form-control" min="0" max="10000000" value="1000" step="100"/> 원
+		<input type="hidden" name="title" id="title" value="${title }" />		
+		<input type="submit" />
+	</form>
+			<button id="btn_submit" onclick="return Approval2();">결제</button>
 			<br /><br />
 			<span class="moneyMent">더 많이 입력하실 수 있습니다</span>
 			<br /><br /><br />
 			<span>선물을 선택하지 않고, 밀어만 줍니다.</span>
 		</div>
 	</div>
+	
 	<c:if test="${not empty gList}">
     <c:forEach var="g" items="${gList }" begin="0" end="${gList.size() }" step="1" varStatus="gg">
 <%-- 	<div class="menu" style="background:${gList[gg.index]==minmoney? 'rgb(220, 220, 220)':'rgb(240, 240, 240)' };">--%>
@@ -123,4 +145,5 @@ function Approval2(projectNo,title){
 	</div>
 	</c:forEach>
 	</c:if>
+
 </div>

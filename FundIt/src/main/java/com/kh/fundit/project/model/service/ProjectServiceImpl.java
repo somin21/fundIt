@@ -438,5 +438,10 @@ public class ProjectServiceImpl implements ProjectService {
 		return projectDAO.selectMyProjectI(member, numPerpage);
 	}
 
+	@Override
+	public ProjectStory projectStoryList(Map<String, Object> map) {
+		return projectDAO.projectStoryList(map);
+	}
+
 
 }

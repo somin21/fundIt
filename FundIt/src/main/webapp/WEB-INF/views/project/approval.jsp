@@ -37,7 +37,7 @@ table td#td{width: 70%}
 				<td id="td"><input type="number" id="amount" class="form-control" value="${num }" readonly/><br /></td>
 			</tr>
 			<tr>
-				<td><label for="buyer_id" id="a">결 재 ID  : </label></td>
+				<td><label for="buyer_id" id="a">FUNDIT ID  : </label></td>
 				<td id="td"><input type="text" id="buyer_id" class="form-control" value="${memberLoggedIn.email }" readonly /><br /></td>
 			</tr>
 			<tr>
@@ -46,7 +46,7 @@ table td#td{width: 70%}
 			</tr>
 			<tr>
 				<td><label for="buyer_name" id="a">이 메 일  : </label></td>
-				<td id="td"><input type="email" id="buyer_email" class="form-control"/><br /></td>
+				<td id="td"><input type="email" id="buyer_email" class="form-control" placeholder="결제정보를 받을 이메일을 입력해주세요!" /><br /></td>
 			</tr>
 			<tr>
 				<td><label for="buyer_tel" id="a">연 락 처  : </label></td>
@@ -57,7 +57,7 @@ table td#td{width: 70%}
 				<td id="td">
 					<br />
 					<input type="button" onclick="sample4_execDaumPostcode();" value="우편번호 찾기" size="30px" />
-					<input type="text" class="form-control" id="sample4_postcode" placeholder="우편번호" > &nbsp;&nbsp;
+					<input type="text" class="form-control" id="sample4_postcode" readonly="readonly" placeholder="우편번호" > &nbsp;&nbsp;
 	                <input type="hidden" name="address" id="address" value="" />
 	                <span id="guide" style="color: #999"></span>
                 </td>
@@ -71,7 +71,7 @@ table td#td{width: 70%}
 			</tr>
 			<tr>
 				<td colspan="2" style="text-align: center;">
-					<button onclick="return requestPay();">결재</button>
+					<button onclick="return requestPay();">결제</button>
 				</td>
 			</tr>
 		</table>
@@ -156,7 +156,7 @@ table td#td{width: 70%}
 	    		}
 	    		,
 /* 	    		success:function(data){
-	    			console.log("섹스"+data);
+	    			console.log(data);
 	    			jQuery.ajax({		
 	    		    	url: m_redirect_url, //cross-domain error가 발생하지 않도록 주의해주세요
 			    		type: 'POST',

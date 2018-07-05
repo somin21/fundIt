@@ -152,16 +152,20 @@ public class ProjectController {
 	
 //	희영
 	@RequestMapping("/project/projectList.do")
-	public ModelAndView projectList(@RequestParam String categoryCode) {
+	public ModelAndView projectList(@RequestParam String categoryCode, String select) {
 		ModelAndView mav = new ModelAndView();
 		
 		Map<String,String> map = new HashMap<String, String>();
 		map.put("categoryCode",categoryCode);
+		map.put("select",select);
 		
+		System.out.println("select="+select);
 		List<ListProjectView> list = projectService.projectList(map);
+		System.out.println("list="+list);
 		
 		mav.addObject("list",list);
 		mav.addObject("categoryCode",categoryCode);
+		mav.addObject("select",select);
 		mav.setViewName("project/projectList");
 		
 		return mav;
@@ -178,6 +182,9 @@ public class ProjectController {
 		map.put("projectNo",projectNo);
 		map.put("buyer_id",email);
 		
+		//프로젝트 스토리 뽑기
+		ProjectStory ps = projectService.projectStoryList(map);
+
 		//후원현황중인지 확인
 		ProjectSupport sList = projectService.supportList(map);
 		boolean supportStatus = false;
@@ -245,6 +252,7 @@ public class ProjectController {
 		mav.addObject("cList",cList);		//커뮤니티리스트
 		mav.addObject("list",list);
 		mav.addObject("List",List);
+		mav.addObject("ps",ps);				//프로젝트스토리
 		mav.addObject("email",email);
 		mav.addObject("p",p);
 		mav.addObject("projectNo",projectNo);
@@ -457,7 +465,7 @@ public class ProjectController {
 	}
 	
 //	희영
-	@RequestMapping("/project/approval2.do")
+	@RequestMapping(value="/project/approval2.do", method = RequestMethod.POST)
 	public ModelAndView approval2(@RequestParam int projectNo, int num, String title ) {
 		ModelAndView mav = new ModelAndView();
 		
@@ -624,6 +632,7 @@ public class ProjectController {
 	
 			cd.setReason("후원취소");
 			int success = ic.cancelPaymentByImpUid(cd).getCode();
+			System.out.println(success);
 			System.out.println(ic.cancelPaymentByImpUid(cd).getCode());
 			System.out.println(success);
 			System.out.println(ic.cancelPaymentByImpUid(cd).getMessage());
@@ -632,14 +641,14 @@ public class ProjectController {
 			if(success==0) {
 				//결제DB수정작업
 				int result = projectService.paymentCancelDel(map);
-				System.out.println("result="+result);
+				
+				//System.out.println("result="+result);
+				
 				if(result>0) {
-					msg = "결제 취소가 완료되었습니다.\n다음에 더 좋은 프로젝트로 찾아뵙겠습니다^^";
+					msg = "결제 취소가 완료되었습니다.다음에 더 좋은 프로젝트로 찾아뵙겠습니다.";
+					//loc = "/";
 					loc = "/project/projectView.do?projectNo="+projectNo+"&email="+email;
-					System.out.println(msg+", "+loc);
-					mav.addObject("msg",msg);
-					mav.addObject("loc",loc);
-					mav.setViewName("common/msg");
+					//System.out.println(msg+", "+loc);
 				}else {
 					msg = "시스템오류...관리자에게 문의해주세요!!!";
 					loc = "/project/projectView.do?projectNo="+projectNo+"&email="+email;
@@ -649,8 +658,7 @@ public class ProjectController {
 				loc = "/project/projectView.do?projectNo="+projectNo+"&email="+email;
 			}
 		}
-		
-		System.out.println(msg+", @"+loc);
+
 		mav.addObject("msg",msg);
 		mav.addObject("loc",loc);
 		mav.setViewName("common/msg");

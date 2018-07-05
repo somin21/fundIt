@@ -126,4 +126,6 @@ public interface ProjectService {
 
 	List<ListProjectView> selectMyProjectI(Member member, int numPerpage);
 
+	ProjectStory projectStoryList(Map<String, Object> map);
+
 }

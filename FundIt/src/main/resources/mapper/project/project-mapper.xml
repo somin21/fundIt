@@ -82,16 +82,31 @@
 	 select count(*) from project_outline where email = #{email}
 	</select>
 	
-	<select id="projectList" resultType="list_project_view">
-			select p.projectno, p.projectimage, p.projecttitle, 
+	<select id="projectList" resultType="projectList">
+		select p.projectno, p.projectimage, p.projecttitle, 
 	        (select name from member m where p.email = m.email) name,
-	        (select trunc(deadlinedate - sysdate) from project_funding f where p.projectno = f.projectno) deadlineday,
-	        s.supportmoney, s.supportpercent
-		from (select * from project_outline where projectconfirmyn='Y' and projectdeadlineyn='N' order by projectdate desc) p join project_summary s on p.projectno = s.projectno
-		 where 1=1
-			<if test="categoryCode != null and categoryCode !='' ">
-				and categorycode = #{categoryCode}
-			</if>
+            trunc(deadlinedate - sysdate) deadlineDay,
+	        s.supportmoney, s.supportpercent,s.supportor, o.projectdate
+		from (select * from project_outline where projectconfirmyn='Y' and projectdeadlineyn='N' order by projectdate desc) p 
+	        join project_summary s on p.projectno = s.projectno
+	        join project_funding f on p.projectno = f.projectno
+	        join project_outline o on p.projectno = o.projectno
+		where 1=1 and deadlinedate>=TO_DATE(1,'dd')
+		<if test="categoryCode != null and categoryCode !='' ">
+			and o.categorycode = #{categoryCode}
+		</if>
+		<if test="select != null and select !=0 and select==1">
+			order by supportor desc
+		</if>
+		<if test="select != null and select !=0 and select==2">
+			order by supportmoney desc
+		</if>
+		<if test="select != null and select !=0 and select==3">
+			order by deadlineday
+		</if>
+		<if test="select != null and select !=0 and select==4">
+			order by projectdate desc
+		</if>
 	</select>
 	
 	<select id="projectView" resultType="projectView">
@@ -377,5 +392,9 @@
 	
 	<select id="selectProjectFunding">
 	select * from project_funding where projectno=#{projectNo}
+	</select>
+	
+	<select id="projectStoryList" resultType="projectStory">
+		select * from project_story where projectno = ${projectNo}
 	</select>
 </mapper>

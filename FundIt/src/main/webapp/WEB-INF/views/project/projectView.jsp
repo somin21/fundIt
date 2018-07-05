@@ -353,7 +353,18 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
 	            <input type="hidden" name="hidden" id="hiddenNum" value="1">
 	        </div>
 	        <div class="ground">
-		        <div class="mainContext"><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /></b><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /></b><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /></b><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /></b><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /></b><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /></b><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /></b><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /></b><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /></b><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /></b><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /></b><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /></b><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /></b><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /></b></div>
+		        <div class="mainContext">
+		        <c:if test="${not empty ps }">
+		        	${ps.getProjectStory() }
+		        </c:if>
+		        <c:if test="${empty ps }">
+		        	<br /><br />
+		        	임시적으로 수정중입니다.
+		        	<br />
+		        	불편을드려죄송합니다...ㅠㅠ
+		        	<br /><br />
+		        </c:if>
+		        </div>
 		        <!-- 커뮤니티 -->
 		        <div class="communityDiv">
 		        	<div class="communityS"><span>후원자만 글을 쓸 수 있어요</span></div>
@@ -602,7 +613,11 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
     	var contextId = $("#contextId").val();
     	var communityContext = $("#communityContext").val();
     	/* console.log(contextId,communityContext); */
-		location.href="${pageContext.request.contextPath}/project/community.do?projectNo="+projectNo+"&contextId="+contextId+"&communityContext="+communityContext;
+    	if(communityContext.length!=0){	
+			location.href="${pageContext.request.contextPath}/project/community.do?projectNo="+projectNo+"&contextId="+contextId+"&communityContext="+communityContext;
+    	}else{
+    		alert("내용을 입력해주세요!");
+    	}
     }
     //수정모달실행
     function fn_cu(a){
@@ -615,7 +630,11 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
     	var communityContext = $(".communityContext"+a).val();
     	var communityNo = $(".communityNo"+a).val();
     	//console.log(contextId,communityContext,communityNo);
-    	location.href="${pageContext.request.contextPath}/project/communityUpdate.do?contextId="+contextId+"&communityContext="+communityContext+"&projectNo="+projectNo+"&communityNo="+communityNo;  	
+    	if(communityContext.length!=0){
+    		location.href="${pageContext.request.contextPath}/project/communityUpdate.do?contextId="+contextId+"&communityContext="+communityContext+"&projectNo="+projectNo+"&communityNo="+communityNo;  	
+    	}else{
+    		alert("내용을 입력해주세요!");
+    	}
     }
     function fn_paymentCancel(projectNo, email){
     	var retVal = confirm("후원이 취소됩니다.진행하시겠습니까?");
