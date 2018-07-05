@@ -304,7 +304,7 @@ $(function(){
 		
 		if(val_date < tomorrow || val_date > fDate){
 			
-			$("#date-warning").text("펀딩 마감일은 내일 날짜 ( "+year+"-"+month+"-"+day+" )부터 60일 후의 날짜 ( "+fYear+"-"+fMonth+"-"+fDay+" )까지 선택 가능합니다.");
+			$("#date-warning").text("펀딩 마감일은 내일 날짜 ( "+year+"-"+month+"-"+day+" )부터 60일 후의 날짜 ( "+fYear+"-"+fMonth+"-"+fDay+" )전 날까지 선택 가능합니다.");
 			$(this).parent().next().children(".saveBtn").attr("disabled","disabled");
 			
 		} else {

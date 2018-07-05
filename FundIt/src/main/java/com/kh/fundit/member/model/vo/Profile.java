@@ -9,6 +9,8 @@ public class Profile {
 	private String localName;
 	private String phone;
 	
+	private String name;
+	
 	
 	public Profile() {}
 
@@ -29,6 +31,19 @@ public class Profile {
 		this.localCode = localCode;
 		this.profileIntroduce = profileIntroduce;
 		this.phone = phone;
+	}
+
+
+	public Profile(String email, String profileImage, String profileIntroduce, String localCode, String localName,
+			String phone, String name) {
+		super();
+		this.email = email;
+		this.profileImage = profileImage;
+		this.profileIntroduce = profileIntroduce;
+		this.localCode = localCode;
+		this.localName = localName;
+		this.phone = phone;
+		this.name = name;
 	}
 
 

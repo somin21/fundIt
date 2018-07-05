@@ -380,10 +380,6 @@ function previewImage(fileObj, imgPreviewId) {
 <script>
 $(function(){
 	
-	$("#previewProject").on("click",function(){
-		alert("아직 제공하지않는 서비스입니다");
-	});
-	
 	$("#confirmProject").on("click",function(){
 		
 		var validate = false;
@@ -434,10 +430,6 @@ $(function(){
 	</div>
 	
 	<div class="make-project-btn">
-		<button type="button" id="previewProject">
-			<img src="${pageContext.request.contextPath }/resources/images/makeProject/binoculars.png" />
-			미리보기
-		</button>
 		<button type="button" id="confirmProject">
 			<img src="${pageContext.request.contextPath }/resources/images/makeProject/paper-plane.png" />
 			검토 요청하기
@@ -522,7 +514,7 @@ $(function(){
 			</div>
 		</c:if>
 		
-		<c:if test="${param.sectionName eq 'done' }">
+		<c:if test="${param.sectionName eq 'complete' }">
 			<div class="section-title">
 				<img src="${pageContext.request.contextPath }/resources/images/makeProject/check_circle.png" />
 				프로젝트 개요

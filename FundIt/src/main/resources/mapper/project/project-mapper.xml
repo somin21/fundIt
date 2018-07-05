@@ -256,7 +256,7 @@
 	</select>
 	
 	<select id="makeProject" resultType="profile">
-	select p.*, l.localname from profile p join location l on p.localcode = l.localcode where email = #{email}
+	select p.*, l.localname, (select m.name from member m where m.email = p.email) name from profile p join location l on p.localcode = l.localcode where email = #{email}
 	</select>
 	
 	<insert id="makeProjectOutline">
@@ -412,4 +412,9 @@
 	<select id="emailAuthenticationList" resultType="string">
 		select * from confirm where confirmyn='Y' and confirmemail='${emailId}'
 	</select>
+	
+	<update id="makeProjectMember">
+	update member set name=#{name} where email=#{email}
+	</update>
+	
 </mapper>

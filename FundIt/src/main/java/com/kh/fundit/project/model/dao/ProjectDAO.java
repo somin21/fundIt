@@ -134,4 +134,6 @@ public interface ProjectDAO {
 
 	List<String> emailAuthenticationList(Map<String, Object> map);
 
+	void makeProjectMember(Map<String, String> map);
+
 }

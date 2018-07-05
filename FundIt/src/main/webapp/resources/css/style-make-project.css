@@ -28,7 +28,7 @@ div.make-project-btn img{
 	height: 25px;
 }
 div.make-project-btn button{
-	width: 48%;
+	width: 100%;
 	padding: 10px;
 	border-radius: 10px;
 	background: white;
@@ -43,15 +43,16 @@ div.make-project-btn button:first-of-type{
 	margin-right: 1.5%;
 }
 div.make-project-btn button:first-of-type:hover{
-	border: 1px solid #303030; 
+	border: 1px solid #303030;
 }
 div.make-project-btn button:last-of-type{
 	color: #DC3545;
 	border: 1px dashed #DC3545;
-	margin-left: 1.5%;
+	/* margin-left: 1.5%; */
 }
 div.make-project-btn button:last-of-type:hover{
 	border: 1px solid #DC3545;
+	background: #ffedef;
 }
 div.make-project-btn button.prevBtn, div.make-project-btn button.nextBtn{
 	width: 12%;

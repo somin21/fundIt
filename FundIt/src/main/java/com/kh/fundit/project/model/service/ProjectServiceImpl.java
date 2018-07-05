@@ -213,7 +213,7 @@ public class ProjectServiceImpl implements ProjectService {
 
 //	소민
 	@Override
-	public int makeProjectOutline(ProjectOutline outline, com.kh.fundit.member.model.vo.Profile profile) {
+	public int makeProjectOutline(ProjectOutline outline, com.kh.fundit.member.model.vo.Profile profile, Map<String, String> map) {
 
 		int projectNo = 0;
 		
@@ -224,6 +224,7 @@ public class ProjectServiceImpl implements ProjectService {
 				projectNo = outline.getProjectNo();
 				System.out.println(projectNo);
 				projectDAO.makeProjectProfile(profile);
+				projectDAO.makeProjectMember(map);
 			}
 			System.out.println(projectNo);
 		} catch(Exception e) {

@@ -135,7 +135,7 @@ function story_validate(){
 
 <form action="${pageContext.request.contextPath }/project/makeProject/account" enctype="multipart/form-data" onsubmit="return story_validate();" method="post" >
 	
-	<input type="hidden" name="projectNo" value="113" />
+	<input type="hidden" name="projectNo" value="${projectNo }" />
 		
 	<!-- 프로젝트 소개 영상 -->
 	<div class="make-project-section">
@@ -168,7 +168,8 @@ function story_validate(){
 				<p>
 					프로젝트를 소개하는 영상을 만들면 내용을 더 효과적으로 알릴 수 있습니다. <br />
 					2~3분 이내의 짧은 영상이 가장 반응이 좋습니다. <br />
-					배경음악을 사용하신다면 저작권 문제에 유념해주세요.
+					배경음악을 사용하신다면 저작권 문제에 유념해주세요. <br />
+					(mp4형식만 지원됩니다)
 				</p>
 				<p>
 					<button type="button" class="uploadBtn">
@@ -234,6 +235,9 @@ function story_validate(){
 	</div>
 
 <style>
+div#story div{
+	border-bottom: 0;
+}
 div.note-editor div.note-toolbar{
 	background: #f0f5ff;
 }

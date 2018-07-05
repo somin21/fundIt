@@ -700,6 +700,7 @@ public class ProjectController {
 //	소민
 	@RequestMapping(value="/project/makeProject/funding-gift", method=RequestMethod.POST)
 	public ModelAndView makeProjectFundingGift(ProjectOutline outline, Profile profile,
+											   @RequestParam(value="profileName") String name,
 											   @RequestParam(value="projectImageFile") MultipartFile projectImage, 
 											   @RequestParam(value="profileImageFile", required=false) MultipartFile profileImage,
 											   HttpServletRequest request) {
@@ -750,7 +751,10 @@ public class ProjectController {
         profile.setProfileImage(renamedFileName);
 		// 프로필 이미지 업로드 끝
         
-		int projectNo = projectService.makeProjectOutline(outline, profile);
+        Map<String,String> map = new HashMap<>();
+        map.put("email", profile.getEmail());
+        map.put("name", name);
+		int projectNo = projectService.makeProjectOutline(outline, profile, map);
 		
 		mav.addObject("projectNo", projectNo);
 		mav.setViewName("project/projectMake_funding_gift");
@@ -761,9 +765,10 @@ public class ProjectController {
 //	소민
 	@RequestMapping(value="/project/updateProject/outline", method=RequestMethod.POST)
 	public ModelAndView updateProjectOutline(ProjectOutline outline, Profile profile,
-											   @RequestParam(value="projectImageFile") MultipartFile projectImage, 
-											   @RequestParam(value="profileImageFile") MultipartFile profileImage,
-											   HttpServletRequest request) {
+											 @RequestParam(value="profileName") String name,
+											 @RequestParam(value="projectImageFile") MultipartFile projectImage, 
+											 @RequestParam(value="profileImageFile") MultipartFile profileImage,
+											 HttpServletRequest request) {
 		
 		ModelAndView mav = new ModelAndView();
 		
@@ -833,9 +838,9 @@ public class ProjectController {
 		
 		ModelAndView mav = new ModelAndView();
 		
-//		int projectNo = projectService.makeProjectFunding(funding);
-//		
-//		mav.addObject("projectNo", projectNo);
+		int projectNo = projectService.makeProjectFunding(funding);
+		
+		mav.addObject("projectNo", projectNo);
 		mav.setViewName("project/projectMake_story");
 		
 		return mav;
@@ -960,11 +965,6 @@ public class ProjectController {
 	
 //	소민
 	@RequestMapping("/project/makeProject/account")
-	public String makeProjectAccount() {
-		
-		return "project/projectMake_account";
-	}
-/*	@RequestMapping("/project/makeProject/account")
 	public ModelAndView makeProjectAccount(ProjectStory story,
 										   @RequestParam(value="projectMovie", required=false) MultipartFile projectMovie,
 										   HttpServletRequest request) {
@@ -1003,33 +1003,28 @@ public class ProjectController {
 		
 		return mav;
 	}
-*/
-
 	
 //	소민
 	@RequestMapping("/project/makeProject/end")
-	public ModelAndView makeProjectEnd(ProjectAccount account) {
+	public ModelAndView makeProjectEnd(ProjectAccount account, @RequestParam String confirmEmail) {
 		
 		ModelAndView mav = new ModelAndView();
 		
+		account.setEmail(confirmEmail);
 		int result = projectService.makeProjectAccount(account);
 		
-//		ProjectOutline outline = projectService.selectProjectOutline(account.getProjectNo());
-//		Profile profile = projectService.makeProject(outline.getEmail());
-//		
-//		mav.addObject("outline", outline);
-//		mav.addObject("profile", profile);
-//		mav.setViewName("/project/projectUpdate_outline");
-		
-		String msg = "";
 		if(result > 0) {
-			msg = "프로젝트 올리기를 완료하였습니다.\n검토 요청되었습니다.";
+			
+			mav.addObject("msg","프로젝트 작성을 완료하였습니다.\n내용 확인 및 수정 후 검토 요청하기를 눌러주세요");
+			mav.addObject("loc", "/project/projectView.do?projectNo="+account.getProjectNo());
+			
 		} else {
-			msg = "프로젝트 올리기를  실패하였습니다.";
+			
+			mav.addObject("msg","프로젝트 작성 처리 중 문제가 발생하였습니다.\n다시 시도해주십시오.");
+			mav.addObject("loc", "/");
+			
 		}
-		
-		mav.addObject("msg", msg);
-		mav.addObject("loc", "/");
+				
 		mav.setViewName("common/msg");
 		
 		return mav;

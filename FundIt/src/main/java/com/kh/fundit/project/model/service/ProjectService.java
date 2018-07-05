@@ -84,7 +84,7 @@ public interface ProjectService {
 
 	com.kh.fundit.member.model.vo.Profile makeProject(String email);
 
-	int makeProjectOutline(ProjectOutline outline, com.kh.fundit.member.model.vo.Profile profile);
+	int makeProjectOutline(ProjectOutline outline, com.kh.fundit.member.model.vo.Profile profile, Map<String, String> map);
 
 	int makeProjectFunding(ProjectFunding funding);
 	

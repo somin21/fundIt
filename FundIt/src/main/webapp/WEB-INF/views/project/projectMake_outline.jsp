@@ -66,6 +66,13 @@ function outline_validate(){
 		alert("모든 항목이 필수 항목입니다 \n진행자 이름을 입력해주세요");
 		return false;
 	}
+
+	var nameRegExp = /([가-힣]|[A-Z]|[a-z]){2,}/g;
+	if(!nameRegExp.test($("#profile-name").val().replace(/\s/g,""))){
+		
+		alert("진행자 이름을 확인해주세요");
+		return false;
+	}
 	
 	var over_name = $("#profile-name").next(".letter-cnt").text();
 	over_name = over_name.replace(/[0-9]/g,"");
