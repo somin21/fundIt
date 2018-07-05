@@ -213,6 +213,7 @@ $(function(){
 						
 						isSummer = true;
 						html = $(this).val();
+						summerPlace.css({"overflow":"hidden","text-overflow":"ellipsis"});
 						
 					} else {
 						place.css({"overflow":"hidden","text-overflow":"ellipsis","white-space":"nowrap","color":"black","font-size":"20px","font-weight":"bold"});

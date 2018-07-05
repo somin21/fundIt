@@ -415,11 +415,13 @@ $(function(){
 		
 		if(isValidate && (minMoney == "" || minMoney == "0")){
 			
-			if(minMoney < 1000 && minMoney >= 0){
-				alert("최소 후원금액은 1,000원 이상입니다");
-			} else {
-				alert("최소 후원금액을 입력해주세요");
-			}
+			alert("최소 후원금액을 입력해주세요");
+			isValidate = false;
+		}
+		
+		if(isValidate && minMoney < 1000){
+			
+			alert("최소 후원금액은 1000원 이상입니다");
 			isValidate = false;
 		}
 		

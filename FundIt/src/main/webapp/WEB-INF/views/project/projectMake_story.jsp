@@ -109,8 +109,23 @@ function previewMovie(evt){
 
 function story_validate(){
 	
+	console.log("--"+$("#summernote").val()+"--");
+	
 	if($("#summernote").val().trim() == ""){
 		alert("프로젝트 스토리는 필수 사항입니다 \n스토리를 작성해주세요");
+		return false;
+	}
+	
+	var checkVal = $("#summernote").val();
+	checkVal = checkVal.replace(/(<([^>]+)>)/ig,"");
+	console.log(checkVal);
+	checkVal = checkVal.replace(/&nbsp;/g,"");
+	console.log(checkVal);
+	checkVal = checkVal.replace(/\s/g,"");
+	console.log(checkVal);
+	
+	if(checkVal.length < 200){
+		alert("프로젝트 스토리를 좀 더 구체적으로 작성해주세요");
 		return false;
 	}
 	
@@ -118,7 +133,7 @@ function story_validate(){
 }
 </script>
 
-<form action="${pageContext.request.contextPath }/project/makeProject/account" onsubmit="return story_validate();" method="post" >
+<form action="${pageContext.request.contextPath }/project/makeProject/account" enctype="multipart/form-data" onsubmit="return story_validate();" method="post" >
 	
 	<input type="hidden" name="projectNo" value="${projectNo }" />
 		
@@ -182,7 +197,7 @@ function story_validate(){
 			
 			<div class="shown">
 				<p>프로젝트 스토리</p>
-				<div id="story" style="display:none;color:#000;"></div>
+				<div id="story" style="display:none;color:#000;width:97%;overflow:hidden;"></div>
 				<p>
 					<span>
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/hand_pointer.png" />
@@ -201,6 +216,7 @@ function story_validate(){
 				<p>프로젝트 스토리</p>
 				<p style="font-size: 13px;color: darkgray;">
 					프로젝트 스토리 잘 작성하기를 읽어보시고 스토리텔링에 필요한 요소들을 확인하여 작성해주세요.
+					(200자 이상 작성해주세요)
 				</p>
 				<p>
 					<!-- 에디터 API -->

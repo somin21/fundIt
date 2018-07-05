@@ -883,29 +883,33 @@ public class ProjectController {
 										   @RequestParam(value="projectMovie", required=false) MultipartFile projectMovie,
 										   HttpServletRequest request) {
 		
+		System.out.println(story);
 		ModelAndView mav = new ModelAndView();
 		
 		// 프로젝트 영상 업로드
-		String firstDir = request.getSession().getServletContext().getRealPath("/resources/images/projects");
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		String secondDir = sdf.format(new Date(System.currentTimeMillis()));
-		File saveDir = new File(firstDir+"/"+secondDir);
-		if(!saveDir.exists()) {
-			saveDir.mkdirs();
-		}		
-		String originalName = projectMovie.getOriginalFilename();
-		String p_ext = originalName.substring(originalName.lastIndexOf(".")+1);
-		SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMddHHmmss");
-		int rndNum = (int)(Math.random()*1000);
-		String renamedName = story.getProjectNo()+"_"+sdf2.format(new Date(System.currentTimeMillis()))+"_"+rndNum+"."+p_ext;
-		try {
-			projectMovie.transferTo(new File(firstDir+"/"+secondDir+"/"+renamedName));
-		} catch (IllegalStateException | IOException e1) {
-			e1.printStackTrace();
+		if(projectMovie != null) {
+			String firstDir = request.getSession().getServletContext().getRealPath("/resources/images/projects");
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			String secondDir = sdf.format(new Date(System.currentTimeMillis()));
+			File saveDir = new File(firstDir+"/"+secondDir);
+			if(!saveDir.exists()) {
+				saveDir.mkdirs();
+			}		
+			String originalName = projectMovie.getOriginalFilename();
+			String p_ext = originalName.substring(originalName.lastIndexOf(".")+1);
+			SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMddHHmmss");
+			int rndNum = (int)(Math.random()*1000);
+			String renamedName = story.getProjectNo()+"_"+sdf2.format(new Date(System.currentTimeMillis()))+"_"+rndNum+"."+p_ext;
+			try {
+				projectMovie.transferTo(new File(firstDir+"/"+secondDir+"/"+renamedName));
+			} catch (IllegalStateException | IOException e1) {
+				e1.printStackTrace();
+			}
+			story.setIntroduceMovie(secondDir+"/"+renamedName);
 		}
-		story.setIntroduceMovie(secondDir+"/"+renamedName);
 		// 프로젝트 영상 업로드 끝
 		
+		System.out.println(story);
 		int projectNo = projectService.makeProjectStory(story);
 		
 		mav.addObject("projectNo",projectNo);
