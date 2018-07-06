@@ -47,14 +47,6 @@ text-overflow: ellipsis;
 white-space:nowrap;
 } 
 </style>
-<script>
-window.onload = function () {
-	$("#loggedinemail").hide();
-	
-}
-
-
-</script>
     <div class="maincontainer">
         <h1 id="messageContainer">
            <img src="${pageContext.request.contextPath }/resources/images/message/message.png" alt="" />Message
@@ -96,7 +88,6 @@ window.onload = function () {
 			<input type="text" name=email value="${message.receiveEmail }" style="display: none;" />
 			<input type="text" name=email2 value="${message.sendEmail }" style="display: none;"/>
 			<input type="text" name=messageNo value="${message.messageNo }" style="display: none;"/>
-			
 			</form>
 			<%-- <td>${message.receiveEmail }</td> --%>
 			<td>${message.messageDate }</td>
@@ -106,21 +97,29 @@ window.onload = function () {
 			<h1>아직 메세지가 등록되지 않았습니다~~~~ㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎ</h1>
 		</c:if>
 		<form action="messageSelect.do" method="post">
-<input type="text" value="${param.email }" name="email" id="loggedinemail"/> 
+<input type="text" value="${param.email }" name="email" id="loggedinemail" style="display: none;"/> 
 <input type="text" placeholder="메일검색" onkeydown="JavaScript:Enter_Check();" name="messageSelect" value="" />
 <input type="submit" value="확인" />
 </form>
 
 </table>
 </div>
+
 <script>
 function me(a){
 	var b = $("#sss"+a);
 	console.log(b);
 	b.click();
+	
+	
+
 }
 
+
+
 </script>
+
+
 <!-- 페이지바 -->
 <%
 	String email = request.getParameter("email");

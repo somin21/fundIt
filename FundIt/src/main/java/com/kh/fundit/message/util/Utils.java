@@ -59,16 +59,37 @@ public class Utils {
 			pageBar += "<a class='page-link' href='javascript:fn_paging("+pageNo+")'>다음</a> ";
 			pageBar += "</li>";
 		}
-		
+		pageBar += "<form action="+url+" method='post'>";
+		pageBar += "<input type='text' name='email' value="+email+" style='display:none'>";
+		pageBar += "<input type='text' name='url' value="+url+" style='display:none' >";
+		pageBar += "<input type='text' name='cPage' id='myPage' value="+cPage+" style='display:none' >";
+		pageBar += "<input type='submit' id='siba' style='display:none' >";
+		pageBar += "</form>";
 		pageBar += "</ul>";
 		
-		//2.스크립트 태그 작성
-		//fn_paging함수
+		
+		
 		pageBar += "<script>";
-		pageBar += "function fn_paging(cPage,numPerPage){";
-		pageBar += "location.href='"+url+"?email="+email+"&cPage='+cPage;";
+		
+		pageBar += "function fn_paging(cPage,numPerPage){";		
+		
+		pageBar += "var page = $('#myPage').val();";
+		pageBar += "if(page < cPage){";
+		pageBar += "cPage = parseInt(page)+(cPage-page);";
+		pageBar += "$('#myPage').val(cPage);";
+		pageBar += "$('#siba').click();";
+		pageBar += "}";
+		pageBar += "else{";
+		pageBar += "cPage = parseInt(page)-(page-cPage);";
+		pageBar += "$('#myPage').val(cPage);";
+		pageBar += "$('#siba').click();";
+		pageBar += "}";
+		
+		
+	/*	pageBar += "location.href='"+url+"?email="+email+"&cPage='+cPage;";*/
 		pageBar += "}";
 		pageBar += "</script>";
+		
 		
 		return pageBar; 
 	}
@@ -128,13 +149,35 @@ public class Utils {
 			pageBar += "</li>";
 		}
 		
+		pageBar += "<form action="+url+" method='post'>";
+		pageBar += "<input type='text' name='email' value="+email+" style='display:none'>";
+		pageBar += "<input type='text' name='url' value="+url+" style='display:none'>";
+		pageBar += "<input type='text' name='cPage' id='myPage' value="+cPage+" style='display:none'>";
+		pageBar += "<input type='text' name='messageSelect' id='myPage' value="+messageSelect+" style='display:none'>";
+		pageBar += "<input type='submit' id='siba' style='display:none'>";
+		pageBar += "</form>";
 		pageBar += "</ul>";
 		
 		//2.스크립트 태그 작성
 		//fn_paging함수
 		pageBar += "<script>";
-		pageBar += "function fn_paging(cPage,numPerPage){";
-		pageBar += "location.href='"+url+"?email="+email+"&messageSelect="+messageSelect+"&cPage='+cPage;";
+		
+		pageBar += "function fn_paging(cPage,numPerPage){";		
+		
+		pageBar += "var page = $('#myPage').val();";
+		pageBar += "if(page < cPage){";
+		pageBar += "cPage = parseInt(page)+(cPage-page);";
+		pageBar += "$('#myPage').val(cPage);";
+		pageBar += "$('#siba').click();";
+		pageBar += "}";
+		pageBar += "else{";
+		pageBar += "cPage = parseInt(page)-(page-cPage);";
+		pageBar += "$('#myPage').val(cPage);";
+		pageBar += "$('#siba').click();";
+		pageBar += "}";
+		
+		
+	/*	pageBar += "location.href='"+url+"?email="+email+"&cPage='+cPage;";*/
 		pageBar += "}";
 		pageBar += "</script>";
 		
@@ -196,15 +239,36 @@ public class Utils {
 			pageBar += "</li>";
 		}
 		
-
+		pageBar += "<form action="+url+" method='post'>";
+		pageBar += "<input type='text' name='email' value="+email+" style='display:none'>";
+		pageBar += "<input type='text' name='url' value="+url+" style='display:none'>";
+		pageBar += "<input type='text' name='cPage' id='myPage' value="+cPage+" style='display:none'>";
+		pageBar += "<input type='submit' id='siba' style='display:none'>";
+		pageBar += "</form>";
 		pageBar += "</ul>";
 		
+
 		//2.스크립트 태그 작성
 		//fn_paging함수
 		
 		pageBar += "<script>";
-		pageBar += "function fn_paging(cPage,numPerPage){";
-		pageBar += "location.href='"+url+"?email="+email+"&cPage='+cPage;";
+		
+		pageBar += "function fn_paging(cPage,numPerPage){";		
+		
+		pageBar += "var page = $('#myPage').val();";
+		pageBar += "if(page < cPage){";
+		pageBar += "cPage = parseInt(page)+(cPage-page);";
+		pageBar += "$('#myPage').val(cPage);";
+		pageBar += "$('#siba').click();";
+		pageBar += "}";
+		pageBar += "else{";
+		pageBar += "cPage = parseInt(page)-(page-cPage);";
+		pageBar += "$('#myPage').val(cPage);";
+		pageBar += "$('#siba').click();";
+		pageBar += "}";
+		
+		
+	/*	pageBar += "location.href='"+url+"?email="+email+"&cPage='+cPage;";*/
 		pageBar += "}";
 		pageBar += "</script>";
 		

@@ -106,7 +106,7 @@ window.onload = function () {
 			<h1>아직 메세지가 등록되지 않았습니다~~~~ㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎ</h1>
 		</c:if>
 		<form action="messageSelect.do" method="post">
-<input type="text" value="${param.email }" name="email" id="loggedinemail"/> 
+<input type="text" value="${param.email }" name="email" id="loggedinemail" style="display: none;"/> 
 <input type="text" placeholder="메일검색" onkeydown="JavaScript:Enter_Check();" name="messageSelect" value="" />
 <input type="submit" value="검색" />
 </form>

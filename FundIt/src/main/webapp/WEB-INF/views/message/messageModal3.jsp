@@ -79,7 +79,7 @@ width:100%;
         </div>
         <input type="text" value="${param.messageNo }" name="messageNo" id="messageNo" />
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal" onclick="aaa();">Close</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal" onclick="aaa();">Close</button>
           <input type="submit" value="보내기" class="btn btn-default" id="receive" />
         </form>
         </div>
@@ -93,6 +93,7 @@ width:100%;
 </form>
 <script>
 $('#myModal').modal({backdrop: 'static'});
+
 function aaa(){
 	$("#modalpost").click();
 }
