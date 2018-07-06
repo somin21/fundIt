@@ -29,12 +29,6 @@ function outline_validate(){
 		return false;
 	}
 	
-	if($("#project-image").val() == ""){
-	
-		alert("모든 항목이 필수 항목입니다 \n프로젝트 대표 이미지를 업로드해주세요");
-		return false;
-	}
-	
 	if($("#projectSummary").val().trim() == ""){
 	
 		alert("모든 항목이 필수 항목입니다 \n프로젝트 요약을 입력해주세요");
@@ -54,12 +48,6 @@ function outline_validate(){
 	
 		alert("모든 항목이 필수 항목입니다 \n프로젝트 카테고리를 입력해주세요");
 		return false;
-	}
-			
-	if($("#profile-image").val() == "" && $(this).next("img").attr("src") == ""){
-		
-		alert("모든 항목이 필수 항목입니다 \n프로필 이미지를 업로드해주세요");
-		return false;	
 	}
 	
 	if($("#profile-name").val().trim() == ""){

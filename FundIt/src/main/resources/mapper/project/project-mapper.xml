@@ -268,7 +268,7 @@
 	
 	<update id="makeProjectProfile">
 	update profile set 
-		<if test="profileImage == null">
+		<if test="profileImage != null">
 		profileimage=#{profileImage}, 
 		</if>
 	profileintroduce=#{profileIntroduce}, localcode=#{localCode} where email=#{email}
@@ -394,7 +394,11 @@
 	</select>
 	
 	<update id="updateProjectOutline">
-	update project_outline set projecttitle=#{projectTitle}, projectimage=#{projectImage}, projectsummary=#{projectSummary}, categorycode=#{categoryCode} where projectno=#{projectNo}
+	update project_outline set projecttitle=#{projectTitle}, 
+		<if test="projectimage != null">
+			projectimage=#{projectImage}, 
+		</if>
+	projectsummary=#{projectSummary}, categorycode=#{categoryCode} where projectno=#{projectNo}
 	</update>
 	
 	<select id="selectProjectFunding" resultType="projectFunding">
