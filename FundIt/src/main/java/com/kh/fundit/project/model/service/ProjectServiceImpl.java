@@ -453,6 +453,16 @@ public class ProjectServiceImpl implements ProjectService {
 	public List<String> emailAuthenticationList(Map<String, Object> map) {
 		return projectDAO.emailAuthenticationList(map);
 	}
+//희영
+	@Override
+	public List<String> emailAuthenticationListN(Map<String, Object> map) {
+		return projectDAO.emailAuthenticationListN(map);
+	}
+//희영
+	@Override
+	public List<String> emailNumList(Map<String, Object> map) {
+		return projectDAO.emailNumList(map);
+	}
 
 
 }

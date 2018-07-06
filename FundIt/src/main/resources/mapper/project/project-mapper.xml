@@ -406,10 +406,16 @@
 	</select>
 	
 	<insert id="emailAuthentication">
-		insert into confirm values('${emailId}','${email}','${joinCode}',default)
+		insert into confirm values('${email}','${emailId}','${joinCode}',default)
 	</insert>
 	
 	<select id="emailAuthenticationList" resultType="string">
-		select * from confirm where confirmyn='Y' and confirmemail='${emailId}'
+		select * from confirm where confirmyn='Y' and confirmemail='${email}'
+	</select>
+	<select id="emailAuthenticationListN" resultType="string">
+		select * from confirm where confirmyn='N' and confirmemail='${email}'
+	</select>
+	<select id="emailNumList" resultType="string">
+		select * from confirm where confirmemail='${email}' and confirmyn='N' and confirmkey='${num}'
 	</select>
 </mapper>

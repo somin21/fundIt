@@ -74,22 +74,29 @@ input#phone::-webkit-inner-spin-button {
 </style>
 
 <style>
-input#authentication{
-	width: 80%; 
+input#numAuthentication{
+	width: 78%; 
+	display: inline-block;
+}
+input#confirmEmail{
+	width: 78%; 
 	display: inline-block;
 }
 </style>
 <script>
 //인증번호시작
-function fn_emailAtion(){
+function fn_emailAtion(){//인증메일발송
 	var email = $("#confirmEmail").val();
 	var emailId= 'asd@co.kr';
 		/* '${memberLoggedIn.email }'; */
-	console.log(email);
-	console.log(email.length);
+	//var emailAuthentication = ${emailAuthentication==null?false:emailAuthentication};
+	//var isUsable = ${isUsable==null?false:isUsable};
+	
 	if(email.length==0){
 		alert("이메일을 입력하세요!");
-	}else{
+	}/* else if(emailId.length==0){
+		alert("로그인 후 이용가능합니다.");
+	} */else{
 		jQuery.ajax({
 			url: "/fundit/project/emailAuthentication.do", //이메일인증
 			type: 'POST',
@@ -102,7 +109,48 @@ function fn_emailAtion(){
 				console.log("ajax실패",jqxhr,textStatus,errorThrown);
 			}
 		}).done(function(data){
-			
+			if(data.emailAuthentication==true){
+				alert("인증된 이메일 입니다!!.");				
+			}
+			if(data.isUsable==true){
+				alert("인증번호를 이메일로 보내드렸습니다.");
+			}
+			if(data.isUsable2==true){
+				alert("인증중인 이메일 입니다.\n이메일을 확인해주세요!");
+			}
+		});
+	}
+}
+function fn_emailAtion2(){//번호확인
+	var num = $("#numAuthentication").val();
+	var email = $("#confirmEmail").val();
+	if(email.length==0){
+		alert("이메일을 입력해주세요!");
+	}else
+	if(num.length==0){
+		alert("인증번호를 입력하세요!");
+	}else{
+		jQuery.ajax({
+			url: "/fundit/project/emailNum.do", //이메일인증
+			type: 'POST',
+			dataType: 'json',
+			data: {
+				num : num,				//인증번호
+				email : email 			//이메일 인증받아야할
+			},
+			error : function(jqxhr,textStatus,errorThrown){
+				console.log("ajax실패",jqxhr,textStatus,errorThrown);
+			}
+		}).done(function(data){
+			if(data.isUsable2==true){
+				alert("인증번호를 발급해주세요~");
+			}else{
+				if(data.isUsable==true){
+					alert("인증번호가 확인되었습니다.");
+				}else if(data.isUsable==false){
+					alert("인증번호가 틀렸습니다.")
+				}
+			}
 		});
 	}
 }
@@ -143,11 +191,13 @@ function fn_emailAtion(){
 					프로젝트 관련 중요 안내사항이 모두 이메일로 전달되므로 평소 자주 확인하는 이메일을 입력하시는 것이 좋습니다.
 				</p>
 				<p>
+					<label for="">이메일 : </label>
 					<input type="text" id="confirmEmail" name="confirmEmail" value="${memberLoggedIn.email }" />
+					<button type="button" class="Authentication" onclick="fn_emailAtion();">인증번호전송</button>
 				</p>
 				<p>
 					<label for="">인증번호:</label>
-					<input type="text" id="authentication" name="confirmAuthentication" /><button type="button" class="Authentication" onclick="fn_emailAtion();">확인</button>
+					<input type="text" id="numAuthentication" name="confirmAuthentication" /><button type="button" class="Authentication" onclick="fn_emailAtion2();">확인</button>
 				</p>
 				<p>
 					<button type="button" class="closeBtn">

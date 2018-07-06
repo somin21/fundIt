@@ -902,57 +902,85 @@ public class ProjectController {
 		map.put("email", email);
 		map.put("emailId", emailId);
 		
-		System.out.println("email="+email);
-		System.out.println("emailId="+emailId);
-		
 		int ran = new Random().nextInt(100000) + 10000; // 10000 ~ 99999
 		
-		boolean emailAuthentication = false;
+		boolean emailAuthentication = false;	//인증이된 이메일인지 확인
+		boolean isUsable = false;				//인증번호발금 확인
+		boolean isUsable2 = false;				//인증중인 이메일인지 확인
 		
-        final String joinCode = String.valueOf(ran);
+        final String joinCode = String.valueOf(ran);	//인증번호 생성
         map.put("joinCode", joinCode);
         
         //Y인경우찾기
-        List<String> list = projectService.emailAuthenticationList(map);
-        System.out.println("list="+list);
-       /* if(list==null) {	//Y가없는 경우 N을 찾음
-*/        	//N인겨웅찾기
-        	//List<String> list2 = projectService.emailAuthenticationList(map);
-        	/*if(list2==null) {	//N이 없는경우 인증번호를 생성해줌*/
+        List<String> list = projectService.emailAuthenticationList(map);//Y리스트
+        List<String> list2 = projectService.emailAuthenticationListN(map);//N리스트
+        
+        if(!(list.isEmpty())) {	//Y인경우가 있는지 확인
+        	//System.out.println("인증이된 이메일입니다.");
+        	emailAuthentication=true;
+        }else if(!(list2.isEmpty())) {//N인 경우가 있는지 확인
+			//System.out.println("인증중인 이메일입니다.");
+			isUsable2=true;
+        }
+        else {	//Y,N이없으니깐 인증번호를 보내주고 db에 저장한다.
 	        	int result = projectService.emailAuthentication(map);
 	        
 				final String sendEmail = email;
 	
-				if(result>0) {
+				if(result>0) {//DB에 저장이 성공하면 인증메일을 보냄!
+					//System.out.println("메일보내기성공");
+					//System.out.println("인증코드="+joinCode);
+					isUsable=true;
+					//System.out.println("메일인증트루여부="+isUsable);
 				    final MimeMessagePreparator preparator = new MimeMessagePreparator() {
 				        @Override
 				        public void prepare(MimeMessage mimeMessage) throws Exception {
 				            final MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
-				            helper.setFrom("flyingboy147@gmail.com");
+				            helper.setFrom("flyingboy147@naver.com");
 				            helper.setTo(sendEmail);
 				            helper.setSubject("fundit에서 이메일 인증번호를 보내드립니다.");
 				            helper.setText("인증번호는 【"+joinCode+"】");
-				 
 				            }
 				        };
 				        mailSender.send(preparator);
+				}else {
+					System.out.println("DB오류!!!!이메일인증 생성오류!!!!관리자에게문의!!!");
 				}
-				System.out.println("result="+result);
-        	/*}*/
-       /* }else {
-        	emailAuthentication = true;//인증트루표시
-        	response.setContentType("text/html; charset=UTF-8");
-        	PrintWriter out;
-        	try {
-        		out = response.getWriter();
-        		out.println("<script>alert('인증된 이메일입니다!')</script>");
-        		out.flush();
-        	} catch (IOException e) {
-        		e.printStackTrace();
-        	}
-        }*/
+				//System.out.println("result="+result);
+        }
 
-		mav.addObject("emailAuthentication", emailAuthentication);
+        mav.addObject("emailAuthentication", emailAuthentication);
+        mav.addObject("isUsable", isUsable);
+        mav.addObject("isUsable2", isUsable2);
+		mav.setViewName("jsonView");
+		
+		return mav;
+	}
+//	희영
+	@RequestMapping(value="/project/emailNum.do",method=RequestMethod.POST,produces="application/json; charset=utf8")
+	public ModelAndView emailNum(@RequestParam String num,String email) {
+		ModelAndView mav = new ModelAndView();
+		
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("num", num);
+		map.put("email", email);
+				
+		boolean isUsable = false;
+		boolean isUsable2 = false;	//인증번호발급받았는지 확인
+		
+		List<String> list = projectService.emailNumList(map);//인증번호맞는지 확인
+		List<String> list2 = projectService.emailAuthenticationListN(map);//N확인으로 인증번호발급했는지 확인
+
+		if(list2.isEmpty()) {
+			System.out.println("인증번호를 전송해주세요.");
+			isUsable2 =true;
+		}else if(!(list.isEmpty())) {
+			System.out.println("인증번호가 확인되었습니다.");
+			isUsable=true;
+		}
+		
+        mav.addObject("isUsable", isUsable);
+        mav.addObject("isUsable2", isUsable2);
 		mav.setViewName("jsonView");
 		
 		return mav;

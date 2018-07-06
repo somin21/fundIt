@@ -132,4 +132,8 @@ public interface ProjectService {
 
 	List<String> emailAuthenticationList(Map<String, Object> map);
 
+	List<String> emailAuthenticationListN(Map<String, Object> map);
+
+	List<String> emailNumList(Map<String, Object> map);
+
 }
