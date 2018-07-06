@@ -12,7 +12,7 @@ body{
 }
 div.ground{background-color: #f7f5f5; margin: 0 auto; vertical-align: top;} 
 div.mainDIV{text-align: center; }
-div.mainTitle{height: 480px; width: 960px; display: inline-block;}
+div.mainTitle{height: 520px; width: 960px; display: inline-block;}
 div.sideDiv{display: inline-block; vertical-align: top; padding-bottom: 50px;}
 
 div.goal{display: inline-block;}
@@ -183,7 +183,7 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
                 <div class="notice">
                     <span class="sp">미리보기</span><br />
                     <span class="sp2">목표금액인 <fmt:formatNumber>${view.supportGoal }</fmt:formatNumber>원이 모여야 결제됩니다.</span><br />
-                    <span class="sp2">마감일인 <fmt:formatDate value="${view.calculateduedDate }" pattern="yyyy년 MM월 dd일"/>에 프로젝트가 종료되며</span>
+                    <span class="sp2">마감일인 <fmt:formatDate value="${view.calculateduedDate }" pattern="yyyy년 MM월 dd일"/>에 프로젝트가 종료되며</span><br />
                     <span class="sp2">결제는 <fmt:formatDate value="${view.calculateduedDate }" pattern="yyyy년 MM월 dd일"/>에 다함께 진행됩니다.</span>
                 </div>
                

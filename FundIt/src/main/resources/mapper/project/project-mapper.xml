@@ -390,7 +390,7 @@
 	</update>
 	
 	<select id="selectProjectOutline" resultType="project_outline">
-	select o.*, c.categoryname from project_outline o join category c on o.categorycode = c.categorycode where project=#{projectNo}
+	select o.*, c.categoryname from project_outline o join category c on o.categorycode = c.categorycode where projectno=#{projectNo}
 	</select>
 	
 	<update id="updateProjectOutline">
