@@ -18,7 +18,7 @@ div.sideDiv{display: inline-block; vertical-align: top; padding-bottom: 50px;}
 div.goal{display: inline-block;}
 img.mainImg{height: 450px; width: 560px; padding: 10px 20px 0 0px; vertical-align: top;}
 div.goal{text-align: left;}
-div.notice{border: 1px solid #fafafa; padding: 10px; background-color: #faf8f8;}
+div.notice{border: 1px solid #fafafa; padding: 10px; background-color: #faf8f8;margin: 10px 0;}
 span#sp1{font-size: 40px; font-weight: bold;}
 span#sp2{font-size: 25px; font-weight: bold;}
 span.sp{font-size: 15px; font-weight: bold; padding-bottom:10px; display: inline-block;}
@@ -36,7 +36,7 @@ div.communityS{width: 700px; display: inline-block; padding-bottom:10px; padding
 div.communityMain{width: 700px;display: inline-block; background:#faf8f8; margin-top: 15px;}
 div.community{background: white; box-shadow: 1px 1px silver; text-align: left; padding-left: 30px; padding-bottom:10px; padding-top:10px;}
 
-div.changeDiv{width: 700px;display: inline-block; background:white; margin-top: 15px; box-shadow: 1px 1px silver; padding-bottom:10px; padding-top:10px;}
+div.changeDiv{width: 700px;display: inline-block; background:white; margin-top: 15px; box-shadow: 1px 1px silver; padding:30px;text-align:left;}
 span.refundSp{font-weight: bold;}
 
 div.originator{width: 270px;display: inline-block; text-align: left; padding: 15px; background:white; margin: 10px; margin-top: 15px; box-shadow: 1px 1px silver;}
@@ -253,7 +253,7 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
 			        		<hr />
 			        	</ul>
 	        			<span style="font-size:13px;color=#797979;">예상전달일<br><fmt:formatDate value="${view.calculateduedDate }" pattern="yyyy년 MM월 dd일"/> 후 순차배송됩니다.</span>
-		        		<button class="button2 button3" onclick="fn_supportGo('${projectNo}','${gList[gg.index] }');">선물 선택하고 후원하기</button>
+		        		<button class="button2 button3" >선물 선택하고 후원하기</button>
 		        	</div>
 		        </div>
 				</c:forEach>

@@ -30,22 +30,6 @@ public class ProjectOutline {
 		this.projectConfirmYN = projectConfirmYN;
 		this.projectIndexYN = projectIndexYN;
 	}
-	
-	public ProjectOutline(int projectNo, String email, String projectTitle, String projectImage, String projectSummary,
-			String categoryCode, Date projectDate, String projectConfirmYN, String projectIndexYN,
-			String categoryName) {
-		super();
-		this.projectNo = projectNo;
-		this.email = email;
-		this.projectTitle = projectTitle;
-		this.projectImage = projectImage;
-		this.projectSummary = projectSummary;
-		this.categoryCode = categoryCode;
-		this.projectDate = projectDate;
-		this.projectConfirmYN = projectConfirmYN;
-		this.projectIndexYN = projectIndexYN;
-		this.categoryName = categoryName;
-	}
 
 	public int getProjectNo() {
 		return projectNo;
@@ -117,6 +101,15 @@ public class ProjectOutline {
 
 	public void setProjectIndexYN(String projectIndexYN) {
 		this.projectIndexYN = projectIndexYN;
+	}
+
+	
+	public String getCategoryName() {
+		return categoryName;
+	}
+
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
 	}
 
 	@Override
