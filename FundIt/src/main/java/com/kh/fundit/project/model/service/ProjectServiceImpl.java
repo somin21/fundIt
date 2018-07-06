@@ -226,13 +226,11 @@ public class ProjectServiceImpl implements ProjectService {
 				projectDAO.makeProjectProfile(profile);
 				projectDAO.makeProjectMember(map);
 			}
-			System.out.println(projectNo);
 		} catch(Exception e) {
 			e.printStackTrace();
 			throw e;
 		}
 		
-		System.out.println("projectNo : " + projectNo);
 		return projectNo; 
 	}
 
@@ -395,7 +393,7 @@ public class ProjectServiceImpl implements ProjectService {
 
 //	소민
 	@Override
-	public int updateProjectOutline(ProjectOutline outline, com.kh.fundit.member.model.vo.Profile profile) {
+	public int updateProjectOutline(ProjectOutline outline, com.kh.fundit.member.model.vo.Profile profile, Map<String,String> map) {
 
 		int result = 0;
 		
@@ -403,6 +401,7 @@ public class ProjectServiceImpl implements ProjectService {
 			result = projectDAO.updateProjectOutline(outline);
 			if(result >0) {
 				projectDAO.makeProjectProfile(profile);
+				projectDAO.makeProjectMember(map);
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -477,6 +476,48 @@ public class ProjectServiceImpl implements ProjectService {
 	public List<Integer> projectGiftMoneyList(int projectNo) {
 		
 		return projectDAO.projectGiftMoneyList(projectNo);
+	}
+
+//	소민
+	@Override
+	public void updateConfirmYN(Map<String, Object> map) {
+		
+		projectDAO.updateConfirmYN(map);
+	}
+
+//	소민
+	@Override
+	public int updateProjectFunding(ProjectFunding funding) {
+		
+		return projectDAO.updateProjectFunding(funding);
+	}
+
+//	소민
+	@Override
+	public ProjectStory selectProjectStory(int projectNo) {
+
+		return projectDAO.selectProjectStory(projectNo);
+	}
+
+//	소민
+	@Override
+	public int updateProjectStory(ProjectStory story) {
+
+		return projectDAO.updateProjectStory(story);
+	}
+
+//	소민
+	@Override
+	public ProjectAccount selectProjectAccount(int projectNo) {
+
+		return projectDAO.selectProjectAccount(projectNo);
+	}
+
+//	소민
+	@Override
+	public int updateProjectAccount(ProjectAccount account) {
+		
+		return projectDAO.updateProjectAccount(account);
 	}
 
 

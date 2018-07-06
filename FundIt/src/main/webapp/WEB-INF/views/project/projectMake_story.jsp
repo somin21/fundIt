@@ -216,12 +216,11 @@ function story_validate(){
 			<div class="hidden" id="story-hidden">
 				<p>프로젝트 스토리</p>
 				<p style="font-size: 13px;color: darkgray;">
-					프로젝트 스토리 잘 작성하기를 읽어보시고 스토리텔링에 필요한 요소들을 확인하여 작성해주세요.
+					프로젝트 스토리 잘 작성하기를 읽어보시고 스토리텔링에 필요한 요소들을 확인하여 작성해주세요. <br />
 					(200자 이상 작성해주세요)
 				</p>
 				<p>
 					<!-- 에디터 API -->
-					<%-- <jsp:include page="/WEB-INF/views/project/projectMake_editor.jsp" /> --%>
 					<textarea name="projectStory" id="summernote" value=""></textarea>
 				</p>
 				<p style="text-align:right">

@@ -439,4 +439,35 @@
 	select distinct minmoney from project_gift where projectno=#{projectNo} order by minmoney
 	</select>
 	
+	<update id="updateConfirmYN">
+	update confirm set confirmyn='Y' where confirmemail=#{email} and confirmkey=#{num}
+	</update>
+	
+	<update id="updateProjectFunding">
+	update project_funding set supportgoal=#{supportGoal}, deadlinedate=#{deadlineDate}, calculateduedate=#{calculateDueDate}, refund=#{refund} where projectno=#{projectNo}
+	</update>
+	
+	<select id="selectProjectStory" resultType="projectStory">
+	select * from project_story where projectno=#{projectNo}
+	</select>
+	
+	<update id="updateProjectStory">
+	update project_story set projectstory=#{projectStory}
+		<if test="introduceMovie != null">
+		, introducemovie=#{introduceMovie}
+		</if>
+	where projectno=#{projectNo}
+	</update>
+	
+	<select id="selectProjectAccount" resultType="projectAccount">
+	select a.*, (select bankname from bank b where a.bankcode=b.bankcode) bankname 
+	from project_account a where projectno=#{projectNo}
+	</select>
+	
+	<update id="updateProjectAccount">
+	update project_story set email=#{email}, phone=#{phone}, accountname=#{accountName}, 
+	accountnumber=#{accountNumber}, accounttype=#{accountType}, bankcode=#{bankCode}
+	where projectno=#{projectNo}
+	</update>
+	
 </mapper>

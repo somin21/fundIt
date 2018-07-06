@@ -116,7 +116,7 @@ public interface ProjectService {
 
 	ProjectOutline selectProjectOutline(int projectNo);
 
-	int updateProjectOutline(ProjectOutline outline, com.kh.fundit.member.model.vo.Profile profile);
+	int updateProjectOutline(ProjectOutline outline, com.kh.fundit.member.model.vo.Profile profile, Map<String, String> map);
 
 	ProjectFunding selectProjectFunding(int projectNo);
 
@@ -139,5 +139,18 @@ public interface ProjectService {
 	ProjectView projectPreview(int projectNo);
 
 	List<Integer> projectGiftMoneyList(int projectNo);
+
+	void updateConfirmYN(Map<String, Object> map);
+
+	int updateProjectFunding(ProjectFunding funding);
+
+	ProjectStory selectProjectStory(int projectNo);
+
+	int updateProjectStory(ProjectStory story);
+	
+	ProjectAccount selectProjectAccount(int projectNo);
+
+	int updateProjectAccount(ProjectAccount account);
+
 
 }

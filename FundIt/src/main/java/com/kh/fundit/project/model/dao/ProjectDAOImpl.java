@@ -447,4 +447,46 @@ public class ProjectDAOImpl implements ProjectDAO {
 		return sqlSession.selectList("project.projectGiftMoneyList",projectNo);
 	}
 
+//	소민
+	@Override
+	public void updateConfirmYN(Map<String, Object> map) {
+		
+		sqlSession.update("project.updateConfirmYN", map);
+	}
+
+//	소민
+	@Override
+	public int updateProjectFunding(ProjectFunding funding) {
+
+		return sqlSession.update("project.updateProjectFunding", funding);
+	}
+
+//	소민
+	@Override
+	public ProjectStory selectProjectStory(int projectNo) {
+
+		return sqlSession.selectOne("project.selectProjectStory",projectNo);
+	}
+
+//	소민
+	@Override
+	public int updateProjectStory(ProjectStory story) {
+
+		return sqlSession.update("project.updateProjectStory", story);
+	}
+
+//	소민
+	@Override
+	public ProjectAccount selectProjectAccount(int projectNo) {
+
+		return sqlSession.selectOne("project.selectProjectAccount",projectNo);
+	}
+
+//	소민
+	@Override
+	public int updateProjectAccount(ProjectAccount account) {
+
+		return sqlSession.update("project.updateProjectAccount", account);
+	}
+
 }

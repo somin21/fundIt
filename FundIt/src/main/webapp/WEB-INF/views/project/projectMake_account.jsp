@@ -11,13 +11,10 @@
 </jsp:include>
 
 <script>
+var isEmailConfirm = false;
 function account_validate(){
 	
-	/* 이메일 유효성 확인 */
-	/* var emailRegExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i; */
-	
 	/* 인증여부확인 */
-	var isEmailConfirm = true;
 	if(!isEmailConfirm){
 		
 		alert("이메일 인증은 필수 항목입니다\n이메일 인증을 해주세요");
@@ -73,27 +70,21 @@ input#phone::-webkit-inner-spin-button {
 }
 </style>
 
-<style>
-input#numAuthentication{
-	width: 78%; 
-	display: inline-block;
-}
-input#confirmEmail{
-	width: 78%; 
-	display: inline-block;
-}
-</style>
 <script>
 //인증번호시작
 function fn_emailAtion(){//인증메일발송
+	
 	var email = $("#confirmEmail").val();
 	var emailId= 'asd@co.kr';
+	/* 이메일 유효성 확인 */
+	var emailRegExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+	
 		/* '${memberLoggedIn.email }'; */
 	//var emailAuthentication = ${emailAuthentication==null?false:emailAuthentication};
 	//var isUsable = ${isUsable==null?false:isUsable};
 	
-	if(email.length==0){
-		alert("이메일을 입력하세요!");
+	if(!emailRegExp.test(email)){
+		alert("이메일을 확인해주십시오");
 	}/* else if(emailId.length==0){
 		alert("로그인 후 이용가능합니다.");
 	} */else{
@@ -114,9 +105,14 @@ function fn_emailAtion(){//인증메일발송
 			}
 			if(data.isUsable==true){
 				alert("인증번호를 이메일로 보내드렸습니다.");
+				isEmailConfirm = false;
+				$("#confirmShown").hide();
+				$("#confirmHidden").show();
 			}
 			if(data.isUsable2==true){
 				alert("인증중인 이메일 입니다.\n이메일을 확인해주세요!");
+				$("#confirmShown").hide();
+				$("#confirmHidden").show();
 			}
 		});
 	}
@@ -147,16 +143,29 @@ function fn_emailAtion2(){//번호확인
 			}else{
 				if(data.isUsable==true){
 					alert("인증번호가 확인되었습니다.");
+					isEmailConfirm = true;					
+					$("#showIsConfirm").next("p").find("span").first().text(email);
+					$("#confirmHidden").slideUp(300);
+					$("#confirmShown").prev(".shown").slideDown(300);
 				}else if(data.isUsable==false){
-					alert("인증번호가 틀렸습니다.")
+					alert("인증번호가 틀렸습니다.");
+					$("#numAuthentication").val("");
 				}
 			}
+
 		});
 	}
 }
 //인증번호끝
 </script>
 
+<script>
+$(function(){
+	$("#confirmHidden").find(".closeBtn").on("click",function(){
+		$("#confirmHidden").prev("#confirmShown").prev(".shown").slideDown(500);
+	});
+})
+</script>
 
 <form action="${pageContext.request.contextPath }/project/makeProject/end" onsubmit="return account_validate();" method="post" >
 	
@@ -169,14 +178,12 @@ function fn_emailAtion2(){//번호확인
 			
 			<!-- 이메일 주소 -->
 			<div class="shown">
-				<p>
+				<p id="showIsConfirm">
 					이메일 주소
-					<span class="choice">인증 필요</span>
+					<span class="choice">인증 필수</span>
 				</p>
 				<p>
-					<span style="font-size:20px">
-						${memberLoggedIn.email }
-					</span>
+					<span style="font-weight:bold;font-size:20px;color:black;">${memberLoggedIn.email }</span>
 					<span>
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/write.png" />
 						&nbsp;
@@ -184,27 +191,41 @@ function fn_emailAtion2(){//번호확인
 					</span>
 				</p>
 			</div>
-			<div class="hidden">
+			<div class="hidden" id="confirmShown">
 				<p>이메일 주소</p>
 				<p>
 					진행자님이 연락받으실 수 있는 이메일을 입력해 주세요. <br />
 					프로젝트 관련 중요 안내사항이 모두 이메일로 전달되므로 평소 자주 확인하는 이메일을 입력하시는 것이 좋습니다.
 				</p>
 				<p>
-					<label for="">이메일 : </label>
 					<input type="text" id="confirmEmail" name="confirmEmail" value="${memberLoggedIn.email }" />
-					<button type="button" class="Authentication" onclick="fn_emailAtion();">인증번호전송</button>
-				</p>
-				<p>
-					<label for="">인증번호:</label>
-					<input type="text" id="numAuthentication" name="confirmAuthentication" /><button type="button" class="Authentication" onclick="fn_emailAtion2();">확인</button>
 				</p>
 				<p>
 					<button type="button" class="closeBtn">
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/x.png" />
 						닫기
 					</button>
-					<button type="button" class="saveBtn" id="confirmEmailBtn">
+					<button type="button" id="sendEmailBtn" onclick="fn_emailAtion();">
+						<img src="${pageContext.request.contextPath }/resources/images/makeProject/ok.png" />
+						인증
+					</button>
+				</p>
+			</div>
+			<div class="hidden" id="confirmHidden">
+				<p>이메일 주소</p>
+				<p>
+					진행자님이 작성하신 이메일로 인증번호를 전송하였습니다. <br />
+					메일을 확인하시고 인증번호를 입력해주세요.
+				</p>
+				<p>
+					<input type="text" id="numAuthentication" name="confirmAuthentication" />
+				</p>
+				<p>
+					<button type="button" class="closeBtn">
+						<img src="${pageContext.request.contextPath }/resources/images/makeProject/x.png" />
+						닫기
+					</button>
+					<button type="button" id="confirmEmailBtn" onclick="fn_emailAtion2();">
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/ok.png" />
 						인증
 					</button>
@@ -241,7 +262,7 @@ function fn_emailAtion2(){//번호확인
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/x.png" />
 						닫기
 					</button>
-					<button type="button" class="saveBtn" id="confirmEmailBtn">
+					<button type="button" class="saveBtn">
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/ok.png" />
 						저장
 					</button>

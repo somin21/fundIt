@@ -23,6 +23,7 @@
 		<typeAlias type="com.kh.fundit.admin.model.vo.AdminMember" alias="adminMember"/>
 		<typeAlias type="com.kh.fundit.admin.model.vo.AdminMessage" alias="adminMessage"/>
 		<typeAlias type="com.kh.fundit.project.model.vo.ProjectFunding" alias="projectFunding" />
+		<typeAlias type="com.kh.fundit.project.model.vo.ProjectAccount" alias="projectAccount" />
 	</typeAliases>
 	
 </configuration>

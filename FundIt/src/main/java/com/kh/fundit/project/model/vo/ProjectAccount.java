@@ -10,6 +10,8 @@ public class ProjectAccount {
 	private String accountType;
 	private String bankCode;
 	
+	private String bankName;
+	
 	public ProjectAccount() {}
 	
 	public ProjectAccount(int projectNo, String email, String phone, String accountName, String accountNumber,
@@ -66,6 +68,15 @@ public class ProjectAccount {
 		this.bankCode = bankCode;
 	}
 	
+	
+	public String getBankName() {
+		return bankName;
+	}
+
+	public void setBankName(String bankName) {
+		this.bankName = bankName;
+	}
+
 	@Override
 	public String toString() {
 		return "ProjectAccount [projectNo=" + projectNo + ", email=" + email + ", phone=" + phone + ", accountName="

@@ -144,4 +144,16 @@ public interface ProjectDAO {
 
 	List<Integer> projectGiftMoneyList(int projectNo);
 
+	void updateConfirmYN(Map<String, Object> map);
+
+	int updateProjectFunding(ProjectFunding funding);
+
+	ProjectStory selectProjectStory(int projectNo);
+
+	int updateProjectStory(ProjectStory story);
+
+	ProjectAccount selectProjectAccount(int projectNo);
+
+	int updateProjectAccount(ProjectAccount account);
+
 }
