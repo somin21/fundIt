@@ -7,7 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
+import com.kh.fundit.admin.model.vo.AdminProjectView;
 import com.kh.fundit.member.model.vo.Member;
 import com.kh.fundit.project.model.dao.ProjectDAO;
 import com.kh.fundit.project.model.vo.Community;
@@ -213,7 +213,7 @@ public class ProjectServiceImpl implements ProjectService {
 
 //	소민
 	@Override
-	public int makeProjectOutline(ProjectOutline outline, com.kh.fundit.member.model.vo.Profile profile) {
+	public int makeProjectOutline(ProjectOutline outline, com.kh.fundit.member.model.vo.Profile profile, Map<String, String> map) {
 
 		int projectNo = 0;
 		
@@ -224,6 +224,7 @@ public class ProjectServiceImpl implements ProjectService {
 				projectNo = outline.getProjectNo();
 				System.out.println(projectNo);
 				projectDAO.makeProjectProfile(profile);
+				projectDAO.makeProjectMember(map);
 			}
 			System.out.println(projectNo);
 		} catch(Exception e) {
@@ -429,13 +430,13 @@ public class ProjectServiceImpl implements ProjectService {
 //  태윤
 	@Override
 	public int deleteProject(int projectNo, Map<String, Object> map) {
-		// TODO Auto-generated method stub
+		
 		return projectDAO.deleteProject(map);
 	}
 //  태윤
 	@Override
 	public List<ListProjectView> selectMyProjectI(Member member, int numPerpage) {
-		// TODO Auto-generated method stub
+		
 		return projectDAO.selectMyProjectI(member, numPerpage);
 	}
 //희영
@@ -462,6 +463,20 @@ public class ProjectServiceImpl implements ProjectService {
 	@Override
 	public List<String> emailNumList(Map<String, Object> map) {
 		return projectDAO.emailNumList(map);
+	}
+
+//	소민
+	@Override
+	public ProjectView projectPreview(int projectNo) {
+
+		return projectDAO.projectPreview(projectNo);
+	}
+
+//	소민
+	@Override
+	public List<Integer> projectGiftMoneyList(int projectNo) {
+		
+		return projectDAO.projectGiftMoneyList(projectNo);
 	}
 
 

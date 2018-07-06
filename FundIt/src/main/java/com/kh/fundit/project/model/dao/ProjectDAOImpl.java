@@ -9,7 +9,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-
+import com.kh.fundit.admin.model.vo.AdminProjectView;
 import com.kh.fundit.member.model.vo.Member;
 import com.kh.fundit.project.model.vo.Community;
 import com.kh.fundit.project.model.vo.Item;
@@ -370,7 +370,6 @@ public class ProjectDAOImpl implements ProjectDAO {
 //  태윤
 	@Override
 	public int deleteProject(Map<String, Object> map) {
-		// TODO Auto-generated method stub
 		
 		  sqlSession.delete("project.deleteCommunity", map);
 		
@@ -396,7 +395,6 @@ public class ProjectDAOImpl implements ProjectDAO {
 //  태윤
 	@Override
 	public List<ListProjectView> selectMyProjectI(Member member, int numPerpage) {
-		// TODO Auto-generated method stub
 		RowBounds rowBounds = new RowBounds(0, numPerpage);
 		return sqlSession.selectList("project.selectMyProjectI", member, rowBounds);
 	}
@@ -416,6 +414,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 	public List<String> emailAuthenticationList(Map<String, Object> map) {
 		return sqlSession.selectList("project.emailAuthenticationList", map);
 	}
+
 //	희영
 	@Override
 	public List<String> emailAuthenticationListN(Map<String, Object> map) {
@@ -425,6 +424,27 @@ public class ProjectDAOImpl implements ProjectDAO {
 	@Override
 	public List<String> emailNumList(Map<String, Object> map) {
 		return sqlSession.selectList("project.emailNumList", map);
+	}
+
+//	소민
+	@Override
+	public void makeProjectMember(Map<String, String> map) {
+		
+		sqlSession.update("project.makeProjectMember", map);		
+	}
+
+//	소민
+	@Override
+	public ProjectView projectPreview(int projectNo) {
+		
+		return sqlSession.selectOne("project.projectPreview",projectNo);
+	}
+
+//	소민
+	@Override
+	public List<Integer> projectGiftMoneyList(int projectNo) {
+		
+		return sqlSession.selectList("project.projectGiftMoneyList",projectNo);
 	}
 
 }

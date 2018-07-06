@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+import com.kh.fundit.admin.model.vo.AdminProjectView;
 import com.kh.fundit.member.model.vo.Member;
 import com.kh.fundit.project.model.vo.Community;
 import com.kh.fundit.project.model.vo.Item;
@@ -137,5 +137,11 @@ public interface ProjectDAO {
 	List<String> emailAuthenticationListN(Map<String, Object> map);
 
 	List<String> emailNumList(Map<String, Object> map);
+	
+	void makeProjectMember(Map<String, String> map);
+
+	ProjectView projectPreview(int projectNo);
+
+	List<Integer> projectGiftMoneyList(int projectNo);
 
 }

@@ -26,8 +26,10 @@ $(function(){
 				} else {
 					html += '<div class="carousel-item">';
 				}
-			    html += '<img class="d-block w-100" src="${pageContext.request.contextPath }/resources/images/projects/'+data[i].projectImage+'" />';
-			    html += '<div class="carousel-caption d-none d-md-block" style="width:38%;">';
+				 html += '<img class="d-block w-100" src="${pageContext.request.contextPath }/resources/images/projects/'+data[i].projectImage+'" />';
+			    html += '<img class="d-block w-100" src="${pageContext.request.contextPath }/resources/images/projects/'+data[i].projectImage+'"/>'; 
+			    /* html += '<img class="d-block w-100" src="${pageContext.request.contextPath }/resources/images/projects/'+data[i].projectImage+'"/>'; */
+			    html += '<div class="carousel-caption d-none d-md-block" style="width:70%;">';
 			    html += '<h1 style="text-align:left;">'+data[i].projectTitle+'</h1>';
 			    html += '</div>';
 			    html += '</div>';

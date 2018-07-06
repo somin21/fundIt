@@ -4,7 +4,7 @@ package com.kh.fundit.project.model.service;
 import java.util.List;
 import java.util.Map;
 
-
+import com.kh.fundit.admin.model.vo.AdminProjectView;
 import com.kh.fundit.member.model.vo.Member;
 import com.kh.fundit.project.model.vo.Community;
 import com.kh.fundit.project.model.vo.Item;
@@ -84,7 +84,7 @@ public interface ProjectService {
 
 	com.kh.fundit.member.model.vo.Profile makeProject(String email);
 
-	int makeProjectOutline(ProjectOutline outline, com.kh.fundit.member.model.vo.Profile profile);
+	int makeProjectOutline(ProjectOutline outline, com.kh.fundit.member.model.vo.Profile profile, Map<String, String> map);
 
 	int makeProjectFunding(ProjectFunding funding);
 	
@@ -135,5 +135,9 @@ public interface ProjectService {
 	List<String> emailAuthenticationListN(Map<String, Object> map);
 
 	List<String> emailNumList(Map<String, Object> map);
+
+	ProjectView projectPreview(int projectNo);
+
+	List<Integer> projectGiftMoneyList(int projectNo);
 
 }

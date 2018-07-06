@@ -17,7 +17,7 @@ function account_validate(){
 	/* var emailRegExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i; */
 	
 	/* 인증여부확인 */
-	var isEmailConfirm = false;
+	var isEmailConfirm = true;
 	if(!isEmailConfirm){
 		
 		alert("이메일 인증은 필수 항목입니다\n이메일 인증을 해주세요");

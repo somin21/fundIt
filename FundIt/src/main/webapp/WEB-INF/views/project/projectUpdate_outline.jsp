@@ -7,11 +7,109 @@
 
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
 <jsp:include page="/WEB-INF/views/project/projectMake_header.jsp" >
-	<jsp:param value="outline" name="sectionName"/>
+	<jsp:param value="complete" name="sectionName"/>
 </jsp:include>
 
 
-<form action="${pageContext.request.contextPath }/project/updateProject/outline" enctype="multipart/form-data" onsubmit="return project_validate('#outline');" method="post">
+<script>
+function outline_validate(){
+		
+	if($("#project-title").val().trim() == ""){
+		
+		alert("모든 항목이 필수 항목입니다 \n프로젝트 제목을 입력해주세요");
+		return false;
+	}
+	
+	var over_title = $("#project-title").next(".letter-cnt").text();
+	over_title = over_title.replace(/[0-9]/g,"");
+	
+	if(over_title == "자 초과하였습니다"){
+	
+		alert("프로젝트 제목을 초과 입력하셨습니다");
+		return false;
+	}
+	
+	if($("#project-image").val() == ""){
+	
+		alert("모든 항목이 필수 항목입니다 \n프로젝트 대표 이미지를 업로드해주세요");
+		return false;
+	}
+	
+	if($("#projectSummary").val().trim() == ""){
+	
+		alert("모든 항목이 필수 항목입니다 \n프로젝트 요약을 입력해주세요");
+		return false;
+	}
+	
+	var over_summary = $("#projectSummary").next(".letter-cnt").text();
+	over_summary = over_summary.replace(/[0-9]/g,"");
+	
+	if(over_summary == "자 초과하였습니다"){
+	
+		alert("프로젝트 요약을 초과 입력하셨습니다");
+		return false;
+	}
+	
+	if($("#category").val() == ""){
+	
+		alert("모든 항목이 필수 항목입니다 \n프로젝트 카테고리를 입력해주세요");
+		return false;
+	}
+			
+	if($("#profile-image").val() == "" && $(this).next("img").attr("src") == ""){
+		
+		alert("모든 항목이 필수 항목입니다 \n프로필 이미지를 업로드해주세요");
+		return false;	
+	}
+	
+	if($("#profile-name").val().trim() == ""){
+	
+		alert("모든 항목이 필수 항목입니다 \n진행자 이름을 입력해주세요");
+		return false;
+	}
+
+	var nameRegExp = /([가-힣]|[A-Z]|[a-z]){2,}/g;
+	if(!nameRegExp.test($("#profile-name").val().replace(/\s/g,""))){
+		
+		alert("진행자 이름을 확인해주세요");
+		return false;
+	}
+	
+	var over_name = $("#profile-name").next(".letter-cnt").text();
+	over_name = over_name.replace(/[0-9]/g,"");
+	
+	if(over_name == "자 초과하였습니다"){
+	
+		alert("진행자 이름을 초과 입력하셨습니다");
+		return false;
+	}
+	
+	if($("#profileIntroduce").val().trim() == ""){
+	
+		alert("모든 항목이 필수 항목입니다 \n진행자 소개를 입력해주세요");
+		return false;
+	}
+	
+	var over_intro = $("#profileIntroduce").next(".letter-cnt").text();
+	over_intro = over_intro.replace(/[0-9]/g,"");
+	
+	if(over_intro == "자 초과하였습니다"){
+	
+		alert("진행자 소개를 초과 입력하셨습니다");
+		return false;
+	}
+	
+	if($("#local").val() == ""){
+	
+		alert("모든 항목이 필수 항목입니다 \n진행자 활동 지역을 입력해주세요");
+		return false;
+	}
+	
+	return true;
+}
+</script>
+
+<form action="${pageContext.request.contextPath }/project/updateProject/outline" enctype="multipart/form-data" onsubmit="return outline_validate();" method="post">
 
 	<input type="hidden" name="email" value="${memberLoggedIn.email }" />
 	
