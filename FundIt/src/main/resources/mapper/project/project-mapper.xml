@@ -390,14 +390,14 @@
 	</update>
 	
 	<select id="selectProjectOutline" resultType="project_outline">
-	select o.*, c.categoryname from project_outline o join category c on o.categorycode = c.categorycode
+	select o.*, c.categoryname from project_outline o join category c on o.categorycode = c.categorycode where project=#{projectNo}
 	</select>
 	
 	<update id="updateProjectOutline">
 	update project_outline set projecttitle=#{projectTitle}, projectimage=#{projectImage}, projectsummary=#{projectSummary}, categorycode=#{categoryCode} where projectno=#{projectNo}
 	</update>
 	
-	<select id="selectProjectFunding">
+	<select id="selectProjectFunding" resultType="projectFunding">
 	select * from project_funding where projectno=#{projectNo}
 	</select>
 	
@@ -416,5 +416,17 @@
 	<update id="makeProjectMember">
 	update member set name=#{name} where email=#{email}
 	</update>
+	
+	<select id="projectPreview" resultType="projectView">
+	select o.projectno, o.email, o.projectimage, o.projecttitle, o.categorycode, (select categoryname from category c where o.categorycode = c.categorycode) categoryname,
+		(select name from member m where o.email = m.email) name, f.deadlinedate,
+		trunc(f.deadlinedate - sysdate) deadlineday, f.supportgoal, f.refund, f.calculateduedate as calculatedueddate, s.introducemovie, s.projectstory
+	from project_outline o join project_funding f on o.projectno = f.projectno join project_story s on o.projectno = s.projectno
+	where o.projectconfirmyn='I' and o.projectdeadlineyn='N' and o.projectno=#{projectNo}
+	</select>
+	
+	<select id="projectGiftMoneyList" resultType="_int">
+	select distinct minmoney from project_gift where projectno=#{projectNo} order by minmoney
+	</select>
 	
 </mapper>

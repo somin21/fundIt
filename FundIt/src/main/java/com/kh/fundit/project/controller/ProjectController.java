@@ -763,7 +763,24 @@ public class ProjectController {
 	}
 	
 //	소민
-	@RequestMapping(value="/project/updateProject/outline", method=RequestMethod.POST)
+	@RequestMapping("/project/updateProject/outline")
+	public ModelAndView updateProject(@RequestParam(value="projectNo") int projectNo) {
+		
+		ModelAndView mav = new ModelAndView();
+		System.out.println("projectNo@updateProject/outline = "+projectNo);
+		ProjectOutline outline = projectService.selectProjectOutline(projectNo);
+		Profile profile = projectService.makeProject(outline.getEmail());
+		
+		mav.addObject("outline", outline);
+		mav.addObject("profile", profile);
+		
+		mav.setViewName("project/projectUpdate_outline");
+		
+		return mav;
+	}
+	
+//	소민
+	@RequestMapping(value="/project/updateProject/funding-gift", method=RequestMethod.POST)
 	public ModelAndView updateProjectOutline(ProjectOutline outline, Profile profile,
 											 @RequestParam(value="profileName") String name,
 											 @RequestParam(value="projectImageFile") MultipartFile projectImage, 
@@ -851,9 +868,10 @@ public class ProjectController {
 	@ResponseBody
 	public Item insertItem(@RequestParam boolean isFirst, Item item) {
 		
-//		if(isFirst == true) {
-//			projectService.deleteItem(item.getProjectNo());
-//		}
+		if(isFirst == true) {
+			projectService.deleteGift(item.getProjectNo());
+			projectService.deleteItem(item.getProjectNo());
+		}
 		
 		return projectService.insertItem(item);
 	}
@@ -879,9 +897,9 @@ public class ProjectController {
 	@ResponseBody
 	public ProjectGift insertGift(@RequestParam boolean isFirst, ProjectGift gift) {
 		
-//		if(isFirst == true) {
-//			projectService.deleteGift(gift.getProjectNo());
-//		}
+		if(isFirst == true) {
+			projectService.deleteGift(gift.getProjectNo());
+		}
 		 
 		return projectService.insertGift(gift);
 	}
@@ -1015,8 +1033,8 @@ public class ProjectController {
 		
 		if(result > 0) {
 			
-			mav.addObject("msg","프로젝트 작성을 완료하였습니다.\n내용 확인 및 수정 후 검토 요청하기를 눌러주세요");
-			mav.addObject("loc", "/project/projectView.do?projectNo="+account.getProjectNo());
+			mav.addObject("msg","프로젝트 작성을 완료하였습니다.\\n내용 확인 및 수정 후 검토 요청하기를 눌러주세요");
+			mav.addObject("loc", "/project/projectPreview?projectNo="+account.getProjectNo());
 			
 		} else {
 			
@@ -1077,6 +1095,37 @@ public class ProjectController {
 		List<ListProjectView> list = projectService.selectMyProjectI(member, numPerpage);
 			
 		return list;
+	}
+	
+//	소민
+	@RequestMapping("/project/projectPreview")
+	public ModelAndView projectPreview(@RequestParam("projectNo") int projectNo,
+											  HttpServletResponse response)	{
+		ModelAndView mav = new ModelAndView();
+		
+		Map<String,Object> map = new HashMap<>();
+		map.put("projectNo",projectNo);
+		
+		//프로젝트리스트뽑기
+		ProjectView view = projectService.projectPreview(projectNo);
+		
+		System.out.println(view);
+		
+		//선물리스트 받아오기
+		List<Integer> mList = projectService.projectGiftMoneyList(projectNo);
+		List<ProjectGift> gList = projectService.projectGiftList(map);
+		
+		//프로필 받아오기
+		Profile p = projectService.makeProject(view.getEmail());
+		
+		mav.addObject("view",view);
+		mav.addObject("mList",mList);
+		mav.addObject("gList",gList);
+		mav.addObject("p",p);
+		mav.setViewName("project/projectPreview");
+		
+		return mav;
+
 	}
 
 }

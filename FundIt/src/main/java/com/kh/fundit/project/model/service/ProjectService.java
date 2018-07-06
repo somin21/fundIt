@@ -4,7 +4,7 @@ package com.kh.fundit.project.model.service;
 import java.util.List;
 import java.util.Map;
 
-
+import com.kh.fundit.admin.model.vo.AdminProjectView;
 import com.kh.fundit.member.model.vo.Member;
 import com.kh.fundit.project.model.vo.Community;
 import com.kh.fundit.project.model.vo.Item;
@@ -131,5 +131,9 @@ public interface ProjectService {
 	int emailAuthentication(Map<String, Object> map);
 
 	List<String> emailAuthenticationList(Map<String, Object> map);
+
+	ProjectView projectPreview(int projectNo);
+
+	List<Integer> projectGiftMoneyList(int projectNo);
 
 }

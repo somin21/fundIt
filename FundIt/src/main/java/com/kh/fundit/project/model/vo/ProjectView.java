@@ -18,6 +18,11 @@ public class ProjectView {
 	private String categoryCode;
 	private String refund;
 	
+	private Date deadlineDate;
+	private String categoryName;
+	private String introduceMovie;
+	private String projectStory;
+	
 	public ProjectView() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -154,18 +159,48 @@ public class ProjectView {
 	public void setRefund(String refund) {
 		this.refund = refund;
 	}
+	
+	public String getCategoryName() {
+		return categoryName;
+	}
+
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
+
+	public String getIntroduceMovie() {
+		return introduceMovie;
+	}
+
+	public void setIntroduceMovie(String introduceMovie) {
+		this.introduceMovie = introduceMovie;
+	}
+
+	public String getProjectStory() {
+		return projectStory;
+	}
+
+	public void setProjectStory(String projectStory) {
+		this.projectStory = projectStory;
+	}
+	
+	public Date getDeadlineDate() {
+		return deadlineDate;
+	}
+
+	public void setDeadlineDate(Date deadlineDate) {
+		this.deadlineDate = deadlineDate;
+	}
 
 	@Override
 	public String toString() {
-		return "[rowNum=" + rowNum + ", projectNo=" + projectNo + ", email=" + email + ", projectImage="
+		return "ProjectView [rowNum=" + rowNum + ", projectNo=" + projectNo + ", email=" + email + ", projectImage="
 				+ projectImage + ", projectTitle=" + projectTitle + ", name=" + name + ", deadlineDay=" + deadlineDay
 				+ ", supportGoal=" + supportGoal + ", calculateduedDate=" + calculateduedDate + ", supportMoney="
 				+ supportMoney + ", supportPercent=" + supportPercent + ", supportor=" + supportor + ", categoryCode="
-				+ categoryCode + ", refund=" + refund + "]";
+				+ categoryCode + ", refund=" + refund + ", introduceMovie=" + introduceMovie + ", projectStory="
+				+ projectStory + "]";
 	}
-
-	
-	
 	
 	
 	
