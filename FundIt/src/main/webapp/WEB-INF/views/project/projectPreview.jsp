@@ -219,7 +219,7 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
 	        <div class="ground">
 		        <div class="mainContext">
 		        <c:if test="${view.introduceMovie ne null }">
-		        <video src="${pageContext.request.contextPath }/resources/images/projects/${view.introduceMovie }" autoplay controls style="margin-bottom: 50px;"></video><br />
+		        	<video src="${pageContext.request.contextPath }/resources/images/projects/${view.introduceMovie }" autoplay controls style="margin-bottom: 50px;"></video><br />
 		        </c:if>
 		        ${view.projectStory }
 		        </div>

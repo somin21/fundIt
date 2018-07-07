@@ -395,7 +395,7 @@
 	
 	<update id="updateProjectOutline">
 	update project_outline set projecttitle=#{projectTitle}, 
-		<if test="projectimage != null">
+		<if test="projectImage != null">
 			projectimage=#{projectImage}, 
 		</if>
 	projectsummary=#{projectSummary}, categorycode=#{categoryCode} where projectno=#{projectNo}
@@ -444,7 +444,14 @@
 	</update>
 	
 	<update id="updateProjectFunding">
-	update project_funding set supportgoal=#{supportGoal}, deadlinedate=#{deadlineDate}, calculateduedate=#{calculateDueDate}, refund=#{refund} where projectno=#{projectNo}
+	update project_funding set supportgoal=#{supportGoal}, 
+		<if test="deadlineDate != null">
+			deadlinedate=#{deadlineDate}, 
+		</if>
+		<if test="calculateDueDate != null">
+			calculateduedate=#{calculateDueDate},  
+		</if>
+		refund=#{refund} where projectno=#{projectNo}
 	</update>
 	
 	<select id="selectProjectStory" resultType="projectStory">
@@ -465,7 +472,7 @@
 	</select>
 	
 	<update id="updateProjectAccount">
-	update project_story set email=#{email}, phone=#{phone}, accountname=#{accountName}, 
+	update project_account set email=#{email}, phone=#{phone}, accountname=#{accountName}, 
 	accountnumber=#{accountNumber}, accounttype=#{accountType}, bankcode=#{bankCode}
 	where projectno=#{projectNo}
 	</update>

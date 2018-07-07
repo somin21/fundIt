@@ -475,7 +475,7 @@ $(function(){
 				if(itemnumber != 0){
 					
 					$.ajax({
-						url : "insertGift",
+						url : "${pageContext.request.contextPath}/project/makeProject/insertGift",
 						data : {isFirst : isFirst, projectNo : projectNo, minMoney : minMoney, giftexplain : giftExplain, deliveryYN : deliveryYN, itemno : itemno, itemnumber : itemnumber},			
 						success : function(data){
 							
@@ -534,7 +534,7 @@ $(function(){
 		console.log(minMoney);
 		
 		$.ajax({
-			url : "deleteGift",
+			url : "${pageContext.request.contextPath}/project/makeProject/deleteGift",
 			data : {projectNo : parseInt(projectNo), minMoney : parseInt(minMoney)},			
 			success : function(data){
 				
@@ -570,12 +570,6 @@ function funding_validate(){
 	if($("#date-warning").text() != ""){
 		
 		alert("프로젝트 마감일은 내일부터 60일 후의 날짜 중 선택 가능합니다");
-		return false;
-	}
-	
-	if(!$("[name=calculateDueDate]").length){
-		
-		alert("프로젝트 마감일을 선택해주세요");
 		return false;
 	}
 	
@@ -627,7 +621,7 @@ span.dotdotdot{
 			<div class="shown">
 				<p>목표 금액</p>
 				<p>
-					<span style="font-weight:bold;font-size:20px;color:black;">${funding.supportGoal }</span>
+					<span style="font-weight:bold;font-size:20px;color:black;"><fmt:formatNumber>${funding.supportGoal }</fmt:formatNumber></span>
 					<span>
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/write.png" />
 						&nbsp;
@@ -645,7 +639,7 @@ span.dotdotdot{
 					<span class="red-font" id="money-warning">** 목표 금액은 5,000원 이상입니다.</span>
 				</p>
 				<p>
-					<input type="number" id="funding-money" name="supportGoal" value="${funding.supportGoal }" min="5000"/> 
+					<input type="number" id="funding-money" name="supportGoal" value="${funding.supportGoal }" /> 
 					<span class="bold-font">원</span>
 					<!-- 수수료 -->
 				</p>
@@ -666,7 +660,7 @@ span.dotdotdot{
 			<div class="shown">
 				<p>프로젝트 마감일</p>
 				<p>
-					<span style="font-weight:bold;font-size:20px;color:black;"><fmt:parseDate var="dateString" value="${funding.deadlineDate}" pattern="yyyy-MM-dd" /></span>
+					<span style="font-weight:bold;font-size:20px;color:black;">${funding.deadlineDate}</span>
 					<span>
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/write.png" />
 						&nbsp;
@@ -683,7 +677,7 @@ span.dotdotdot{
 					<span class="red-font" id="date-warning"></span>
 				</p>
 				<p>
-					<input type="date" id="deadline-date" name="deadlineDate" value="${funding.deadlineDate}"/>
+					<input type="date" id="deadline-date" name="deadlineDate" value=""/>
 					<span class="bold-font">에 펀딩을 마감합니다.</span>
 				</p>
 				<p>
@@ -710,9 +704,9 @@ span.dotdotdot{
 		<div class="make-project-content">
 			
 			<!-- 예상 정산일 START -->
-			<div id="fund-duedate">
+			<div id="fund-duedate" style="text-align: left;padding-top:30px;">
 				펀딩에 성공할 경우, 마감일 다음날부터 7일간 결제가 진행됩니다.<br>
-				결제 종료일로부터 추가로 7일 후인 <fmt:parseDate var="dateString" value="${funding.calculateDueDate}" pattern="yyyy년 MM월 dd일" />에 모금액이 창작자님의 계좌로 입금됩니다.
+				결제 종료일로부터 추가로 7일 후인 ${funding.calculateDueDate}에 모금액이 창작자님의 계좌로 입금됩니다.
 			</div>
 			<!-- 예상 정산일 END -->
 			
@@ -727,17 +721,17 @@ span.dotdotdot{
 		<div class="make-project-content">
 			
 			<div id="checkedGift">
-				<c:forEach var="money" items="mList">
-				<div class="giftList" id="${money }">
+				<c:forEach var="m" items="${mList }" >
+				<div class="giftList" id="${m }">
 					<div>
-						<span class="successMinMoney"><fmt:formatNumber>${money }</fmt:formatNumber></span>원 이상 밀어주시는 분께
+						<span class="successMinMoney"><fmt:formatNumber>${m }</fmt:formatNumber></span>원 이상 밀어주시는 분께
 						<span class="deleteGift">삭제하기</span>
 					</div>
 					<div class="giftItemList">
 						<ul>
-							<c:forEach var="gift" items="gList">
-								<c:if test="${gift.minMoney eq money }">
-			        				<li>${gift.itemName } (X ${gift.itemnumber })</li>
+							<c:forEach var="g" items="${gList }">
+								<c:if test="${g.minMoney eq m }">
+			        				<li>${g.itemName } (X ${g.itemnumber })</li>
 			        			</c:if>
 							</c:forEach>				
 						</ul>
@@ -785,7 +779,7 @@ span.dotdotdot{
 						<span id="minMoney-warning" class="red-font" style="display:none">** 최소 후원금액은 1,000원입니다.</span>
 					</p>
 					<p>
-						<input type="number" id="min-money" name="minMoney" value="0" min="1000" />
+						<input type="number" id="min-money" name="minMoney" />
 						<span class="bold-font">원 이상 밀어주시는 분께 드리는 선물입니다.</span>
 					</p>
 				</div>
@@ -827,12 +821,12 @@ span.dotdotdot{
 							
 						</tbody>
 					</table>
-					<p>
+					<p style="text-align: right!important;">
 						<button type="button" id="addItenBtn" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
 							<img src="${pageContext.request.contextPath }/resources/images/makeProject/addItem.png" />
 							아이템 만들기
 						</button>
-						<jsp:include page="/WEB-INF/views/project/projectMake_item.jsp" />
+						<jsp:include page="/WEB-INF/views/project/projectUpdate_item.jsp" />
 					</p>
 				</div>
 				<div id="gift-explain">

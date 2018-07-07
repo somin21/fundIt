@@ -99,6 +99,7 @@ function outline_validate(){
 
 <form action="${pageContext.request.contextPath }/project/updateProject/funding-gift" enctype="multipart/form-data" onsubmit="return outline_validate();" method="post">
 
+	<input type="hidden" name="email" value="${outline.email }" />
 	<input type="hidden" name="projectNo" value="${projectNo }" />
 	
 	<!-- 프로젝트 개요 -->
@@ -302,7 +303,7 @@ function outline_validate(){
 			<div class="shown">
 				<p>진행자 이름</p>
 				<p>
-					<span style="font-weight:bold;font-size:20px;color:black;">${memberLoggedIn.name }</span>
+					<span style="font-weight:bold;font-size:20px;color:black;">${profile.name }</span>
 					<span>
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/write.png" />
 						&nbsp;
@@ -317,7 +318,7 @@ function outline_validate(){
 					팀으로 진행하신다면 팀 이름을 쓰셔도 됩니다.
 				</p>
 				<p>
-					<input type="text" id="profile-name" name="profileName" placeholder="이름을 입력해주세요" value="${memberLoggedIn.name }"/>
+					<input type="text" id="profile-name" name="profileName" placeholder="이름을 입력해주세요" value="${profile.name }"/>
 					<span class="letter-cnt"><span class="total-letter">10</span>자 남았습니다</span>
 				</p>
 				<p>

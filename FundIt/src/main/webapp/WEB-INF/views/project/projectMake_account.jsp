@@ -101,13 +101,20 @@ function fn_emailAtion(){//인증메일발송
 			}
 		}).done(function(data){
 			if(data.emailAuthentication==true){
-				alert("인증된 이메일 입니다!!.");				
+				alert("인증된 이메일 입니다!!.");
+				isEmailConfirm = true;
+				$("#confirmNotice").hide();
+				$("#showIsConfirm").next("p").find("span").first().text(email);
+				$("#confirmHidden").slideUp(300);
+				$("#confirmShown").prev(".shown").slideDown(300);
+				$("#confirmNotice").hide();
 			}
 			if(data.isUsable==true){
 				alert("인증번호를 이메일로 보내드렸습니다.");
 				isEmailConfirm = false;
 				$("#confirmShown").hide();
 				$("#confirmHidden").show();
+				$("#confirmNotice").show();
 			}
 			if(data.isUsable2==true){
 				alert("인증중인 이메일 입니다.\n이메일을 확인해주세요!");
@@ -147,6 +154,7 @@ function fn_emailAtion2(){//번호확인
 					$("#showIsConfirm").next("p").find("span").first().text(email);
 					$("#confirmHidden").slideUp(300);
 					$("#confirmShown").prev(".shown").slideDown(300);
+					$("#confirmNotice").hide();
 				}else if(data.isUsable==false){
 					alert("인증번호가 틀렸습니다.");
 					$("#numAuthentication").val("");
@@ -180,7 +188,7 @@ $(function(){
 			<div class="shown">
 				<p id="showIsConfirm">
 					이메일 주소
-					<span class="choice">인증 필수</span>
+					<span id="confirmNotice" class="choice">인증 필수</span>
 				</p>
 				<p>
 					<span style="font-weight:bold;font-size:20px;color:black;">${memberLoggedIn.email }</span>

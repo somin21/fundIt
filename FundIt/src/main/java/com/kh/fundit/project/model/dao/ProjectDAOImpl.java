@@ -358,7 +358,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 	@Override
 	public int updateProjectOutline(ProjectOutline outline) {
 		
-		return sqlSession.selectOne("project.updateProjectOutline", outline);
+		return sqlSession.update("project.updateProjectOutline", outline);
 	}
 
 	@Override

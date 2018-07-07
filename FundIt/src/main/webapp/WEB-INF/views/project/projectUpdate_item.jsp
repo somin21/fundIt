@@ -140,7 +140,7 @@ $(function(){
 		}
 		
 		$.ajax({
-			url : "insertItem",
+			url : "${pageContext.request.contextPath}/project/makeProject/insertItem",
 			data : {itemName : name, projectNo : projectNo, isFirst : isFirst},
 			success : function(data){
 				console.log(data);
@@ -198,7 +198,7 @@ $(function(){
 		var name = $(this).parent().prev().children("#itemUpdateName").val();
 				
 		$.ajax({
-			url : "updateItem",
+			url : "${pageContext.request.contextPath}/project/makeProject/updateItem",
 			data : {itemNo : no, itemName : name},
 			success : function(data){
 				
@@ -221,7 +221,7 @@ $(function(){
 		
 		/* 아이템리스트 에이작스 > 테이블에 행추가 */
 		$.ajax({
-			url : "selectItemList",
+			url : "${pageContext.request.contextPath}/project/makeProject/selectItemList",
 			data : {projectNo : projectNo},			
 			success : function(data){
 				
@@ -326,7 +326,34 @@ $(function(){
     		</div>
     		
     		<div class="addItemDivContent">
-    			<div class="item-list"></div>
+    			<div class="item-list">
+    			
+    				<c:forEach var="i" items="${iList }">
+    				<div class="items">
+						<div class="item-name">${i.itemName }</div>
+						<div class="update-item">수정하기</div>
+					</div>
+					<div class="updateItems">
+						<p>아이템 이름</p>
+						<p>
+							<input type="hidden" id="itemNo" name="itemNo" value="${i.itemNo }" />
+							<input type="text" id="itemUpdateName" name="itemUpdateName" value="${i.itemName }"/>
+							<span class="letter-cnt"><span class="total-letter">30</span>자 남았습니다</span>
+						</p>
+						<p>
+							<button type="button" class="itemUpdateCloseBtn">
+								<img src="${pageContext.request.contextPath }/resources/images/makeProject/x.png" />
+								닫기
+							</button>
+							<button type="button" class="itemUpdateSaveBtn">
+								<img src="${pageContext.request.contextPath }/resources/images/makeProject/ok.png" />
+								저장
+							</button>
+						</p>
+					</div>
+    				</c:forEach>
+    				
+    			</div>
    			</div>
       	</div>
       	<!-- 아이템목록 끝 -->

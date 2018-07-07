@@ -675,7 +675,7 @@ public class ProjectController {
 
 //	소민
 	@RequestMapping("/project/makeProject/outline")
-	public ModelAndView makeProjectOutline(@RequestParam String email) {
+	public ModelAndView makeProjectOutline(@RequestParam(value="email") String email) {
 		
 		ModelAndView mav = new ModelAndView();
 		
@@ -732,22 +732,26 @@ public class ProjectController {
 		// 프로젝트 이미지 업로드 끝
 
         // 프로필 이미지 업로드
-		String saveDirectory = request.getSession().getServletContext().getRealPath("/resources/upload/profileImg");
-		String realName = profileImage.getOriginalFilename();
-		String ext = realName.substring(realName.lastIndexOf(".")+1);
-		String id = profile.getEmail().replaceAll("\\.","_");
-		String id2 = id.replaceAll("@", "_");
-		String renamedFileName = id2 + "."+ext;
-		File profileImgFile = new File(saveDirectory+"/"+renamedFileName);
-		if(profileImgFile.exists() == true) {
-			profileImgFile.delete();
+		if(profileImage != null) {
+			String saveDirectory = request.getSession().getServletContext().getRealPath("/resources/upload/profileImg");
+			String realName = profileImage.getOriginalFilename();
+			String ext = realName.substring(realName.lastIndexOf(".")+1);
+			String id = profile.getEmail().replaceAll("\\.","_");
+			String id2 = id.replaceAll("@", "_");
+			String renamedFileName = id2 + "."+ext;
+			if(!ext.equals("")) {
+				File profileImgFile = new File(saveDirectory+"/"+renamedFileName);
+				if(profileImgFile.exists() == true) {
+					profileImgFile.delete();
+				}
+		        try {
+					profileImage.transferTo(profileImgFile);
+				} catch (IllegalStateException | IOException e) {
+					e.printStackTrace();
+				}
+	        	profile.setProfileImage(renamedFileName);
+	        }
 		}
-        try {
-			profileImage.transferTo(profileImgFile);
-		} catch (IllegalStateException | IOException e) {
-			e.printStackTrace();
-		}
-        profile.setProfileImage(renamedFileName);
 		// 프로필 이미지 업로드 끝
         
         Map<String,String> map = new HashMap<>();
@@ -786,50 +790,60 @@ public class ProjectController {
 											 @RequestParam(value="profileImageFile", required=false) MultipartFile profileImage,
 											 HttpServletRequest request) {
 		
-ModelAndView mav = new ModelAndView();
+		ModelAndView mav = new ModelAndView();
 		
 		System.out.println(outline);
 		System.out.println(profile);
+		System.out.println(projectImage);
+		System.out.println(profileImage);
 		
 		// 프로젝트 이미지 업로드
-		String firstDir = request.getSession().getServletContext().getRealPath("/resources/images/projects");
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		String secondDir = sdf.format(new Date(System.currentTimeMillis()));
-		File saveDir = new File(firstDir+"/"+secondDir);
-		if(!saveDir.exists()) {
-			saveDir.mkdirs();
-		}		
-		String originalName = projectImage.getOriginalFilename();
-		String p_ext = originalName.substring(originalName.lastIndexOf(".")+1);
-		String email_id = outline.getEmail().substring(0, outline.getEmail().indexOf("@"));
-		SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMddHHmmss");
-		int rndNum = (int)(Math.random()*1000);
-		String renamedName = email_id+"_"+sdf2.format(new Date(System.currentTimeMillis()))+"_"+rndNum+"."+p_ext;
-		try {
-			projectImage.transferTo(new File(firstDir+"/"+secondDir+"/"+renamedName));
-		} catch (IllegalStateException | IOException e1) {
-			e1.printStackTrace();
+		if(projectImage != null) {
+			String firstDir = request.getSession().getServletContext().getRealPath("/resources/images/projects");
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			String secondDir = sdf.format(new Date(System.currentTimeMillis()));
+			File saveDir = new File(firstDir+"/"+secondDir);
+			if(!saveDir.exists()) {
+				saveDir.mkdirs();
+			}		
+			String originalName = projectImage.getOriginalFilename();
+			String p_ext = originalName.substring(originalName.lastIndexOf(".")+1);
+			String email_id = outline.getEmail().substring(0, outline.getEmail().indexOf("@"));
+			SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMddHHmmss");
+			int rndNum = (int)(Math.random()*1000);
+			String renamedName = email_id+"_"+sdf2.format(new Date(System.currentTimeMillis()))+"_"+rndNum+"."+p_ext;
+			if(!p_ext.equals("")) {
+				try {
+					projectImage.transferTo(new File(firstDir+"/"+secondDir+"/"+renamedName));
+				} catch (IllegalStateException | IOException e1) {
+					e1.printStackTrace();
+				}
+				outline.setProjectImage(secondDir+"/"+renamedName);
+			}
 		}
-		outline.setProjectImage(secondDir+"/"+renamedName);
 		// 프로젝트 이미지 업로드 끝
 
         // 프로필 이미지 업로드
-		String saveDirectory = request.getSession().getServletContext().getRealPath("/resources/upload/profileImg");
-		String realName = profileImage.getOriginalFilename();
-		String ext = realName.substring(realName.lastIndexOf(".")+1);
-		String id = profile.getEmail().replaceAll("\\.","_");
-		String id2 = id.replaceAll("@", "_");
-		String renamedFileName = id2 + "."+ext;
-		File profileImgFile = new File(saveDirectory+"/"+renamedFileName);
-		if(profileImgFile.exists() == true) {
-			profileImgFile.delete();
+		if(profileImage != null) {
+			String saveDirectory = request.getSession().getServletContext().getRealPath("/resources/upload/profileImg");
+			String realName = profileImage.getOriginalFilename();
+			String ext = realName.substring(realName.lastIndexOf(".")+1);
+			String id = profile.getEmail().replaceAll("\\.","_");
+			String id2 = id.replaceAll("@", "_");
+			String renamedFileName = id2 + "."+ext;
+			if(!ext.equals("")) {
+				File profileImgFile = new File(saveDirectory+"/"+renamedFileName);
+				if(profileImgFile.exists() == true) {
+					profileImgFile.delete();
+				}
+		        try {
+					profileImage.transferTo(profileImgFile);
+				} catch (IllegalStateException | IOException e) {
+					e.printStackTrace();
+				}	        
+	        	profile.setProfileImage(renamedFileName);
+	        }
 		}
-        try {
-			profileImage.transferTo(profileImgFile);
-		} catch (IllegalStateException | IOException e) {
-			e.printStackTrace();
-		}
-        profile.setProfileImage(renamedFileName);
 		// 프로필 이미지 업로드 끝
         
         Map<String,String> map = new HashMap<>();
@@ -868,7 +882,7 @@ ModelAndView mav = new ModelAndView();
 			mav.addObject("explainMap", explainMap);
 			mav.addObject("deliveryMap", deliveryMap);
 			mav.addObject("projectNo", outline.getProjectNo());
-			mav.setViewName("project/projectMake_funding_gift");
+			mav.setViewName("project/projectUpdate_funding_gift");
 			
 		} else {
 			
@@ -896,6 +910,39 @@ ModelAndView mav = new ModelAndView();
 	}
 	
 //	소민
+	@RequestMapping(value="/project/summerImageUpload", method=RequestMethod.POST)
+	@ResponseBody
+	public String summerImageUpload(@RequestParam(value="image") MultipartFile image, HttpServletRequest request) {
+		
+		System.out.println(image);
+		
+		// 프로젝트 이미지 업로드
+		String firstDir = request.getSession().getServletContext().getRealPath("/resources/images/projects");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String secondDir = sdf.format(new Date(System.currentTimeMillis()));
+		File saveDir = new File(firstDir+"/"+secondDir);
+		if(!saveDir.exists()) {
+			saveDir.mkdirs();
+		}		
+		String originalName = image.getOriginalFilename();
+		String p_ext = originalName.substring(originalName.lastIndexOf(".")+1);
+		SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMddHHmmss");
+		int rndNum = (int)(Math.random()*1000);
+		String renamedName = "projectImg_"+sdf2.format(new Date(System.currentTimeMillis()))+"_"+rndNum+"."+p_ext;
+		try {
+			image.transferTo(new File(firstDir+"/"+secondDir+"/"+renamedName));
+		} catch (IllegalStateException | IOException e1) {
+			e1.printStackTrace();
+		}
+		// 프로젝트 이미지 업로드 끝
+		
+		System.out.println(secondDir+"/"+renamedName);
+		
+		return secondDir+"/"+renamedName;
+	}
+	
+	
+//	소민
 	@RequestMapping("/project/updateProject/story")
 	public ModelAndView updateProjectStory(ProjectFunding funding) {
 		
@@ -909,7 +956,7 @@ ModelAndView mav = new ModelAndView();
 			
 			mav.addObject("story", story);
 			mav.addObject("projectNo", funding.getProjectNo());
-			mav.setViewName("project/projectMake_story");
+			mav.setViewName("project/projectUpdate_story");
 		
 		} else {
 		
@@ -917,8 +964,6 @@ ModelAndView mav = new ModelAndView();
 			mav.addObject("loc", "${pageContext.request.contextPath}/project/myProject.do?email=${memberLoggedIn.email}");
 			mav.setViewName("common/msg");
 		}
-			
-		
 		
 		return mav;
 	}
@@ -926,7 +971,7 @@ ModelAndView mav = new ModelAndView();
 //	소민
 	@RequestMapping("/project/makeProject/insertItem")
 	@ResponseBody
-	public Item insertItem(@RequestParam boolean isFirst, Item item) {
+	public Item insertItem(@RequestParam(value="isFirst") boolean isFirst, Item item) {
 		
 		if(isFirst == true) {
 			projectService.deleteGift(item.getProjectNo());
@@ -955,7 +1000,7 @@ ModelAndView mav = new ModelAndView();
 //	소민
 	@RequestMapping("/project/makeProject/insertGift")
 	@ResponseBody
-	public ProjectGift insertGift(@RequestParam boolean isFirst, ProjectGift gift) {
+	public ProjectGift insertGift(@RequestParam(value="isFirst") boolean isFirst, ProjectGift gift) {
 		
 		if(isFirst == true) {
 			projectService.deleteGift(gift.getProjectNo());
@@ -1093,12 +1138,14 @@ ModelAndView mav = new ModelAndView();
 			SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMddHHmmss");
 			int rndNum = (int)(Math.random()*1000);
 			String renamedName = story.getProjectNo()+"_"+sdf2.format(new Date(System.currentTimeMillis()))+"_"+rndNum+"."+p_ext;
-			try {
-				projectMovie.transferTo(new File(firstDir+"/"+secondDir+"/"+renamedName));
-			} catch (IllegalStateException | IOException e1) {
-				e1.printStackTrace();
+			if(!p_ext.equals("")) {
+				try {
+					projectMovie.transferTo(new File(firstDir+"/"+secondDir+"/"+renamedName));
+				} catch (IllegalStateException | IOException e1) {
+					e1.printStackTrace();
+				}
+				story.setIntroduceMovie(secondDir+"/"+renamedName);
 			}
-			story.setIntroduceMovie(secondDir+"/"+renamedName);
 		}
 		// 프로젝트 영상 업로드 끝
 		
@@ -1134,12 +1181,16 @@ ModelAndView mav = new ModelAndView();
 			SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMddHHmmss");
 			int rndNum = (int)(Math.random()*1000);
 			String renamedName = story.getProjectNo()+"_"+sdf2.format(new Date(System.currentTimeMillis()))+"_"+rndNum+"."+p_ext;
-			try {
-				projectMovie.transferTo(new File(firstDir+"/"+secondDir+"/"+renamedName));
-			} catch (IllegalStateException | IOException e1) {
-				e1.printStackTrace();
+			System.out.println("///"+p_ext+"///");
+			System.out.println("///"+p_ext.length()+"///");
+			if(p_ext.length() != 0) {
+				try {
+					projectMovie.transferTo(new File(firstDir+"/"+secondDir+"/"+renamedName));
+				} catch (IllegalStateException | IOException e1) {
+					e1.printStackTrace();
+				}
+				story.setIntroduceMovie(secondDir+"/"+renamedName);
 			}
-			story.setIntroduceMovie(secondDir+"/"+renamedName);
 		}
 		// 프로젝트 영상 업로드 끝
 		
@@ -1152,7 +1203,7 @@ ModelAndView mav = new ModelAndView();
 			
 			mav.addObject("account", account);
 			mav.addObject("projectNo", story.getProjectNo());
-			mav.setViewName("project/projectMake_account");
+			mav.setViewName("project/projectUpdate_account");
 		
 		} else {
 		
@@ -1166,7 +1217,7 @@ ModelAndView mav = new ModelAndView();
 	
 //	소민
 	@RequestMapping("/project/makeProject/end")
-	public ModelAndView makeProjectEnd(ProjectAccount account, @RequestParam String confirmEmail) {
+	public ModelAndView makeProjectEnd(ProjectAccount account, @RequestParam(value="confirmEmail") String confirmEmail) {
 		
 		ModelAndView mav = new ModelAndView();
 		
@@ -1192,7 +1243,7 @@ ModelAndView mav = new ModelAndView();
 	
 //	소민
 	@RequestMapping("/project/updateProject/end")
-	public ModelAndView updateProjectEnd(ProjectAccount account, @RequestParam String confirmEmail) {
+	public ModelAndView updateProjectEnd(ProjectAccount account, @RequestParam(value="confirmEmail") String confirmEmail) {
 		
 		ModelAndView mav = new ModelAndView();
 		
@@ -1218,7 +1269,7 @@ ModelAndView mav = new ModelAndView();
 	
 //	소민
 	@RequestMapping("/project/confirm")
-	public ModelAndView projectConfirm(@RequestParam int projectNo) {
+	public ModelAndView projectConfirm(@RequestParam(value="projectNo") int projectNo) {
 		
 		ModelAndView mav = new ModelAndView();
 		

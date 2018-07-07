@@ -7,20 +7,13 @@
 
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
 <jsp:include page="/WEB-INF/views/project/projectMake_header.jsp" >
-	<jsp:param value="account" name="sectionName"/>
+	<jsp:param value="complete" name="sectionName"/>
 </jsp:include>
 
 <script>
 var isEmailConfirm = false;
 function account_validate(){
-	
-	/* 인증여부확인 */
-	if(!isEmailConfirm){
 		
-		alert("이메일 인증은 필수 항목입니다\n이메일 인증을 해주세요");
-		return false;
-	}
-	
 	if($("#phone").val().trim() == ""){
 		
 		alert("휴대폰 번호는 필수 항목입니다\n휴대폰 번호를 입력해주세요");
@@ -101,13 +94,16 @@ function fn_emailAtion(){//인증메일발송
 			}
 		}).done(function(data){
 			if(data.emailAuthentication==true){
-				alert("인증된 이메일 입니다!!.");				
+				alert("인증된 이메일 입니다!!.");	
+				isEmailConfirm = true;
+				$("#confirmNotice").hide();
 			}
 			if(data.isUsable==true){
 				alert("인증번호를 이메일로 보내드렸습니다.");
 				isEmailConfirm = false;
 				$("#confirmShown").hide();
 				$("#confirmHidden").show();
+				$("#confirmNotice").show();
 			}
 			if(data.isUsable2==true){
 				alert("인증중인 이메일 입니다.\n이메일을 확인해주세요!");
@@ -147,6 +143,7 @@ function fn_emailAtion2(){//번호확인
 					$("#showIsConfirm").next("p").find("span").first().text(email);
 					$("#confirmHidden").slideUp(300);
 					$("#confirmShown").prev(".shown").slideDown(300);
+					$("#confirmNotice").hide();
 				}else if(data.isUsable==false){
 					alert("인증번호가 틀렸습니다.");
 					$("#numAuthentication").val("");
@@ -167,7 +164,7 @@ $(function(){
 })
 </script>
 
-<form action="${pageContext.request.contextPath }/project/makeProject/end" onsubmit="return account_validate();" method="post" >
+<form action="${pageContext.request.contextPath }/project/updateProject/end" onsubmit="return account_validate();" method="post" >
 	
 	<input type="hidden" name="projectNo" value="${projectNo }" />
 	
@@ -180,7 +177,9 @@ $(function(){
 			<div class="shown">
 				<p id="showIsConfirm">
 					이메일 주소
-					<span class="choice">인증 필수</span>
+					<c:if test="${account.email eq null}">
+						<span id="confirmNotice" class="choice">인증 필수</span>
+					</c:if>
 				</p>
 				<p>
 					<span style="font-weight:bold;font-size:20px;color:black;">${account.email }</span>
@@ -300,7 +299,7 @@ $(function(){
 					</p>
 					<p>
 						<select name="bankCode" id="accountBank">
-							<option selected disabled value="">은행을 선택하세요</option>
+							<option disabled value="">은행을 선택하세요</option>
 							<option value="B1" ${account.bankCode eq "B1"? "selected":"" }>KDB산업은행</option>
 							<option value="B2" ${account.bankCode eq "B2"? "selected":"" }>BOA</option>
 							<option value="B3" ${account.bankCode eq "B3"? "selected":"" }>IBK기업은행</option>

@@ -6,54 +6,18 @@
 
 
 		<div class="make-project-btn">
-		
-			<c:if test="${param.sectionName eq 'outline' }">
-				<button type="submit" class="nextBtn">
-					저장
-					<img src="${pageContext.request.contextPath }/resources/images/makeProject/next.png" />
-				</button>
-			</c:if>
-			
-			<c:if test="${param.sectionName eq 'funding-gift' }">
-				<%-- <button type="button" class="prevBtn">
-					<img src="${pageContext.request.contextPath }/resources/images/makeProject/prev.png" />
-					이전
-				</button> --%>
-				<button type="submit" class="nextBtn" >
-					저장
-					<img src="${pageContext.request.contextPath }/resources/images/makeProject/next.png" />
-				</button>
-			</c:if>
-			
-			<c:if test="${param.sectionName eq 'story' }">
-				<%-- <button type="button" class="prevBtn">
-					<img src="${pageContext.request.contextPath }/resources/images/makeProject/prev.png" />
-					이전
-				</button> --%>
-				<button type="submit" class="nextBtn" >
-					저장
-					<img src="${pageContext.request.contextPath }/resources/images/makeProject/next.png" />
-				</button>
-			</c:if>
-			
-			<c:if test="${param.sectionName  eq 'account'}">
-				<%-- <button type="button" class="prevBtn">
-					<img src="${pageContext.request.contextPath }/resources/images/makeProject/prev.png" />
-					이전
-				</button> --%>
+					
+			<c:if test="${param.sectionName  eq 'account' || param.sectionName eq 'complete'}">
+
 				<button type="submit" class="nextBtn" >
 					저장
 					<img src="${pageContext.request.contextPath }/resources/images/makeProject/checked_gray.png" />
 				</button>
 			</c:if>
-			<c:if test="${param.sectionName  eq 'complete'}">
-				<%-- <button type="button" class="prevBtn">
-					<img src="${pageContext.request.contextPath }/resources/images/makeProject/prev.png" />
-					이전
-				</button> --%>
+			<c:if test="${param.sectionName  ne 'account' }">
 				<button type="submit" class="nextBtn" >
 					저장
-					<img src="${pageContext.request.contextPath }/resources/images/makeProject/checked_gray.png" />
+					<img src="${pageContext.request.contextPath }/resources/images/makeProject/next.png" />
 				</button>
 			</c:if>
 		

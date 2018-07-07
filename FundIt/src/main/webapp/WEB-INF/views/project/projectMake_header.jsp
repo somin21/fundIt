@@ -408,17 +408,21 @@ $(function(){
 <div id="make-project">
 	
 	<div class="make-project-notice">
-		<div class="alert alert-primary" role="alert">
+		<div class="alert alert-primary" role="alert" style="cursor:pointer;" onclick="location.href='${pageContext.request.contextPath}/help/helpView.do'">
 		  펀딩 준비에 앞서 
-		  공개 검토 가이드라인, 
-		  펀드잇 커뮤니티 운영원칙
+		  크라우드펀딩에 대한 내용, 공개 검토 가이드라인 등 관련 내용 
 		  을 확인해주세요.
 		</div>
 		<div class="alert alert-secondary" role="alert">
 		  프로젝트를 개설하려면 네 개의 섹션을 완성해야 합니다. 해당 섹션을 완성해야 다음 섹션으로 넘어갈 수 있습니다.
 		</div>
 		<div class="alert alert-secondary" role="alert">
-		 내용을 입력한 뒤 하단의 "저장" 버튼을 눌러야 저장이 되며, 저장 후 다음 섹션으로 이동합니다.
+		 내용을 입력한 뒤 하단의 
+		 <span style="background:#3a6ff2;border-radius:5px;color:#dedede;padding:5px;">
+		 	저장
+		 	<img src="${pageContext.request.contextPath }/resources/images/makeProject/next.png" style="width:15px;height:15px;"/>
+		 </span>  
+		 버튼을 눌러야 저장이 되며, 저장 후 다음 섹션으로 이동합니다.
 		</div>
 		<div class="alert alert-secondary" role="alert">
 		  완성된 섹션은 
@@ -426,6 +430,9 @@ $(function(){
 		  탭 아이콘에 
 		 <img src="${pageContext.request.contextPath }/resources/images/makeProject/check_circle.png" /> 
 		  파랗게 체크가 됩니다.
+		</div>
+		<div class="alert alert-secondary" role="alert">
+		  섹션을 모두 작성한 뒤, 수정과 검토 요청이 가능합니다.
 		</div>
 	</div>
 	

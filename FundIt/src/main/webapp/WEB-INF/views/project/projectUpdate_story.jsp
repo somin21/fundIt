@@ -7,7 +7,7 @@
 
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
 <jsp:include page="/WEB-INF/views/project/projectMake_header.jsp" >
-	<jsp:param value="story" name="sectionName"/>
+	<jsp:param value="complete" name="sectionName"/>
 </jsp:include>
 
 
@@ -39,14 +39,14 @@ $(document).ready(function(){
 	
 	$("#summernote").summernote({
 		height: 820,
-		callbacks:{
-			onImageUpload: function(image){
-				uploadSummerImage(image[0]);
-			}
-		},
 		placeholder:'멋진 스토리를 작성해주세요',
 		codemirror:{
 			theme:'monokai'
+		},
+		callbacks:{
+			onImageUpload:function(image){
+				uploadSummerImage(image[0]);
+			}
 		}
 	});
 	
@@ -61,24 +61,22 @@ function uploadSummerImage(image) {
 
     var data = new FormData();
     data.append("image", image);
-
+    
     $.ajax({
-        type: "post",
-        cache: false,
-        contentType:false,
+    	url: '${pageContext.request.contextPath}/project/summerImageUpload',
+        type: "POST",
         processData: false,
-        /* dataType :'jsonp', */
-        url: '/cop/bbs/insertSummberNoteFile.do',
+        contentType: false,
+        cache: false,
         data: data,
+        enctype:'multipart/form-data',
         success: function(data) {
-
-			//이미지 경로를 작성하면 됩니다 ^  ^
-            var image = $('<img>').attr('src', '/cmm/fms/getImage.do?atchFileId='+data[0].atchFileId+'&fileSn=0');
-            $('#nttCn').summernote("insertNode", image[0]);
+			
+            $("#summernote").summernote("insertImage","${pageContext.request.contextPath}/resources/images/projects/"+data);
 
         },
         error: function(data) {
-        	alert('error : ' +data);
+        	alert(data);
         }
 
     });
@@ -146,7 +144,16 @@ function story_validate(){
 					<span class="choice">선택 항목</span>
 				</p>
 				<p>
-					<video src="${pageContext.request.contextPath }/resources/images/projects/${story.introduceMovie}" autoplay controls id="previewMovie" style="width:540px;height:360px;">영상이 지원되지 않는 브라우저입니다</video>
+					<c:if test="${story.introduceMovie ne null }">
+						<video src="${pageContext.request.contextPath }/resources/images/projects/${story.introduceMovie}" autoplay controls id="previewMovie" style="width:540px;height:360px;">영상이 지원되지 않는 브라우저입니다</video>
+					</c:if>
+					<c:if test="${story.introduceMovie eq null }">
+						<span>
+							<img src="${pageContext.request.contextPath }/resources/images/makeProject/hand_pointer.png" />
+							&nbsp;&nbsp;
+							프로젝트 소개 영상을 등록해주세요
+						</span>
+					</c:if>
 					<span>
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/write.png" />
 						&nbsp;
@@ -192,7 +199,7 @@ function story_validate(){
 			
 			<div class="shown">
 				<p>프로젝트 스토리</p>
-				<div id="story"  style="display:none;color:#000;width:97%;overflow:hidden;">${story.projectStory }</div>
+				<div id="story">${story.projectStory }</div>
 				<p>
 					<span></span>
 					<span>
@@ -253,6 +260,9 @@ div.note-editor div.note-editing-area p{
 div.note-editor div.note-editing-area p span{
 	float: none!important;
 }
+div.note-editor div.note-editing-area img{
+	height: initial;
+}
 div.note-editor div.modal div.modal-header{
     padding: 15px;
     border-bottom: 1px solid #e5e5e5;
@@ -269,7 +279,17 @@ div.note-editor div.modal div.modal-body{
 div.note-editor div.modal div.modal-body div{
 	border-bottom: 0px;
 }
-    
+div#story{
+	color:#000;
+	width:97%;
+	overflow:hidden;
+}
+div#story img{
+	height: initial;
+}
+div#story p:last-of-type{
+	color:#000;
+}
 </style>
 
 <jsp:include page="/WEB-INF/views/project/projectMake_footer.jsp" >

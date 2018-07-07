@@ -41,14 +41,14 @@ $(document).ready(function(){
 	
 	$("#summernote").summernote({
 		height: 820,
-		callbacks:{
-			onImageUpload: function(image){
-				uploadSummerImage(image[0]);
-			}
-		},
 		placeholder:'멋진 스토리를 작성해주세요',
 		codemirror:{
 			theme:'monokai'
+		},
+		callbacks:{
+			onImageUpload:function(image){
+				uploadSummerImage(image[0]);
+			}
 		}
 	});
 	
@@ -63,24 +63,22 @@ function uploadSummerImage(image) {
 
     var data = new FormData();
     data.append("image", image);
-
+    
     $.ajax({
-        type: "post",
-        cache: false,
-        contentType:false,
+    	url: '${pageContext.request.contextPath}/project/summerImageUpload',
+        type: "POST",
         processData: false,
-        /* dataType :'jsonp', */
-        url: '/cop/bbs/insertSummberNoteFile.do',
+        contentType: false,
+        cache: false,
         data: data,
+        enctype:'multipart/form-data',
         success: function(data) {
-
-			//이미지 경로를 작성하면 됩니다 ^  ^
-            var image = $('<img>').attr('src', '/cmm/fms/getImage.do?atchFileId='+data[0].atchFileId+'&fileSn=0');
-            $('#nttCn').summernote("insertNode", image[0]);
+			
+            $("#summernote").summernote("insertImage","${pageContext.request.contextPath}/resources/images/projects/"+data);
 
         },
         error: function(data) {
-        	alert('error : ' +data);
+        	alert(data);
         }
 
     });
@@ -267,6 +265,9 @@ div.note-editor div.note-editing-area p{
 div.note-editor div.note-editing-area p span{
 	float: none!important;
 }
+div.note-editor div.note-editing-area img{
+	height: initial;
+}
 div.note-editor div.modal div.modal-header{
     padding: 15px;
     border-bottom: 1px solid #e5e5e5;
@@ -282,6 +283,9 @@ div.note-editor div.modal div.modal-body{
 }
 div.note-editor div.modal div.modal-body div{
 	border-bottom: 0px;
+}
+div#story img{
+	height: initial;
 }
     
 </style>
