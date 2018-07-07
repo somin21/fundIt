@@ -88,13 +88,37 @@ public class MemberDAOImpl implements MemberDAO {
 
 
 	@Override
-	public List<Support> selectSupportList(Map<String, String> map, int numPerPage) {
+	public List<Support> selectSupportList(Map<String, String> map,int page, int numPerPage) {
 		// TODO Auto-generated method stub
 		
-		RowBounds rowBounds = new RowBounds(0, numPerPage);
+		RowBounds rowBounds = new RowBounds(numPerPage*(page-1), numPerPage);
 		
 		return sqlSession.selectList("member.selectSupportList", map, rowBounds);
 	}
+
+
+	@Override
+	public int insertMemberToken(Map<String, String> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("member.updateMemberToken", map);
+	}
+
+
+	@Override
+	public String selectToken(String email) {
+		
+		return sqlSession.selectOne("member.selectToken", email);
+	}
+
+
+	@Override
+	public int deleteToken(String email) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("member.deleteToken", email);
+	}
+
+
+
 
 
 

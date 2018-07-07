@@ -67,23 +67,23 @@ public class ProjectDAOImpl implements ProjectDAO {
 
 // 태윤
 	@Override
-	public List<ListProjectView> selectMyProjectYet(Member member, int numPerpage) {
-		RowBounds rowBounds = new RowBounds(0, numPerpage);
+	public List<ListProjectView> selectMyProjectYet(Member member,int page, int numPerpage) {
+		RowBounds rowBounds = new RowBounds(numPerpage*(page-1), numPerpage);
 		
 		return sqlSession.selectList("project.selectMyProjectYet", member, rowBounds);
 	}
 	
 //	태윤
 	@Override
-	public List<ListProjectView> selectMyProjectYes(Member member , int numPerpage) {
-		RowBounds rowBounds = new RowBounds(0, numPerpage);
+	public List<ListProjectView> selectMyProjectYes(Member member,int page , int numPerpage) {
+		RowBounds rowBounds = new RowBounds(numPerpage*(page-1), numPerpage);
 		return sqlSession.selectList("project.selectMyProjectYes", member, rowBounds);
 	}
 	
 //	태윤
 	@Override
-	public List<ListProjectView> selectMyProjectNo(Member member, int numPerpage ) {
-		RowBounds rowBounds = new RowBounds(0, numPerpage);
+	public List<ListProjectView> selectMyProjectNo(Member member,int page, int numPerpage ) {
+		RowBounds rowBounds = new RowBounds(numPerpage*(page-1), numPerpage);
 		return sqlSession.selectList("project.selectMyProjectNo", member, rowBounds);
 	}
 	
@@ -394,8 +394,8 @@ public class ProjectDAOImpl implements ProjectDAO {
 	}
 //  태윤
 	@Override
-	public List<ListProjectView> selectMyProjectI(Member member, int numPerpage) {
-		RowBounds rowBounds = new RowBounds(0, numPerpage);
+	public List<ListProjectView> selectMyProjectI(Member member,int page, int numPerpage) {
+		RowBounds rowBounds = new RowBounds(numPerpage*(page-1), numPerpage);
 		return sqlSession.selectList("project.selectMyProjectI", member, rowBounds);
 	}
 //	희영
