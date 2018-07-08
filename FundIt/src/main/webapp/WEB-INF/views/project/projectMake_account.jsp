@@ -105,7 +105,7 @@ function fn_emailAtion(){//인증메일발송
 				isEmailConfirm = true;
 				$("#confirmNotice").hide();
 				$("#showIsConfirm").next("p").find("span").first().text(email);
-				$("#confirmHidden").slideUp(300);
+				$("#confirmShown").slideUp(300);
 				$("#confirmShown").prev(".shown").slideDown(300);
 				$("#confirmNotice").hide();
 			}

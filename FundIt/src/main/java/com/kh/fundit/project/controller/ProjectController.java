@@ -1270,10 +1270,10 @@ public class ProjectController {
 			
 			mav.addObject("msg","프로젝트 작성 처리 중 문제가 발생하였습니다.\\n다시 시도해주십시오.");
 			mav.addObject("loc", "/");
-			mav.setViewName("common/msg");
 			
 		}
 				
+		mav.setViewName("common/msg");
 		
 		return mav;
 	}

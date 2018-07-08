@@ -97,6 +97,10 @@ function fn_emailAtion(){//인증메일발송
 				alert("인증된 이메일 입니다!!.");	
 				isEmailConfirm = true;
 				$("#confirmNotice").hide();
+				$("#showIsConfirm").next("p").find("span").first().text(email);
+				$("#confirmShown").slideUp(300);
+				$("#confirmShown").prev(".shown").slideDown(300);
+				$("#confirmNotice").hide();
 			}
 			if(data.isUsable==true){
 				alert("인증번호를 이메일로 보내드렸습니다.");
