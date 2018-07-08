@@ -173,7 +173,7 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
 .button {
   display: inline-block;
   border-radius: 4px;
-  background-color: #f4511e;
+  background-color: #fa6462;
   border: none;
   color: #FFFFFF;
   text-align: center;
@@ -186,10 +186,15 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
 }
 
 .button span {
-  cursor: pointer;
-  display: inline-block;
-  position: relative;
-  transition: 0.5s;
+	font-weight:bold;
+	font-size:20px;
+  	cursor: pointer;
+ 	display: inline-block;
+  	position: relative;
+  	transition: 0.5s;
+}
+.button:hover {
+  background-color: #ff4543;
 }
 
 .button span:after {
@@ -227,6 +232,7 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
 /* 후원버튼취소 끝 */
 /* 담기버튼 시작 */
 .button2 {
+	font-weight:bold;
     background-color: #4CAF50; /* Green */
     border-radius: 4px;
     border: none;
