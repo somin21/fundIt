@@ -47,6 +47,7 @@ th{
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space:nowrap;
+	cursor: pointer;
 }
 #t-img{
 	width: 200px;
