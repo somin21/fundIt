@@ -137,8 +137,11 @@ div.communityS{width: 700px; display: inline-block; padding-bottom:10px; padding
 div.communityMain{width: 700px;display: inline-block; background:#faf8f8; margin-top: 15px;}
 div.community{background: white; box-shadow: 1px 1px silver; text-align: left; padding-left: 30px; padding-bottom:10px; padding-top:10px;}
 
-div.changeDiv{text-align:left; padding:50px; width: 700px;display: inline-block; background:white; margin-top: 15px; box-shadow: 1px 1px silver;}
-span.refundSp{font-weight: bold;}
+div.changeDiv{text-align:left; width: 700px;display: inline-block;}
+div.changeDiv1{text-align:left; padding:50px; width: 700px;display: inline-block; background:white; margin-top: 15px; box-shadow: 1px 1px silver;}
+div.changeDiv2{text-align:right; padding:30px; width: 700px;display: inline-block; background:white; margin-top: 15px; box-shadow: 1px 1px silver;}
+button.bt4{width: 37%;display: inline-block;}
+span.refundSp{font-weight: bold; padding-right: 120px;}
 
 div.originator{width: 270px;display: inline-block; text-align: left; padding: 15px; background:white; margin: 10px; margin-top: 15px; box-shadow: 1px 1px silver;}
 #originatorStory{font-weight: bold; padding-bottom:10px; display: inline-block;}
@@ -459,6 +462,7 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
 		        </div>
 		        <!-- 커뮤니티 끝 -->
 		        <div class="changeDiv">
+		        	<div class="changeDiv1">
 		        	<span class="refundSp">이 프로젝트의 환불 및 교환 정책</span><br />
 		        	<hr />
 		        	<br />
@@ -471,6 +475,14 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
 		        	<span>창작에게 직접문의하세요!</span>
 		        	<br /><br />
 		        	</c:if>
+		        	</div>
+		        	<br />
+		        	<div class="changeDiv2">
+		        	<span class="refundSp">
+		        		프로젝트에 대해 문의사항이 있으신가요?
+		        	</span>
+		        	<button class="button2 button3 bt4" onclick="fn_message();"><i style="font-size:24px" class="fa">&#xf0e0;</i> 창작자에게 문의하기</button>
+		       		</div>
 		        </div>
 		        
 		        <div class="sideDiv">
