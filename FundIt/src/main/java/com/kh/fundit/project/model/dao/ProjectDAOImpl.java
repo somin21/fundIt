@@ -388,6 +388,8 @@ public class ProjectDAOImpl implements ProjectDAO {
 		  sqlSession.delete("project.deleteSummary", map);
 		
 		  sqlSession.delete("project.deleteSupport", map);
+		  
+		  sqlSession.delete("project.deleteItem",map);
 		
 		  
 		return sqlSession.delete("project.deleteProject", map);

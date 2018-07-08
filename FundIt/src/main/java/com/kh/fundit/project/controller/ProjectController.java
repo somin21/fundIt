@@ -112,7 +112,7 @@ public class ProjectController {
 		Member member = new Member();
 		System.out.println(email);
 		member.setEmail(email);
-		int numPerpage = 4;
+		int numPerpage = 8;
 		List<ListProjectView> list = projectService.selectMyProjectYet(member,page, numPerpage);
 		
 		return list;
@@ -126,7 +126,7 @@ public class ProjectController {
 		Member member = new Member();
 		System.out.println(email);
 		member.setEmail(email);
-		int numPerpage = 4;
+		int numPerpage = 8;
 		List<ListProjectView> list = projectService.selectMyProjectYes(member,page, numPerpage);
 		
 		return list;
@@ -140,7 +140,7 @@ public class ProjectController {
 		Member member = new Member();
 		System.out.println(email);
 		member.setEmail(email);
-		int numPerpage=4;			
+		int numPerpage=8;			
 		List<ListProjectView> list = projectService.selectMyProjectNo(member,page, numPerpage);
 			
 		return list;
@@ -1119,7 +1119,7 @@ public class ProjectController {
 		Member member = new Member();
 		System.out.println(email);
 		member.setEmail(email);
-		int numPerpage = 4; 			
+		int numPerpage = 8; 			
 		List<ListProjectView> list = projectService.selectMyProjectI(member, page, numPerpage);
 			
 		return list;

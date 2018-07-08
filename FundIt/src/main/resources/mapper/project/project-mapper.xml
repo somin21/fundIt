@@ -282,10 +282,6 @@
 	insert into project_funding values(#{projectNo},#{supportGoal},#{deadlineDate},#{calculateDueDate},#{refund})
 	</insert>
 	
-	<delete id="deleteItem">
-	delete from item where projectno=#{projectNo}
-	</delete>
-	
 	<insert id="insertItem">
 	insert into item values(seq_item_no.nextval,#{itemName},#{projectNo})
 		<selectKey keyProperty="itemNo" resultType="_int" order="AFTER">
@@ -351,6 +347,10 @@
 	
 	<delete id="deleteSupport">
 	delete from support where projectno = #{projectNo} 
+	</delete>
+	
+	<delete id="deleteItem">
+	delete from item where projectno = #{projectNo}
 	</delete>
 		
 	<delete id="deleteProject">

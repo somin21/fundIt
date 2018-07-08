@@ -52,7 +52,7 @@ public class GiftController {
 	@ResponseBody
 	public List<Gift> selectMyGiftBefore(@RequestParam String email, @RequestParam (value = "page", required = false, defaultValue = "1" ) int myGiftPage, @RequestParam (value="searchType", required = false, defaultValue = "All") String searchType){
 		System.out.println(searchType);
-		int numPerPage = 4;
+		int numPerPage = 6;
 		Map <String , String> map = new HashMap<>();
 		map.put("email", email);
 		map.put("searchType", searchType);
@@ -100,7 +100,7 @@ public class GiftController {
 		Map <String , String> map = new HashMap<>();
 		map.put("email", email);
 		map.put("searchType", searchType);
-		int numPerPage = 4;
+		int numPerPage = 6;
 		List<GiveGift> list = giftService.selectGiveGift(map, GiftPage, numPerPage);
 		System.out.println(list);
 		return list;

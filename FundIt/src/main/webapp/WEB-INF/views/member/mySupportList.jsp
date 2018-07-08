@@ -30,7 +30,7 @@ function toNextAjax(){
 			console.log(data)
 			if(data.length >= 1){
 			for(var i = 0; i< data.length; i++){
-				if(data.length <4 && data.length>=1){
+				if(data.length <8 && data.length>=1){
 					$("#moreView").prop("disabled",true);
 				}
 				htmlAppend(data[i], "#supportList-container");
@@ -74,7 +74,7 @@ function fn_search(searchTypeBtn){
 		success : function(data){
 			console.log(data)	
 			for(var i = 0; i< data.length; i++){
-				if(data.length <4 && data.length>=1){
+				if(data.length <8 && data.length>=1){
 					$("#moreView").prop("disabled",true);
 				}
 				htmlAppend(data[i], "#supportList-container");
@@ -131,7 +131,7 @@ $(function(){
 	success : function(data){
 		console.log(data)	
 		for(var i = 0; i< data.length; i++){
-			if(data.length <4 && data.length>=1){
+			if(data.length <8 && data.length>=1){
 				$("#moreView").prop("disabled",true);
 			}
 			htmlAppend(data[i], "#supportList-container");

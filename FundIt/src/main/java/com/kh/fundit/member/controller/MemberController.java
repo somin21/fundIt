@@ -477,7 +477,7 @@ public class MemberController {
 		System.out.println(searchKeyword);
 		
 		
-		int numPerPage = 4;	
+		int numPerPage = 8;	
 		Map<String, String> map = new HashMap<>();
 		map.put("email", email);
 		map.put("searchType", searchType);

@@ -64,7 +64,7 @@ $(function(){
 	    	var div_name = $("#myProjectYet");
 			
 	    	for(var i = 0; i < data.length; i++){
-	    		if(data.length >= 1 && data.length <4){
+	    		if(data.length >= 1 && data.length <8){
 	    			$("#moreViewYet").prop("disabled",true);
 	    		}
 	    		htmlAppend(data[i], div_name);
@@ -91,7 +91,7 @@ $(function(){
 	    	var div_name = $("#myProjectYes");
 			
 	    	for(var i = 0; i < data.length; i++){
-	    		if(data.length >= 1 && data.length <4){
+	    		if(data.length >= 1 && data.length <8){
 	    			$("#moreViewYes").prop("disabled",true);
 	    		}
 	    		htmlAppend(data[i], div_name);
@@ -118,7 +118,7 @@ $(function(){
 	    	var div_name = $("#myProjectNo");
 			
 	    	for(var i = 0; i < data.length; i++){
-	    		if(data.length >= 1 && data.length <4){
+	    		if(data.length >= 1 && data.length <8){
 	    			$("#moreViewNo").prop("disabled",true);
 	    		}
 	    		htmlAppend(data[i], div_name);
@@ -145,7 +145,7 @@ $(function(){
 	    	var div_name = $("#myProjectI");
 			
 	    	for(var i = 0; i < data.length; i++){
-	    		if(data.length >= 1 && data.length <4){
+	    		if(data.length >= 1 && data.length <8){
 	    			$("#moreViewI").prop("disabled",true);
 	    		}
 	    		htmlAppend(data[i], div_name);
@@ -281,13 +281,13 @@ function toNextAjax(urlMapping, email, pageName, div_name){
 		    	
 				
 		    	for(var i = 0; i < data.length; i++){
-		    		if(data.length>=1 && data.length<4 && pageName == "myProjectYet"){
+		    		if(data.length>=1 && data.length<8 && pageName == "myProjectYet"){
 		    			$("#moreViewYet").prop("disabled",true);
-		    		}else if(data.length>=1 && data.length<4 && pageName == "myProjectYes"){
+		    		}else if(data.length>=1 && data.length<8 && pageName == "myProjectYes"){
 		    			$("#moreViewYes").prop("disabled",true);
-		    		}else if(data.length>=1 && data.length<4 && pageName == "myProjectNo"){
+		    		}else if(data.length>=1 && data.length<8 && pageName == "myProjectNo"){
 		    			$("#moreViewNo").prop("disabled",true);
-		    		}else if(data.length>=1 && data.length<4 && pageName == "myProjectI"){
+		    		}else if(data.length>=1 && data.length<8 && pageName == "myProjectI"){
 		    			$("#moreViewI").prop("disabled",true);
 		    		}
 		    		htmlAppend(data[i], appendDiv);

@@ -9,7 +9,7 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
 <script>
 
-var numPerPage = 8;
+
 var searchType = "";
 var page = 1;
 function fn_shownSlide(el){
@@ -99,7 +99,7 @@ function fn_searchTypeChange(){
 			$("#div-giftList").html('');
 			if(data.length >= 1){
 			for(var i=0; i<data.length; i++){
-				if(data.length <4 && data.length>=1){
+				if(data.length <6 && data.length>=1){
 					$("#moreView").prop("disabled",true);
 				}
 				htmlAppend(data[i], div_name);
@@ -160,7 +160,7 @@ $(function (){
 			var div_name = $("#div-giftList"); 
 			if(data.length >= 1){
 			for(var i=0; i<data.length; i++){
-				if(data.length <4 && data.length>=1){
+				if(data.length <6 && data.length>=1){
 					$("#moreView").prop("disabled",true);
 				}
 				htmlAppend(data[i], div_name);
@@ -262,7 +262,7 @@ function toNextAjax(){
 		    	
 				if(data.length>=1){
 		    	for(var i = 0; i < data.length; i++){	
-		    		if(data.length >= 1 && data.length<4){
+		    		if(data.length >= 1 && data.length<6){
 						$("#moreView").prop("disabled",true);
 					}
 		    		htmlAppend(data[i],div_name);
@@ -270,7 +270,7 @@ function toNextAjax(){
 				}
 				}
 		    	
-		    	if(data.length == 0){
+		    	if(data.length < 1){
 		    		$("#moreView").prop("disabled",true);
 		    		htmlAppendNone(data.length+1, div_name);
 		    	}
