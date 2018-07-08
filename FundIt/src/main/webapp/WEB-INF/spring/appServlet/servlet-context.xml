@@ -22,7 +22,12 @@
 	</beans:bean>
 	
 	<context:component-scan base-package="com.kh.fundit" />
-	
+	<interceptors>
+		<interceptor>
+			<mapping path="/admin/**"/>
+			<beans:bean id="adminInterceptor" class="com.kh.fundit.common.interceptor.AdminInterceptor"/>
+		</interceptor>	
+	</interceptors>
 	<!-- NaverLoginBO Class에 대한 Bean설정 추가 -->
 	<beans:bean id="naverLoginBO" class="com.kh.fundit.naver.model.bo.NaverLoginBO" /> 
 	

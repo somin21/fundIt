@@ -125,4 +125,10 @@
 		insert into message values(seq_message_no.nextval, '${content}',default,'${replySendEmail}','${replyReceiveEmail}',default)
 	</insert>
 	
+	<select id="adminMessageSearch"  resultType="adminMessage">
+	<![CDATA[
+		select * from message where receiveemail=(select email from member where adminyn='Y') and  messagecontent like '%' ||  #{content} || '%'
+	]]>	
+	</select>
+	
 </mapper>
