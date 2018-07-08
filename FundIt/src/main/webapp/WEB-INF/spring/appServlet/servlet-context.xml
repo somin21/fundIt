@@ -48,8 +48,8 @@
 			<mapping path="/project/updateProject/**"/>
 			<mapping path="/project/confirm"/>
 			<mapping path="/project/projectPreview"/>
-			<mapping path="/member/memeberView.do"/>
-			<mapping path="/member/memeberUpdate.do"/>
+			<mapping path="/member/memberView.do"/>
+			<mapping path="/member/memberUpdate.do"/>
 			<mapping path="/member/profileView.do"/>
 			<mapping path="/member/profileUpdate.do"/>
 			<beans:bean id="makeProjectLoginInterceptor" class="com.kh.fundit.common.interceptor.MakeProjectLoginInterceptor" />
