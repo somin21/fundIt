@@ -537,7 +537,7 @@ public class ProjectController {
 			supportor=v.getSupportor()+1; 				//서포터 한명추가
 		}
 		
-		int supportpercent = (int) ((double)supportMoney/((double)supportGoal*100));	//현재 목표 퍼센트상황
+		double supportpercent = (((double)supportGoal*(double)100)/(double)supportMoney);	//현재 목표 퍼센트상황
 		int supportwithouttax = (int)(supportMoney*0.9); //세금후금액
 		
 		map.put("supportMoney",supportMoney);
@@ -691,7 +691,7 @@ public class ProjectController {
 						supportor=v.getSupportor()-1; 				
 					}
 					
-					int supportpercent = (int) ((double)supportMoney/((double)supportGoal*100));	//현재 목표 퍼센트상황
+					double supportpercent = (int) (((double)supportGoal*(double)100)/(double)supportMoney);	//현재 목표 퍼센트상황
 					int supportwithouttax = (int)(supportMoney*0.9); //세금후금액
 					
 					map.put("supportMoney",supportMoney);
