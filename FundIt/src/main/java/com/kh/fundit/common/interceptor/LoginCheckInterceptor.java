@@ -8,7 +8,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.kh.fundit.member.model.vo.Member;
 
-public class MakeProjectLoginInterceptor extends HandlerInterceptorAdapter {
+public class LoginCheckInterceptor extends HandlerInterceptorAdapter {
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)

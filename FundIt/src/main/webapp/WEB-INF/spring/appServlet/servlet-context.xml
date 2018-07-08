@@ -52,7 +52,7 @@
 			<mapping path="/member/memberUpdate.do"/>
 			<mapping path="/member/profileView.do"/>
 			<mapping path="/member/profileUpdate.do"/>
-			<beans:bean id="makeProjectLoginInterceptor" class="com.kh.fundit.common.interceptor.MakeProjectLoginInterceptor" />
+			<beans:bean id="loginCheckInterceptor" class="com.kh.fundit.common.interceptor.LoginCheckInterceptor" />
 		</interceptor>
 	</interceptors>
 	
