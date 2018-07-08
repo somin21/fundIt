@@ -110,7 +110,7 @@ function outline_validate(){
 
 <form action="${pageContext.request.contextPath }/project/makeProject/funding-gift" enctype="multipart/form-data" onsubmit="return outline_validate();" method="post">
 
-	<input type="hidden" name="email" value="${email }" />
+	<input type="hidden" name="email" value="${profile.email }" />
 	
 	<!-- 프로젝트 개요 -->
 	<div class="make-project-section">
