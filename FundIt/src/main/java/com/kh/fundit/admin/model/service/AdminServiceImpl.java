@@ -31,7 +31,7 @@ public class AdminServiceImpl implements AdminService {
 		
 		try {
 			result = adminDAO.updateIndexYN();
-			if(result == 4) {
+			if(result <= 4) {
 				result = adminDAO.updateAdminIndexYN(arr);
 			}
 		}catch(Exception e) {
@@ -119,6 +119,11 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public int replyMessage(Map<String,String> map1) {
 		return adminDAO.replyMessage(map1);
+	}
+
+	@Override
+	public List<AdminMessage> adminMessageSearch(String content) {
+		return adminDAO.adminMessageSearch(content);
 	}
 
 	

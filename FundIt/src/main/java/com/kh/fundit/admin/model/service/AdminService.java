@@ -47,4 +47,6 @@ public interface AdminService {
 	List<AdminMessage> selectReadN();
 
 	int replyMessage(Map<String,String> map1);
+
+	List<AdminMessage> adminMessageSearch(String content);
 }

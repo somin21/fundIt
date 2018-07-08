@@ -9,7 +9,6 @@ div#out1{
 	min-height: 300px;
 	text-align: center;
 	padding-top: 5%;
-	
 }
 
 div#out1 div#wrap-a{

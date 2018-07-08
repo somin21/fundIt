@@ -6,8 +6,8 @@
 <jsp:include page="/WEB-INF/views/admin/header.jsp"/>
 <style>
 #wrap-out{width: 80%; margin:auto;}
-#title{text-align: center; font-size: 25px; margin: 3%;}
-#search{margin-bottom: 2%; text-align: center;}
+#title{text-align: center; font-weight:bold; font-size: 30px; padding-top:5%; margin: 5%;}
+#search{margin-bottom: 1%; }
 
 #m-cont{
 	min-height: 300px;
@@ -40,12 +40,14 @@ th{
 	text-align: center;
 }
 #btn-group{
-	margin-bottom: 2%;
+	margin-top:2%;
+	margin-bottom:1%;
 }
 #content-list11{
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space:nowrap;
+	cursor: pointer;
 }
 #t-img{
 	width: 200px;
@@ -61,11 +63,51 @@ th{
 	width:100%;
 	height:250px;
 }
+#img-search{
+	width: 36px;
+	height: 36px;
+	display: inline-block;
+}
+#searchInput{
+	display: inline-block;
+}
+#non-read{
+	margin-right: 3%; 
+}
 </style>
 <script>
 var replyReceiveEmail="";
 var replySendEmail="";
-
+$(function(){
+	$("#searchInput").on("keyup",function(){
+		var content = $(this).val().trim();
+		
+		$.ajax({
+			url:"${pageContext.request.contextPath}/admin/adminMessageSearch.do",
+			dataType: "json",
+			data:{content:content},
+			success:function(data){
+				var html='';
+				if(data.list!=null){
+					$("#tb-data").html("");
+					for(var i=0; i<data.list.length; i++){
+						html+='<tr><th scope="'+i+'"id="sendE">'+data.list[i].sendEmail+'</th>';
+						html+='<td id="content-list11" onclick="fn_open('+"'"+data.list[i].messageNo+"'"+')">'+data.list[i].messageContent+'</td>';
+						html+='<td>'+data.list[i].receiveEmail+'</td>';
+						if(data.list[i].readyn == "Y"){
+							html+='<td id="t-img"><img src="${pageContext.request.contextPath}/resources/images/email.png" alt="읽음"/></td>';
+						}else{
+							html+='<td id="t-img"><img src="${pageContext.request.contextPath}/resources/images/mail.png" alt="읽지않음"/></td>';
+						}
+						html+='<td>'+data.list[i].messageDate+'</td>';
+						html+='</tr>'
+					}
+					$("#tb-data").append(html);
+				}
+			}
+		});
+	});
+});
 function fn_open(messageNo){
 	fn_readY(messageNo);
 	
@@ -225,11 +267,12 @@ function fn_readY(x){
 </script>
 <div id="wrap-out" >
 	<div id="title">메세지 관리</div>
-	<div id="search"><input type="text" class="form-control col-3" id="searchInput" aria-label="이메일 검색" aria-describedby="inputGroup-sizing-sm"></div>
 	<div id="table-container">
 		<div id="btn-group">
 			<input type="button" class="btn btn-danger btn-sm" value="전체 메세지 " onclick="fn_allMessage();"/>
-			<input type="button" class="btn btn-danger btn-sm" value="안 읽은 메세지" onclick="fn_readNSelect();"/>
+			<input type="button" id="non-read"class="btn btn-danger btn-sm" value="안 읽은 메세지" onclick="fn_readNSelect();"/>
+			<img id="img-search" src="${pageContext.request.contextPath }/resources/images/zoom.png" alt="찾기" />
+			<input type="text" class="form-control col-6" id="searchInput" aria-label="내용 검색" aria-describedby="inputGroup-sizing-sm"placeholder="메세지내용을 검색하세요">
 		</div>	
 		<table class="table table-hover table-bordered" style="table-layout: fixed">
 		  <thead>
@@ -281,7 +324,6 @@ function fn_readY(x){
         <button type="button" class="btn btn-secondary" id="close-btn" data-dismiss="modal" >Close</button>
         <button type="button" class="btn btn-primary" id="sendBtn" >Send</button>
         <button type="button" id="btnM" onclick="fn_reply();">답장</button>
-         <!-- onclick="fn_reply();" -->
       </div>
     </div>
   </div>
