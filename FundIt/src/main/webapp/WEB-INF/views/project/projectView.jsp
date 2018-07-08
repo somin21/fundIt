@@ -503,18 +503,29 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
 		        		<li>
 		        			<span id="sp2"><fmt:formatNumber>${gList[gg.index] }</fmt:formatNumber>원 +</span>
 		        		</li>
-		        		<li>
+		        		<br />
+		        		<!-- <li> -->
 		        		<c:forEach var="g2" items="${strarr }" begin="0" end="${gList.size() }" step="1" varStatus="gg2">
 		        			<c:forEach var="g3" items="${strarr2 }" begin="0" end="${gList.size() }" step="1" varStatus="gg3">
 		        			<c:if test="${gg.index == gg2.index and  gg2.index == gg3.index }">
-		        				<%-- <c:set var="name" value="${strarr2[gg3.index]}" />
+		        				<c:set var="name3" value="${strarr[gg2.index]}" />
+		        				<c:set var="name1" value="${fn:split(name3,',')}" />
+		        				
+		        				<c:set var="name" value="${strarr2[gg3.index]}" />
 		        				<c:set var="name2" value="${fn:split(name,',')}" />
-		        				${name2 } --%>
-		        				${strarr[gg2.index] } (X ${strarr2[gg3.index]})
+
+		        				<c:forEach var="g5" items="${name2 }" begin="0" end="${fn:length(name1) }" step="1" varStatus="gg5">
+		        				<li>
+		        				${name1[gg5.index] } (X ${name2[gg5.index] })
+		        				</li>
+		        				</c:forEach>
+		        				
+		        				<%-- ${strarr[gg2.index] } (X ${strarr2[gg3.index]}) --%>
 		        			</c:if>
 		        			</c:forEach>
 		        		</c:forEach>
-		        		</li>
+		        		<br />
+		        		<!-- </li> -->
 		        		<li>
 		        			예상전달일 <fmt:formatDate value="${calculateduedDate }" pattern="yyyy년 MM월 dd일"/> 후 순차배송됩니다.
 		        		</li>

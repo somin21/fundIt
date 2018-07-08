@@ -37,19 +37,18 @@ function Approval(prjectNo,minMoney,title){
 		var itemName = $(this).children(".menu2").children("ul").children(".itemName").val();
 		var itemNum = $(this).children(".menu2").children("ul").children(".itemNum").val();
 		var delivery = $(this).children(".menu2").children("ul").children(".delivery").val();
+		
 		if(minMoney<=num3){
-			$("#bt").click(function(){
 				if(num3>10000000){
 					alert("10000000만원이하로만 결제가됩니다ㅠㅠ");
 				}else{
+					console.log(prjectNo,num3,title,itemName,itemNum,delivery)
 					location.href="${pageContext.request.contextPath}/project/approval.do?projectNo="
-							+prjectNo+"&minMoney="+minMoney+"&num="+num3+"&title="+title+"&itemName="+itemName+"&itemNum="+itemNum+"&delivery="+delivery;
+							+prjectNo+"&minMoney="+minMoney+"&num="+num3+"&title="+title+"&itemName="+itemName+"&itemNum="+itemNum+"&delivery="+delivery; 
 				}
-			});
 		}else{
 			alert("이상품은 "+minMoney+"원 이상 결제하셔야됩니다.");
 		}
-		
 	});
 }
 function Approval2(){
@@ -87,7 +86,6 @@ function Approval2(){
 		<input type="hidden" name="projectNo" id="projectNo" value="${projectNo }" />		
 		<input type="number" name="num" id="num" class="form-control" min="0" max="10000000" value="100" step="100"/> 원
 		<input type="hidden" name="title" id="title" value="${title }" />		
-		<!-- <input type="submit" /> -->
 		<button type="button" id="btn_submit" onclick="return Approval2();">결제</button>
 	</form>
 			<br /><br />
@@ -113,7 +111,18 @@ function Approval2(){
 			<c:forEach var="g2" items="${strarr }" begin="0" end="${gList.size() }" step="1" varStatus="gg2">
        			<c:forEach var="g3" items="${strarr2 }" begin="0" end="${gList.size() }" step="1" varStatus="gg3">
        			<c:if test="${gg.index == gg2.index and  gg2.index == gg3.index }">
-       				<li>${strarr[gg2.index] } (X ${strarr2[gg3.index]})</li>
+       				<c:set var="name3" value="${strarr[gg2.index]}" />
+		        				<c:set var="name1" value="${fn:split(name3,',')}" />
+		        				
+		        				<c:set var="name" value="${strarr2[gg3.index]}" />
+		        				<c:set var="name2" value="${fn:split(name,',')}" />
+
+		        				<c:forEach var="g5" items="${name2 }" begin="0" end="${fn:length(name1) }" step="1" varStatus="gg5">
+		        				<li>
+		        				${name1[gg5.index] } (X ${name2[gg5.index] })
+		        				</li>
+		        				</c:forEach>
+       				<%-- <li>${strarr[gg2.index] } (X ${strarr2[gg3.index]})</li> --%>
        			</c:if>
        			</c:forEach>
        		</c:forEach>
@@ -132,10 +141,20 @@ function Approval2(){
        			<c:forEach var="g3" items="${strarr2 }" begin="0" end="${gList.size() }" step="1" varStatus="gg3">
        			<c:forEach var="g3" items="${strarr3 }" begin="0" end="${gList.size() }" step="1" varStatus="gg4">
        			<c:if test="${gg.index == gg2.index and  gg2.index == gg3.index and gg3.index==gg4.index}">
-       				<li>${strarr[gg2.index] } (X ${strarr2[gg3.index]})</li>
+       				<%-- <li>${strarr[gg2.index] } (X ${strarr2[gg3.index]})</li> --%>
      				<input type="hidden" class="itemName" value="${strarr[gg2.index] }" />
      				<input type="hidden" class="itemNum" value="${strarr2[gg3.index] }" />
      				<input type="hidden" class="delivery" value="${strarr3[gg4.index] }" />
+     				<c:set var="name3" value="${strarr[gg2.index]}" />
+        				<c:set var="name1" value="${fn:split(name3,',')}" />
+        				<c:set var="name" value="${strarr2[gg3.index]}" />
+        				<c:set var="name2" value="${fn:split(name,',')}" />
+
+        				<c:forEach var="g5" items="${name2 }" begin="0" end="${fn:length(name1) }" step="1" varStatus="gg5">
+        				<li>
+        				${name1[gg5.index] } (X ${name2[gg5.index] })
+        				</li>
+		        	</c:forEach>
        			</c:if>
        			</c:forEach>
        			</c:forEach>

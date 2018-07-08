@@ -451,11 +451,11 @@ public class ProjectController {
 	}
 	
 //	희영
-	@RequestMapping("/project/approval.do")
+	@RequestMapping(value="/project/approval.do")
 	public ModelAndView approval(@RequestParam int projectNo, int minMoney, int num, String title, String itemName, String itemNum, String delivery ) {
 		ModelAndView mav = new ModelAndView();
 		
-		/*System.out.println("projectNo="+projectNo+"minMoney="+minMoney+"num="+num);*/
+		System.out.println("projectNo="+projectNo+"minMoney="+minMoney+"num="+num);
 
 		mav.addObject("projectNo",projectNo);
 		mav.addObject("itemName",itemName);
@@ -537,7 +537,7 @@ public class ProjectController {
 			supportor=v.getSupportor()+1; 				//서포터 한명추가
 		}
 		
-		double supportpercent = (((double)supportGoal*(double)100)/(double)supportMoney);	//현재 목표 퍼센트상황
+		int supportpercent = (int)(((double)supportMoney*(double)100)/(double)supportGoal);	//현재 목표 퍼센트상황
 		int supportwithouttax = (int)(supportMoney*0.9); //세금후금액
 		
 		map.put("supportMoney",supportMoney);
@@ -691,7 +691,7 @@ public class ProjectController {
 						supportor=v.getSupportor()-1; 				
 					}
 					
-					double supportpercent = (int) (((double)supportGoal*(double)100)/(double)supportMoney);	//현재 목표 퍼센트상황
+					int supportpercent = (int) (((double)supportMoney*(double)100)/(double)supportGoal);	//현재 목표 퍼센트상황
 					int supportwithouttax = (int)(supportMoney*0.9); //세금후금액
 					
 					map.put("supportMoney",supportMoney);
