@@ -41,6 +41,36 @@
 	update delivery set postnum = #{postNum}, address = #{address} where supportno = #{supportNo}
 	</update>
 	
+	<select  id="selectGiveList" resultType="giveGift">
+	select p.* , de.address, de.postnum, de.itemname, de.itemNum, de.deliveryyn,
+	(select  to_char(calculateduedate + 2,'YYYY-MM-dd') from project_funding fun where p.PROJECTNO = fun.projectno) as "deliveryduedate"
+      from
+      ( select a.projectno, a.email as "projectwriter", a.projecttitle, a.projectconfirmyn, b.supportno,
+       b.email as "supportor", (b.MINMONEY+b.ADDMONEY) as "supportmoney", b.payyn  
+       from project_outline a join support b on a.projectno = b.projectno where a.email = #{email}) p
+       join delivery de on p.supportno = de.supportno
+       where p.projectconfirmyn = 'Y' and p.payyn = 'Y'
+       <if test = "searchType eq 'All'">
+       and 1=1
+       </if>
+       <if test = "searchType != null and searchType != ''" >
+       	<if test = "searchType eq 'deliveryBefore'">
+			and to_date(sysdate,'YYYY-MM-dd')
+		 	<![CDATA[-]]>
+			(select  to_date(calculateduedate + 2,'YYYY-MM-dd') from project_funding h where p.PROJECTNO = h.projectno)  <![CDATA[<]]> 0
+		</if>
+		<if test = "searchType eq 'deliveryAfter'">
+			and to_date(sysdate,'YYYY-MM-dd')
+			<![CDATA[-]]>
+			(select  to_date(calculateduedate + 2,'YYYY-MM-dd') from project_funding i where p.PROJECTNO = i.projectno)  <![CDATA[>=]]> 0
+		</if>
+       
+       </if>
+       
+       
+       order by p.projectno
+	</select>
+	
 		
 	
 	

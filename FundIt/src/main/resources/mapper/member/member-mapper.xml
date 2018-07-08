@@ -80,7 +80,7 @@
 		(select projecttitle from project_outline e where a.projectno = e.projectno ) as "projecttitle",
 		(select email from project_outline f where a.projectno = f.projectno) as "projectwriter",
 		(select supportpercent from project_summary i where a.projectno = i.projectno) as "supportpercent",
- 		nvl(b.ITEMNAME,'선물없음.')
+ 		nvl(b.ITEMNAME,'선물없음') as "itemname"
 		from support a 
 		join delivery b on a.supportno = b.supportno
 		where 1=1 
@@ -117,7 +117,7 @@
 		 	(
 		 	  ((select email from project_outline l where a.projectno = l.projectno) like '%'||#{searchKeyword}||'%') 
 		 	  or 
-		 	  ( a.itemname like '%'||#{searchKeyword}||'%')
+		 	  ( b.itemname like '%'||#{searchKeyword}||'%')
 		 	  or
 		 	  ( (select projecttitle from project_outline m where a.projectno = m.projectno ) like '%'||#{searchKeyword}||'%')
 		    ) 
@@ -140,6 +140,17 @@
       <result column="supportpercent" property="supportPercent"/>
       <result column="itemname" property="itemName"/>
    </resultMap>
-	
+   
+   <update id="updateMemberToken" >
+    update member set token = #{token} where email = #{email}
+   </update>
+   
+   <select  id="selectToken" resultType="String">
+   select token from member where email = #{email}
+   </select>
+   
+    <update id="deleteToken" >
+    update member set token = null where email = #{email}
+   </update>
 	
 </mapper>

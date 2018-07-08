@@ -30,11 +30,11 @@ public interface ProjectService {
 
 	List<ListProjectView> selectIndexPopularProject(int popularProjectPage, int numPerpage);
 	
-	List<ListProjectView> selectMyProjectYet(Member member, int numPerpage);
+	List<ListProjectView> selectMyProjectYet(Member member,int page, int numPerpage);
 	
-	List<ListProjectView> selectMyProjectYes(Member member, int numPerpage);
+	List<ListProjectView> selectMyProjectYes(Member member,int page, int numPerpage);
 	
-	List<ListProjectView> selectMyProjectNo(Member member, int numPerpage);
+	List<ListProjectView> selectMyProjectNo(Member member,int page, int numPerpage);
 	
 	int selectMyProjectCnt(Member member);
 	
@@ -124,7 +124,7 @@ public interface ProjectService {
 	
 	int deleteProject(int projectNo, Map<String, Object> map);
 
-	List<ListProjectView> selectMyProjectI(Member member, int numPerpage);
+	List<ListProjectView> selectMyProjectI(Member member,int page, int numPerpage);
 
 	ProjectStory projectStoryList(Map<String, Object> map);
 

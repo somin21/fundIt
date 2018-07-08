@@ -60,23 +60,23 @@ public class ProjectServiceImpl implements ProjectService {
 
 // 태윤
 	@Override
-	public List<ListProjectView> selectMyProjectYet(Member member, int numPerpage) {
+	public List<ListProjectView> selectMyProjectYet(Member member,int page, int numPerpage) {
 		
-		return projectDAO.selectMyProjectYet(member, numPerpage);
+		return projectDAO.selectMyProjectYet(member,page, numPerpage);
 	}
 	
 	// 태윤
 	@Override
-	public List<ListProjectView> selectMyProjectYes(Member member ,int numPerpage) {
+	public List<ListProjectView> selectMyProjectYes(Member member, int page ,int numPerpage) {
 		
-		return projectDAO.selectMyProjectYes(member, numPerpage);
+		return projectDAO.selectMyProjectYes(member,page, numPerpage);
 	}
 	
 	// 태윤
 	@Override
-	public List<ListProjectView> selectMyProjectNo(Member member, int numPerpage ) {
+	public List<ListProjectView> selectMyProjectNo(Member member,int page, int numPerpage ) {
 		
-		return projectDAO.selectMyProjectNo(member, numPerpage );
+		return projectDAO.selectMyProjectNo(member,page, numPerpage );
 	}
 	
 // 태윤
@@ -434,9 +434,9 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 //  태윤
 	@Override
-	public List<ListProjectView> selectMyProjectI(Member member, int numPerpage) {
+	public List<ListProjectView> selectMyProjectI(Member member,int page, int numPerpage) {
 		
-		return projectDAO.selectMyProjectI(member, numPerpage);
+		return projectDAO.selectMyProjectI(member,page, numPerpage);
 	}
 //희영
 	@Override

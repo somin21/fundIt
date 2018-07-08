@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.fundit.gift.model.vo.Gift;
+import com.kh.fundit.gift.model.vo.GiveGift;
 
 @Repository
 public class GiftDAOImpl implements GiftDAO {
@@ -17,9 +18,9 @@ public class GiftDAOImpl implements GiftDAO {
 	private SqlSessionTemplate sqlSession;
 
 	@Override
-	public List<Gift> selectMyGift(Map<String, String> map, int numPerPage) {
+	public List<Gift> selectMyGift(Map<String, String> map, int myGiftPage, int numPerPage) {
 		// TODO Auto-generated method stub
-		RowBounds rowBounds = new RowBounds(0, numPerPage);
+		RowBounds rowBounds = new RowBounds(numPerPage*(myGiftPage-1), numPerPage);
 		
 		return sqlSession.selectList("gift.selectMyGiftList", map, rowBounds);
 	}
@@ -29,6 +30,14 @@ public class GiftDAOImpl implements GiftDAO {
 		
 		
 		return sqlSession.update("gift.updateDeliveryAddr", gift);
+	}
+
+	@Override
+	public List<GiveGift> selectGiveGift(Map<String, String> map, int giftPage, int numPerPage) {
+		
+		RowBounds rowBounds = new RowBounds(numPerPage*(giftPage-1), numPerPage);
+		
+		return sqlSession.selectList("gift.selectGiveList",map, rowBounds);
 	}	
 
 }

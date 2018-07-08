@@ -1,6 +1,8 @@
 package com.kh.fundit.member.controller;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -351,7 +353,14 @@ public class MemberController {
 	          mav.setViewName("common/msg");
 	          return mav; 
 	        }else {
+	        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+	        int rndNum = (int)((Math.random()*1000)+1);
+	        final String token = sdf.format(new Date(System.currentTimeMillis()))+rndNum;
 	        
+	        Map<String,String> map = new HashMap<>();
+	        map.put("email", email);
+	        map.put("token", token);
+	        result =  memberService.insertMemberToken(map);
 	        final MimeMessagePreparator preparator = new MimeMessagePreparator() {
 	            @Override
 	            public void prepare(MimeMessage mimeMessage) throws Exception {
@@ -359,15 +368,15 @@ public class MemberController {
 	                helper.setFrom("flyingboy147@naver.com");
 	                helper.setTo(email);
 	                helper.setSubject("fundit에서 비밀번호 링크를 보내드립니다.");
-	                helper.setText("http://192.168.10.33:9090/fundit/member/changePwd.do?email="+email);
+	                helper.setText("http://localhost:9090/fundit/member/changePwd.do?email="+email+"&token="+token);
 	            }
 	        };
 
 	        mailSender.send(preparator);
 	        
 	        msg = "기입하신 이메일로 링크를 보내드렸습니다.";
-	          mav.addObject("loc", loc);
 	          mav.addObject("msg", msg);
+	          mav.addObject("loc", loc);
 	          mav.setViewName("common/msg");
 	        
 	        return mav;
@@ -378,12 +387,20 @@ public class MemberController {
 	   
 	   //태윤
 	   @RequestMapping("member/changePwd.do")
-	   public ModelAndView changePwd(@RequestParam String email) {
+	   public ModelAndView changePwd(@RequestParam String email, @RequestParam String token) {
+		  String chkToken  = memberService.selectToken(email).trim();
+		  
 	      ModelAndView mav = new ModelAndView();
-	      
+	      if(chkToken.equals(token.trim())) {
+	      int result = memberService.deleteToken(email);
+	      System.out.println(result);
 	      mav.addObject("email", email);
 	      mav.setViewName("member/changePwdEnd");
-	      
+	      }else if(chkToken == null ||!chkToken.equals(token.trim())) {
+	      mav.addObject("loc","/");
+	      mav.addObject("msg","페이지가 만료되었습니다");
+	      mav.setViewName("common/msg");
+	      }
 	      return mav;
 	   }
 	   //태윤
@@ -451,22 +468,22 @@ public class MemberController {
 		@RequestMapping("/member/selectMySupport")
 		@ResponseBody
 		public List<Support> selectSupprtList(@RequestParam String email,
-				                              @RequestParam (value = "numPerPage", required = false, defaultValue = "4") int numPerPage,
+				                              @RequestParam (value = "page", required = false, defaultValue = "1") int page,
 											  @RequestParam (value="searchType", required = false, defaultValue = "searchAll") String searchType,
 											  @RequestParam (value="searchKeyword", required = false, defaultValue = "") String searchKeyword ){
 		
-		System.out.println(numPerPage);
+		System.out.println(page);
 		System.out.println(searchType);
 		System.out.println(searchKeyword);
 		
 		
-			
+		int numPerPage = 8;	
 		Map<String, String> map = new HashMap<>();
 		map.put("email", email);
 		map.put("searchType", searchType);
 		map.put("searchKeyword", searchKeyword);
 		
-		List<Support> list = memberService.selectSupportList(map, numPerPage);
+		List<Support> list = memberService.selectSupportList(map,page,numPerPage);
 		System.out.println(list);	
 		return list;
 			

@@ -8,9 +8,10 @@
 
 
 <script>
-var projectYetPage = 4;
-var projectYesPage = 4;
-var projectNoPage = 4;
+var projectYetPage = 1;
+var projectYesPage = 1;
+var projectNoPage = 1;
+var projectIPage = 1;
 
 
 $(function(){
@@ -63,12 +64,15 @@ $(function(){
 	    	var div_name = $("#myProjectYet");
 			
 	    	for(var i = 0; i < data.length; i++){
-	    		
+	    		if(data.length >= 1 && data.length <8){
+	    			$("#moreViewYet").prop("disabled",true);
+	    		}
 	    		htmlAppend(data[i], div_name);
 
 			}
 	    	
 	    	if(data.length < 1){
+	    		$("#moreViewYet").prop("disabled",true);
 	    		htmlAppendNone(data.length+1, div_name);
 	    	}
 		},
@@ -87,12 +91,15 @@ $(function(){
 	    	var div_name = $("#myProjectYes");
 			
 	    	for(var i = 0; i < data.length; i++){
-	    		
+	    		if(data.length >= 1 && data.length <8){
+	    			$("#moreViewYes").prop("disabled",true);
+	    		}
 	    		htmlAppend(data[i], div_name);
 
 			}
 	    	
 	    	if(data.length < 1){
+	    		$("#moreViewYes").prop("disabled",true);
 	    		htmlAppendNone(data.length+1, div_name);
 	    	}
 		},
@@ -111,12 +118,15 @@ $(function(){
 	    	var div_name = $("#myProjectNo");
 			
 	    	for(var i = 0; i < data.length; i++){
-	    		
+	    		if(data.length >= 1 && data.length <8){
+	    			$("#moreViewNo").prop("disabled",true);
+	    		}
 	    		htmlAppend(data[i], div_name);
 
 			}
 	    	
 	    	if(data.length < 1){
+	    		$("#moreViewNo").prop("disabled",true);
 	    		htmlAppendNone(data.length+1, div_name);
 	    	}
 		},
@@ -135,12 +145,15 @@ $(function(){
 	    	var div_name = $("#myProjectI");
 			
 	    	for(var i = 0; i < data.length; i++){
-	    		
+	    		if(data.length >= 1 && data.length <8){
+	    			$("#moreViewI").prop("disabled",true);
+	    		}
 	    		htmlAppend(data[i], div_name);
 
 			}
 	    	
 	    	if(data.length < 1){
+	    		$("#moreViewI").prop("disabled",true);
 	    		htmlAppendNone(data.length+1, div_name);
 	    	}
 		},
@@ -158,7 +171,8 @@ function htmlAppend(project, div_name){
 	
 	
 	html += '<div class="project" style = "max-height : 400px; ">';
-	html += '<div class="context-container" style=" height : 330px;" onclick = "fn_gotoProjectView(event, '+project.projectNo+')">';
+	html += '<input type="hidden" id="confirmYn" value = '+project.confirmYn+'>';
+	html += '<div class="context-container" style=" height : 330px;" onclick = "fn_gotoProjectView(this,event, '+project.projectNo+')">';
 	html += '<img src="${pageContext.request.contextPath }/resources/images/projects/'+project.projectImage+'" />';
 	if(project.deadlineDay > 0 && project.supportPercent >= 100){
 	html +=	'<p style="color:tomato; font-size : 15px;  height:25px; font-weight: bolder; margin-left:15px; margin-top:-23px; margin-bottom:-2px;">성공</p>'
@@ -234,20 +248,25 @@ function toNextAjax(urlMapping, email, pageName, div_name){
 		page = projectYesPage;
 	} else if(pageName == 'myProjectNo'){
 		page = projectNoPage;
+	} else if(pageName == 'myProjectI'){
+		page = projectIPage;
 	}
 	
 	console.log(pageName +" : "+ page);
 	
-	if( page >= 4){
+	if( page >= 1){
 
 		if(pageName == 'myProjectYet'){
-			page = projectYetPage+4;
+			page = projectYetPage+1;
 			projectYetPage = page;
 		} else if(pageName == 'myProjectYes'){
-			page = projectYesPage+4;
+			page = projectYesPage+1;
 			projectYesPage = page;
 		} else if(pageName == 'myProjectNo'){
-			page = projectNoPage+4;
+			page = projectNoPage+1;
+			projectNoPage = page;
+		} else if(pageName == 'myProjectI'){
+			page = projectNoPage+1;
 			projectNoPage = page;
 		}
 
@@ -259,13 +278,31 @@ function toNextAjax(urlMapping, email, pageName, div_name){
 				console.log(data);
 				
 		    	var appendDiv = $("#"+div_name);
-		    	appendDiv.html("");
+		    	
 				
-		    	for(var i = 0; i < data.length; i++){	    		
+		    	for(var i = 0; i < data.length; i++){
+		    		if(data.length>=1 && data.length<8 && pageName == "myProjectYet"){
+		    			$("#moreViewYet").prop("disabled",true);
+		    		}else if(data.length>=1 && data.length<8 && pageName == "myProjectYes"){
+		    			$("#moreViewYes").prop("disabled",true);
+		    		}else if(data.length>=1 && data.length<8 && pageName == "myProjectNo"){
+		    			$("#moreViewNo").prop("disabled",true);
+		    		}else if(data.length>=1 && data.length<8 && pageName == "myProjectI"){
+		    			$("#moreViewI").prop("disabled",true);
+		    		}
 		    		htmlAppend(data[i], appendDiv);
 				}
 		    	
-		    	if(data.length < 4){
+		    	if(data.length < 1){
+		    		if(pageName == "myProjectYet"){
+		    			$("#moreViewYet").prop("disabled",true);
+		    		}else if(pageName == "myProjectYes"){
+		    			$("#moreViewYes").prop("disabled",true);
+		    		}else if(pageName == "myProjectNo"){
+		    			$("#moreViewNo").prop("disabled",true);
+		    		}else if(pageName == "myProjectI"){
+		    			$("#moreViewI").prop("disabled",true);
+		    		}
 		    		htmlAppendNone(data.length+1, appendDiv);
 		    	}
 			},
@@ -356,11 +393,11 @@ font-weight : bolder;
 	<p class="title" style = "margin-bottom : 20px;">
 			승인대기중 
 	</p>
-	<div class="index-project" id="myProjectYet">
+	<div class="index-project" id="myProjectYet" style = "min-height: 100%;">
 		
 		
 	</div>
-	<input type="button" value="더보기" class = "btn btn-success" style = "width:1024px; margin: auto;"  onclick = "toNextAjax('${pageContext.request.contextPath}/project/selectMyProjectYet','${memberLoggedIn.email}','myProjectYet','myProjectYet');" />
+	<input type="button" value="더보기" class = "btn btn-success" id="moreViewYet" style = "width:1024px; margin: auto;"  onclick = "toNextAjax('${pageContext.request.contextPath}/project/selectMyProjectYet','${memberLoggedIn.email}','myProjectYet','myProjectYet');" />
 	<hr />
 	</div>
 	<!-- 내가 만드 프로젝트(진행중) -->
@@ -368,13 +405,13 @@ font-weight : bolder;
 	<p class="title" >
 			진행 중
 		</p>
-	<div class="index-project" id="myProjectYes">
+	<div class="index-project" id="myProjectYes" style = "min-height: 100%;">
 		
 		
 		
 		
 	</div>
-	<input type="button" class = "btn btn-success" style = "width:1024px; margin: auto;" value="더보기" onclick = "toNextAjax('${pageContext.request.contextPath}/project/selectMyProjectYes','${memberLoggedIn.email}','myProjectYes','myProjectYes');" />
+	<input type="button" class = "btn btn-success" id="moreViewYes"  style = "width:1024px; margin: auto;" value="더보기" onclick = "toNextAjax('${pageContext.request.contextPath}/project/selectMyProjectYes','${memberLoggedIn.email}','myProjectYes','myProjectYes');" />
 	<hr />
 	</div>
 	<!-- 내가 만드 프로젝트(컨펌거부) --> 
@@ -382,11 +419,11 @@ font-weight : bolder;
 	<p class="title">
 			승인 거절 
 	</p>
-	<div class="index-project" id="myProjectNo">
+	<div class="index-project" id="myProjectNo" style = "min-height: 100%;">
 		
 		
 	</div>
-	<input type="button" value="더보기" class = "btn btn-success" style = "width:1024px; margin: auto;"  onclick = "toNextAjax('${pageContext.request.contextPath}/project/selectMyProjectI',${memberLoggedIn.email}','myProjectNo','myProjectNo');" />
+	<input type="button" value="더보기" class = "btn btn-success" id="moreViewNo" style = "width:1024px; margin: auto;"  onclick = "toNextAjax('${pageContext.request.contextPath}/project/selectMyProjectI',${memberLoggedIn.email}','myProjectNo','myProjectNo');" />
 	<hr />
 	</div>
 	<div id="searchI">
@@ -394,11 +431,11 @@ font-weight : bolder;
 	<p class="title">
 			승인요청전
 	</p>
-	<div class="index-project" id="myProjectI">
+	<div class="index-project" id="myProjectI" style = "min-height: 100%;">
 		
 		
 	</div>
-	<input type="button" value="더보기" class = "btn btn-success" style = "width:1024px; margin: auto;"  onclick = "toNextAjax('${pageContext.request.contextPath}/project/selectMyProjectNo',${memberLoggedIn.email}','myProjectI','myProjectI');" />
+	<input type="button" value="더보기" class = "btn btn-success" id="moreViewI" style = "width:1024px; margin: auto;" onclick = "toNextAjax('${pageContext.request.contextPath}/project/selectMyProjectI',${memberLoggedIn.email}','myProjectI','myProjectI');" />
 	<hr />
 	</div>
 	
@@ -406,6 +443,7 @@ font-weight : bolder;
 
 <script>
 	function fn_search(searchTypeStr){
+	
 	 var searchType = searchTypeStr.trim();
 		console.log(searchType);
 		if(searchType == "searchAll"){
@@ -480,21 +518,28 @@ font-weight : bolder;
      
 	}
 
-	function fn_gotoProjectView(event, projectNo){
+	function fn_gotoProjectView(el,event, projectNo){
 		console.log($(this));
 		var event = event || window.event;
 		var email = $("#email").val().trim();
+		var confirmYn = $(el).prev("#confirmYn").val();
+		
 		//ie를 제외한 브라우져
 	     event.stopPropagation();
 	     //ie8이하 브라우져
 	     event.cancelBubble = true;
-		 console.log(projectNo)
+		 console.log(projectNo);
+		 console.log(confirmYn);
 	        if(projectNo == null){
 	           return false;
 	        }
+	        if(confirmYn =="Y"){
 	        console.log(projectNo);
 	        location.href="${pageContext.request.contextPath}/project/projectView.do?projectNo="+projectNo+"&email="+email;
-	      
+	        }else if(confirmYn == "I" || confirmYn == "F" || confirmYn == "N" ){
+	        console.log(projectNo);
+		    location.href="${pageContext.request.contextPath}/project/updateProject/outline?projectNo="+projectNo;	
+	        }
 	}
 	
 	
