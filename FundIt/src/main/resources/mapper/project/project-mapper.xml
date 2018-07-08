@@ -20,7 +20,7 @@
 		        join project_account a on o.projectno = a.projectno
 		        join project_summary sp on o.projectno = sp.projectno
 		    where o.projectconfirmyn='Y' and o.projectdeadlineyn='N'
-		    order by sp.supportmoney desc, o.projectdate desc
+		    order by sp.supportmoney desc, sp.supportpercent desc
 		)
 		where rownum <= 12
 	 ]]>
