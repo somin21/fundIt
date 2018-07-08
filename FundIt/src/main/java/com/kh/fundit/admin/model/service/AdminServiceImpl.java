@@ -31,7 +31,7 @@ public class AdminServiceImpl implements AdminService {
 		
 		try {
 			result = adminDAO.updateIndexYN();
-			if(result > 4) {
+			if(result <= 4) {
 				result = adminDAO.updateAdminIndexYN(arr);
 			}
 		}catch(Exception e) {

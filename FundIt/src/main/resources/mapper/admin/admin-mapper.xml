@@ -31,7 +31,7 @@
 		from (select * from project_outline where projectconfirmyn='N') p
 	 ]]>
 	</select>
-	
+
 	<select id="adminProjectView" resultType="adminProjectView">
 		select p.projectno, p.email, p.projectimage, p.projecttitle, p.categorycode,
         	(select name from member m where p.email = m.email) name,
