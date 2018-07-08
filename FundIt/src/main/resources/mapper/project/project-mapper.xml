@@ -9,39 +9,60 @@
 	<select id="selectIndexPopularProject" resultType="list_project_view">
 	<![CDATA[
 		select *
-		from
-			(select p.projectno, p.projecttitle, p.projectimage,
-			        (select name from member m where p.email = m.email) name,
-			        (select trunc(deadlinedate - sysdate) from project_funding f where p.projectno = f.projectno) deadlineday,
-			        s.supportmoney, s.supportpercent
-			from (select * from project_outline where projectconfirmyn='Y' and projectdeadlineyn='N' order by projectdate desc) p join project_summary s on p.projectno = s.projectno
-			order by s.supportmoney)
+		from (
+		    select  o.projectno, o.projecttitle, o.projectimage,
+		        (select name from member m where o.email = m.email) name,
+		        trunc(f.deadlinedate - sysdate)+1 deadlineday,
+		        sp.supportmoney, sp.supportpercent
+		    from project_outline o 
+		        join project_funding f on o.projectno = f.projectno 
+		        join project_story s on o.projectno = s.projectno
+		        join project_account a on o.projectno = a.projectno
+		        join project_summary sp on o.projectno = sp.projectno
+		    where o.projectconfirmyn='Y' and o.projectdeadlineyn='N'
+		    order by sp.supportmoney desc, o.projectdate desc
+		)
 		where rownum <= 12
 	 ]]>
 	</select>
 	
 	<select id="selectIndexNewProject" resultType="list_project_view">
 	<![CDATA[
-		select p.projectno, p.projectimage, p.projecttitle, 
-	        (select name from member m where p.email = m.email) name,
-	        (select trunc(deadlinedate - sysdate) from project_funding f where p.projectno = f.projectno) deadlineday,
-	        s.supportmoney, s.supportpercent
-		from (select * from project_outline where projectconfirmyn='Y' and projectdeadlineyn='N' order by projectdate desc) p join project_summary s on p.projectno = s.projectno
-		 where rownum <= 12
+		select *
+		from (
+		    select  o.projectno, o.projecttitle, o.projectimage,
+		        (select name from member m where o.email = m.email) name,
+		        trunc(f.deadlinedate - sysdate)+1 deadlineday,
+		        sp.supportmoney, sp.supportpercent
+		    from project_outline o 
+		        join project_funding f on o.projectno = f.projectno 
+		        join project_story s on o.projectno = s.projectno
+		        join project_account a on o.projectno = a.projectno
+		        join project_summary sp on o.projectno = sp.projectno
+		    where o.projectconfirmyn='Y' and o.projectdeadlineyn='N'
+		    order by o.projectdate desc
+		)
+		where rownum <= 12
 	 ]]>
 	</select>
 	
 	<select id="selectIndexDeadlineProject" resultType="list_project_view">
 	<![CDATA[
-	select *
-	from
-		(select p.projectno, p.projecttitle, p.projectimage,
-	        (select name from member m where p.email = m.email) name,
-	        (select trunc(deadlinedate - sysdate) from project_funding f where p.projectno = f.projectno) deadlineday,
-	        s.supportmoney, s.supportpercent
-		from (select * from project_outline where projectconfirmyn='Y' and projectdeadlineyn='N' order by projectdate desc) p join project_summary s on p.projectno = s.projectno
-		order by deadlineday)
-	where rownum <= 12
+		select *
+		from (
+		    select  o.projectno, o.projecttitle, o.projectimage,
+		        (select name from member m where o.email = m.email) name,
+		        trunc(f.deadlinedate - sysdate)+1 deadlineday,
+		        sp.supportmoney, sp.supportpercent
+		    from project_outline o 
+		        join project_funding f on o.projectno = f.projectno 
+		        join project_story s on o.projectno = s.projectno
+		        join project_account a on o.projectno = a.projectno
+		        join project_summary sp on o.projectno = sp.projectno
+		    where o.projectconfirmyn='Y' and o.projectdeadlineyn='N'
+		    order by f.deadlinedate
+		)
+		where rownum <= 12
 	 ]]>
 	</select>
 	
