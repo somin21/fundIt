@@ -99,6 +99,19 @@ div.project div.summary span.no-project{
 	color: red;
 	
 }
+div.maincontainer3{
+	float: right;
+	display: inline-block;
+	padding-right: 20%;
+}
+input[id="deadline"] {
+        position: relative;
+        top: -15px;
+      }
+label[for="deadline"] {
+        position: relative;
+        top: -15px;
+      }
 div#all{text-align: center;}
 @media (max-width: 1070px){
 	div.project{
@@ -189,14 +202,35 @@ select#select {
             <option value="4" ${select==4? 'selected':'' }>최신순</option>
         </select>
         </div>
+        <div class="maincontainer3">
+        <label for="deadline">마감된후원보기</label>
+        <input type="checkbox" class="deadline" id="deadline" ${deadline=='dead'? 'checked':'' }/>
+        </div>
     </div>
  <script>
+	$(".deadline").change(function(){
+		var select=$("#select").val();
+	 	var category = '${categoryCode==''?'':categoryCode}';
+	 	var deadline = $(".deadline").val();
+	 	var deadlinetrue = $('input:checkbox[class="deadline"]').is(":checked");
+	  	if(deadlinetrue==true){
+	  		deadline = 'dead';
+	  	} 
+	 	console.log(deadline);
+	 	console.log(deadlinetrue);
+	 	location.href="${pageContext.request.contextPath }/project/projectList.do?categoryCode="+category+"&select="+select+"&deadline="+deadline;
+	});
     $("#select").change(function() {
     	var select=$(this).val();
     	var category = '${categoryCode==''?'':categoryCode}';
-    	//console.log(select);
-    	location.href="${pageContext.request.contextPath }/project/projectList.do?categoryCode="+category+"&select="+select;
-    
+    	var deadline = $(".deadline").val();
+    	var deadlinetrue = $('input:checkbox[class="deadline"]').is(":checked");
+     	if(deadlinetrue==true){
+     		deadline = 'dead';
+     	} 
+    	console.log(deadline);
+    	console.log(deadlinetrue);
+    	location.href="${pageContext.request.contextPath }/project/projectList.do?categoryCode="+category+"&select="+select+"&deadline="+deadline;
     });
     </script>
     <hr />

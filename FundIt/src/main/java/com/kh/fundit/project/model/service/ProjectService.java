@@ -140,4 +140,6 @@ public interface ProjectService {
 
 	List<Integer> projectGiftMoneyList(int projectNo);
 
+	int projectSummary(Map<String, Object> map);
+
 }

@@ -447,4 +447,10 @@ public class ProjectDAOImpl implements ProjectDAO {
 		return sqlSession.selectList("project.projectGiftMoneyList",projectNo);
 	}
 
+	@Override
+	public int projectSummary(Map<String, Object> map) {
+		return sqlSession.update("project.projectSummary",map);
+
+	}
+
 }

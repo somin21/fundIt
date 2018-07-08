@@ -479,5 +479,11 @@ public class ProjectServiceImpl implements ProjectService {
 		return projectDAO.projectGiftMoneyList(projectNo);
 	}
 
+	@Override
+	public int projectSummary(Map<String, Object> map) {
+		return projectDAO.projectSummary(map);
+
+	}
+
 
 }

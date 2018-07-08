@@ -18,6 +18,8 @@ public class ProjectView {
 	private String categoryCode;
 	private String refund;
 	
+	private int supportwithouttax;
+	
 	private Date deadlineDate;
 	private String categoryName;
 	private String introduceMovie;
@@ -191,6 +193,16 @@ public class ProjectView {
 	public void setDeadlineDate(Date deadlineDate) {
 		this.deadlineDate = deadlineDate;
 	}
+	
+	
+
+	public int getSupportwithouttax() {
+		return supportwithouttax;
+	}
+
+	public void setSupportwithouttax(int supportwithouttax) {
+		this.supportwithouttax = supportwithouttax;
+	}
 
 	@Override
 	public String toString() {
@@ -198,9 +210,11 @@ public class ProjectView {
 				+ projectImage + ", projectTitle=" + projectTitle + ", name=" + name + ", deadlineDay=" + deadlineDay
 				+ ", supportGoal=" + supportGoal + ", calculateduedDate=" + calculateduedDate + ", supportMoney="
 				+ supportMoney + ", supportPercent=" + supportPercent + ", supportor=" + supportor + ", categoryCode="
-				+ categoryCode + ", refund=" + refund + ", introduceMovie=" + introduceMovie + ", projectStory="
-				+ projectStory + "]";
+				+ categoryCode + ", refund=" + refund + ", supportwithouttax=" + supportwithouttax + ", deadlineDate="
+				+ deadlineDate + ", categoryName=" + categoryName + ", introduceMovie=" + introduceMovie
+				+ ", projectStory=" + projectStory + "]";
 	}
+
 	
 	
 	
