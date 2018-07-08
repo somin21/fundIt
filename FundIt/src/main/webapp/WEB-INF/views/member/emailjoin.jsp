@@ -86,22 +86,28 @@ color:red;
 </style>
 <script>
 
-	$(function(){
 
+
+	$(function(){
 		
+
+
+		$(".guide.pwdError2").show();
 		$(".check-pwd").blur(function(){
 			
 			
 			var p1 = $("#join-pwd_").val();
 			var p2 = $("#join-pwd").val();
 			
-			if(!/^[a-zA-Z0-9]{8,20}$/.test(p1)){
+		
+				var regPwd = /^.*(?=^.{6,12}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[~,!,@,#,$,*,(,),=,+,_,.,|]).*$/;
 				
+				if(!regPwd.test(p1)){
 				
 				
 				
 				$("#join-pwd_").val('');
-				$(".guide.pwdError2").show();
+			
 				
 			}
 			
@@ -124,7 +130,7 @@ color:red;
 			
 		});
 	
-
+	
 	 
 	$(".check").on("keyup",function(){
 		
@@ -205,7 +211,8 @@ color:red;
 			<input type="password" id="join-pwd_"  class="check-pwd" name="password" placeholder="비밀번호를 입력해주세요" required /> <br />
 			<input type="password" id="join-pwd" class="check-pwd" placeholder="비밀번호를 확인합니다" required /> <br />
 			<span class="guide pwdError">패스워드가 일치하지 않습니다.</span> <br />
-			<span class="guide pwdError2">숫자와 영문자  8~20자리를 사용해야 합니다.</span> <br />
+			<span class="guide pwdError2">숫자,영문,특수문자 혼합 7~11자리를 사용하세요.</span> <br />
+			
 		</td>
 		
 	</tr>

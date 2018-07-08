@@ -103,7 +103,7 @@ window.onload = function () {
 		</tr>
 	</c:forEach>
 <c:if test="${empty list }">
-			<h1>아직 메세지가 등록되지 않았습니다~~~~ㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎ</h1>
+		
 		</c:if>
 		<form action="messageSelect.do" method="post">
 <input type="text" value="${param.email }" name="email" id="loggedinemail" style="display: none;"/> 

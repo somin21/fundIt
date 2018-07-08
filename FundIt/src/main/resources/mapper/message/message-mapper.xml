@@ -49,10 +49,10 @@ insert into message values(seq_message_no.nextval,'${messageContent}',default,'$
 </update>
 
 <select id="selectMessageList5" resultType="message">
-	select messageno,messagecontent,readyn,sendemail,receiveemail,to_char(messagedate,'mm-dd hh24:mi:ss') as messagedate from message where receiveEmail = #{email} and readyn ='Y' order by messageDate desc
+	select messageno,messagecontent,readyn,sendemail,receiveemail,to_char(messagedate,'mm-dd hh24:mi:ss') as messagedate from message where receiveEmail = #{email} and readyn ='N' order by messageDate desc
 </select>
 <select id="totalMessageCount5" resultType="_int">
-	select count(*)as cnt from message where receiveEmail = #{email} and readyn ='Y' 
+	select count(*)as cnt from message where receiveEmail = #{email} and readyn ='N' 
 </select>
 <select id="imagereadyn" resultType="_int">
 	select count(*)as cnt from message where receiveEmail = #{email} and readyn ='N' 

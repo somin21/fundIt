@@ -149,7 +149,16 @@ window.onload = function () {
 		}
 		</script>
 		<hr />
-		<p><a href="${pageContext.request.contextPath }/interest/interest.do?email=${memberLoggedIn.email }">관심 프로젝트</a></p>
+		<form action="${pageContext.request.contextPath }/interest/interest.do" method="post">
+		<p><a href="#" onclick="interestList();">관심 프로젝트</a></p>
+		<input type="text" value="${memberLoggedIn.email }" name="email"  style="display: none;"/>
+		<input type="submit" id="bbbb" style="display: none;" />
+		</form>
+		<script>
+		function interestList(){
+			$("#bbbb").click();
+		}
+		</script>
 		<p><a href="${pageContext.request.contextPath}/member/mySupport.do?email=${memberLoggedIn.email} ">후원 현황</a></p>
 		<p><a href="${pageContext.request.contextPath}/gift/giftDeliveryList.do?email="+${memberLoggedIn.email}>선물 배송리스트</a></p>
 		<p><a href="${pageContext.request.contextPath}/project/myProject.do?email=?"+${memberLoggedIn.email}>내가 만든 프로젝트</a></p>

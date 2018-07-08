@@ -72,7 +72,7 @@ window.onload = function () {
 <input type="text" name="email" value="${memberLoggedIn.email}" style="display: none;" />
 </form>
 <form action="${pageContext.request.contextPath}/message/messageList5.do" method="post">
-<input type="submit" value="읽은 메세지함" id="readyn" class="btn btn-outline-success" />
+<input type="submit" value="안읽은 메세지함" id="readyn" class="btn btn-outline-success" />
 <input type="text" name="email" value="${memberLoggedIn.email}" style="display: none;" />
 </form>
 <br /><br />
@@ -96,14 +96,14 @@ window.onload = function () {
 			<input type="text" name=email value="${message.receiveEmail }" style="display: none;" />
 			<input type="text" name=email2 value="${message.sendEmail }" style="display: none;"/>
 			<input type="text" name=messageNo value="${message.messageNo }" style="display: none;"/>
-			
+		
 			</form>
 			<%-- <td>${message.receiveEmail }</td> --%>
 			<td>${message.messageDate }</td>
 		</tr>
 	</c:forEach>
 <c:if test="${empty list }">
-			<h1>아직 메세지가 등록되지 않았습니다~~~~ㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎ</h1>
+	
 		</c:if>
 		<form action="messageSelect2.do" method="post">
 <input type="text" value="${param.email }" name="email" id="loggedinemail" style="display: none;"/> 

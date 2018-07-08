@@ -87,6 +87,7 @@ public class MessageController {
 		
 		ModelAndView mav = new ModelAndView();
 		
+		
 		 Map<String ,Object> map = new HashMap<>();
 		 
 		 map.put("messageContent", messageContent);
@@ -107,6 +108,7 @@ public class MessageController {
 		 	}
 		 	
 		 	mav.addObject("result", result);
+		 
 		 	mav.addObject("msg", msg);
 			mav.addObject("loc", loc);
 			
@@ -122,7 +124,7 @@ public class MessageController {
 			@RequestParam(name="sendEmail") String sendEmail){
 		
 		ModelAndView mav = new ModelAndView();
-		
+	
 		 Map<String ,Object> map = new HashMap<>();
 		 
 		 map.put("messageContent", messageContent);
@@ -138,17 +140,18 @@ public class MessageController {
 		 	if(result>0) {
 
 		 		msg = "메세지 등록 성공";
-		 		loc = "/message/messageList2.do?email="+sendEmail;
+		 	
 		 	}else {
 		 		msg = "메세지 등록 실패";
-		 		loc = "/message/messageList2.do?email="+sendEmail;
+		 	
 		 	}
 		 	
 		 	mav.addObject("result", result);
 		 	mav.addObject("msg", msg);
-			mav.addObject("loc", loc);
 			
-			mav.setViewName("common/msg");
+			mav.addObject("email", sendEmail);
+			
+			mav.setViewName("common/msg2");
 		 
 		return mav;
 		

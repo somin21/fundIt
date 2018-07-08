@@ -102,7 +102,9 @@ width:100%;
 $('#myModal').modal({backdrop: 'static'});
 function aaa(){
 	window.history.back();
+
 }
+
 </script>
 
 
