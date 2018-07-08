@@ -38,5 +38,14 @@
     </beans:bean>
 	<beans:bean id="jsonView" class="net.sf.json.spring.web.servlet.view.JsonView"/>
 	
+	<interceptors>
+		<interceptor>
+			<mapping path="/project/makeProject/**"/>
+			<mapping path="/project/updateProject/**"/>
+			<mapping path="/project/confirm"/>
+			<mapping path="/project/projectPreview"/>
+			<beans:bean id="makeProjectLoginInterceptor" class="com.kh.fundit.common.interceptor.MakeProjectLoginInterceptor" />
+		</interceptor>
+	</interceptors>
 	
 </beans:beans>

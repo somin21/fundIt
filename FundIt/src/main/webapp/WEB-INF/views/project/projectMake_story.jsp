@@ -87,21 +87,37 @@ function uploadSummerImage(image) {
 </script>
 
 <script>
+
 function previewMovie(evt){
-	var files = evt.target.files;
 	
+	var files = evt.target.files;
+	var fileSize = 0;
+	
+	var browser = navigator.appName;
 	for(var i = 0; f= files[i]; i++){
+		
+		if(browser=="Microsoft Internet Explorer"){
+			
+			var oas = new ActiveXObject("Scripting.FileSystemObject");
+			fileSize = oas.getFile(f.value).size;
+		} else {
+			fileSize = f.size;
+		}
 		
 		if(!f.type.match("video/mp4")){
 			alert(".mp4 형식만 지원 가능합니다");
-			return true;
+			$("#project-movie").val("");
+		} else if(fileSize > 10485760){
+			alert("첨부 가능한 최대 사이즈는 10MB입니다");
+			$("#project-movie").val("");
+		} else {
+			var reader = new FileReader();
+			reader.onload = function(e){
+				$("#previewMovie").attr("src",e.target.result);
+				$("#previewMovie").css("display","inline-block");
+			}
+			reader.readAsDataURL(f);
 		}
-		var reader = new FileReader();
-		reader.onload = function(e){
-			$("#previewMovie").attr("src",e.target.result);
-			$("#previewMovie").css("display","inline-block");
-		}
-		reader.readAsDataURL(f);
 	}
 }
 
@@ -167,7 +183,7 @@ function story_validate(){
 					프로젝트를 소개하는 영상을 만들면 내용을 더 효과적으로 알릴 수 있습니다. <br />
 					2~3분 이내의 짧은 영상이 가장 반응이 좋습니다. <br />
 					배경음악을 사용하신다면 저작권 문제에 유념해주세요. <br />
-					(mp4형식만 지원됩니다)
+					(10MB 이내의 mp4형식만 지원됩니다)
 				</p>
 				<p>
 					<button type="button" class="uploadBtn">

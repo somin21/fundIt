@@ -2,6 +2,7 @@ package com.kh.fundit.project.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
@@ -679,19 +680,10 @@ public class ProjectController {
 		
 		ModelAndView mav = new ModelAndView();
 		
-		if(email.equals("")) {
-			
-			mav.addObject("msg", "로그인 후 사용가능합니다");
-			mav.addObject("loc", "/login");
-			mav.setViewName("common/msg");
-			
-		} else {
+		Profile profile = projectService.makeProject(email);
 		
-			Profile profile = projectService.makeProject(email);
-			
-			mav.addObject("profile", profile);
-			mav.setViewName("project/projectMake_outline");
-		}
+		mav.addObject("profile", profile);
+		mav.setViewName("project/projectMake_outline");
 		
 		return mav;
 	}
@@ -1233,13 +1225,14 @@ public class ProjectController {
 			
 			mav.addObject("msg","프로젝트 작성 처리 중 문제가 발생하였습니다.\\n다시 시도해주십시오.");
 			mav.addObject("loc", "/");
+			mav.setViewName("common/msg");
 			
 		}
 				
-		mav.setViewName("common/msg");
 		
 		return mav;
 	}
+
 	
 //	소민
 	@RequestMapping("/project/updateProject/end")
@@ -1318,8 +1311,7 @@ public class ProjectController {
 	
 //	소민
 	@RequestMapping("/project/projectPreview")
-	public ModelAndView projectPreview(@RequestParam("projectNo") int projectNo,
-											  HttpServletResponse response)	{
+	public ModelAndView projectPreview(@RequestParam("projectNo") int projectNo)	{
 		ModelAndView mav = new ModelAndView();
 		
 		Map<String,Object> map = new HashMap<>();
