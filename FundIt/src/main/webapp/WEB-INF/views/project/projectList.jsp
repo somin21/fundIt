@@ -106,11 +106,13 @@ div.maincontainer3{
 }
 input[id="deadline"] {
         position: relative;
-        top: -15px;
+        top: -15px; 
       }
+select#select{font-weight: bold;}
 label[for="deadline"] {
         position: relative;
         top: -15px;
+        font-weight: bold;
       }
 div#all{text-align: center;}
 @media (max-width: 1070px){
@@ -194,7 +196,7 @@ select#select {
     <hr />
     <div class="maincontainer2">
         <div id="selectList">
-        <select name="" id="select">
+        <select name="select" id="select">
             <option value="0">검색</option>
             <option value="1" ${select==1? 'selected':'' }>최다 후원순</option>
             <option value="2" ${select==2? 'selected':'' }>최다 금액순</option>

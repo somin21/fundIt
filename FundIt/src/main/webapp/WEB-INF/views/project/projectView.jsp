@@ -119,8 +119,14 @@ span#sp2{font-size: 25px; font-weight: bold;}
 span.sp{font-size: 15px; font-weight: bold; padding-bottom:10px; display: inline-block;}
 span.sp2{font-size: 14px;}
 
+div.communityS{text-align: left; padding-left: 50px;}
+span.communitySs{font-weight: bold; color: rgb(117, 117, 117);}
+
+span#story{font-weight: bold; color: rgb(185, 184, 184);}
 span#story:hover{cursor: pointer;}
+span#community{font-weight: bold; color: rgb(185, 184, 184);}
 span#community:hover{cursor: pointer;}
+span#change{font-weight: bold; color: rgb(185, 184, 184);}
 span#change:hover{cursor: pointer;}
 
 div.menuDiv{text-align: left; padding: 5px 0 18px 18%; }
@@ -131,7 +137,7 @@ div.communityS{width: 700px; display: inline-block; padding-bottom:10px; padding
 div.communityMain{width: 700px;display: inline-block; background:#faf8f8; margin-top: 15px;}
 div.community{background: white; box-shadow: 1px 1px silver; text-align: left; padding-left: 30px; padding-bottom:10px; padding-top:10px;}
 
-div.changeDiv{width: 700px;display: inline-block; background:white; margin-top: 15px; box-shadow: 1px 1px silver; padding-bottom:10px; padding-top:10px;}
+div.changeDiv{text-align:left; padding:50px; width: 700px;display: inline-block; background:white; margin-top: 15px; box-shadow: 1px 1px silver;}
 span.refundSp{font-weight: bold;}
 
 div.originator{width: 270px;display: inline-block; text-align: left; padding: 15px; background:white; margin: 10px; margin-top: 15px; box-shadow: 1px 1px silver;}
@@ -315,7 +321,7 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
                 </c:if>
                 
                 </div>
-                <c:if test="${deadlineDay ge 0 }">
+                <c:if test="${deadlineDay gt 0 }">
                 <c:if test="${supportStatus==false }">
                 	<button class="button" style="vertical-align:middle" onclick="fn_supportGo('${i.projectNo}');"><span>후원하기 </span></button>
                 </c:if>
@@ -340,7 +346,7 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
                 	담아두기
                 </button>
                 </c:if>
-                <c:if test="${deadlineDay lt 0 }">
+                <c:if test="${deadlineDay le 0 }">
                 	<button class="button disabled">후원이 종료되었습니다.</button>
                 </c:if>
             </div>
@@ -356,8 +362,7 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
 		        <div class="mainContext">
 		        <c:if test="${not empty ps }">
 		        	${ps.getIntroduceMovie() }
-		        </c:if>
-		        <c:if test="${not empty ps }">
+		        	<br />
 		        	${ps.getProjectStory() }
 		        </c:if>
 		        <c:if test="${empty ps }">
@@ -370,7 +375,7 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
 		        </div>
 		        <!-- 커뮤니티 -->
 		        <div class="communityDiv">
-		        	<div class="communityS"><span>후원자만 글을 쓸 수 있어요</span></div>
+		        	<div class="communityS"><span class="communitySs">후원자만 글을 쓸 수 있어요</span></div>
 		        	<div class="communityMain">
 		        		<c:if test="${(not empty memberLoggedIn and supportStatus==true)}">
 		        			<!-- 모달사용 -->
@@ -413,7 +418,7 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
 		        			<input type="hidden" value="${s.communityNo }" class="communityNo${aa.count }" />
 		        			<div class="community">
 		        				<span>등록ID : ${s.email }</span><br />
-		        				<span>등록일자:${s.communityDate }</span><br />
+		        				<span>등록일자 : ${s.communityDate }</span><br />
 		        				<textarea rows="10" cols="80%" readonly="readonly">${s.communityContent }</textarea>
 		        				<br />
 		        				<!-- 수정모달 시작 -->
@@ -459,6 +464,7 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
 		        	<br />
 		        	<c:if test="${not empty refund }">
 		        	<span>${refund }</span>
+		        	<br /><br />
 		        	</c:if>
 		        	<c:if test="${empty refund }">
 		        	<span>이 프로젝트의 환불정책이 없습니다.</span><br />
@@ -587,25 +593,25 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
 
         $("#story").click(function(){
             $("#story").css({"color": "black", "background-color": "#F3F3F3", "border-bottom": "4px solid black", "padding-bottom": "0"});
-            $("#community").css({"color": "black", "background-color": "white", "border-bottom": "0px solid black", "padding-bottom": "0"});
-            $("#change").css({"color": "black", "background-color": "white", "border-bottom": "0px solid black", "padding-bottom": "0"});
+            $("#community").css({"color": "rgb(185, 184, 184)", "background-color": "white", "border-bottom": "0px solid black", "padding-bottom": "0"});
+            $("#change").css({"color": "rgb(185, 184, 184)", "background-color": "white", "border-bottom": "0px solid black", "padding-bottom": "0"});
             hiddenNum = 1;
             $(".mainContext").show();
             $(".communityDiv").hide();
             $(".changeDiv").hide();
         });
         $("#community").click(function(){
-            $("#story").css({"color": "black", "background-color": "white", "border-bottom": "0px solid black", "padding-bottom": "0"});
+            $("#story").css({"color": "rgb(185, 184, 184)", "background-color": "white", "border-bottom": "0px solid black", "padding-bottom": "0"});
             $("#community").css({"color": "black", "background-color": "#F3F3F3", "border-bottom": "4px solid black", "padding-bottom": "0"});
-            $("#change").css({"color": "black", "background-color": "white", "border-bottom": "0px solid black", "padding-bottom": "0"});
+            $("#change").css({"color": "rgb(185, 184, 184)", "background-color": "white", "border-bottom": "0px solid black", "padding-bottom": "0"});
             hiddenNum = 2;
             $(".mainContext").hide();
             $(".communityDiv").show();
             $(".changeDiv").hide();
         });
         $("#change").click(function(){
-            $("#story").css({"color": "black", "background-color": "white", "border-bottom": "0px solid black", "padding-bottom": "0"});
-            $("#community").css({"color": "black", "background-color": "white", "border-bottom": "0px solid black", "padding-bottom": "0"});
+            $("#story").css({"color": "rgb(185, 184, 184)", "background-color": "white", "border-bottom": "0px solid black", "padding-bottom": "0"});
+            $("#community").css({"color": "rgb(185, 184, 184)", "background-color": "white", "border-bottom": "0px solid black", "padding-bottom": "0"});
             $("#change").css({"color": "black", "background-color": "#F3F3F3", "border-bottom": "4px solid black", "padding-bottom": "0"});
             hiddenNum = 3;
             $(".mainContext").hide();
