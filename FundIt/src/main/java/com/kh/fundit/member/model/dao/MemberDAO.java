@@ -34,7 +34,15 @@ public interface MemberDAO {
 
 	int insertNaver(Map<String, Object> map);
 
-	List<Support> selectSupportList(Map<String, String> map, int numPerPage);
+	List<Support> selectSupportList(Map<String, String> map, int numPerPage, int numPerPage2);
+
+	int insertMemberToken(Map<String, String> map);
+
+	String selectToken(String email);
+
+	int deleteToken(String email);
+
+	
 
 
 

@@ -107,13 +107,13 @@ public class ProjectController {
 //	태윤
 	@RequestMapping("/project/selectMyProjectYet")
 	@ResponseBody
-	public List<ListProjectView> selectMyProjectList(@RequestParam String email, @RequestParam(value="page", required=false, defaultValue="4") int numPerpage,HttpServletResponse response){
+	public List<ListProjectView> selectMyProjectList(@RequestParam String email, @RequestParam(value="page", required=false, defaultValue="1") int page,HttpServletResponse response){
 		
 		Member member = new Member();
 		System.out.println(email);
 		member.setEmail(email);
-		
-		List<ListProjectView> list = projectService.selectMyProjectYet(member, numPerpage);
+		int numPerpage = 8;
+		List<ListProjectView> list = projectService.selectMyProjectYet(member,page, numPerpage);
 		
 		return list;
 	}
@@ -121,13 +121,13 @@ public class ProjectController {
 //	태윤
 	@RequestMapping("/project/selectMyProjectYes")
 	@ResponseBody
-	public List<ListProjectView> selectMyProjectListYes(@RequestParam String email, @RequestParam(value="page", required=false, defaultValue="4") int numPerpage, HttpServletResponse response){
+	public List<ListProjectView> selectMyProjectListYes(@RequestParam String email, @RequestParam(value="page", required=false, defaultValue="1") int page, HttpServletResponse response){
 		
 		Member member = new Member();
 		System.out.println(email);
 		member.setEmail(email);
-		
-		List<ListProjectView> list = projectService.selectMyProjectYes(member, numPerpage);
+		int numPerpage = 8;
+		List<ListProjectView> list = projectService.selectMyProjectYes(member,page, numPerpage);
 		
 		return list;
 	}
@@ -135,13 +135,13 @@ public class ProjectController {
 //	태윤
 	@RequestMapping("/project/selectMyProjectNo")
 	@ResponseBody
-	public List<ListProjectView> selectMyProjectListNo(@RequestParam String email, @RequestParam(value="page", required=false, defaultValue="4") int numPerpage, HttpServletResponse response){
+	public List<ListProjectView> selectMyProjectListNo(@RequestParam String email, @RequestParam(value="page", required=false, defaultValue="1") int page, HttpServletResponse response){
 			
 		Member member = new Member();
 		System.out.println(email);
 		member.setEmail(email);
-					
-		List<ListProjectView> list = projectService.selectMyProjectNo(member, numPerpage);
+		int numPerpage=8;			
+		List<ListProjectView> list = projectService.selectMyProjectNo(member,page, numPerpage);
 			
 		return list;
 	}
@@ -593,7 +593,7 @@ public class ProjectController {
 			msg = "게시글등록 성공!";
 			loc = "/project/projectView.do?projectNo="+projectNo+"&email="+contextId;
 		}else {
-			msg = "게시글등록 실패!\n관리자에게 문의하세요.";
+			msg = "게시글등록 실패!\\n관리자에게 문의하세요.";
 		}
 
 		mav.addObject("msg",msg);
@@ -622,7 +622,7 @@ public class ProjectController {
 			msg = "게시글수정 성공!";
 			loc = "/project/projectView.do?projectNo="+projectNo+"&email="+contextId;
 		}else {
-			msg = "게시글수정 실패!\n관리자에게 문의하세요.";
+			msg = "게시글수정 실패!\\n관리자에게 문의하세요.";
 		}
 
 		mav.addObject("msg",msg);
@@ -643,7 +643,7 @@ public class ProjectController {
 		//결제정보리스트
 		List<SupportPayment> list = projectService.paymentCancel(map);
 		
-		String msg="결제 정보를 찾을수가 없습니다.\n관리자에게 문의해주세요ㅠㅠ";
+		String msg="결제 정보를 찾을수가 없습니다.\\n관리자에게 문의해주세요ㅠㅠ";
 		String loc="/";
 		
 		String payNo="";
@@ -721,23 +721,14 @@ public class ProjectController {
 
 //	소민
 	@RequestMapping("/project/makeProject/outline")
-	public ModelAndView makeProjectOutline(@RequestParam String email) {
+	public ModelAndView makeProjectOutline(@RequestParam(value="email") String email) {
 		
 		ModelAndView mav = new ModelAndView();
 		
-		if(email.equals("")) {
-			
-			mav.addObject("msg", "로그인 후 사용가능합니다");
-			mav.addObject("loc", "/login");
-			mav.setViewName("common/msg");
-			
-		} else {
+		Profile profile = projectService.makeProject(email);
 		
-			Profile profile = projectService.makeProject(email);
-			
-			mav.addObject("profile", profile);
-			mav.setViewName("project/projectMake_outline");
-		}
+		mav.addObject("profile", profile);
+		mav.setViewName("project/projectMake_outline");
 		
 		return mav;
 	}
@@ -778,22 +769,26 @@ public class ProjectController {
 		// 프로젝트 이미지 업로드 끝
 
         // 프로필 이미지 업로드
-		String saveDirectory = request.getSession().getServletContext().getRealPath("/resources/upload/profileImg");
-		String realName = profileImage.getOriginalFilename();
-		String ext = realName.substring(realName.lastIndexOf(".")+1);
-		String id = profile.getEmail().replaceAll("\\.","_");
-		String id2 = id.replaceAll("@", "_");
-		String renamedFileName = id2 + "."+ext;
-		File profileImgFile = new File(saveDirectory+"/"+renamedFileName);
-		if(profileImgFile.exists() == true) {
-			profileImgFile.delete();
+		if(profileImage != null) {
+			String saveDirectory = request.getSession().getServletContext().getRealPath("/resources/upload/profileImg");
+			String realName = profileImage.getOriginalFilename();
+			String ext = realName.substring(realName.lastIndexOf(".")+1);
+			String id = profile.getEmail().replaceAll("\\.","_");
+			String id2 = id.replaceAll("@", "_");
+			String renamedFileName = id2 + "."+ext;
+			if(!ext.equals("")) {
+				File profileImgFile = new File(saveDirectory+"/"+renamedFileName);
+				if(profileImgFile.exists() == true) {
+					profileImgFile.delete();
+				}
+		        try {
+					profileImage.transferTo(profileImgFile);
+				} catch (IllegalStateException | IOException e) {
+					e.printStackTrace();
+				}
+	        	profile.setProfileImage(renamedFileName);
+	        }
 		}
-        try {
-			profileImage.transferTo(profileImgFile);
-		} catch (IllegalStateException | IOException e) {
-			e.printStackTrace();
-		}
-        profile.setProfileImage(renamedFileName);
 		// 프로필 이미지 업로드 끝
         
         Map<String,String> map = new HashMap<>();
@@ -818,7 +813,7 @@ public class ProjectController {
 		
 		mav.addObject("outline", outline);
 		mav.addObject("profile", profile);
-		
+		mav.addObject("projectNo", outline.getProjectNo());		
 		mav.setViewName("project/projectUpdate_outline");
 		
 		return mav;
@@ -828,68 +823,111 @@ public class ProjectController {
 	@RequestMapping(value="/project/updateProject/funding-gift", method=RequestMethod.POST)
 	public ModelAndView updateProjectOutline(ProjectOutline outline, Profile profile,
 											 @RequestParam(value="profileName") String name,
-											 @RequestParam(value="projectImageFile") MultipartFile projectImage, 
-											 @RequestParam(value="profileImageFile") MultipartFile profileImage,
+											 @RequestParam(value="projectImageFile", required=false) MultipartFile projectImage, 
+											 @RequestParam(value="profileImageFile", required=false) MultipartFile profileImage,
 											 HttpServletRequest request) {
 		
 		ModelAndView mav = new ModelAndView();
 		
 		System.out.println(outline);
 		System.out.println(profile);
+		System.out.println(projectImage);
+		System.out.println(profileImage);
 		
 		// 프로젝트 이미지 업로드
-		String firstDir = request.getSession().getServletContext().getRealPath("/resources/images/projects");
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		String secondDir = sdf.format(new Date(System.currentTimeMillis()));
-		File saveDir = new File(firstDir+"/"+secondDir);
-		if(!saveDir.exists()) {
-			saveDir.mkdirs();
-		}		
-		String originalName = projectImage.getOriginalFilename();
-		String p_ext = originalName.substring(originalName.lastIndexOf(".")+1);
-		String email_id = outline.getEmail().substring(0, outline.getEmail().indexOf("@"));
-		SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMddHHmmss");
-		int rndNum = (int)(Math.random()*1000);
-		String renamedName = email_id+"_"+sdf2.format(new Date(System.currentTimeMillis()))+"_"+rndNum+"."+p_ext;
-		File projectImageFile = new File(firstDir+"/"+secondDir+"/"+renamedName);
-		if(projectImageFile.exists() == true) {
-			projectImageFile.delete();
+		if(projectImage != null) {
+			String firstDir = request.getSession().getServletContext().getRealPath("/resources/images/projects");
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			String secondDir = sdf.format(new Date(System.currentTimeMillis()));
+			File saveDir = new File(firstDir+"/"+secondDir);
+			if(!saveDir.exists()) {
+				saveDir.mkdirs();
+			}		
+			String originalName = projectImage.getOriginalFilename();
+			String p_ext = originalName.substring(originalName.lastIndexOf(".")+1);
+			String email_id = outline.getEmail().substring(0, outline.getEmail().indexOf("@"));
+			SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMddHHmmss");
+			int rndNum = (int)(Math.random()*1000);
+			String renamedName = email_id+"_"+sdf2.format(new Date(System.currentTimeMillis()))+"_"+rndNum+"."+p_ext;
+			if(!p_ext.equals("")) {
+				try {
+					projectImage.transferTo(new File(firstDir+"/"+secondDir+"/"+renamedName));
+				} catch (IllegalStateException | IOException e1) {
+					e1.printStackTrace();
+				}
+				outline.setProjectImage(secondDir+"/"+renamedName);
+			}
 		}
-		try {
-			projectImage.transferTo(projectImageFile);
-		} catch (IllegalStateException | IOException e1) {
-			e1.printStackTrace();
-		}
-		outline.setProjectImage(secondDir+"/"+renamedName);
 		// 프로젝트 이미지 업로드 끝
 
         // 프로필 이미지 업로드
-		String saveDirectory = request.getSession().getServletContext().getRealPath("/resources/upload/profileImg");
-		String realName = profileImage.getOriginalFilename();
-		String ext = realName.substring(realName.lastIndexOf(".")+1);
-		String id = profile.getEmail().replaceAll("\\.","_");
-		String id2 = id.replaceAll("@", "_");
-		String renamedFileName = id2 + "."+ext;
-		File profileImgFile = new File(saveDirectory+"/"+renamedFileName);
-		if(profileImgFile.exists() == true) {
-			profileImgFile.delete();
+		if(profileImage != null) {
+			String saveDirectory = request.getSession().getServletContext().getRealPath("/resources/upload/profileImg");
+			String realName = profileImage.getOriginalFilename();
+			String ext = realName.substring(realName.lastIndexOf(".")+1);
+			String id = profile.getEmail().replaceAll("\\.","_");
+			String id2 = id.replaceAll("@", "_");
+			String renamedFileName = id2 + "."+ext;
+			if(!ext.equals("")) {
+				File profileImgFile = new File(saveDirectory+"/"+renamedFileName);
+				if(profileImgFile.exists() == true) {
+					profileImgFile.delete();
+				}
+		        try {
+					profileImage.transferTo(profileImgFile);
+				} catch (IllegalStateException | IOException e) {
+					e.printStackTrace();
+				}	        
+	        	profile.setProfileImage(renamedFileName);
+	        }
 		}
-        try {
-			profileImage.transferTo(profileImgFile);
-		} catch (IllegalStateException | IOException e) {
-			e.printStackTrace();
-		}
-        profile.setProfileImage(renamedFileName);
 		// 프로필 이미지 업로드 끝
         
-		int result = projectService.updateProjectOutline(outline, profile);
-		ProjectFunding funding = projectService.selectProjectFunding(outline.getProjectNo());
-//		ProjectGift gift = projectService.selectProjectGift(outline.getProjectNo());
+        Map<String,String> map = new HashMap<>();
+        map.put("email", profile.getEmail());
+        map.put("name", name);
+		int result = projectService.updateProjectOutline(outline, profile, map);
 		
-		mav.addObject("projectNo", outline.getProjectNo());
-		mav.addObject("funding", funding);
-//		mav.addObject("gift", gift);
-		mav.setViewName("project/projectUpdate_funding_gift");
+		if(result>0) {
+			
+			ProjectFunding funding = projectService.selectProjectFunding(outline.getProjectNo());
+			List<Integer> mList = projectService.projectGiftMoneyList(outline.getProjectNo());
+			Map<String,Object> gMap = new HashMap<>();
+			gMap.put("projectNo",outline.getProjectNo());
+			List<ProjectGift> gList = projectService.projectGiftList(gMap);
+			List<Item> iList = projectService.selectItemList(outline.getProjectNo());
+			
+			mav.addObject("funding", funding);
+			mav.addObject("mList", mList);
+			mav.addObject("gList", gList);
+			mav.addObject("iList", iList);
+			
+			Map<Integer,String> explainMap = new HashMap<>();
+			Map<Integer,String> deliveryMap = new HashMap<>();
+			
+			for(int money : mList) {
+				for(ProjectGift gift : gList) {
+					
+					if(gift.getMinMoney() == money) {
+						explainMap.put(money, gift.getGiftexplain());
+						deliveryMap.put(money, gift.getDeliveryYN());
+						break;
+					}
+				}
+			}
+			
+			mav.addObject("explainMap", explainMap);
+			mav.addObject("deliveryMap", deliveryMap);
+			mav.addObject("projectNo", outline.getProjectNo());
+			mav.setViewName("project/projectUpdate_funding_gift");
+			
+		} else {
+			
+			mav.addObject("msg", "프로젝트 개요 수정 처리 실패하였습니다\\n다시 시도해주십시오");
+			mav.addObject("loc", "${pageContext.request.contextPath}/project/myProject.do?email=${memberLoggedIn.email}");
+			mav.setViewName("common/msg");
+			
+		}
 		
 		return mav;
 	}
@@ -909,9 +947,68 @@ public class ProjectController {
 	}
 	
 //	소민
+	@RequestMapping(value="/project/summerImageUpload", method=RequestMethod.POST)
+	@ResponseBody
+	public String summerImageUpload(@RequestParam(value="image") MultipartFile image, HttpServletRequest request) {
+		
+		System.out.println(image);
+		
+		// 프로젝트 이미지 업로드
+		String firstDir = request.getSession().getServletContext().getRealPath("/resources/images/projects");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String secondDir = sdf.format(new Date(System.currentTimeMillis()));
+		File saveDir = new File(firstDir+"/"+secondDir);
+		if(!saveDir.exists()) {
+			saveDir.mkdirs();
+		}		
+		String originalName = image.getOriginalFilename();
+		String p_ext = originalName.substring(originalName.lastIndexOf(".")+1);
+		SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMddHHmmss");
+		int rndNum = (int)(Math.random()*1000);
+		String renamedName = "projectImg_"+sdf2.format(new Date(System.currentTimeMillis()))+"_"+rndNum+"."+p_ext;
+		try {
+			image.transferTo(new File(firstDir+"/"+secondDir+"/"+renamedName));
+		} catch (IllegalStateException | IOException e1) {
+			e1.printStackTrace();
+		}
+		// 프로젝트 이미지 업로드 끝
+		
+		System.out.println(secondDir+"/"+renamedName);
+		
+		return secondDir+"/"+renamedName;
+	}
+	
+	
+//	소민
+	@RequestMapping("/project/updateProject/story")
+	public ModelAndView updateProjectStory(ProjectFunding funding) {
+		
+		ModelAndView mav = new ModelAndView();
+		
+		int result = projectService.updateProjectFunding(funding);
+		
+		if(result > 0) {
+			
+			ProjectStory story = projectService.selectProjectStory(funding.getProjectNo());
+			
+			mav.addObject("story", story);
+			mav.addObject("projectNo", funding.getProjectNo());
+			mav.setViewName("project/projectUpdate_story");
+		
+		} else {
+		
+			mav.addObject("msg", "펀딩 및 선물 수정 처리 실패하였습니다\\n다시 시도해주십시오");
+			mav.addObject("loc", "${pageContext.request.contextPath}/project/myProject.do?email=${memberLoggedIn.email}");
+			mav.setViewName("common/msg");
+		}
+		
+		return mav;
+	}
+	
+//	소민
 	@RequestMapping("/project/makeProject/insertItem")
 	@ResponseBody
-	public Item insertItem(@RequestParam boolean isFirst, Item item) {
+	public Item insertItem(@RequestParam(value="isFirst") boolean isFirst, Item item) {
 		
 		if(isFirst == true) {
 			projectService.deleteGift(item.getProjectNo());
@@ -940,7 +1037,7 @@ public class ProjectController {
 //	소민
 	@RequestMapping("/project/makeProject/insertGift")
 	@ResponseBody
-	public ProjectGift insertGift(@RequestParam boolean isFirst, ProjectGift gift) {
+	public ProjectGift insertGift(@RequestParam(value="isFirst") boolean isFirst, ProjectGift gift) {
 		
 		if(isFirst == true) {
 			projectService.deleteGift(gift.getProjectNo());
@@ -963,7 +1060,7 @@ public class ProjectController {
 	
 //	희영
 	@RequestMapping(value="/project/emailAuthentication.do",method=RequestMethod.POST,produces="application/json; charset=utf8")
-	public ModelAndView emailAuthentication(@RequestParam String email,String emailId, HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView emailAuthentication(@RequestParam String email,@RequestParam String emailId, HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mav = new ModelAndView();
 		
 		Map<String,Object> map = new HashMap<String, Object>();
@@ -1044,6 +1141,7 @@ public class ProjectController {
 			isUsable2 =true;
 		}else if(!(list.isEmpty())) {
 			System.out.println("인증번호가 확인되었습니다.");
+			projectService.updateConfirmYN(map);
 			isUsable=true;
 		}
 		
@@ -1077,12 +1175,14 @@ public class ProjectController {
 			SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMddHHmmss");
 			int rndNum = (int)(Math.random()*1000);
 			String renamedName = story.getProjectNo()+"_"+sdf2.format(new Date(System.currentTimeMillis()))+"_"+rndNum+"."+p_ext;
-			try {
-				projectMovie.transferTo(new File(firstDir+"/"+secondDir+"/"+renamedName));
-			} catch (IllegalStateException | IOException e1) {
-				e1.printStackTrace();
+			if(!p_ext.equals("")) {
+				try {
+					projectMovie.transferTo(new File(firstDir+"/"+secondDir+"/"+renamedName));
+				} catch (IllegalStateException | IOException e1) {
+					e1.printStackTrace();
+				}
+				story.setIntroduceMovie(secondDir+"/"+renamedName);
 			}
-			story.setIntroduceMovie(secondDir+"/"+renamedName);
 		}
 		// 프로젝트 영상 업로드 끝
 		
@@ -1096,8 +1196,65 @@ public class ProjectController {
 	}
 	
 //	소민
+	@RequestMapping("/project/updateProject/account")
+	public ModelAndView updateProjectAccount(ProjectStory story,
+										   @RequestParam(value="projectMovie", required=false) MultipartFile projectMovie,
+										   HttpServletRequest request) {
+		
+		System.out.println(story);
+		ModelAndView mav = new ModelAndView();
+		
+		// 프로젝트 영상 업로드
+		if(projectMovie != null) {
+			String firstDir = request.getSession().getServletContext().getRealPath("/resources/images/projects");
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			String secondDir = sdf.format(new Date(System.currentTimeMillis()));
+			File saveDir = new File(firstDir+"/"+secondDir);
+			if(!saveDir.exists()) {
+				saveDir.mkdirs();
+			}		
+			String originalName = projectMovie.getOriginalFilename();
+			String p_ext = originalName.substring(originalName.lastIndexOf(".")+1);
+			SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMddHHmmss");
+			int rndNum = (int)(Math.random()*1000);
+			String renamedName = story.getProjectNo()+"_"+sdf2.format(new Date(System.currentTimeMillis()))+"_"+rndNum+"."+p_ext;
+			System.out.println("///"+p_ext+"///");
+			System.out.println("///"+p_ext.length()+"///");
+			if(p_ext.length() != 0) {
+				try {
+					projectMovie.transferTo(new File(firstDir+"/"+secondDir+"/"+renamedName));
+				} catch (IllegalStateException | IOException e1) {
+					e1.printStackTrace();
+				}
+				story.setIntroduceMovie(secondDir+"/"+renamedName);
+			}
+		}
+		// 프로젝트 영상 업로드 끝
+		
+		System.out.println(story);
+		int result = projectService.updateProjectStory(story);
+		
+		if(result > 0) {
+			
+			ProjectAccount account = projectService.selectProjectAccount(story.getProjectNo());
+			
+			mav.addObject("account", account);
+			mav.addObject("projectNo", story.getProjectNo());
+			mav.setViewName("project/projectUpdate_account");
+		
+		} else {
+		
+			mav.addObject("msg", "스토리 텔링 처리 실패하였습니다\\n다시 시도해주십시오");
+			mav.addObject("loc", "${pageContext.request.contextPath}/project/myProject.do?email=${memberLoggedIn.email}");
+			mav.setViewName("common/msg");
+		}
+		
+		return mav;
+	}
+	
+//	소민
 	@RequestMapping("/project/makeProject/end")
-	public ModelAndView makeProjectEnd(ProjectAccount account, @RequestParam String confirmEmail) {
+	public ModelAndView makeProjectEnd(ProjectAccount account, @RequestParam(value="confirmEmail") String confirmEmail) {
 		
 		ModelAndView mav = new ModelAndView();
 		
@@ -1111,7 +1268,34 @@ public class ProjectController {
 			
 		} else {
 			
-			mav.addObject("msg","프로젝트 작성 처리 중 문제가 발생하였습니다.\n다시 시도해주십시오.");
+			mav.addObject("msg","프로젝트 작성 처리 중 문제가 발생하였습니다.\\n다시 시도해주십시오.");
+			mav.addObject("loc", "/");
+			
+		}
+				
+		mav.setViewName("common/msg");
+		
+		return mav;
+	}
+
+	
+//	소민
+	@RequestMapping("/project/updateProject/end")
+	public ModelAndView updateProjectEnd(ProjectAccount account, @RequestParam(value="confirmEmail") String confirmEmail) {
+		
+		ModelAndView mav = new ModelAndView();
+		
+		account.setEmail(confirmEmail);
+		int result = projectService.updateProjectAccount(account);
+		
+		if(result > 0) {
+			
+			mav.addObject("msg","프로젝트 수정을 완료하였습니다.\\n내용 확인 및 수정 후 검토 요청하기를 눌러주세요");
+			mav.addObject("loc", "/project/projectPreview?projectNo="+account.getProjectNo());
+			
+		} else {
+			
+			mav.addObject("msg","프로젝트 작성 처리 중 문제가 발생하였습니다.\\n다시 시도해주십시오.");
 			mav.addObject("loc", "/");
 			
 		}
@@ -1123,7 +1307,7 @@ public class ProjectController {
 	
 //	소민
 	@RequestMapping("/project/confirm")
-	public ModelAndView projectConfirm(@RequestParam int projectNo) {
+	public ModelAndView projectConfirm(@RequestParam(value="projectNo") int projectNo) {
 		
 		ModelAndView mav = new ModelAndView();
 		
@@ -1159,21 +1343,20 @@ public class ProjectController {
 //태윤
 	@RequestMapping("/project/selectMyProjectI")
 	@ResponseBody
-	public List<ListProjectView> selectMyProjectListI(@RequestParam String email, @RequestParam(value="page", required=false, defaultValue="4") int numPerpage, HttpServletResponse response){
+	public List<ListProjectView> selectMyProjectListI(@RequestParam String email, @RequestParam(value="page", required=false, defaultValue="1") int page, HttpServletResponse response){
 			
 		Member member = new Member();
 		System.out.println(email);
 		member.setEmail(email);
-					
-		List<ListProjectView> list = projectService.selectMyProjectI(member, numPerpage);
+		int numPerpage = 8; 			
+		List<ListProjectView> list = projectService.selectMyProjectI(member, page, numPerpage);
 			
 		return list;
 	}
 	
 //	소민
 	@RequestMapping("/project/projectPreview")
-	public ModelAndView projectPreview(@RequestParam("projectNo") int projectNo,
-											  HttpServletResponse response)	{
+	public ModelAndView projectPreview(@RequestParam("projectNo") int projectNo)	{
 		ModelAndView mav = new ModelAndView();
 		
 		Map<String,Object> map = new HashMap<>();

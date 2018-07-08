@@ -97,9 +97,10 @@ function outline_validate(){
 }
 </script>
 
-<form action="${pageContext.request.contextPath }/project/updateProject/outline" enctype="multipart/form-data" onsubmit="return outline_validate();" method="post">
+<form action="${pageContext.request.contextPath }/project/updateProject/funding-gift" enctype="multipart/form-data" onsubmit="return outline_validate();" method="post">
 
-	<input type="hidden" name="email" value="${memberLoggedIn.email }" />
+	<input type="hidden" name="email" value="${outline.email }" />
+	<input type="hidden" name="projectNo" value="${projectNo }" />
 	
 	<!-- 프로젝트 개요 -->
 	<div class="make-project-section">
@@ -302,7 +303,7 @@ function outline_validate(){
 			<div class="shown">
 				<p>진행자 이름</p>
 				<p>
-					<span style="font-weight:bold;font-size:20px;color:black;">${memberLoggedIn.name }</span>
+					<span style="font-weight:bold;font-size:20px;color:black;">${profile.name }</span>
 					<span>
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/write.png" />
 						&nbsp;
@@ -317,7 +318,7 @@ function outline_validate(){
 					팀으로 진행하신다면 팀 이름을 쓰셔도 됩니다.
 				</p>
 				<p>
-					<input type="text" id="profile-name" name="profileName" placeholder="이름을 입력해주세요" value="${memberLoggedIn.name }"/>
+					<input type="text" id="profile-name" name="profileName" placeholder="이름을 입력해주세요" value="${profile.name }"/>
 					<span class="letter-cnt"><span class="total-letter">10</span>자 남았습니다</span>
 				</p>
 				<p>
@@ -385,22 +386,22 @@ function outline_validate(){
 				<p>
 					<select name="localCode" id="local">
 						<option selected disabled value="">활동 지역을 정해주세요</option>
-						<option value="L1" ${profile.localName eq "L1"? "selected":"" }>서울</option>
-						<option value="L2" ${profile.localName eq "L2"? "selected":"" }>부산</option>
-						<option value="L3" ${profile.localName eq "L3"? "selected":"" }>대구</option>
-						<option value="L4" ${profile.localName eq "L4"? "selected":"" }>인천</option>
-						<option value="L5" ${profile.localName eq "L5"? "selected":"" }>광주</option>
-						<option value="L6" ${profile.localName eq "L6"? "selected":"" }>대전</option>
-						<option value="L7" ${profile.localName eq "L7"? "selected":"" }>울산</option>
-						<option value="L8" ${profile.localName eq "L8"? "selected":"" }>경기</option>
-						<option value="L9" ${profile.localName eq "L9"? "selected":"" }>강원</option>
-						<option value="L10" ${profile.localName eq "L10"? "selected":"" }>충북</option>
-						<option value="L11" ${profile.localName eq "L11"? "selected":"" }>충남</option>
-						<option value="L12" ${profile.localName eq "L12"? "selected":"" }>전북</option>
-						<option value="L13" ${profile.localName eq "L13"? "selected":"" }>전남</option>
-						<option value="L14" ${profile.localName eq "L14"? "selected":"" }>경북</option>
-						<option value="L15" ${profile.localName eq "L15"? "selected":"" }>경남</option>
-						<option value="L16" ${profile.localName eq "L16"? "selected":"" }>제주</option>
+						<option value="L1" ${profile.localCode eq "L1"? "selected":"" }>서울</option>
+						<option value="L2" ${profile.localCode eq "L2"? "selected":"" }>부산</option>
+						<option value="L3" ${profile.localCode eq "L3"? "selected":"" }>대구</option>
+						<option value="L4" ${profile.localCode eq "L4"? "selected":"" }>인천</option>
+						<option value="L5" ${profile.localCode eq "L5"? "selected":"" }>광주</option>
+						<option value="L6" ${profile.localCode eq "L6"? "selected":"" }>대전</option>
+						<option value="L7" ${profile.localCode eq "L7"? "selected":"" }>울산</option>
+						<option value="L8" ${profile.localCode eq "L8"? "selected":"" }>경기</option>
+						<option value="L9" ${profile.localCode eq "L9"? "selected":"" }>강원</option>
+						<option value="L10" ${profile.localCode eq "L10"? "selected":"" }>충북</option>
+						<option value="L11" ${profile.localCode eq "L11"? "selected":"" }>충남</option>
+						<option value="L12" ${profile.localCode eq "L12"? "selected":"" }>전북</option>
+						<option value="L13" ${profile.localCode eq "L13"? "selected":"" }>전남</option>
+						<option value="L14" ${profile.localCode eq "L14"? "selected":"" }>경북</option>
+						<option value="L15" ${profile.localCode eq "L15"? "selected":"" }>경남</option>
+						<option value="L16" ${profile.localCode eq "L16"? "selected":"" }>제주</option>
 					</select>
 				</p>
 				<p>

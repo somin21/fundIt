@@ -7,11 +7,168 @@
 
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
 <jsp:include page="/WEB-INF/views/project/projectMake_header.jsp" >
-	<jsp:param value="account" name="sectionName"/>
+	<jsp:param value="complete" name="sectionName"/>
 </jsp:include>
 
+<script>
+var isEmailConfirm = false;
+function account_validate(){
+		
+	if($("#phone").val().trim() == ""){
+		
+		alert("휴대폰 번호는 필수 항목입니다\n휴대폰 번호를 입력해주세요");
+		return false;
+	}
+	
+	var phoneRegExp = /^(01[016789]{1}|02|0[3-9]{1}[0-9]{1})([0-9]{3,4})([0-9]{4})$/;
+	if(!phoneRegExp.test($("#phone").val())){
+		
+		alert("휴대폰 번호를 확인해주세요");
+		return false;
+	}
+	
+	if($("#accountBank").val() == "" || $("#accountBank").val() == null){
+		
+		alert("입금 계좌 내용은 필수 항목입니다\n거래 은행을 입력해주세요");
+		return false;
+	}
+	
+	if($("#accountName").val().trim().length < 1){
 
-<form action="${pageContext.request.contextPath }/project/makeProject/end" onsubmit="return project_validate('#account');" method="post" >
+		alert("입금 계좌 내용은 필수 항목입니다\n예금주명을 입력해주세요");
+		return false;
+	}
+	
+	if($("#accountNumber").val() == ""){
+
+		alert("입금 계좌 내용은 필수 항목입니다\n계좌번호를 입력해주세요");
+		return false;
+	}
+	
+	if($("#accountNumber").val().length < 11 || $("#accountNumber").val().length > 16){
+
+		alert("계좌번호를 확인해주세요");
+		return false;
+	}
+	
+	return true;
+}
+</script>
+
+<style>
+input#phone::-webkit-outer-spin-button,
+input#phone::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+</style>
+
+<script>
+//인증번호시작
+function fn_emailAtion(){//인증메일발송
+	
+	var email = $("#confirmEmail").val();
+	var emailId= 'asd@co.kr';
+	/* 이메일 유효성 확인 */
+	var emailRegExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+	
+		/* '${memberLoggedIn.email }'; */
+	//var emailAuthentication = ${emailAuthentication==null?false:emailAuthentication};
+	//var isUsable = ${isUsable==null?false:isUsable};
+	
+	if(!emailRegExp.test(email)){
+		alert("이메일을 확인해주십시오");
+	}/* else if(emailId.length==0){
+		alert("로그인 후 이용가능합니다.");
+	} */else{
+		jQuery.ajax({
+			url: "/fundit/project/emailAuthentication.do", //이메일인증
+			type: 'POST',
+			dataType: 'json',
+			data: {
+				email : email,				//이메일
+				emailId : emailId			//fundit이메일
+			},
+			error : function(jqxhr,textStatus,errorThrown){
+				console.log("ajax실패",jqxhr,textStatus,errorThrown);
+			}
+		}).done(function(data){
+			if(data.emailAuthentication==true){
+				alert("인증된 이메일 입니다!!.");	
+				isEmailConfirm = true;
+				$("#confirmNotice").hide();
+				$("#showIsConfirm").next("p").find("span").first().text(email);
+				$("#confirmShown").slideUp(300);
+				$("#confirmShown").prev(".shown").slideDown(300);
+				$("#confirmNotice").hide();
+			}
+			if(data.isUsable==true){
+				alert("인증번호를 이메일로 보내드렸습니다.");
+				isEmailConfirm = false;
+				$("#confirmShown").hide();
+				$("#confirmHidden").show();
+				$("#confirmNotice").show();
+			}
+			if(data.isUsable2==true){
+				alert("인증중인 이메일 입니다.\n이메일을 확인해주세요!");
+				$("#confirmShown").hide();
+				$("#confirmHidden").show();
+			}
+		});
+	}
+}
+function fn_emailAtion2(){//번호확인
+	var num = $("#numAuthentication").val();
+	var email = $("#confirmEmail").val();
+	if(email.length==0){
+		alert("이메일을 입력해주세요!");
+	}else
+	if(num.length==0){
+		alert("인증번호를 입력하세요!");
+	}else{
+		jQuery.ajax({
+			url: "/fundit/project/emailNum.do", //이메일인증
+			type: 'POST',
+			dataType: 'json',
+			data: {
+				num : num,				//인증번호
+				email : email 			//이메일 인증받아야할
+			},
+			error : function(jqxhr,textStatus,errorThrown){
+				console.log("ajax실패",jqxhr,textStatus,errorThrown);
+			}
+		}).done(function(data){
+			if(data.isUsable2==true){
+				alert("인증번호를 발급해주세요~");
+			}else{
+				if(data.isUsable==true){
+					alert("인증번호가 확인되었습니다.");
+					isEmailConfirm = true;					
+					$("#showIsConfirm").next("p").find("span").first().text(email);
+					$("#confirmHidden").slideUp(300);
+					$("#confirmShown").prev(".shown").slideDown(300);
+					$("#confirmNotice").hide();
+				}else if(data.isUsable==false){
+					alert("인증번호가 틀렸습니다.");
+					$("#numAuthentication").val("");
+				}
+			}
+
+		});
+	}
+}
+//인증번호끝
+</script>
+
+<script>
+$(function(){
+	$("#confirmHidden").find(".closeBtn").on("click",function(){
+		$("#confirmHidden").prev("#confirmShown").prev(".shown").slideDown(500);
+	});
+})
+</script>
+
+<form action="${pageContext.request.contextPath }/project/updateProject/end" onsubmit="return account_validate();" method="post" >
 	
 	<input type="hidden" name="projectNo" value="${projectNo }" />
 	
@@ -22,14 +179,14 @@
 			
 			<!-- 이메일 주소 -->
 			<div class="shown">
-				<p>
+				<p id="showIsConfirm">
 					이메일 주소
-					<span class="choice">인증 필요</span>
+					<c:if test="${account.email eq null}">
+						<span id="confirmNotice" class="choice">인증 필수</span>
+					</c:if>
 				</p>
 				<p>
-					<span style="font-size:20px">
-						${memberLoggedIn.email }
-					</span>
+					<span style="font-weight:bold;font-size:20px;color:black;">${account.email }</span>
 					<span>
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/write.png" />
 						&nbsp;
@@ -37,21 +194,41 @@
 					</span>
 				</p>
 			</div>
-			<div class="hidden">
+			<div class="hidden" id="confirmShown">
 				<p>이메일 주소</p>
 				<p>
 					진행자님이 연락받으실 수 있는 이메일을 입력해 주세요. <br />
 					프로젝트 관련 중요 안내사항이 모두 이메일로 전달되므로 평소 자주 확인하는 이메일을 입력하시는 것이 좋습니다.
 				</p>
 				<p>
-					<input type="text" id="confirmEmail" name="confirmEmail" value="${memberLoggedIn.email }" />
+					<input type="text" id="confirmEmail" name="confirmEmail" value="${account.email }" />
 				</p>
 				<p>
 					<button type="button" class="closeBtn">
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/x.png" />
 						닫기
 					</button>
-					<button type="button" class="saveBtn" id="confirmEmailBtn">
+					<button type="button" id="sendEmailBtn" onclick="fn_emailAtion();">
+						<img src="${pageContext.request.contextPath }/resources/images/makeProject/ok.png" />
+						인증
+					</button>
+				</p>
+			</div>
+			<div class="hidden" id="confirmHidden">
+				<p>이메일 주소</p>
+				<p>
+					진행자님이 작성하신 이메일로 인증번호를 전송하였습니다. <br />
+					메일을 확인하시고 인증번호를 입력해주세요.
+				</p>
+				<p>
+					<input type="text" id="numAuthentication" name="confirmAuthentication" />
+				</p>
+				<p>
+					<button type="button" class="closeBtn">
+						<img src="${pageContext.request.contextPath }/resources/images/makeProject/x.png" />
+						닫기
+					</button>
+					<button type="button" id="confirmEmailBtn" onclick="fn_emailAtion2();">
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/ok.png" />
 						인증
 					</button>
@@ -62,15 +239,11 @@
 			<div class="shown">
 				<p>휴대폰 번호</p>
 				<p>
-					<span>
-						<img src="${pageContext.request.contextPath }/resources/images/makeProject/hand_pointer.png" />
-						&nbsp;&nbsp;
-						연락을 위한 휴대폰 번호를 입력해주세요
-					</span>
+					<span style="font-weight:bold;font-size:20px;color:black;">${account.phone }</span>
 					<span>
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/write.png" />
 						&nbsp;
-						<span>입력하기</span>
+						<span>수정하기</span>
 					</span>
 				</p>
 			</div>
@@ -81,14 +254,14 @@
 					프로젝트 진행과 관련된 긴급한 사항 전달에만 사용됩니다.
 				</p>
 				<p>
-					<input type="number" id="phone" name="phone" placeholder="01012345678" />
+					<input type="number" id="phone" name="phone" placeholder="01012345678" value="${account.phone }" />
 				</p>
 				<p>
 					<button type="button" class="closeBtn">
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/x.png" />
 						닫기
 					</button>
-					<button type="button" class="saveBtn" id="confirmEmailBtn">
+					<button type="button" class="saveBtn">
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/ok.png" />
 						저장
 					</button>
@@ -108,15 +281,11 @@
 			<div class="shown">
 				<p>입금 계좌</p>
 				<p>
-					<span>
-						<img src="${pageContext.request.contextPath }/resources/images/makeProject/hand_pointer.png" />
-						&nbsp;&nbsp;
-						후원금을 수령할 은행 계좌를 등록해주세요
-					</span>
+					<span style="font-weight:bold;font-size:20px;color:black;">${account.bankName }&nbsp;${account.accountName }</span>
 					<span>
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/write.png" />
 						&nbsp;
-						<span>등록하기</span>
+						<span>수정하기</span>
 					</span>
 				</p>
 			</div>
@@ -134,34 +303,34 @@
 					</p>
 					<p>
 						<select name="bankCode" id="accountBank">
-							<option selected disabled value="">은행을 선택하세요</option>
-							<option value="B1">KDB산업은행</option>
-							<option value="B2">BOA</option>
-							<option value="B3">IBK기업은행</option>
-							<option value="B4">KB국민은행</option>
-							<option value="B5">NH농협</option>
-							<option value="B6">NH투자증권</option>
-							<option value="B7">SC은행</option>
-							<option value="B8">경남은행</option>
-							<option value="B9">광주은행</option>
-							<option value="B10">대구은행</option>
-							<option value="B11">대신증권</option>
-							<option value="B12">미래에셋</option>
-							<option value="B13">부산은행</option>
-							<option value="B14">삼성증권</option>
-							<option value="B15">새마을은행</option>
-							<option value="B16">수협은행</option>
-							<option value="B17">신한은행</option>
-							<option value="B18">신협은행</option>
-							<option value="B19">씨티은행</option>
-							<option value="B20">외환은행</option>
-							<option value="B21">우리은행</option>
-							<option value="B22">우체국</option>
-							<option value="B23">유안타증권</option>
-							<option value="B24">전북은행</option>
-							<option value="B25">제주은행</option>
-							<option value="B26">하나은행</option>
-							<option value="B27">한화투자증권</option>
+							<option disabled value="">은행을 선택하세요</option>
+							<option value="B1" ${account.bankCode eq "B1"? "selected":"" }>KDB산업은행</option>
+							<option value="B2" ${account.bankCode eq "B2"? "selected":"" }>BOA</option>
+							<option value="B3" ${account.bankCode eq "B3"? "selected":"" }>IBK기업은행</option>
+							<option value="B4" ${account.bankCode eq "B4"? "selected":"" }>KB국민은행</option>
+							<option value="B5" ${account.bankCode eq "B5"? "selected":"" }>NH농협</option>
+							<option value="B6" ${account.bankCode eq "B6"? "selected":"" }>NH투자증권</option>
+							<option value="B7" ${account.bankCode eq "B7"? "selected":"" }>SC은행</option>
+							<option value="B8" ${account.bankCode eq "B8"? "selected":"" }>경남은행</option>
+							<option value="B9" ${account.bankCode eq "B9"? "selected":"" }>광주은행</option>
+							<option value="B10" ${account.bankCode eq "B10"? "selected":"" }>대구은행</option>
+							<option value="B11" ${account.bankCode eq "B11"? "selected":"" }>대신증권</option>
+							<option value="B12" ${account.bankCode eq "B12"? "selected":"" }>미래에셋</option>
+							<option value="B13" ${account.bankCode eq "B13"? "selected":"" }>부산은행</option>
+							<option value="B14" ${account.bankCode eq "B14"? "selected":"" }>삼성증권</option>
+							<option value="B15" ${account.bankCode eq "B15"? "selected":"" }>새마을은행</option>
+							<option value="B16" ${account.bankCode eq "B16"? "selected":"" }>수협은행</option>
+							<option value="B17" ${account.bankCode eq "B17"? "selected":"" }>신한은행</option>
+							<option value="B18" ${account.bankCode eq "B18"? "selected":"" }>신협은행</option>
+							<option value="B19" ${account.bankCode eq "B19"? "selected":"" }>씨티은행</option>
+							<option value="B20" ${account.bankCode eq "B20"? "selected":"" }>외환은행</option>
+							<option value="B21" ${account.bankCode eq "B21"? "selected":"" }>우리은행</option>
+							<option value="B22" ${account.bankCode eq "B22"? "selected":"" }>우체국</option>
+							<option value="B23" ${account.bankCode eq "B23"? "selected":"" }>유안타증권</option>
+							<option value="B24" ${account.bankCode eq "B24"? "selected":"" }>전북은행</option>
+							<option value="B25" ${account.bankCode eq "B25"? "selected":"" }>제주은행</option>
+							<option value="B26" ${account.bankCode eq "B26"? "selected":"" }>하나은행</option>
+							<option value="B27" ${account.bankCode eq "B27"? "selected":"" }>한화투자증권</option>
 						</select>
 					</p>
 				</div>
@@ -171,7 +340,7 @@
 						계좌에 등록된 예금주명과 일치해야 합니다.
 					</p>
 					<p>
-						<input type="text" name="accountName" id="accountName"/>
+						<input type="text" name="accountName" id="accountName" value="${account.accountName }" />
 					</p>
 				</div>
 				<div id="account-number">
@@ -180,7 +349,7 @@
 						숫자로만 입력해주세요
 					</p>
 					<p>
-						<input type="number" name="accountNumber" id="accountNumber"/>
+						<input type="number" name="accountNumber" id="accountNumber" value="${account.accountNumber }" />
 						<span id="account-number-cnt">최소 <span id="min-cnt">11</span>자 / <span id="max-cnt" style="float:none">16</span>자 남았습니다</span>
 					</p>
 				</div>
@@ -188,9 +357,9 @@
 					<p>계좌 종류</p>
 					<p></p>
 					<p style="position: relative;text-align:left">
-						<input type="radio" name="accountType" id="individual" value="개인" checked/>
+						<input type="radio" name="accountType" id="individual" value="개인" ${account.accountType eq "개인" ?"checked":"" } />
 						<label for="individual"><b>개인</b></label>
-						<input type="radio" name="accountType" id="licensee" value="사업자"/>
+						<input type="radio" name="accountType" id="licensee" value="사업자" ${account.accountType eq "사업자" ?"checked":"" } />
 						<label for="licensee"><b>사업자</b>(개인사업자 포함)</label>
 					</p>
 				</div>
@@ -207,6 +376,34 @@
 <script>
 $(function(){
 	
+	$("#accountNumber").keyup(function(){
+		
+		var letter = $(this).val().length;
+		var max = $(this).next().find("#max-cnt").text();
+		var min = $(this).next().find("#min-cnt").text();
+		var place = $(this).next("#account-number-cnt");
+		
+		if(letter < min){
+			var cnt = max - letter;
+			$(this).css("border-color","red");
+			place.css({"color":"red","font-weight":"bold"});
+			place.html('최소 <span id="min-cnt">11</span>자 / <span id="cnt">'+cnt+'</span><span id="max-cnt" style="float:none;display:none;">16</span>자 남았습니다');
+			$(this).parents(".hidden").find(".accountSaveBtn").attr("disabled","disabled");
+		} else if(letter > max){
+			var cnt = letter - max;
+			$(this).css("border-color","red");
+			place.css({"color":"red","font-weight":"bold"});
+			place.html('최대 <span id="max-cnt">16</span><span id="min-cnt" style="display:none">11</span>자 / <span id="cnt" style="float:none;">'+cnt+'</span>자 초과했습니다');
+			$(this).parents(".hidden").find(".accountSaveBtn").attr("disabled","disabled");
+		} else {
+			var cnt = max - letter;
+			$(this).css("border-color","#ccdafc");
+			place.css({"color":"darkgray","font-weight":"normal"});
+			place.html('최소 <span id="min-cnt">11</span>자 / <span id="cnt">'+cnt+'</span><span id="max-cnt" style="float:none;display:none;">16</span>자 남았습니다');
+			$(this).parents(".hidden").find(".accountSaveBtn").removeAttr("disabled");
+		}
+	});
+	
 	$(".accountSaveBtn").on("click",function(){
 		
 		var isEmpty = false;
@@ -220,7 +417,11 @@ $(function(){
 			
 			if($(this).attr("id") == "accountNumber"){
 
-				if($(this).val() < 11){
+				if($(this).val().length < 11){
+					isEmpty = true;
+				}
+				
+				if($(this).val().length >= 16){
 					isEmpty = true;
 				}
 			}
@@ -251,6 +452,7 @@ $(function(){
 			
 		}
 	});
+	
 	
 })
 </script>

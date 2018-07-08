@@ -58,14 +58,13 @@ public class AdminController {
 		ModelAndView mav = new ModelAndView();
 		
 		//배열에다가 다시 넣고 그 배열 그대로 가져가서 sql에서  배열이름[0]으로 넣어주면됨
-		
+		System.out.println(no);
 		String proNo0 = no.split(",")[0];
 		String proNo1 = no.split(",")[1];
 		String proNo2 = no.split(",")[2];
 		String proNo3 = no.split(",")[3];
-		
+		System.out.println("pronNo0"+ proNo0 );
 		String arr[] = {proNo0, proNo1, proNo2, proNo3};
-		
 		int result = adminService.updateIndexYN(arr);
 		String msg="";
 		String loc="/";
@@ -74,7 +73,7 @@ public class AdminController {
 			loc="/admin/indexProject";
 		}else {
 			msg="실패!";
-			loc="redirect:/";
+			loc="/admin/indexProject";
 		}
 		mav.addObject("msg", msg);
 	    mav.addObject("loc", loc);
@@ -344,6 +343,16 @@ public class AdminController {
 
 		List<AdminMessage> list = adminService.adminMessageList();
 		
+		map.put("list", list);
+		return map;
+	}
+	@RequestMapping("/admin/adminMessageSearch.do")
+	@ResponseBody
+	public Map<String,Object> adminMessageSearch(@RequestParam String content, HttpServletResponse response) throws IOException{
+		Map<String,Object> map = new HashMap<>();
+		List<AdminMessage> list = adminService.adminMessageSearch(content);
+		System.out.println("##############");
+		System.out.println(list);
 		map.put("list", list);
 		return map;
 	}

@@ -41,14 +41,14 @@ $(document).ready(function(){
 	
 	$("#summernote").summernote({
 		height: 820,
-		callbacks:{
-			onImageUpload: function(image){
-				uploadSummerImage(image[0]);
-			}
-		},
 		placeholder:'멋진 스토리를 작성해주세요',
 		codemirror:{
 			theme:'monokai'
+		},
+		callbacks:{
+			onImageUpload:function(image){
+				uploadSummerImage(image[0]);
+			}
 		}
 	});
 	
@@ -63,24 +63,22 @@ function uploadSummerImage(image) {
 
     var data = new FormData();
     data.append("image", image);
-
+    
     $.ajax({
-        type: "post",
-        cache: false,
-        contentType:false,
+    	url: '${pageContext.request.contextPath}/project/summerImageUpload',
+        type: "POST",
         processData: false,
-        /* dataType :'jsonp', */
-        url: '/cop/bbs/insertSummberNoteFile.do',
+        contentType: false,
+        cache: false,
         data: data,
+        enctype:'multipart/form-data',
         success: function(data) {
-
-			//이미지 경로를 작성하면 됩니다 ^  ^
-            var image = $('<img>').attr('src', '/cmm/fms/getImage.do?atchFileId='+data[0].atchFileId+'&fileSn=0');
-            $('#nttCn').summernote("insertNode", image[0]);
+			
+            $("#summernote").summernote("insertImage","${pageContext.request.contextPath}/resources/images/projects/"+data);
 
         },
         error: function(data) {
-        	alert('error : ' +data);
+        	alert(data);
         }
 
     });
@@ -89,21 +87,37 @@ function uploadSummerImage(image) {
 </script>
 
 <script>
+
 function previewMovie(evt){
-	var files = evt.target.files;
 	
+	var files = evt.target.files;
+	var fileSize = 0;
+	
+	var browser = navigator.appName;
 	for(var i = 0; f= files[i]; i++){
+		
+		if(browser=="Microsoft Internet Explorer"){
+			
+			var oas = new ActiveXObject("Scripting.FileSystemObject");
+			fileSize = oas.getFile(f.value).size;
+		} else {
+			fileSize = f.size;
+		}
 		
 		if(!f.type.match("video/mp4")){
 			alert(".mp4 형식만 지원 가능합니다");
-			return true;
+			$("#project-movie").val("");
+		} else if(fileSize > 10485760){
+			alert("첨부 가능한 최대 사이즈는 10MB입니다");
+			$("#project-movie").val("");
+		} else {
+			var reader = new FileReader();
+			reader.onload = function(e){
+				$("#previewMovie").attr("src",e.target.result);
+				$("#previewMovie").css("display","inline-block");
+			}
+			reader.readAsDataURL(f);
 		}
-		var reader = new FileReader();
-		reader.onload = function(e){
-			$("#previewMovie").attr("src",e.target.result);
-			$("#previewMovie").css("display","inline-block");
-		}
-		reader.readAsDataURL(f);
 	}
 }
 
@@ -169,7 +183,7 @@ function story_validate(){
 					프로젝트를 소개하는 영상을 만들면 내용을 더 효과적으로 알릴 수 있습니다. <br />
 					2~3분 이내의 짧은 영상이 가장 반응이 좋습니다. <br />
 					배경음악을 사용하신다면 저작권 문제에 유념해주세요. <br />
-					(mp4형식만 지원됩니다)
+					(10MB 이내의 mp4형식만 지원됩니다)
 				</p>
 				<p>
 					<button type="button" class="uploadBtn">
@@ -216,12 +230,11 @@ function story_validate(){
 			<div class="hidden" id="story-hidden">
 				<p>프로젝트 스토리</p>
 				<p style="font-size: 13px;color: darkgray;">
-					프로젝트 스토리 잘 작성하기를 읽어보시고 스토리텔링에 필요한 요소들을 확인하여 작성해주세요.
+					프로젝트 스토리 잘 작성하기를 읽어보시고 스토리텔링에 필요한 요소들을 확인하여 작성해주세요. <br />
 					(200자 이상 작성해주세요)
 				</p>
 				<p>
 					<!-- 에디터 API -->
-					<%-- <jsp:include page="/WEB-INF/views/project/projectMake_editor.jsp" /> --%>
 					<textarea name="projectStory" id="summernote" value=""></textarea>
 				</p>
 				<p style="text-align:right">
@@ -268,6 +281,9 @@ div.note-editor div.note-editing-area p{
 div.note-editor div.note-editing-area p span{
 	float: none!important;
 }
+div.note-editor div.note-editing-area img{
+	height: initial;
+}
 div.note-editor div.modal div.modal-header{
     padding: 15px;
     border-bottom: 1px solid #e5e5e5;
@@ -283,6 +299,9 @@ div.note-editor div.modal div.modal-body{
 }
 div.note-editor div.modal div.modal-body div{
 	border-bottom: 0px;
+}
+div#story img{
+	height: initial;
 }
     
 </style>

@@ -19,8 +19,13 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/style-project.css" />
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
 
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+<style>
+#message-s{
+ margin-left:2%;
+}
+</style>
 
 <script>
 $(function(){
@@ -44,16 +49,21 @@ $(function(){
 		</span>
 		&nbsp;&nbsp;&nbsp;
 		<span>
-			<a href="">
+			<a href="${pageContext.request.contextPath }/admin/adminMemberList.do">
 				회원 관리
+			</a>
+		</span>
+		<span id="message-s">
+			<a href="${pageContext.request.contextPath}/admin/messageList.do">
+				메세지 관리
 			</a>
 		</span>
 	</div>
 	
 	<div id="menu-click-div">
-		<p><a href="">인덱스 프로젝트 관리</a></p>
-		<p><a href="">프로젝트 승인관리</a></p>
-		<p><a href="">프로젝트 마감관리</a></p>
+		<p><a href="${pageContext.request.contextPath}/admin/indexProject.do">인덱스 프로젝트 관리</a></p>
+		<p><a href="${pageContext.request.contextPath}/admin/projectConfirmList.do">프로젝트 승인관리</a></p>
+		<p><a href="${pageContext.request.contextPath}/admin/projectDeadlineList.do">프로젝트 마감관리</a></p>
 	</div>
 	
 	<div id="nav-title">
@@ -82,23 +92,12 @@ $(function(){
 			<span class="profile-click">
 				관리자 - ${memberLoggedIn.name}
 			</span>
+			/ 
 			<a href="${pageContext.request.contextPath }/member/memberLogout.do">로그아웃</a>
 		</c:if>
 	</div>
 	
-	<%-- <div id="profile-click-div">
-		<p><a href="">메시지</a></p>
-		<hr />
-		<p><a href="">관심 프로젝트</a></p>
-		<p><a href="">후원 현황</a></p>
-		<p><a href="${pageContext.request.contextPath}/gift/giftDeliveryList.do?email="+${memberLoggedIn.email}>선물 배송리스트</a></p>
-		<p><a href="${pageContext.request.contextPath}/project/myProject.do?email=?"+${memberLoggedIn.email}>내가 만든 프로젝트</a></p>
-		<hr />
-		<p><a href="${pageContext.request.contextPath }/member/memberView.do?email=${memberLoggedIn.email }">계정 설정</a></p>
-		<p><a href="${pageContext.request.contextPath }/member/profileView.do?email=${memberLoggedIn.email }">프로필 설정</a></p>
-		<hr />
-		<p><a href="${pageContext.request.contextPath }/member/memberLogout.do">로그아웃</a></p>
-	</div> --%>
+	
 </div>
 
 

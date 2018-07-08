@@ -7,7 +7,7 @@
 
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
 <jsp:include page="/WEB-INF/views/project/projectMake_header.jsp" >
-	<jsp:param value="story" name="sectionName"/>
+	<jsp:param value="complete" name="sectionName"/>
 </jsp:include>
 
 
@@ -32,16 +32,21 @@
 
 
 
-
-
 <script>
 $(document).ready(function(){
 	
+	$("#project-movie").on("change",previewMovie);
+	
 	$("#summernote").summernote({
-		height: 300,
-		focus: true,
-		codemirror: {
-			theme: 'monokai'
+		height: 820,
+		placeholder:'멋진 스토리를 작성해주세요',
+		codemirror:{
+			theme:'monokai'
+		},
+		callbacks:{
+			onImageUpload:function(image){
+				uploadSummerImage(image[0]);
+			}
 		}
 	});
 	
@@ -51,9 +56,95 @@ $(document).ready(function(){
 	});
 	
 });
+
+function uploadSummerImage(image) {
+
+    var data = new FormData();
+    data.append("image", image);
+    
+    $.ajax({
+    	url: '${pageContext.request.contextPath}/project/summerImageUpload',
+        type: "POST",
+        processData: false,
+        contentType: false,
+        cache: false,
+        data: data,
+        enctype:'multipart/form-data',
+        success: function(data) {
+			
+            $("#summernote").summernote("insertImage","${pageContext.request.contextPath}/resources/images/projects/"+data);
+
+        },
+        error: function(data) {
+        	alert(data);
+        }
+
+    });
+
+}
 </script>
 
-<form action="${pageContext.request.contextPath }/project/makeProject/account" onsubmit="return project_validate('#story');" method="post" >
+<script>
+function previewMovie(evt){
+	
+	var files = evt.target.files;
+	var fileSize = 0;
+	
+	var browser = navigator.appName;
+	for(var i = 0; f= files[i]; i++){
+		
+		if(browser=="Microsoft Internet Explorer"){
+			
+			var oas = new ActiveXObject("Scripting.FileSystemObject");
+			fileSize = oas.getFile(f.value).size;
+		} else {
+			fileSize = f.size;
+		}
+		
+		if(!f.type.match("video/mp4")){
+			alert(".mp4 형식만 지원 가능합니다");
+			$("#project-movie").val("");
+		} else if(fileSize > 10485760){
+			alert("첨부 가능한 최대 사이즈는 10MB입니다");
+			$("#project-movie").val("");
+		} else {
+			var reader = new FileReader();
+			reader.onload = function(e){
+				$("#previewMovie").attr("src",e.target.result);
+				$("#previewMovie").css("display","inline-block");
+			}
+			reader.readAsDataURL(f);
+		}
+	}
+}
+
+function story_validate(){
+	
+	console.log("--"+$("#summernote").val()+"--");
+	
+	if($("#summernote").val().trim() == ""){
+		alert("프로젝트 스토리는 필수 사항입니다 \n스토리를 작성해주세요");
+		return false;
+	}
+	
+	var checkVal = $("#summernote").val();
+	checkVal = checkVal.replace(/(<([^>]+)>)/ig,"");
+	console.log(checkVal);
+	checkVal = checkVal.replace(/&nbsp;/g,"");
+	console.log(checkVal);
+	checkVal = checkVal.replace(/\s/g,"");
+	console.log(checkVal);
+	
+	if(checkVal.length < 200){
+		alert("프로젝트 스토리를 좀 더 구체적으로 작성해주세요");
+		return false;
+	}
+	
+	return true;
+}
+</script>
+
+<form action="${pageContext.request.contextPath }/project/updateProject/account" enctype="multipart/form-data" onsubmit="return story_validate();" method="post" >
 	
 	<input type="hidden" name="projectNo" value="${projectNo }" />
 		
@@ -68,15 +159,20 @@ $(document).ready(function(){
 					<span class="choice">선택 항목</span>
 				</p>
 				<p>
-					<span>
-						<img src="${pageContext.request.contextPath }/resources/images/makeProject/hand_pointer.png" />
-						&nbsp;&nbsp;
-						프로젝트 소개 영상을 등록해주세요
-					</span>
+					<c:if test="${story.introduceMovie ne null }">
+						<video src="${pageContext.request.contextPath }/resources/images/projects/${story.introduceMovie}" autoplay controls id="previewMovie" style="width:540px;height:360px;">영상이 지원되지 않는 브라우저입니다</video>
+					</c:if>
+					<c:if test="${story.introduceMovie eq null }">
+						<span>
+							<img src="${pageContext.request.contextPath }/resources/images/makeProject/hand_pointer.png" />
+							&nbsp;&nbsp;
+							프로젝트 소개 영상을 등록해주세요
+						</span>
+					</c:if>
 					<span>
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/write.png" />
 						&nbsp;
-						<span>등록하기</span>
+						<span>수정하기</span>
 					</span>
 				</p>
 			</div>
@@ -88,14 +184,16 @@ $(document).ready(function(){
 				<p>
 					프로젝트를 소개하는 영상을 만들면 내용을 더 효과적으로 알릴 수 있습니다. <br />
 					2~3분 이내의 짧은 영상이 가장 반응이 좋습니다. <br />
-					배경음악을 사용하신다면 저작권 문제에 유념해주세요.
+					배경음악을 사용하신다면 저작권 문제에 유념해주세요.<br />
+					(10MB 이내의 mp4형식만 지원됩니다)
 				</p>
 				<p>
 					<button type="button" class="uploadBtn">
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/upload.png" />
 						영상 선택하기
 					</button>
-					<input type="file" class="hiddenInput" id="project-movie" name="projectMovie" accept="video/*" />
+					<input type="file" class="hiddenInput" id="project-movie" name="projectMovie" accept="video/mp4" />
+					<video src="${pageContext.request.contextPath }/resources/images/projects/${story.introduceMovie}" controls id="previewMovie" style="width:540px;height:360px;">영상이 지원되지 않는 브라우저입니다</video>
 				</p>
 				<p>
 					<button type="button" class="saveBtn">
@@ -116,13 +214,9 @@ $(document).ready(function(){
 			
 			<div class="shown">
 				<p>프로젝트 스토리</p>
-				<div id="story" style="display:none;color:#000;"></div>
+				<div id="story">${story.projectStory }</div>
 				<p>
-					<span style="display:none">
-						<img src="${pageContext.request.contextPath }/resources/images/makeProject/hand_pointer.png" />
-						&nbsp;&nbsp;
-						프로젝트 스토리를 입력해주세요
-					</span>
+					<span></span>
 					<span>
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/write.png" />
 						&nbsp;
@@ -133,12 +227,12 @@ $(document).ready(function(){
 			<div class="hidden" id="story-hidden">
 				<p>프로젝트 스토리</p>
 				<p>
-					프로젝트 스토리 잘 작성하기를 읽어보시고 스토리텔링에 필요한 요소들을 확인하여 작성해주세요.
+					프로젝트 스토리 잘 작성하기를 읽어보시고 스토리텔링에 필요한 요소들을 확인하여 작성해주세요. <br />
+					(200자 이상 작성해주세요)
 				</p>
 				<p>
 					<!-- 에디터 API -->
-					<%-- <jsp:include page="/WEB-INF/views/project/projectMake_editor.jsp" /> --%>
-					<textarea name="projectStory" id="summernote" value=""></textarea>
+					<textarea name="projectStory" id="summernote" value="${story.projectStory }"></textarea>
 				</p>
 				<p style="text-align:right">
 					<button type="button" class="saveBtn">
@@ -181,6 +275,9 @@ div.note-editor div.note-editing-area p{
 div.note-editor div.note-editing-area p span{
 	float: none!important;
 }
+div.note-editor div.note-editing-area img{
+	height: initial;
+}
 div.note-editor div.modal div.modal-header{
     padding: 15px;
     border-bottom: 1px solid #e5e5e5;
@@ -197,7 +294,17 @@ div.note-editor div.modal div.modal-body{
 div.note-editor div.modal div.modal-body div{
 	border-bottom: 0px;
 }
-    
+div#story{
+	color:#000;
+	width:97%;
+	overflow:hidden;
+}
+div#story img{
+	height: initial;
+}
+div#story p:last-of-type{
+	color:#000;
+}
 </style>
 
 <jsp:include page="/WEB-INF/views/project/projectMake_footer.jsp" >

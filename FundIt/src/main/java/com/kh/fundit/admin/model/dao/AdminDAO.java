@@ -50,5 +50,7 @@ public interface AdminDAO {
 
 	int replyMessage(Map<String,String> map1);
 
+	List<AdminMessage> adminMessageSearch(String content);
+
 
 }

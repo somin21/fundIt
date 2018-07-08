@@ -30,11 +30,11 @@ public interface ProjectService {
 
 	List<ListProjectView> selectIndexPopularProject(int popularProjectPage, int numPerpage);
 	
-	List<ListProjectView> selectMyProjectYet(Member member, int numPerpage);
+	List<ListProjectView> selectMyProjectYet(Member member,int page, int numPerpage);
 	
-	List<ListProjectView> selectMyProjectYes(Member member, int numPerpage);
+	List<ListProjectView> selectMyProjectYes(Member member,int page, int numPerpage);
 	
-	List<ListProjectView> selectMyProjectNo(Member member, int numPerpage);
+	List<ListProjectView> selectMyProjectNo(Member member,int page, int numPerpage);
 	
 	int selectMyProjectCnt(Member member);
 	
@@ -116,7 +116,7 @@ public interface ProjectService {
 
 	ProjectOutline selectProjectOutline(int projectNo);
 
-	int updateProjectOutline(ProjectOutline outline, com.kh.fundit.member.model.vo.Profile profile);
+	int updateProjectOutline(ProjectOutline outline, com.kh.fundit.member.model.vo.Profile profile, Map<String, String> map);
 
 	ProjectFunding selectProjectFunding(int projectNo);
 
@@ -124,7 +124,7 @@ public interface ProjectService {
 	
 	int deleteProject(int projectNo, Map<String, Object> map);
 
-	List<ListProjectView> selectMyProjectI(Member member, int numPerpage);
+	List<ListProjectView> selectMyProjectI(Member member,int page, int numPerpage);
 
 	ProjectStory projectStoryList(Map<String, Object> map);
 
@@ -139,6 +139,18 @@ public interface ProjectService {
 	ProjectView projectPreview(int projectNo);
 
 	List<Integer> projectGiftMoneyList(int projectNo);
+
+	void updateConfirmYN(Map<String, Object> map);
+
+	int updateProjectFunding(ProjectFunding funding);
+
+	ProjectStory selectProjectStory(int projectNo);
+
+	int updateProjectStory(ProjectStory story);
+	
+	ProjectAccount selectProjectAccount(int projectNo);
+
+	int updateProjectAccount(ProjectAccount account);
 
 	int projectSummary(Map<String, Object> map);
 

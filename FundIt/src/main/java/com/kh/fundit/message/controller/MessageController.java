@@ -237,7 +237,9 @@ public class MessageController {
 		mav.setViewName("message/messageList3");
 		
 		return mav;
-	}	@RequestMapping("message/messageSelect2.do")
+	}	
+	
+	@RequestMapping("message/messageSelect2.do")
 	public ModelAndView selectMessage2(@RequestParam(name="messageSelect") String messageSelect,
 			@RequestParam(value="cPage", required=false, defaultValue="1")int cPage
 			,@RequestParam("email") String email) {

@@ -11,14 +11,13 @@
 var email = '';
 var searchKeyword = "";
 var searchType = "";
-var numPerPage = 4;
+var page = 1;
 
 function toNextAjax(){
 	email = $("#email").val().trim();
-	$("#supportList-container").html('');
 	searchType = $("#searchType-hidden").val().trim();
-	numPerPage += 4;
-	console.log(searchType+" , "+numPerPage)
+	page += 1;
+	console.log(searchType+" , "+page)
 	if(searchType == 'searchComplated'){
 		
 		searchKeyword = $("#searchKeyword").val().trim();;
@@ -26,15 +25,20 @@ function toNextAjax(){
 	}
 	$.ajax({
 		url : "${pageContext.request.contextPath}/member/selectMySupport",
-		data : {email : email, searchType : searchType, searchKeyword : searchKeyword, numPerPage : numPerPage},
+		data : {email : email, searchType : searchType, searchKeyword : searchKeyword, page : page},
 		success : function(data){
-			console.log(data)	
+			console.log(data)
+			if(data.length >= 1){
 			for(var i = 0; i< data.length; i++){
-				
+				if(data.length <8 && data.length>=1){
+					$("#moreView").prop("disabled",true);
+				}
 				htmlAppend(data[i], "#supportList-container");
 				
 			}
+			}
 			if(data.length < 1){
+				$("#moreView").prop("disabled",true);
 				htmlAppendNone(data.length+1, "#supportList-container");
 				
 			}
@@ -50,7 +54,8 @@ function toNextAjax(){
 function fn_search(searchTypeBtn){
 	
 	$("#supportList-container").html('');
-	
+	page = 1;
+	$("#moreView").prop("disabled",false);
 	console.log(searchType);
 	searchType = searchTypeBtn.trim();
 	$("#searchType-hidden").val(searchType);
@@ -69,11 +74,14 @@ function fn_search(searchTypeBtn){
 		success : function(data){
 			console.log(data)	
 			for(var i = 0; i< data.length; i++){
-				
+				if(data.length <8 && data.length>=1){
+					$("#moreView").prop("disabled",true);
+				}
 				htmlAppend(data[i], "#supportList-container");
 				
 			}
 			if(data.length < 1){
+				$("#moreView").prop("disabled",true);
 				htmlAppendNone(data.length+1, "#supportList-container");
 				
 			}
@@ -123,11 +131,14 @@ $(function(){
 	success : function(data){
 		console.log(data)	
 		for(var i = 0; i< data.length; i++){
-			
+			if(data.length <8 && data.length>=1){
+				$("#moreView").prop("disabled",true);
+			}
 			htmlAppend(data[i], "#supportList-container");
 			
 		}
 		if(data.length < 1){
+			$("#moreView").prop("disabled",true);
 			htmlAppendNone(data.length+1, "#supportList-container");
 			
 		}
@@ -155,7 +166,7 @@ function htmlAppend(project, div_name){
 	var supportGoal = numberWithCommas(project.supportGoal);
 	var mySupportMoney = numberWithCommas(project.mySupportMoney);
 	html += '<p>목표금액 - '+supportGoal+'원</p>';
-	html += '<p>나의 후원금액 - '+mySupportMoney+'원</p>';
+	html += '<p>나의 후원금액 - '+mySupportMoney+'원</p>'; 	
 	html += '<p>선물명 - '+project.itemName+'</p>';
 	if(project.payYn == "N"){
 	html += '<p style = "color:tomato;">결제취소됨</p>'	;
@@ -298,14 +309,14 @@ text-align : left;
 <hr />
 
   <input type="hidden" id = "searchType-hidden" />
-	<div id="supportList-container">
+	<div id="supportList-container" style = "min-height: 550px;">
 	
 
 
 
 
 	</div>
-	<input type="button" value="더보기" class = "btn btn-success" style = "width:100%; margin: auto; margin-top : 100px;"  onclick = "toNextAjax();" />
+	<input type="button" value="더보기" id="moreView" class = "btn btn-success" style = "width:100%; margin: auto; margin-top : 100px;"  onclick = "toNextAjax();" />
 </div>
 
 <script>

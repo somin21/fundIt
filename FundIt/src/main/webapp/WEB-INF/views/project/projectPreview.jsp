@@ -50,9 +50,9 @@ div.gift2{width: 240px; display: inline-block; text-align:left; padding-top: 10p
 span#change,#community,#story{padding: 0 10px;}
 
 span.tag{
-    font-size: 1.5rem;
+    font-size: 15px;
     font-weight: 600;
-    padding: 1rem;
+    padding: 10px;
     color: #757575;
     background-color: #fafafa;
     border: 1px solid #efefef;
@@ -219,19 +219,25 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
 	        <div class="ground">
 		        <div class="mainContext">
 		        <c:if test="${view.introduceMovie ne null }">
-		        <video src="${pageContext.request.contextPath }/resources/images/projects/${view.introduceMovie }" autoplay controls style="margin-bottom: 50px;"></video><br />
+		        	<video src="${pageContext.request.contextPath }/resources/images/projects/${view.introduceMovie }" autoplay controls style="margin-bottom: 50px;"></video><br />
 		        </c:if>
 		        ${view.projectStory }
 		        </div>
 		        
-		        <div class="changeDiv">${view.refund }</div>
+		        <div class="changeDiv">
+		        	<span class="refundSp">이 프로젝트의 환불 및 교환 정책</span><br />
+		        	<hr />
+		        	<br />
+		        	<span>${view.refund }</span>
+		        	<br /><br />
+		        </div>
 		        
 		        <div class="sideDiv">
 		        <div class="originator">
 		            <span id="originatorStory">창작자 소개</span>
 		            <div>
 	 	                <img src="${pageContext.request.contextPath }/resources/upload/profileImg/${p.profileImage }" alt="프로필" class="originatorImg">
-		                <span class="sp"><a id="tagA2" href="${pageContext.request.contextPath }/project/originatorView.do?email=${p.email}" >${p.email }</a></span>
+		                <span class="sp">${p.email }</span>
 		                <p class="originContext">${p.profileIntroduce }</p>
 		                <hr />
 		                <button class="button2 button3" ><i style="font-size:24px" class="fa">&#xf0e0;</i> 창작자에게 문의하기</button>

@@ -9,9 +9,9 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
 <script>
 
-var numPerPage = 8;
-var searchType = "";
 
+var searchType = "";
+var page = 1;
 function fn_shownSlide(el){
 	
 	$(".div-gift").not(".hidden").not($(el)).slideDown();
@@ -85,7 +85,9 @@ function fn_updateDeliveryAddr(el, event, idNum){
 /* 검색   */
 function fn_searchTypeChange(){
 	var email = $("#email").val().trim();
+	$("#moreView").prop("disabled",false);
 	searchType = $("#searchType option:selected").val();
+	page = 1;
 	console.log(searchType);
 	$.ajax({
 		url : "${pageContext.request.contextPath}/gift/selectMyGiftList",
@@ -95,11 +97,16 @@ function fn_searchTypeChange(){
 			var html = '';
 			var div_name = $("#div-giftList"); 
 			$("#div-giftList").html('');
+			if(data.length >= 1){
 			for(var i=0; i<data.length; i++){
-				
+				if(data.length <6 && data.length>=1){
+					$("#moreView").prop("disabled",true);
+				}
 				htmlAppend(data[i], div_name);
 			}
+			}
 			if(data.length < 1){
+				$("#moreView").prop("disabled",true);
 	    		htmlAppendNone(data.length+1, div_name);
 	    	}			
 			
@@ -151,11 +158,16 @@ $(function (){
 			console.log(data);
 			var html = '';
 			var div_name = $("#div-giftList"); 
-			
+			if(data.length >= 1){
 			for(var i=0; i<data.length; i++){
+				if(data.length <6 && data.length>=1){
+					$("#moreView").prop("disabled",true);
+				}
 				htmlAppend(data[i], div_name);
 			}
+			}
 			if(data.length < 1){
+				$("#moreView").prop("disabled",true);
 	    		htmlAppendNone(data.length+1, div_name);
 	    	}			
 			
@@ -219,16 +231,14 @@ function htmlAppend(gift, div_name){
 	html += '<input type = "button" class = "btn btn-danger"  id="postcodify_search_button" onclick ="fn_inputAddr(event,this,'+gift.supportNo+');"  value="우편번호 찾기">&nbsp;&nbsp;<input type = "button" class = "btn btn-success" onclick = "fn_updateDeliveryAddr(this, event,'+gift.supportNo+');" value = "주소 수정">'
 	html += '<input type = "hidden" id="idNum'+gift.supportNo+'" value="'+gift.supportNo+'"/>';
 	html += '</div>';
-	
-	
-    
+	    
     div_name.append(html);
 }
 
 function htmlAppendNone(startIndex, div_name){
 		
 		var html = ''; 	
-		html += '<span style = "font-size : 25px; color : lightgray; font-weight : bolder; margin-left : 35%; ">'
+		html += '<span style = "font-size : 25px; color : lightgray; font-weight : bolder; margin-left : 35%; ">';
 		html += '받으실 선물이 없습니다';
 		html += '</span>';
 		
@@ -240,8 +250,7 @@ function htmlAppendNone(startIndex, div_name){
 function toNextAjax(){
 	email = $("#email").val().trim();
 	searchType = $("#searchType option:selected").val().trim();
-	var page = numPerPage+ 8;
-	numPerPage = page;
+	page = page+1;
 	console.log(page);
 	
 		$.ajax({
@@ -250,14 +259,19 @@ function toNextAjax(){
 			success : function(data){
 				console.log(data);
 				var div_name = $("#div-giftList");   	
-		    	$("#div-giftList").html('');
-				
-		    	for(var i = 0; i < data.length; i++){	    		
+		    	
+				if(data.length>=1){
+		    	for(var i = 0; i < data.length; i++){	
+		    		if(data.length >= 1 && data.length<6){
+						$("#moreView").prop("disabled",true);
+					}
 		    		htmlAppend(data[i],div_name);
 		    		
 				}
+				}
 		    	
 		    	if(data.length < 1){
+		    		$("#moreView").prop("disabled",true);
 		    		htmlAppendNone(data.length+1, div_name);
 		    	}
 			},
@@ -303,7 +317,7 @@ function toNextAjax(){
 <div class="gift-project" id="div-giftList">
 
 </div>
-<input type="button" value="더보기" class = "btn btn-success" style = "width:1024px; margin: auto; margin-top : 200px;"  onclick = "toNextAjax('${pageContext.request.contextPath}/project/selectMyProjectYet','${memberLoggedIn.email}','div-giftList','div-giftList');" />
+<input type="button" value="더보기" class = "btn btn-success" id="moreView" style = "width:1024px; margin: auto; margin-top : 200px;"  onclick = "toNextAjax('${pageContext.request.contextPath}/project/selectMyProjectYet','${memberLoggedIn.email}','div-giftList','div-giftList');" />
 
 </div>
 
@@ -325,7 +339,7 @@ var windowObj;
 	   
 	    windowObj =  window.open("${pageContext.request.contextPath}/gift/findAddress.do?idNum="+idNum,"findAddr","width = 700px height=500px left= 500px top = 200px menubar=no toolbar=no location=no");
 	   
-	    //windowObj.document.getElementById("idNum").value =document.getElementById('idNum'+idNum).value;
+	   
 	    
 
 	    

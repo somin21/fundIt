@@ -117,4 +117,9 @@ public class AdminDAOImpl implements AdminDAO {
 	public int replyMessage(Map<String,String> map1) {
 		return sqlSession.insert("admin.replyMessage",map1);
 	}
+
+	@Override
+	public List<AdminMessage> adminMessageSearch(String content) {
+		return sqlSession.selectList("admin.adminMessageSearch", content);
+	}
 }

@@ -60,7 +60,7 @@ margin-left : -5px;
 
 	<br /><br />
 	<div>
-	<form action="${pageContext.request.contextPath}/member/changePwdEnd.do" method = "post">
+	<form action="${pageContext.request.contextPath}/member/changePwdEnd.do" method = "post" >
 	<table id="login-table">
 	<tr>
 		<th>
@@ -85,14 +85,38 @@ margin-left : -5px;
 
 <script>
 function validate(){
-	 var password = $("#password").val();
-	 var password_chk = $("#password_chk").val();
-	
-	if(password != password_chk){
-		alert("비밀번호를 확인해주세요");
-		$("#password_chk").focus();
+	 var password = document.getElementById("password");
+     var password_chk = document.getElementById("password_chk");
+	 var regExp =/^.*(?=^.{7,11}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/;
+	if(!regExpTest(regExp,password,"비밀번호는 7~11자리 숫자/문자/특수문자를 포함해야합니다.")){
 		return false;
 	}
+	if(!regExpTest(regExp,password_chk,"비밀번호는 7~11자리 숫자/문자/특수문자를 포함해야합니다.")){
+		return false;
+	}
+	if(!pwdCheck(password,password_chk)){
+        alert("비밀번호가 다릅니다");
+        return false;
+    }
 	return true;
+	
+
+}
+function pwdCheck(pwd,pwd_check){
+    if(pwd.value == pwd_check.value){
+        return true;
+    } 
+    return false;
+}
+
+function regExpTest(regExp, el, msg){
+    if(regExp.test(el.value)){
+        return true;
+    }   
+    //적합한 문자열이 아닌 경우
+    alert(msg);
+    el.value="";
+    el.focus();
+    return false;
 }
 </script>

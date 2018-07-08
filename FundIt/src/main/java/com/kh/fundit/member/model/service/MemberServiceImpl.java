@@ -82,9 +82,29 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public List<Support> selectSupportList(Map<String, String> map, int numPerPage) {
+	public List<Support> selectSupportList(Map<String, String> map, int page, int numPerPage) {
 		// TODO Auto-generated method stub
-		return memberDAO.selectSupportList(map, numPerPage);
+		return memberDAO.selectSupportList(map, page, numPerPage);
 	}
+
+	@Override
+	public int insertMemberToken(Map<String, String> map) {
+		// TODO Auto-generated method stub
+		return memberDAO.insertMemberToken(map);
+	}
+
+	@Override
+	public String selectToken(String email) {
+		// TODO Auto-generated method stub
+		return memberDAO.selectToken(email);
+	}
+
+	@Override
+	public int deleteToken(String email) {
+		// TODO Auto-generated method stub
+		return memberDAO.deleteToken(email);
+	}
+
+	
 
 }

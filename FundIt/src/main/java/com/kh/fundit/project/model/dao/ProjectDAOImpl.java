@@ -67,23 +67,23 @@ public class ProjectDAOImpl implements ProjectDAO {
 
 // 태윤
 	@Override
-	public List<ListProjectView> selectMyProjectYet(Member member, int numPerpage) {
-		RowBounds rowBounds = new RowBounds(0, numPerpage);
+	public List<ListProjectView> selectMyProjectYet(Member member,int page, int numPerpage) {
+		RowBounds rowBounds = new RowBounds(numPerpage*(page-1), numPerpage);
 		
 		return sqlSession.selectList("project.selectMyProjectYet", member, rowBounds);
 	}
 	
 //	태윤
 	@Override
-	public List<ListProjectView> selectMyProjectYes(Member member , int numPerpage) {
-		RowBounds rowBounds = new RowBounds(0, numPerpage);
+	public List<ListProjectView> selectMyProjectYes(Member member,int page , int numPerpage) {
+		RowBounds rowBounds = new RowBounds(numPerpage*(page-1), numPerpage);
 		return sqlSession.selectList("project.selectMyProjectYes", member, rowBounds);
 	}
 	
 //	태윤
 	@Override
-	public List<ListProjectView> selectMyProjectNo(Member member, int numPerpage ) {
-		RowBounds rowBounds = new RowBounds(0, numPerpage);
+	public List<ListProjectView> selectMyProjectNo(Member member,int page, int numPerpage ) {
+		RowBounds rowBounds = new RowBounds(numPerpage*(page-1), numPerpage);
 		return sqlSession.selectList("project.selectMyProjectNo", member, rowBounds);
 	}
 	
@@ -358,7 +358,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 	@Override
 	public int updateProjectOutline(ProjectOutline outline) {
 		
-		return sqlSession.selectOne("project.updateProjectOutline", outline);
+		return sqlSession.update("project.updateProjectOutline", outline);
 	}
 
 	@Override
@@ -388,14 +388,16 @@ public class ProjectDAOImpl implements ProjectDAO {
 		  sqlSession.delete("project.deleteSummary", map);
 		
 		  sqlSession.delete("project.deleteSupport", map);
+		  
+		  sqlSession.delete("project.deleteItem",map);
 		
 		  
 		return sqlSession.delete("project.deleteProject", map);
 	}
 //  태윤
 	@Override
-	public List<ListProjectView> selectMyProjectI(Member member, int numPerpage) {
-		RowBounds rowBounds = new RowBounds(0, numPerpage);
+	public List<ListProjectView> selectMyProjectI(Member member,int page, int numPerpage) {
+		RowBounds rowBounds = new RowBounds(numPerpage*(page-1), numPerpage);
 		return sqlSession.selectList("project.selectMyProjectI", member, rowBounds);
 	}
 //	희영
@@ -447,10 +449,52 @@ public class ProjectDAOImpl implements ProjectDAO {
 		return sqlSession.selectList("project.projectGiftMoneyList",projectNo);
 	}
 
+//	소민
+	@Override
+	public void updateConfirmYN(Map<String, Object> map) {
+		
+		sqlSession.update("project.updateConfirmYN", map);
+	}
+
+//	소민
+	@Override
+	public int updateProjectFunding(ProjectFunding funding) {
+
+		return sqlSession.update("project.updateProjectFunding", funding);
+	}
+
+//	소민
+	@Override
+	public ProjectStory selectProjectStory(int projectNo) {
+
+		return sqlSession.selectOne("project.selectProjectStory",projectNo);
+	}
+
+//	소민
+	@Override
+	public int updateProjectStory(ProjectStory story) {
+
+		return sqlSession.update("project.updateProjectStory", story);
+	}
+
+//	소민
+	@Override
+	public ProjectAccount selectProjectAccount(int projectNo) {
+
+		return sqlSession.selectOne("project.selectProjectAccount",projectNo);
+	}
+
+//	소민
+	@Override
+	public int updateProjectAccount(ProjectAccount account) {
+
+		return sqlSession.update("project.updateProjectAccount", account);
+	}
+	
+//	희영
 	@Override
 	public int projectSummary(Map<String, Object> map) {
 		return sqlSession.update("project.projectSummary",map);
-
 	}
 
 }
