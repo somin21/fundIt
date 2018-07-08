@@ -488,5 +488,11 @@ public class ProjectDAOImpl implements ProjectDAO {
 
 		return sqlSession.update("project.updateProjectAccount", account);
 	}
+	
+//	희영
+	@Override
+	public int projectSummary(Map<String, Object> map) {
+		return sqlSession.update("project.projectSummary",map);
+	}
 
 }

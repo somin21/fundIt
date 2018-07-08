@@ -112,7 +112,10 @@
 	        join project_summary s on p.projectno = s.projectno
 	        join project_funding f on p.projectno = f.projectno
 	        join project_outline o on p.projectno = o.projectno
-		where 1=1 and deadlinedate>=TO_DATE(1,'dd')
+		where 1=1 
+		<if test="deadline == null or deadline=='on'">
+			and deadlinedate>=TO_DATE(1,'dd')
+		</if>
 		<if test="categoryCode != null and categoryCode !='' ">
 			and o.categorycode = #{categoryCode}
 		</if>
@@ -137,7 +140,7 @@
         	(select supportgoal from project_funding f where p.projectno = f.projectno) supportgoal,
             (select CALCULATEDUEDATE from project_funding f where p.projectno = f.projectno) calculatedueddate,
             s.supportmoney, s.supportpercent, s.supportor, p.categorycode, 
-            (select refund from project_funding f where p.projectno = f.projectno) refund
+            (select refund from project_funding f where p.projectno = f.projectno) refund,s.supportwithouttax
 		from (select * from project_outline where projectconfirmyn='Y' and projectdeadlineyn='N' order by projectdate desc) p join project_summary s on p.projectno = s.projectno
         where p.projectno = ${projectNo}
 	</select>
@@ -496,6 +499,10 @@
 	update project_account set email=#{email}, phone=#{phone}, accountname=#{accountName}, 
 	accountnumber=#{accountNumber}, accounttype=#{accountType}, bankcode=#{bankCode}
 	where projectno=#{projectNo}
+	</update>
+	
+	<update id="projectSummary">
+		update project_summary set supportor=${supportor}, supportmoney=${supportMoney}, supportpercent=${supportpercent}, supportwithouttax=${supportwithouttax} where projectno=${projectNo}
 	</update>
 	
 </mapper>

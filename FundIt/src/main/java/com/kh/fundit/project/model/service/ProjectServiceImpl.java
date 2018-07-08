@@ -519,6 +519,12 @@ public class ProjectServiceImpl implements ProjectService {
 		
 		return projectDAO.updateProjectAccount(account);
 	}
+	
+//	희영
+	@Override
+	public int projectSummary(Map<String, Object> map) {
+		return projectDAO.projectSummary(map);
+	}
 
 
 }

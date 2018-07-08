@@ -124,7 +124,7 @@ span#community:hover{cursor: pointer;}
 span#change:hover{cursor: pointer;}
 
 div.menuDiv{text-align: left; padding: 5px 0 18px 18%; }
-div.mainContext{width: 700px;display: inline-block; background:white; margin-top: 15px; box-shadow: 1px 1px silver; margin-bottom: 30px;}
+div.mainContext{width: 700px;display: inline-block; background:white; margin-top: 15px; box-shadow: 1px 1px silver; margin-bottom: 30px; padding:50px;}
 
 div.communityDiv{width: 700px;display: inline-block; background:#faf8f8; margin-top: 15px; }
 div.communityS{width: 700px; display: inline-block; padding-bottom:10px; padding-top:10px; background:white; margin-top: 15px; box-shadow: 1px 1px silver;}
@@ -355,6 +355,9 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
 	        <div class="ground">
 		        <div class="mainContext">
 		        <c:if test="${not empty ps }">
+		        	${ps.getIntroduceMovie() }
+		        </c:if>
+		        <c:if test="${not empty ps }">
 		        	${ps.getProjectStory() }
 		        </c:if>
 		        <c:if test="${empty ps }">
@@ -504,6 +507,9 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
 		        		<c:forEach var="g2" items="${strarr }" begin="0" end="${gList.size() }" step="1" varStatus="gg2">
 		        			<c:forEach var="g3" items="${strarr2 }" begin="0" end="${gList.size() }" step="1" varStatus="gg3">
 		        			<c:if test="${gg.index == gg2.index and  gg2.index == gg3.index }">
+		        				<%-- <c:set var="name" value="${strarr2[gg3.index]}" />
+		        				<c:set var="name2" value="${fn:split(name,',')}" />
+		        				${name2 } --%>
 		        				${strarr[gg2.index] } (X ${strarr2[gg3.index]})
 		        			</c:if>
 		        			</c:forEach>

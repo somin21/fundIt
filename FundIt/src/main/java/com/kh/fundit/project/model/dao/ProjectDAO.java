@@ -155,5 +155,7 @@ public interface ProjectDAO {
 	ProjectAccount selectProjectAccount(int projectNo);
 
 	int updateProjectAccount(ProjectAccount account);
+	
+	int projectSummary(Map<String, Object> map);
 
 }

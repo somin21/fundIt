@@ -37,15 +37,17 @@ function Approval(prjectNo,minMoney,title){
 		var itemName = $(this).children(".menu2").children("ul").children(".itemName").val();
 		var itemNum = $(this).children(".menu2").children("ul").children(".itemNum").val();
 		var delivery = $(this).children(".menu2").children("ul").children(".delivery").val();
-		if(num3>=100){
-			if(num3>10000000){
-				alert("10000000만원이하로만 결제가됩니다ㅠㅠ");
-			}else{
-				location.href="${pageContext.request.contextPath}/project/approval.do?projectNo="
-						+prjectNo+"&minMoney="+minMoney+"&num="+num3+"&title="+title+"&itemName="+itemName+"&itemNum="+itemNum+"&delivery="+delivery;
-			}
+		if(minMoney<=num3){
+			$("#bt").click(function(){
+				if(num3>10000000){
+					alert("10000000만원이하로만 결제가됩니다ㅠㅠ");
+				}else{
+					location.href="${pageContext.request.contextPath}/project/approval.do?projectNo="
+							+prjectNo+"&minMoney="+minMoney+"&num="+num3+"&title="+title+"&itemName="+itemName+"&itemNum="+itemNum+"&delivery="+delivery;
+				}
+			});
 		}else{
-			alert("결제는 100원이상 결제해주세요~");
+			alert("이상품은 "+minMoney+"원 이상 결제하셔야됩니다.");
 		}
 		
 	});
@@ -76,18 +78,18 @@ function Approval2(){
 <div>
 	<div class="menu">
 		<div class="menu1">
-			<span class="money">1,000원 이상 밀어주시는 분께</span>
+			<span class="money">100원 이상 밀어주시는 분께</span>
 			<br /><br /><br />
 			<span>선물을 선택하지 않고, 밀어만 줍니다.</span>
 		</div>
 		<div class="menu2">
 	<form action="approval2.do" class="form1" method="post">
 		<input type="hidden" name="projectNo" id="projectNo" value="${projectNo }" />		
-		<input type="number" name="num" id="num" class="form-control" min="0" max="10000000" value="1000" step="100"/> 원
+		<input type="number" name="num" id="num" class="form-control" min="0" max="10000000" value="100" step="100"/> 원
 		<input type="hidden" name="title" id="title" value="${title }" />		
-		<input type="submit" />
+		<!-- <input type="submit" /> -->
+		<button type="button" id="btn_submit" onclick="return Approval2();">결제</button>
 	</form>
-			<button id="btn_submit" onclick="return Approval2();">결제</button>
 			<br /><br />
 			<span class="moneyMent">더 많이 입력하실 수 있습니다</span>
 			<br /><br /><br />
@@ -121,7 +123,7 @@ function Approval2(){
 		</div>
 		<div class="menu2" style="display:${gList[gg.index]==minmoney? 'inline-block':'none' };">
 			<input type="number" class="num3 form-control" id="num" min="0" max="10000000" value="${gList[gg.index] }" step="100"/> 원
-			<button id="bt" onclick="Approval('${projectNo }','${gList[gg.index] }','${title }');">결제</button>
+			<button type="button" id="bt" onclick="Approval('${projectNo }','${gList[gg.index] }','${title }');">결제</button>
 			<br /><br />
 			<span class="moneyMent">더 많이 입력하실 수 있습니다</span>
 			<br /><br /><br />

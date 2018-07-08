@@ -39,7 +39,7 @@ span#sp1{font-size: 17px; font-weight: bold; color:red;}
             <pre style="display: inline-block;">  </pre>
             <span class="b3">
                 <i style="font-size:24px" class="fa">&#xf194;</i>
-                후원몇개
+                <!-- 후원몇개 -->
             </span>
         </div>
     </div>

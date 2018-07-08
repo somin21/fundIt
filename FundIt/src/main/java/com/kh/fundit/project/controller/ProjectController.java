@@ -160,26 +160,29 @@ public class ProjectController {
 	
 //	희영
 	@RequestMapping("/project/projectList.do")
-	public ModelAndView projectList(@RequestParam String categoryCode, String select) {
+	public ModelAndView projectList(@RequestParam String categoryCode, String select, String deadline ) {
 		ModelAndView mav = new ModelAndView();
 		
 		Map<String,String> map = new HashMap<String, String>();
 		map.put("categoryCode",categoryCode);
 		map.put("select",select);
+		map.put("deadline",deadline);
 		
 		System.out.println("select="+select);
+		System.out.println("deadline="+deadline);
 		List<ListProjectView> list = projectService.projectList(map);
 		System.out.println("list="+list);
 		
 		mav.addObject("list",list);
 		mav.addObject("categoryCode",categoryCode);
 		mav.addObject("select",select);
+		mav.addObject("deadline",deadline);
 		mav.setViewName("project/projectList");
 		
 		return mav;
 	
 	}
-	
+
 //	희영
 	@RequestMapping("/project/projectView.do")
 	public ModelAndView projectView(@RequestParam int projectNo, String email) {
@@ -378,14 +381,12 @@ public class ProjectController {
 	@RequestMapping("/project/supportGo.do")
 	public ModelAndView supportGo(@RequestParam String no, String email, int minmoney) {
 		ModelAndView mav = new ModelAndView();
-		System.out.println("");
 		Map<String,Object> map = new HashMap<>();
 		map.put("projectNo",no);
 		map.put("buyer_id",email);
 
 		//후원현황중인지 확인
 		ProjectSupport sList = projectService.supportList(map);
-		System.out.println("sList="+sList);
 		String loc = "/";
 		String msg = "";
 
@@ -412,16 +413,13 @@ public class ProjectController {
 		
 		//선물리스트 레벨가져오기
 		List<String> gList = projectService.projectGiftLevel(map);
-		/*System.out.println("gList="+gList.toString());*/
 		//레벨별 orderby 값찾기
 		List<Map<String,String>> gList2 = projectService.projectGiftName(map);
-		/*System.out.println("gList2="+gList2.toString());*/
 		
 		String[] strarr = new String[gList.size()];
 		String[] strarr2 = new String[gList.size()];
 		String[] strarr3 = new String[gList.size()];
-		/*System.out.println("strarr="+strarr.toString());
-		System.out.println("strarr크기="+strarr.length);*/
+	
 		
 		for(int i=0; i<gList.size(); i++) {
 			for(int j=0; j<gList2.size(); j++) {
@@ -437,7 +435,6 @@ public class ProjectController {
 					}
 				}
 			}
-			/*System.out.println("itemName="+strarr[i]);*/
 		}
 		
 		mav.addObject("gList",gList);
@@ -519,17 +516,35 @@ public class ProjectController {
 		int result = projectService.supportInsert(map);
 		//서포트테이블 리스트 및 넘버
 		ProjectSupport ps = projectService.supportList(map);
-		System.out.println("서포터리스트="+ps);
+		//System.out.println("서포터리스트="+ps);
 		int supportNo = ps.getSupportNo();
 		map.put("supportNo", supportNo);
 		
 		//프로젝트리스트뽑기
 		List<ProjectView> pList = projectService.projectView(map);
+		
 		//결재날짜=배송시작날짜 뽑기
 		Date calculateduedDate = null;
+		int supportGoal = 0;	//목표금액
+		int supportMoney = 0;	//현재금액
+		int supportor = 0 ; 	//서포터수
+		
 		for(ProjectView v : pList) {
 			calculateduedDate = v.getCalculateduedDate();
+			
+			supportGoal=v.getSupportGoal();
+			supportMoney=v.getSupportMoney()+amount;	//총후원금액
+			supportor=v.getSupportor()+1; 				//서포터 한명추가
 		}
+		
+		double supportpercent = (((double)supportGoal*(double)100)/(double)supportMoney);	//현재 목표 퍼센트상황
+		int supportwithouttax = (int)(supportMoney*0.9); //세금후금액
+		
+		map.put("supportMoney",supportMoney);
+		map.put("supportor",supportor);
+		map.put("supportpercent",supportpercent);
+		map.put("supportwithouttax",supportwithouttax);
+		
 		map.put("calculateduedDate", calculateduedDate);
 		
 		//배송정보 테이블 추가
@@ -537,6 +552,11 @@ public class ProjectController {
 		
 		//결재정보테이블 추가
 		int result3 = projectService.insertPayment(map);
+		
+		int result4 = projectService.projectSummary(map);
+		
+		//System.out.println("현재서포트머니="+supportMoney+"현재서포터수="+supportor+"현재퍼센트="+supportpercent+"세금후금액="+supportwithouttax);
+		//System.out.println("result4="+result4);
 		
 		boolean isUsable = false;
 		
@@ -611,7 +631,7 @@ public class ProjectController {
 		
 		return mav;
 	}
-//	희영/project/paymentCancel.do
+//	희영
 	@RequestMapping("/project/paymentCancel.do")
 	public ModelAndView paymentCancel(@RequestParam int projectNo, String email) {
 		ModelAndView mav = new ModelAndView();
@@ -627,9 +647,11 @@ public class ProjectController {
 		String loc="/";
 		
 		String payNo="";
+		String payMoney="";
 		
 		for(SupportPayment sp : list) {
 			payNo = sp.getPayNo();
+			payMoney=sp.getPayMoney();	//결제금액
 		}
 		
 		if(payNo!=null) {
@@ -653,10 +675,33 @@ public class ProjectController {
 				//System.out.println("result="+result);
 				
 				if(result>0) {
+					//프로젝트리스트뽑기
+					List<ProjectView> pList = projectService.projectView(map);
+					//System.out.println("프로젝트리스트="+pList);
+					
+					int supportGoal = 0;	//목표금액
+					int supportMoney = 0;	//현재금액
+					int supportor = 0 ; 	//서포터수
+					
+					for(ProjectView v : pList) {						
+						supportGoal=v.getSupportGoal();
+						//총후원금액에서 결제금액빼기
+						supportMoney=v.getSupportMoney()-Integer.parseInt(payMoney);
+						//서포터 한명감소						
+						supportor=v.getSupportor()-1; 				
+					}
+					
+					double supportpercent = (int) (((double)supportGoal*(double)100)/(double)supportMoney);	//현재 목표 퍼센트상황
+					int supportwithouttax = (int)(supportMoney*0.9); //세금후금액
+					
+					map.put("supportMoney",supportMoney);
+					map.put("supportor",supportor);
+					map.put("supportpercent",supportpercent);
+					map.put("supportwithouttax",supportwithouttax);
+					int result2 = projectService.projectSummary(map);
+					//System.out.println("테이블수정resutl2="+result2);
 					msg = "결제 취소가 완료되었습니다.다음에 더 좋은 프로젝트로 찾아뵙겠습니다.";
-					//loc = "/";
 					loc = "/project/projectView.do?projectNo="+projectNo+"&email="+email;
-					//System.out.println(msg+", "+loc);
 				}else {
 					msg = "시스템오류...관리자에게 문의해주세요!!!";
 					loc = "/project/projectView.do?projectNo="+projectNo+"&email="+email;

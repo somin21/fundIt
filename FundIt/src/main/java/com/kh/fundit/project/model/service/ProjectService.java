@@ -152,5 +152,6 @@ public interface ProjectService {
 
 	int updateProjectAccount(ProjectAccount account);
 
+	int projectSummary(Map<String, Object> map);
 
 }
