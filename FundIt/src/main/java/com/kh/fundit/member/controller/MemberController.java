@@ -34,7 +34,7 @@ import com.kh.fundit.member.model.vo.Support;
 import com.kh.fundit.message.model.service.MessageService;
 
 
-@SessionAttributes({"memberLoggedIn"})
+@SessionAttributes({"memberLoggedIn","adminLoggedIn"})
 
 @Controller
 public class MemberController {
@@ -177,6 +177,7 @@ public class MemberController {
 					if(m.getAdminyn().equals("Y")) {
 						msg = "관리자!";
 						loc="/admin";
+						mav.addObject("adminLoggedIn", m);
 					}
 				} else {
 					msg = "비밀번호가 틀렸습니다";
