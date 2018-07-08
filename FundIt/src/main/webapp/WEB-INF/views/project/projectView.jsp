@@ -378,7 +378,10 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
 		        </div>
 		        <!-- 커뮤니티 -->
 		        <div class="communityDiv">
-		        	<div class="communityS"><span class="communitySs">후원자만 글을 쓸 수 있어요</span></div>
+		        	<div class="communityS">
+			        	<img src="${pageContext.request.contextPath }/resources/upload/profileImg/profile.png" alt="프로필" class="originatorImg">
+			        	<span class="communitySs"> 후원자만 글을 쓸 수 있어요</span>
+		        	</div>
 		        	<div class="communityMain">
 		        		<c:if test="${(not empty memberLoggedIn and supportStatus==true)}">
 		        			<!-- 모달사용 -->
