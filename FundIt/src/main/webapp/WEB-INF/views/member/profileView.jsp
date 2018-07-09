@@ -186,7 +186,7 @@ function validate(){
 		</c:if>
 		</div>
 		<div id="profile-file1" class="form-group row col-5">
-			<input type="file" id="file1" name="profileImage" class="btn btn-sm">
+			<input type="file" id="file1" name="profileImage" class="btn btn-sm" accept="image/*"/>
 			<input type="hidden" name="file2" value="${profile.profileImage }" />
 			<!-- <label for="file1"class="filename">선택된 파일 없음</label> -->
 			<p id="img-ex1">이미지는 jpg, gif, png파일을 지원합니다.</p>
