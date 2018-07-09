@@ -121,6 +121,8 @@ span.sp2{font-size: 14px;}
 
 div.communityS{text-align: left; padding-left: 50px;}
 span.communitySs{font-weight: bold; color: rgb(117, 117, 117);}
+span.comsp1{font-weight: bold;}
+span.comsp2{font-weight: bold;}
 
 span#story{font-weight: bold; color: rgb(185, 184, 184);}
 span#story:hover{cursor: pointer;}
@@ -138,7 +140,7 @@ div.communityMain{width: 700px;display: inline-block; background:#faf8f8; margin
 div.community{background: white; box-shadow: 1px 1px silver; text-align: left; padding-left: 30px; padding-bottom:10px; padding-top:10px;}
 
 div.changeDiv{text-align:left; width: 700px;display: inline-block;}
-div.changeDiv1{text-align:left; padding:50px; width: 700px;display: inline-block; background:white; margin-top: 15px; box-shadow: 1px 1px silver;}
+div.changeDiv1{text-align:left; padding:30px; width: 700px;display: inline-block; background:white; margin-top: 15px; box-shadow: 1px 1px silver;}
 div.changeDiv2{text-align:right; padding:30px; width: 700px;display: inline-block; background:white; margin-top: 15px; box-shadow: 1px 1px silver;}
 button.bt4{width: 37%;display: inline-block;}
 span.refundSp{font-weight: bold; padding-right: 120px;}
@@ -370,7 +372,7 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
 	        <div class="ground">
 		        <div class="mainContext">
 		        <c:if test="${not empty ps }">
-		        	${ps.getIntroduceMovie() }
+					<video src="${pageContext.request.contextPath }/resources/images/projects/${ps.getIntroduceMovie()}" autoplay controls id="previewMovie" style="width:540px;height:360px;display:none;">영상이 지원되지 않는 브라우저입니다</video>
 		        	<br />
 		        	${ps.getProjectStory() }
 		        </c:if>
@@ -429,8 +431,11 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
 		        			<br />
 		        			<input type="hidden" value="${s.communityNo }" class="communityNo${aa.count }" />
 		        			<div class="community">
-		        				<span>등록ID : ${s.email }</span><br />
-		        				<span>등록일자 : ${s.communityDate }</span><br />
+		        				<span class="comsp1">등록ID : 
+		        				<img src="${pageContext.request.contextPath }/resources/upload/profileImg/${p.profileImage != null ? p.profileImage: 'profile.png' }" alt="프로필" class="originatorImg">
+		        				${s.email }
+		        				</span><br />
+		        				<span class="comsp2">등록일자 : ${s.communityDate }</span><br /><br />
 		        				<textarea rows="10" cols="80%" readonly="readonly">${s.communityContent }</textarea>
 		        				<br />
 		        				<!-- 수정모달 시작 -->

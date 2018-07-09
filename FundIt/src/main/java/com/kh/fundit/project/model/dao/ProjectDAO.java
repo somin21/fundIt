@@ -158,4 +158,6 @@ public interface ProjectDAO {
 	
 	int projectSummary(Map<String, Object> map);
 
+	int oriProjectProjectCount(Map<String, String> map);
+
 }

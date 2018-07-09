@@ -496,5 +496,10 @@ public class ProjectDAOImpl implements ProjectDAO {
 	public int projectSummary(Map<String, Object> map) {
 		return sqlSession.update("project.projectSummary",map);
 	}
+//	희영
+	@Override
+	public int oriProjectProjectCount(Map<String, String> map) {
+		return sqlSession.selectOne("project.oriProjectProjectCount",map);
+	}
 
 }

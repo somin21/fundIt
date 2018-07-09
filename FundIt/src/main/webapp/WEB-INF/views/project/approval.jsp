@@ -69,9 +69,12 @@ table td#td{width: 70%}
 					<input type="text" class="form-control" id="sample4_jibunAddress" placeholder="지번주소"  />
 				</td>
 			</tr>
-			<tr>
+			<tr>	
+				<td></td>
 				<td colspan="2" style="text-align: center;">
+					<br />
 					<button onclick="return requestPay();">결제</button>
+					<button onclick="fn_home();">홈으로</button>
 				</td>
 			</tr>
 		</table>
@@ -210,6 +213,12 @@ table td#td{width: 70%}
 <script src="https://ssl.daumcdn.net/dmaps/map_js_init/postcode.v2.js"></script>
 <!-- 도로명 API -->
 <script>
+	function fn_home(){
+    	var retVal = confirm("후원을 안하실거에요??ㅠㅠ");
+    	if( retVal == true ){
+			location.href="${pageContext.request.contextPath}/";
+    	}
+	}
    //본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.
    function sample4_execDaumPostcode() {
       new daum.Postcode(

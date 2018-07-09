@@ -288,6 +288,8 @@ public class ProjectController {
 		//프로젝트리스트뽑기
 		List<ProjectView> list = projectService.oriProjectList(map);
 		
+		int count = projectService.oriProjectProjectCount(map);
+		
 		/*System.out.println("list="+list);*/
 		
 		//카테고리 구별
@@ -330,6 +332,7 @@ public class ProjectController {
 
 		mav.addObject("list",list);
 		mav.addObject("p",p);
+		mav.addObject("count",count);
 		mav.addObject("rowNum",rowNum);
 		mav.addObject("category",category);
 		mav.setViewName("project/originatorView");
