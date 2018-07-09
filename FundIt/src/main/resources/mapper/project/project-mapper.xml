@@ -110,7 +110,7 @@
 	<select id="projectList" resultType="projectList">
 		select p.projectno, p.projectimage, p.projecttitle, 
 	        (select name from member m where p.email = m.email) name,
-            trunc(deadlinedate - sysdate) deadlineDay,
+            trunc(deadlinedate - sysdate)+1 deadlineDay,
 	        s.supportmoney, s.supportpercent,s.supportor, o.projectdate
 		from (select * from project_outline where projectconfirmyn='Y' and projectdeadlineyn='N' order by projectdate desc) p 
 	        join project_summary s on p.projectno = s.projectno
@@ -118,7 +118,7 @@
 	        join project_outline o on p.projectno = o.projectno
 		where 1=1 
 		<if test="deadline == null or deadline=='on'">
-			and deadlinedate>=TO_DATE(1,'dd')
+			and trunc(deadlinedate - sysdate)+1>=1
 		</if>
 		<if test="categoryCode != null and categoryCode !='' ">
 			and o.categorycode = #{categoryCode}
@@ -240,7 +240,7 @@
 	</select>
 	
 	<select id="communityList" resultType="community">
-		select * from community where projectno = ${projectNo}
+		select * from community c join profile p on c.email=p.email where projectno =${projectNo}
 	</select>
 	
 	<insert id="communityInsert">
@@ -385,7 +385,7 @@
 	   select * from  
      (select a.projectno, a.projecttitle, a.projectimage, a.projectconfirmyn as "confirmYn", (select nvl(name,'') from member m where a.email = m.email) "name",
        (select to_char(trunc(deadlinedate - sysdate)) from project_funding f where a.projectno = f.projectno) deadlineday,nvl(b.SUPPORTMONEY,0),nvl(b.SUPPORTPERCENT,0)
-        from (select * from  project_outline where email = 'asd@co.kr' and projectconfirmyn = 'I') a
+        from (select * from  project_outline where email = '${email}' and projectconfirmyn = 'I') a
         left join project_summary b on a.projectno = b.projectno order by deadlineday)
 	</select>
 	
@@ -505,5 +505,9 @@
 	<update id="projectSummary">
 		update project_summary set supportor=${supportor}, supportmoney=${supportMoney}, supportpercent=${supportpercent}, supportwithouttax=${supportwithouttax} where projectno=${projectNo}
 	</update>
+	
+	<select id="oriProjectProjectCount" resultType="_int">
+		select count(*) from support where payyn='Y' and email='${email}'
+	</select>
 	
 </mapper>

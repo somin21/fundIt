@@ -154,4 +154,6 @@ public interface ProjectService {
 
 	int projectSummary(Map<String, Object> map);
 
+	int oriProjectProjectCount(Map<String, String> map);
+
 }

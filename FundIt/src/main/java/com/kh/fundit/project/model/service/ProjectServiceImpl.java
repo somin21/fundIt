@@ -525,6 +525,11 @@ public class ProjectServiceImpl implements ProjectService {
 	public int projectSummary(Map<String, Object> map) {
 		return projectDAO.projectSummary(map);
 	}
+//	희영
+	@Override
+	public int oriProjectProjectCount(Map<String, String> map) {
+		return projectDAO.oriProjectProjectCount(map);
+	}
 
 
 }
