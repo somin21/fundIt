@@ -284,7 +284,7 @@
 	</select>
 	
 	<select id="makeProject" resultType="profile">
-	select p.*, l.localname, (select m.name from member m where m.email = p.email) name from profile p join location l on p.localcode = l.localcode where email = #{email}
+	select p.*, l.localname, (select m.name from member m where m.email = p.email) name from profile p left join location l on p.localcode = l.localcode where email = #{email}
 	</select>
 	
 	<insert id="makeProjectOutline">

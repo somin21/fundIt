@@ -34,7 +34,7 @@
 	</update>
 	
 	<insert id="insertMember">
-	insert into member values(#{email},#{password},#{name},default,default,default,default,default)
+	insert into member values(#{email},#{password},#{name},default,default,default,default,default,null)
 	</insert>
 	
 	
@@ -64,7 +64,7 @@
    </select>
       
    <insert id="insertNaver">
-   insert into member values('${naverEmail}',null,'${naverName}',default,default,default,'Y',default)
+   insert into member values('${naverEmail}',null,'${naverName}',default,default,default,'Y',default,null)
    </insert>
 	
 	<select id="selectProfileImg" resultType = "String">
