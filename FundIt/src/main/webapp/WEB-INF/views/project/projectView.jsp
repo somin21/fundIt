@@ -372,7 +372,7 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
 	        <div class="ground">
 		        <div class="mainContext">
 		        <c:if test="${not empty ps }">
-					<video src="${pageContext.request.contextPath }/resources/images/projects/${ps.getIntroduceMovie()}" autoplay controls id="previewMovie" style="width:540px;height:360px;display:none;">영상이 지원되지 않는 브라우저입니다</video>
+					<video src="${pageContext.request.contextPath }/resources/images/projects/${ps.getIntroduceMovie()}" autoplay controls id="previewMovie" style="width:540px;">영상이 지원되지 않는 브라우저입니다</video>
 		        	<br />
 		        	${ps.getProjectStory() }
 		        </c:if>
