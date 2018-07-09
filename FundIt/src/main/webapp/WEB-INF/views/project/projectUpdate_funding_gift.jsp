@@ -204,6 +204,13 @@ div#checkedGift div.giftList div:last-of-type span#successDelivery{
 <script>
 $(function(){
 	
+	document.addEventListener('keydown', function(event) {
+	    if (event.keyCode === 13) {
+	    	alert("Enter키는 사용할 수 없습니다. \n불편을 드려 죄송합니다.");
+	        event.preventDefault();
+	    }
+	}, true);
+	
 	/* CSS 수정 */
 	$("#funding-money").parent("p").css("text-align","left");
 	$("#funding-money").css("width","25%");
@@ -567,7 +574,7 @@ function funding_validate(){
 		return false;
 	}
 	
-	if($(this).val() > 100000000){
+	if($("#funding-money").val() > 100000000){
 
 		alert("목표 금액은 100,000,000원 이하입니다");
 		return false;
@@ -609,7 +616,7 @@ function funding_validate(){
 span.dotdotdot{
 	overflow: hidden;
 	text-overflow: ellipsis;
-	white-space: nowrap;
+	/* white-space: nowrap; */
 }
 </style>
 

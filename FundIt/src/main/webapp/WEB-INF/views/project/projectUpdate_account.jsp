@@ -167,6 +167,14 @@ function fn_emailAtion2(){//번호확인
 
 <script>
 $(function(){
+	
+	document.addEventListener('keydown', function(event) {
+	    if (event.keyCode === 13) {
+	    	alert("Enter키는 사용할 수 없습니다. \n불편을 드려 죄송합니다.");
+	        event.preventDefault();
+	    }
+	}, true);
+	
 	$("#confirmHidden").find(".closeBtn").on("click",function(){
 		$("#confirmHidden").prev("#confirmShown").prev(".shown").slideDown(500);
 	});

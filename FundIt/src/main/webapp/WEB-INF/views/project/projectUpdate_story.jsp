@@ -34,7 +34,7 @@
 
 <script>
 $(document).ready(function(){
-	
+		
 	$("#project-movie").on("change",previewMovie);
 	
 	$("#summernote").summernote({

@@ -12,6 +12,15 @@
 
 
 <script>
+$(function(){
+	document.addEventListener('keydown', function(event) {
+	    if (event.keyCode === 13) {
+	    	alert("Enter키는 사용할 수 없습니다. \n불편을 드려 죄송합니다.");
+	        event.preventDefault();
+	    }
+	}, true);
+})
+
 function outline_validate(){
 		
 	if($("#project-title").val().trim() == ""){
