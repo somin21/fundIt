@@ -95,6 +95,11 @@ width:100%;
   </div>
 </div>
 
+<form action="${pageContext.request.contextPath }/message/messageList.do" method="post">
+	<input type="text" name="email" value="${memberLoggedIn.email}"style="display: none;" />
+	<input type="submit" id="listMessage" style="display: none;"/>
+	</form>
+
 <form action="${pageContext.request.contextPath}/message/messageList.do" method="post">
 <input type="text" name="email" value="${memberLoggedIn.email }" style="display: none;"/>
 <input type="submit" id="modalpost" style="display: none;"/>
@@ -102,11 +107,17 @@ width:100%;
 <script>
 $('#myModal').modal({backdrop: 'static'});
 function aaa(){
+	
+	$("#listMessage").click();
 	window.history.back();
+	
+	
 
 }
 
+
 </script>
+
 
 
    
