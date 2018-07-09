@@ -44,8 +44,8 @@ public class AdminDAOImpl implements AdminDAO {
 	}
 
 	@Override
-	public List<AdminProjectView> adminProjectView(Map<String, Object> map) {
-		return sqlSession.selectList("admin.adminProjectView",map);
+	public AdminProjectView adminProjectView(Map<String, Object> map) {
+		return sqlSession.selectOne("admin.adminProjectView",map);
 	}
 
 	@Override
@@ -84,8 +84,8 @@ public class AdminDAOImpl implements AdminDAO {
 	}
 
 	@Override
-	public List<AdminProjectView> projectDeadlineView(Map<String, Object> map) {
-		return sqlSession.selectList("admin.projectDeadlineView",map);
+	public AdminProjectView projectDeadlineView(Map<String, Object> map) {
+		return sqlSession.selectOne("admin.projectDeadlineView",map);
 	}
 
 	@Override
@@ -121,5 +121,10 @@ public class AdminDAOImpl implements AdminDAO {
 	@Override
 	public List<AdminMessage> adminMessageSearch(String content) {
 		return sqlSession.selectList("admin.adminMessageSearch", content);
+	}
+
+	@Override
+	public List<Integer> projectGiftMoneyList(int no) {
+		return sqlSession.selectList("admin.projectGiftMoneyList",no);
 	}
 }

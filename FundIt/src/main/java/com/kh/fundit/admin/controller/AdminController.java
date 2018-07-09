@@ -97,31 +97,27 @@ public class AdminController {
 	
 	// 프로젝트 선택해서 프로젝트 보기
 	@RequestMapping("/admin/projectConfirmView")
-	public ModelAndView projectConfirmListEnd(@RequestParam("projectNo") int no,
-											  HttpServletResponse response)	{
+	public ModelAndView projectConfirmListEnd(@RequestParam("projectNo") int no)	{
 		ModelAndView mav = new ModelAndView();
 		
 		Map<String,Object> map = new HashMap<>();
 		map.put("projectNo",no);
 		
 		//프로젝트리스트뽑기
-		List<AdminProjectView> list = adminService.adminProjectView(map);
+		AdminProjectView view = adminService.adminProjectView(map);
 		
 		//선물리스트 받아오기
+		List<Integer> mList = adminService.projectGiftMoneyList(no);
 		List<ProjectGift> gList = adminService.projectGiftList(map);
-		String userEmail = "";
-		Date calculateduedDate = null;
-		for(AdminProjectView v : list) {
-			userEmail = v.getEmail();
-			calculateduedDate = v.getCalculateduedDate();
-		}
-		Profile p = adminService.profileUser(userEmail);
+
+		Profile p = adminService.profileUser(view.getEmail());
 		
-		mav.addObject("list",list);
+		
+		mav.addObject("view",view);
+		mav.addObject("mList",mList);
 		mav.addObject("gList",gList);
 		mav.addObject("p",p);
 		mav.addObject("projectNo",no);
-		mav.addObject("calculateduedDate",calculateduedDate);
 		mav.setViewName("admin/projectConfirmView");
 		
 		return mav;
@@ -194,27 +190,20 @@ public class AdminController {
 		map.put("projectNo",no);
 		
 		//프로젝트리스트뽑기
-		List<AdminProjectView> list = adminService.projectDeadlineView(map);
+		AdminProjectView view = adminService.projectDeadlineView(map);
 		
 		//선물리스트 받아오기
+		List<Integer> mList = adminService.projectGiftMoneyList(no);
 		List<ProjectGift> gList = adminService.projectGiftList(map);
-		String userEmail = "";
-		Date calculateduedDate = null;
-		int deadlineDay = 0;
+	
+		Profile p = adminService.profileUser(view.getEmail());
 		
-		for(AdminProjectView v : list) {
-			userEmail = v.getEmail();
-			calculateduedDate = v.getCalculateduedDate();
-			deadlineDay = v.getDeadlineDay();
-		}
-		Profile p = adminService.profileUser(userEmail);
 		
-		mav.addObject("list",list);
+		mav.addObject("view",view);
+		mav.addObject("mList",mList);
 		mav.addObject("gList",gList);
 		mav.addObject("p",p);
 		mav.addObject("projectNo",no);
-		mav.addObject("calculateduedDate",calculateduedDate);
-		mav.addObject("deadlineDay",deadlineDay);
 		mav.setViewName("admin/projectDeadlineView");
 		
 		return mav;

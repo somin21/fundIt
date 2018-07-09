@@ -31,23 +31,24 @@
 	
 	<select id="projectConfirmList" resultType="list_project_view">
 	<![CDATA[
-		select p.projectno, p.projectimage, p.projecttitle, 
-	        (select name from member m where p.email = m.email) name,
-	        (select trunc(deadlinedate - sysdate) from project_funding f where p.projectno = f.projectno) deadlineday
-		from (select * from project_outline where projectconfirmyn='N') p
+		select  o.projectno, o.projecttitle, o.projectimage,
+		        (select name from member m where o.email = m.email) name,
+		        trunc(f.deadlinedate - sysdate)+1 deadlineday
+		    from project_outline o 
+		        join project_funding f on o.projectno = f.projectno 
+		        join project_story s on o.projectno = s.projectno
+		        join project_account a on o.projectno = a.projectno
+		    where o.projectconfirmyn='N'
 	 ]]>
 	</select>
 
 	<select id="adminProjectView" resultType="adminProjectView">
-		select p.projectno, p.email, p.projectimage, p.projecttitle, p.categorycode,
-        	(select name from member m where p.email = m.email) name,
-        	(select trunc(deadlinedate - sysdate) from project_funding f where p.projectno = f.projectno) deadlineday,
-        	(select supportgoal from project_funding f where p.projectno = f.projectno) supportgoal,
-            (select CALCULATEDUEDATE from project_funding f where p.projectno = f.projectno) calculatedueddate,
-            (select introducemovie from project_story s where p.projectno = s.projectno) movie,
-            (select projectstory from project_story s where p.projectno = s.projectno) story
-		from (select * from project_outline where projectconfirmyn='N' and projectdeadlineyn='N' order by projectdate desc) p
-        where p.projectno = ${projectNo}
+		select o.projectno, o.email, o.projectimage, o.projecttitle, o.categorycode, 
+                    (select categoryname from category c where o.categorycode = c.categorycode) categoryname,
+                    (select name from member m where o.email = m.email) name, f.deadlinedate,
+                    trunc(f.deadlinedate - sysdate)+1 deadlineday, f.supportgoal, f.refund, f.calculateduedate as calculatedueddate, s.introducemovie as movie, s.projectstory as story
+            from project_outline o join project_funding f on o.projectno = f.projectno join project_story s on o.projectno = s.projectno
+            where o.projectconfirmyn='N' and o.projectdeadlineyn='N' and o.projectno=#{projectNo}
 	</select>
 	
 	<select id="projectGiftList" resultType="ProjectGift">
@@ -80,25 +81,22 @@
 	
 	<select id="projectDeadlineList" resultType="list_project_view">
 	<![CDATA[
-		select *
-        from (select p.projectno, p.projectimage, p.projecttitle, 
-	        (select name from member m where p.email = m.email) name,
-	        (select trunc(deadlinedate - sysdate) from project_funding f where p.projectno = f.projectno) deadlineday,
-	        nvl(s.supportmoney,0) supportmoney, nvl(s.supportpercent,0) supportpercent
-			from (select * from project_outline where projectconfirmyn='Y' and projectdeadlineyn='N' order by projectdate desc) p join project_summary s on p.projectno = s.projectno where p.projectdeadlineyn='N')
-        where deadlineday <=0
+		select o.projectno, o.email, o.projectimage, o.projecttitle, o.categorycode, 
+                (select categoryname from category c where o.categorycode = c.categorycode) categoryname,
+                (select name from member m where o.email = m.email) name, f.deadlinedate,
+                trunc(f.deadlinedate - sysdate)+1 deadlineday, f.supportgoal, f.refund, f.calculateduedate as calculatedueddate, s.introducemovie as movie, s.projectstory as story
+        from project_outline o join project_funding f on o.projectno = f.projectno join project_story s on o.projectno = s.projectno
+        where o.projectconfirmyn='Y' and o.projectdeadlineyn='Y' 
 	 ]]>
 	</select>
 	
 	<select id="projectDeadlineView" resultType="adminProjectView">
-		select p.projectno, p.email, p.projectimage, p.projecttitle, 
-        	(select name from member m where p.email = m.email) name,
-        	(select trunc(deadlinedate - sysdate) from project_funding f where p.projectno = f.projectno) deadlineday,
-        	(select supportgoal from project_funding f where p.projectno = f.projectno) supportgoal,
-            (select CALCULATEDUEDATE from project_funding f where p.projectno = f.projectno) calculatedueddate,
-            s.supportmoney, s.supportpercent, s.supportor, p.categorycode
-		from (select * from project_outline) p join project_summary s on p.projectno = s.projectno
-        where p.projectno = ${projectNo}
+		select o.projectno, o.email, o.projectimage, o.projecttitle, o.categorycode, 
+                (select categoryname from category c where o.categorycode = c.categorycode) categoryname,
+                (select name from member m where o.email = m.email) name, f.deadlinedate,
+                trunc(f.deadlinedate+1 - sysdate) deadlineday, f.supportgoal, ps.supportmoney, ps.supportor, f.refund, f.calculateduedate as calculatedueddate, s.introducemovie as movie, s.projectstory as story 
+        from project_outline o join project_funding f on o.projectno = f.projectno join project_story s on o.projectno = s.projectno join project_summary ps on o.projectno = ps.projectno
+        where o.projectconfirmyn='Y' and o.projectdeadlineyn='Y' and o.projectno=#{projectNo}
 	</select>
 	<select id="memberSearchList" resultType="adminMember">
 	<![CDATA[
@@ -135,6 +133,10 @@
 	<![CDATA[
 		select * from message where receiveemail=(select email from member where adminyn='Y') and  messagecontent like '%' ||  #{content} || '%'
 	]]>	
+	</select>
+	
+	<select id="projectGiftMoneyList" resultType="_int">
+	select distinct minmoney from project_gift where projectno=#{no} order by minmoney
 	</select>
 	
 </mapper>

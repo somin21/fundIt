@@ -44,12 +44,9 @@
 							<br />
 							<div class="days">
 								<img src="${pageContext.request.contextPath }/resources/images/calendar.png"/>
-								&nbsp; 0일 남음
+								&nbsp; 승인대기중
 							</div>
-							<div class="support">
-								<img src="${pageContext.request.contextPath }/resources/images/money.png"/>
-								&nbsp; <fmt:formatNumber value="0" pattern="#,###"/> &nbsp;(0%)
-							</div>
+							
 						</div>
 					</div>
 				</c:forEach>

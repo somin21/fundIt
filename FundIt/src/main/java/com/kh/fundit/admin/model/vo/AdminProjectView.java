@@ -19,7 +19,13 @@ public class AdminProjectView {
 	private int supportPercent;
 	private int supportor;
 	private String refund;
+	private String categoryName;
+	private Date deadlineDate;
 	
+	
+	
+	
+
 	public AdminProjectView() {
 		super();
 	}
@@ -172,6 +178,22 @@ public class AdminProjectView {
 
 	public void setRefund(String refund) {
 		this.refund = refund;
+	}
+	
+	public String getCategoryName() {
+		return categoryName;
+	}
+
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
+
+	public Date getDeadlineDate() {
+		return deadlineDate;
+	}
+
+	public void setDeadlineDate(Date deadlineDate) {
+		this.deadlineDate = deadlineDate;
 	}
 
 	@Override

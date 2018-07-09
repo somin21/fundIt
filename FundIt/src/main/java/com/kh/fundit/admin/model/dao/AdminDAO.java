@@ -20,7 +20,7 @@ public interface AdminDAO {
 
 	List<ListProjectView> projectConfirmList();
 
-	List<AdminProjectView> adminProjectView(Map<String, Object> map);
+	AdminProjectView adminProjectView(Map<String, Object> map);
 
 	List<ProjectGift> projectGiftList(Map<String, Object> map);
 
@@ -36,7 +36,7 @@ public interface AdminDAO {
 
 	List<ListProjectView> projectDeadLineList();
 
-	List<AdminProjectView> projectDeadlineView(Map<String, Object> map);
+	AdminProjectView projectDeadlineView(Map<String, Object> map);
 
 	List<AdminMember> memberSearchList(String email);
 
@@ -51,6 +51,8 @@ public interface AdminDAO {
 	int replyMessage(Map<String,String> map1);
 
 	List<AdminMessage> adminMessageSearch(String content);
+
+	List<Integer> projectGiftMoneyList(int no);
 
 
 }

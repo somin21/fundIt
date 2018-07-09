@@ -47,7 +47,7 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public List<AdminProjectView> adminProjectView(Map<String, Object> map) {
+	public AdminProjectView adminProjectView(Map<String, Object> map) {
 		return adminDAO.adminProjectView(map);
 	}
 
@@ -87,7 +87,7 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public List<AdminProjectView> projectDeadlineView(Map<String, Object> map) {
+	public AdminProjectView projectDeadlineView(Map<String, Object> map) {
 		return adminDAO.projectDeadlineView(map);
 	}
 
@@ -124,6 +124,11 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public List<AdminMessage> adminMessageSearch(String content) {
 		return adminDAO.adminMessageSearch(content);
+	}
+
+	@Override
+	public List<Integer> projectGiftMoneyList(int no) {
+		return adminDAO.projectGiftMoneyList(no);
 	}
 
 	

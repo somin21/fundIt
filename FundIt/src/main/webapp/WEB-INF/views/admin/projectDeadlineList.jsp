@@ -43,7 +43,7 @@
 							<br />
 							<div class="days">
 								<img src="${pageContext.request.contextPath }/resources/images/calendar.png"/>
-								&nbsp;${project.deadlineDay }일 남음
+								종료
 							</div>
 							<div class="support">
 								<img src="${pageContext.request.contextPath }/resources/images/money.png"/>
