@@ -188,12 +188,12 @@ div.mainContext img{
                 <span id="sp1">0</span>명 <br><br>
                 <div class="notice">
                     <span class="sp">승인 대기</span><br />
-                    <span class="sp2">목표금액인 <fmt:formatNumber>${i.supportGoal }</fmt:formatNumber>원이 모여야 결제됩니다.</span><br />
-                    <span class="sp2">결제는 <fmt:formatDate value="${i.calculateduedDate }" pattern="yyyy년 MM월 dd일"/> 에 다함께 진행됩니다.</span>
+                    <span class="sp2">목표금액인 <fmt:formatNumber>${view.supportGoal }</fmt:formatNumber>원이 모여야 결제됩니다.</span><br />
+                    <span class="sp2">결제는 <fmt:formatDate value="${view.calculateduedDate }" pattern="yyyy년 MM월 dd일"/> 에 다함께 진행됩니다.</span>
                 </div>
                
-                <button class="button" style="vertical-align:middle" onclick="fn_projectConfirmY('${i.projectNo}');"><span>승인</span></button>
-                <button class="button" style="vertical-align:middle" onclick="fn_projectConfirmF('${i.projectNo}');"><span>거절</span></button>
+                <button class="button" style="vertical-align:middle" onclick="fn_projectConfirmY('${view.projectNo}');"><span>승인</span></button>
+                <button class="button" style="vertical-align:middle" onclick="fn_projectConfirmF('${view.projectNo}');"><span>거절</span></button>
                 <script>
                 function fn_projectConfirmY(no){
                    location.href="${pageContext.request.contextPath}/admin/projectConfirmY.do?no="+no;

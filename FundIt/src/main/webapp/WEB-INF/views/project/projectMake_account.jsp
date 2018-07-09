@@ -212,7 +212,7 @@ $(function(){
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/x.png" />
 						닫기
 					</button>
-					<button type="button" id="sendEmailBtn" onclick="fn_emailAtion(${memberLoggedIn.email});">
+					<button type="button" id="sendEmailBtn" onclick="fn_emailAtion('${memberLoggedIn.email}');">
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/ok.png" />
 						인증
 					</button>

@@ -67,14 +67,14 @@
 	</select>
 	
 	<select id="selectMyProjectYet" resultType = "list_project_view">
-	select *
-	from
-		(select p.projectno, p.projecttitle, p.projectimage,p.projectconfirmyn as "confirmYn",  
-			    (select name from member m where p.email = m.email) name,
-			    (select trunc(deadlinedate+1 - sysdate) from project_funding f where p.projectno = f.projectno) deadlineday,
-			     s.supportmoney, s.supportpercent
-		from (select * from project_outline where projectconfirmyn = 'N' and  email = #{email} order by projectdate desc) p join project_summary s on p.projectno = s.projectno
-		order by deadlineday)
+	    select  o.projectno, o.projecttitle, o.projectimage, o.projectconfirmyn as confirmYn,
+		        (select name from member m where o.email=m.email) name,
+		        trunc(f.deadlinedate+1 - sysdate) deadlineday, 0 supportPercent, 0 supportmoney
+		from project_outline o 
+		    join project_funding f on o.projectno = f.projectno 
+		    join project_story s on o.projectno = s.projectno
+		    join project_account a on o.projectno = a.projectno
+		where o.projectconfirmyn='N' and o.email=#{email}
 	</select>
 	
 	<select id="selectMyProjectYes" resultType = "list_project_view">
@@ -89,14 +89,14 @@
 	</select>
 	
 	<select id="selectMyProjectNo" resultType = "list_project_view">
-	select *
-	from
-		(select p.projectno, p.projecttitle, p.projectimage,p.projectconfirmyn as "confirmYn",  
-			    (select name from member m where p.email = m.email) name,
-			    (select trunc(deadlinedate+1 - sysdate) from project_funding f where p.projectno = f.projectno) deadlineday,
-			     s.supportmoney, s.supportpercent
-		from (select * from project_outline where projectconfirmyn = 'F' and  email = #{email} order by projectdate desc) p join project_summary s on p.projectno = s.projectno
-		order by deadlineday)
+	select  o.projectno, o.projecttitle, o.projectimage, o.projectconfirmyn as confirmYn,
+	        (select name from member m where o.email=m.email) name,
+	        trunc(f.deadlinedate+1 - sysdate) deadlineday, 0 supportPercent, 0 supportmoney
+	from project_outline o 
+	    join project_funding f on o.projectno = f.projectno 
+	    join project_story s on o.projectno = s.projectno
+	    join project_account a on o.projectno = a.projectno
+	where o.projectconfirmyn='F' and o.email=#{email}
 	</select>
 	
 	<select id="selectMyProjectCnt" resultType = "_int">
@@ -382,11 +382,14 @@
 	</delete>
 	
 	<select id="selectMyProjectI" resultType = "list_project_view">
-	   select * from  
-     (select a.projectno, a.projecttitle, a.projectimage, a.projectconfirmyn as "confirmYn", (select nvl(name,'') from member m where a.email = m.email) "name",
-       (select to_char(trunc(deadlinedate+1 - sysdate)) from project_funding f where a.projectno = f.projectno) deadlineday,nvl(b.SUPPORTMONEY,0),nvl(b.SUPPORTPERCENT,0)
-        from (select * from  project_outline where email = #{email} and projectconfirmyn = 'I') a
-        left join project_summary b on a.projectno = b.projectno order by deadlineday)
+	   select  o.projectno, o.projecttitle, o.projectimage, o.projectconfirmyn as confirmYn,
+		        (select name from member m where o.email=m.email) name,
+		        trunc(f.deadlinedate+1 - sysdate) deadlineday, 0 supportPercent, 0 supportmoney
+		from project_outline o 
+		    join project_funding f on o.projectno = f.projectno 
+		    join project_story s on o.projectno = s.projectno
+		    join project_account a on o.projectno = a.projectno
+		where o.projectconfirmyn='I' and o.email=#{email}
 	</select>
 	
 	<update id="communityUpdate">
