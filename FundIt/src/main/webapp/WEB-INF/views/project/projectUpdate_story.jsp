@@ -160,7 +160,7 @@ function story_validate(){
 				</p>
 				<p>
 					<c:if test="${story.introduceMovie ne null }">
-						<video src="${pageContext.request.contextPath }/resources/images/projects/${story.introduceMovie}" autoplay controls id="previewMovie" style="width:540px;height:360px;">영상이 지원되지 않는 브라우저입니다</video>
+						<video src="${pageContext.request.contextPath }/resources/images/projects/${story.introduceMovie}" autoplay controls id="previewMovie" style="width:540px;">영상이 지원되지 않는 브라우저입니다</video>
 					</c:if>
 					<c:if test="${story.introduceMovie eq null }">
 						<span>
@@ -193,7 +193,7 @@ function story_validate(){
 						영상 선택하기
 					</button>
 					<input type="file" class="hiddenInput" id="project-movie" name="projectMovie" accept="video/mp4" />
-					<video src="${pageContext.request.contextPath }/resources/images/projects/${story.introduceMovie}" controls id="previewMovie" style="width:540px;height:360px;">영상이 지원되지 않는 브라우저입니다</video>
+					<video src="${pageContext.request.contextPath }/resources/images/projects/${story.introduceMovie}" controls id="previewMovie" style="width:540px;">영상이 지원되지 않는 브라우저입니다</video>
 				</p>
 				<p>
 					<button type="button" class="saveBtn">

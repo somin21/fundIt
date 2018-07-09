@@ -403,7 +403,7 @@
 	</update>
 	
 	<insert id="makeProjectStory">
-	insert into project_story values(#{projectNo},#{introduceMovie},#{projectStory})
+	insert into project_story values(#{projectNo},#{introduceMovie,jdbcType=VARCHAR},#{projectStory})
 	</insert>
 	
 	<insert id="makeProjectAccount">
