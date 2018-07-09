@@ -31,17 +31,17 @@ insert into message values(seq_message_no.nextval,'${messageContent}',default,'$
 </select>
 
 <select id="selectMessageList3" resultType="message">
-	select messageno,messagecontent,readyn,sendemail,receiveemail,to_char(messagedate,'mm-dd hh24:mi:ss') as messagedate from message where receiveEmail = #{email} and messageContent like '%'||#{messageSelect}||'%' or sendEmail like '%'||#{messageSelect}||'%'  order by messageDate desc
+	select messageno,messagecontent,readyn,sendemail,receiveemail,to_char(messagedate,'mm-dd hh24:mi:ss') as messagedate from message where receiveEmail = #{email} and messageContent like '%'||#{messageSelect}||'%'   order by messageDate desc
 </select>
 <select id="totalMessageCount3" resultType="_int">
-	select count(*)as cnt from message where receiveEmail = #{email} and messageContent like '%'||#{messageSelect}||'%' or sendEmail like '%'||#{messageSelect}||'%'
+	select count(*)as cnt from message where receiveEmail = #{email} and messageContent like '%'||#{messageSelect}||'%' 
 </select>
 
 <select id="selectMessageList4" resultType="message">
-	select messageno,messagecontent,readyn,sendemail,receiveemail,to_char(messagedate,'mm-dd hh24:mi:ss') as messagedate from message where sendEmail = #{email} and messageContent like '%'||#{messageSelect}||'%' or receiveEmail like '%'||#{messageSelect}||'%' order by messageDate desc
+	select messageno,messagecontent,readyn,sendemail,receiveemail,to_char(messagedate,'mm-dd hh24:mi:ss') as messagedate from message where sendEmail = #{email} and messageContent like '%'||#{messageSelect}||'%' order by messageDate desc
 </select>
 <select id="totalMessageCount4" resultType="_int">
-	select count(*)as cnt from message where sendEmail = #{email} and messageContent like '%'||#{messageSelect}||'%' or receiveEmail like '%'||#{messageSelect}||'%'
+	select count(*)as cnt from message where sendEmail = #{email} and messageContent like '%'||#{messageSelect}||'%' 
 </select>
 
 <update id="readyn">
@@ -58,5 +58,11 @@ insert into message values(seq_message_no.nextval,'${messageContent}',default,'$
 	select count(*)as cnt from message where receiveEmail = #{email} and readyn ='N' 
 </select>
 
+<select id="selectMessageList6" resultType="message">
+	select messageno,messagecontent,readyn,sendemail,receiveemail,to_char(messagedate,'mm-dd hh24:mi:ss') as messagedate from message where receiveEmail = #{email} and readyn ='N' and messageContent like '%'||#{messageSelect}||'%' order by messageDate desc
+</select>
+<select id="totalMessageCount6" resultType="_int">
+	select count(*)as cnt from message where receiveEmail = #{email} and readyn ='N' and messageContent like '%'||#{messageSelect}||'%' 
+</select>
 
 </mapper>

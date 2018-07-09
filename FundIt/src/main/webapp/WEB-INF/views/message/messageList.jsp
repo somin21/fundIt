@@ -47,6 +47,7 @@ text-overflow: ellipsis;
 white-space:nowrap;
 } 
 </style>
+
     <div class="maincontainer">
         <h1 id="messageContainer">
            <img src="${pageContext.request.contextPath }/resources/images/message/message.png" alt="" />Message
@@ -72,10 +73,10 @@ white-space:nowrap;
 	<tr>
 	<!-- 	<th>번호</th> -->
 		<th class="content">내용</th>
-		<th>수신 여부</th>
-		<th>보낸이</th>
+		<th>읽은 여부</th>
+		<th>보낸 사람</th>
 		<!-- <th>받은사람</th> -->
-		<th>받은시간</th>
+		<th>받은 시간</th>
 	</tr>
 	
 	<c:forEach items="${list}" var="message" varStatus="status">
@@ -114,6 +115,7 @@ function me(a){
 	
 
 }
+
 
 
 

@@ -83,7 +83,7 @@ window.onload = function () {
 		<th>읽음 여부</th>
 		<th>받은 사람</th>
 		<!-- <th>받은사람</th> -->
-		<th>보낸 시간</th>
+		<th>받은 시간</th>
 	</tr>
 	
 	<c:forEach items="${list}" var="message" varStatus="status">
@@ -92,24 +92,25 @@ window.onload = function () {
 			<%-- <td>${message.messageNo}</td> --%>
 			<td><input type="submit" id="sss${status.count }" style="display: none;"  /><a href="#" class="content" onclick="me(${status.count});">${message.messageContent } </a></td>
 			<td>${message.readyn }</td>
-			<td>${message.receiveEmail }</td>
+			<td>${message.sendEmail }</td>
 			<input type="text" name=email value="${message.receiveEmail }" style="display: none;" />
 			<input type="text" name=email2 value="${message.sendEmail }" style="display: none;"/>
 			<input type="text" name=messageNo value="${message.messageNo }" style="display: none;"/>
-		
+			
 			</form>
 			<%-- <td>${message.receiveEmail }</td> --%>
 			<td>${message.messageDate }</td>
 		</tr>
 	</c:forEach>
 <c:if test="${empty list }">
-	
+
 		</c:if>
 		<form action="messageSelect2.do" method="post">
 <input type="text" value="${param.email }" name="email" id="loggedinemail" style="display: none;"/> 
 <input type="text" placeholder="메일검색" onkeydown="JavaScript:Enter_Check();" name="messageSelect" value="" />
 <input type="submit" value="검색" />
 </form>
+
 </table>
 </div>
 <script>
@@ -122,6 +123,7 @@ function me(a){
 </script>
 <!-- 페이지바 -->
 <%
+	String messageSelect = request.getParameter("messageSelect");
 	String email = request.getParameter("email");
 	int count = Integer.parseInt(String.valueOf(request.getAttribute("count")));
 	int numPerPage = Integer.parseInt(String.valueOf(request.getAttribute("numPerPage")));
@@ -132,6 +134,9 @@ function me(a){
 		
 	}
 %>
-<%=com.kh.fundit.message.util.Utils.getPageBar(count,cPage,numPerPage,"messageList2.do",email) %>
+
+<%=com.kh.fundit.message.util.Utils.getPageBar2(count,cPage,numPerPage,"messageSelect2.do",email,messageSelect) %>
+
+
 </section>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

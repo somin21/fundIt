@@ -9,6 +9,7 @@
 </jsp:include>
 <script>
 window.onload = function () {
+	
    $(".btn-info").hide();
    $(".btn-info").click();
    $("#sendEmailHide").hide();

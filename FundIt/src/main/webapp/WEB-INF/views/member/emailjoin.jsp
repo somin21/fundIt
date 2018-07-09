@@ -80,8 +80,9 @@ table#login-table span.guide{
 display:none;
 font-size:15px;
 color:red;
-
-
+}
+.ok{
+color:green;
 }
 </style>
 <script>
@@ -146,25 +147,25 @@ color:red;
 				if(data.isUsable==true && email == email2){
 					 $(".guide.error").hide();
 						$(".guide.ok2").hide();
-					$(".guide.ok").show();
+					$(".ok").show();
 					$("EmailDuplicateCheck").val(1); 
 				}
 				else if(data.isUsable==true && email != email2){
 					 $(".guide.error").hide();
 					 $(".guide.ok2").show();
-					 $(".guide.ok").hide();
+					 $(".ok").hide();
 					 $("EmailDuplicateCheck").val(0); 
 				}
 				else if(data.isUsable==false && email != email2){
 					$(".guide.error").hide();
 					$(".guide.ok2").show();
-					$(".guide.ok").hide();
+					$(".ok").hide();
 					$("EmailDuplicateCheck").val(0);
 				}
 				else{
 					$(".guide.error").show();
 					$(".guide.ok2").hide();
-					$(".guide.ok").hide();
+					$(".ok").hide();
 					$("EmailDuplicateCheck").val(0);
 				}
 				
@@ -196,7 +197,7 @@ color:red;
 		<p>이메일</p>
 			<input type="email" class="check" id="join-email_" name="email" placeholder="이메일 주소를 입력해주세요" required /> <br /> 
 			<input type="email" class="check"  id="join-email" placeholder="이메일 주소를 확인합니다" required /> <br />
-			<span class="guide ok">이 이메일는 사용 가능합니다.</span> <br />
+			<span class="ok">이 이메일는 사용 가능합니다.</span> <br />
 		<span class="guide error">이 이메일는 사용중 입니다..</span><br />
 		<span class="guide ok2">이메일이 일치하지 않습니다.</span> <br />
 		<input type="hidden" id="EmailDuplicateCheck" value="0" />
@@ -218,6 +219,7 @@ color:red;
 	</tr>
 	<tr>
 		<td>
+		<br />
 			<input type="submit" class="btn btn-danger" id="email-join" value="이메일로 가입하기" />	
 		</td>
 	</tr>

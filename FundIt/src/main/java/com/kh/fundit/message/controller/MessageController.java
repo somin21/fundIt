@@ -267,7 +267,37 @@ public class MessageController {
 		mav.addObject("list",list);
 		mav.addObject("count",count);
 		mav.addObject("numPerPage",numPerPage);
-		mav.setViewName("message/messageList3");
+		mav.setViewName("message/messageList5");
+		
+		return mav;
+	}
+	
+	@RequestMapping("message/messageSelect3.do")
+	public ModelAndView selectMessage3(@RequestParam(name="messageSelect") String messageSelect,
+			@RequestParam(value="cPage", required=false, defaultValue="1")int cPage
+			,@RequestParam("email") String email) {
+		
+		ModelAndView mav  = new ModelAndView();
+		int numPerPage = 10;
+		System.out.println(messageSelect);
+		System.out.println(email);
+		
+		
+		 Map<String ,Object> map = new HashMap<>();
+		 map.put("cPage", cPage);
+		 map.put("email", email);
+		 map.put("numPerPage",numPerPage);
+		 map.put("messageSelect",messageSelect);
+		
+		
+		List<Message> list = messageService.selectMessageList6(map,cPage,numPerPage);
+	
+		int count = messageService.totalMessageCount6(map);
+		
+		mav.addObject("list",list);
+		mav.addObject("count",count);
+		mav.addObject("numPerPage",numPerPage);
+		mav.setViewName("message/messageList6");
 		
 		return mav;
 	}

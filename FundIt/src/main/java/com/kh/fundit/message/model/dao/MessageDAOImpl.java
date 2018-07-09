@@ -96,6 +96,17 @@ public class MessageDAOImpl implements MessageDAO {
 		return sqlSession.selectOne("message.imagereadyn",email);
 	}
 
+	@Override
+	public List<Message> selectMessageList6(Map<String, Object> map, int cPage, int numPerPage) {
+		RowBounds rowBounds = new RowBounds((cPage-1)*numPerPage,numPerPage);
+		return sqlSession.selectList("message.selectMessageList6",map,rowBounds);
+	}
+
+	@Override
+	public int totalMessageCount6(Map<String, Object> map) {
+		return sqlSession.selectOne("message.totalMessageCount6",map);
+	}
+
 
 
 
