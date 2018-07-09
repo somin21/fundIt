@@ -160,6 +160,13 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
 	img.mainImg{display: block; padding-bottom: 20px; }
 	div.mainTitle{width: 500px;}
 }
+
+div.mainContext video{
+	max-width : 640px;
+}
+div.mainContext img{
+	max-width : 640px;
+}
 </style>
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
     <div class="mainDIV">

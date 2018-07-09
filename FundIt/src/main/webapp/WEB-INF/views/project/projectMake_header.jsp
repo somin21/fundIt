@@ -196,7 +196,7 @@ $(function(){
 						
 						var movieSRC = $(this).next("video").attr("src");
 						$(this).next("video").trigger('pause');
-						html = '<span><video src="'+movieSRC+'" muted controls id="previewMovie" style="width:540px;height:360px;">영상이 지원되지 않는 브라우저입니다</video></span><span></span>';
+						html = '<span><video src="'+movieSRC+'" muted controls id="previewMovie" style="width:540px;">영상이 지원되지 않는 브라우저입니다</video></span><span></span>';
 						
 					} else if($(this).attr("id") == "profile-image"){
 						html = '<span><img src="'+imgSRC+'" class="uploadImg rounded-circle" style="width: 250px;height: 250px;"></span><span></span>';
