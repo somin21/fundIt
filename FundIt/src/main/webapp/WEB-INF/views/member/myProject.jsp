@@ -540,11 +540,10 @@ font-weight : bolder;
 	        console.log(projectNo);
 		    location.href="${pageContext.request.contextPath}/project/updateProject/outline?projectNo="+projectNo;	
 	        } else if(confirmYn == "F" || confirmYn == "N"){
-	        console.log(projectNo)
-	        location.href="${pageContext.request.contextPath}/project/projectPreview?projectNo="+projectNo;
+	        console.log(projectNo);
+	       	alert("접근 불가능한 프로젝트 입니다. \n 관리자에게 문의하세요.");
 	        }
 	}
-	
 	
 
 

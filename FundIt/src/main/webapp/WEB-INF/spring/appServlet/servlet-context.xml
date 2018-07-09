@@ -52,6 +52,15 @@
 			<mapping path="/member/memberUpdate.do"/>
 			<mapping path="/member/profileView.do"/>
 			<mapping path="/member/profileUpdate.do"/>
+			<mapping path="/project/approval*.do"/>
+			<mapping path="/project/supportGo.do"/>
+			<mapping path="/gift/**"/>
+			<mapping path="/member/selectMySupport"/>
+			<mapping path="/project/myProject.do"/>
+			<mapping path="/project/selectMyProjectYet"/>
+			<mapping path="/project/selectMyProjectYes"/>
+			<mapping path="/project/selectMyProjectNo"/>
+			<mapping path="/project/selectMyProjectI"/>
 			<beans:bean id="loginCheckInterceptor" class="com.kh.fundit.common.interceptor.LoginCheckInterceptor" />
 		</interceptor>
 	</interceptors>

@@ -46,6 +46,12 @@ function account_validate(){
 		return false;
 	}
 	
+	if($("#accountName").val().trim().length > 10){
+
+		alert("입금 계좌 내용은 필수 항목입니다\n예금주명을 확인해주세요");
+		return false;
+	}
+	
 	if($("#accountNumber").val() == ""){
 
 		alert("입금 계좌 내용은 필수 항목입니다\n계좌번호를 입력해주세요");

@@ -367,7 +367,7 @@ function outline_validate(){
 			</div>
 			
 			<div class="shown">
-				<p>진행자 황동 지역</p>
+				<p>진행자 활동 지역</p>
 				<p>
 					<span style="font-weight:bold;font-size:20px;color:black;">${profile.localName }</span>
 					<span>
