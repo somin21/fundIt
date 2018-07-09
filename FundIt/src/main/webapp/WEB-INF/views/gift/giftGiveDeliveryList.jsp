@@ -29,7 +29,7 @@ function fn_searchTypeChange(){
 			$("#div-giftList").html('');
 			if(data.length >=1){
 			for(var i=0; i<data.length; i++){
-				if(data.length <6 && data.length>1){
+				if(data.length <6 && data.length>=1){
 					$(".btn").prop("disabled",true);
 				}
 				
@@ -87,7 +87,7 @@ var email = $("#email").val().trim();
 			var div_name = $("#div-giftList"); 
 			if(data.length>=1){
 			for(var i=0; i<data.length; i++){
-				if(data.length <6 && data.length>1){
+				if(data.length <6 && data.length>=1){
 					$(".btn").prop("disabled",true);
 				}
 				htmlAppend(data[i], div_name);
@@ -176,7 +176,7 @@ function toNextAjax(){
 				var div_name = $("#div-giftList");   	
 		    	if(data.length >= 1){		
 		    	for(var i = 0; i < data.length; i++){	
-		    		if(data.length <6 && data.length>1){
+		    		if(data.length <6 && data.length>=1){
 						$(".btn").prop("disabled",true);
 					}
 					htmlAppend(data[i],div_name);
