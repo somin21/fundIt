@@ -372,7 +372,9 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
 	        <div class="ground">
 		        <div class="mainContext">
 		        <c:if test="${not empty ps }">
+		        	<c:if test="${ps.getIntroduceMovie() ne null }">
 					<video src="${pageContext.request.contextPath }/resources/images/projects/${ps.getIntroduceMovie()}" autoplay controls id="previewMovie" style="width:540px;">영상이 지원되지 않는 브라우저입니다</video>
+					</c:if>
 		        	<br />
 		        	${ps.getProjectStory() }
 		        </c:if>
@@ -387,7 +389,7 @@ a#tagA2:hover {color:#757575; text-decoration: none;}
 		        <!-- 커뮤니티 -->
 		        <div class="communityDiv">
 		        	<div class="communityS">
-			        	<img src="${pageContext.request.contextPath }/resources/upload/profileImg/profile.png" alt="프로필" class="originatorImg">
+			        	<img src="${pageContext.request.contextPath }/resources/images/profile.png" alt="프로필" class="originatorImg">
 			        	<span class="communitySs"> 후원자만 글을 쓸 수 있어요</span>
 		        	</div>
 		        	<div class="communityMain">
