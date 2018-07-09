@@ -31,17 +31,17 @@ $(function(){
       $("#profile-click-div").slideToggle();
    });
    $(".messageImage").on("click",function(){
-	  location ="${pageContext.request.contextPath }/message/messageList.do?email=${memberLoggedIn.email }"
+	$("#cccc").click();
 	   });
    
    
    
 })
-
-
-
 </script>
-
+<form action="${pageContext.request.contextPath }/message/messageList5.do" method="post">
+		<input type="text" value="${memberLoggedIn.email }" name="email"  style="display: none;"/>
+		<input type="submit" id="cccc" style="display: none;" />
+		</form>
 
 <script>
 window.onload = function () {
@@ -127,7 +127,7 @@ window.onload = function () {
 			</span>
 			<img src="${pageContext.request.contextPath }/resources/images/profile.png" class="profile-click" />
 			
-			<img src="${pageContext.request.contextPath }/resources/images/message/message.png" class="messageImage" />
+			<img src="${pageContext.request.contextPath }/resources/images/message/message.png" class="messageImage"  style="display: none;"/>
 			<%-- <c:if test="${memberLoggedIn.profileImage ne null}">
 				<img src="./resources/images/${memberLoggedIn.profileImage}" class="profile-click" />
 			</c:if>

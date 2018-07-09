@@ -52,6 +52,12 @@ public interface MessageDAO {
 	int imagereadyn(String email);
 
 
+	List<Message> selectMessageList6(Map<String, Object> map, int cPage, int numPerPage);
+
+
+	int totalMessageCount6(Map<String, Object> map);
+
+
 
 
 

@@ -80,10 +80,10 @@ window.onload = function () {
 	<tr>
 	<!-- 	<th>번호</th> -->
 		<th class="content">내용</th>
-		<th>수신 여부</th>
-		<th>보낸이</th>
+		<th>읽음 여부</th>
+		<th>보낸 사람</th>
 		<!-- <th>받은사람</th> -->
-		<th>받은시간</th>
+		<th>받은 시간</th>
 	</tr>
 	
 	<c:forEach items="${list}" var="message" varStatus="status">
@@ -105,7 +105,7 @@ window.onload = function () {
 <c:if test="${empty list }">
 		
 		</c:if>
-		<form action="messageSelect.do" method="post">
+		<form action="messageSelect3.do" method="post">
 <input type="text" value="${param.email }" name="email" id="loggedinemail" style="display: none;"/> 
 <input type="text" placeholder="메일검색" onkeydown="JavaScript:Enter_Check();" name="messageSelect" value="" />
 <input type="submit" value="검색" />

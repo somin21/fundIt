@@ -170,7 +170,7 @@
 	        (select trunc(deadlinedate - sysdate) from project_funding f where p.projectno = f.projectno) deadlineday,
 	        s.supportmoney, s.supportpercent
 		from (select * from project_outline where projectconfirmyn='Y' and projectdeadlineyn='N' order by projectdate desc) p join project_summary s on p.projectno = s.projectno join interest i on i.projectno = p.projectno
-		 where 1=1 and i.projectno = p.projectno and i.email = #{email} order by S.SUPPORTOR desc
+		 where 1=1 and i.projectno = p.projectno and i.email = #{email} and (select trunc(deadlinedate - sysdate) from project_funding f where p.projectno = f.projectno)  <![CDATA[>]]> 1 order by S.SUPPORTOR desc
 	</select>
 	
 	<insert id="interestInsert">
@@ -253,7 +253,7 @@
 	        (select trunc(deadlinedate - sysdate) from project_funding f where p.projectno = f.projectno) deadlineday,
 	        s.supportmoney, s.supportpercent
 		from (select * from project_outline where projectconfirmyn='Y' and projectdeadlineyn='N' order by projectdate desc) p join project_summary s on p.projectno = s.projectno join interest i on i.projectno = p.projectno
-		where 1=1 and i.projectno = p.projectno and i.email = #{email} order by S.SUPPORTMONEY desc
+		where 1=1 and i.projectno = p.projectno and i.email = #{email} and (select trunc(deadlinedate - sysdate) from project_funding f where p.projectno = f.projectno)  <![CDATA[>]]> 1 order by S.SUPPORTMONEY desc
 	</select>
 		
 	<select id="interestList1" resultType="list_project_view">
@@ -262,7 +262,7 @@
 	        (select trunc(deadlinedate - sysdate) from project_funding f where p.projectno = f.projectno) deadlineday,
 	        s.supportmoney, s.supportpercent
 		from (select * from project_outline where projectconfirmyn='Y' and projectdeadlineyn='N' order by projectdate desc) p join project_summary s on p.projectno = s.projectno join interest i on i.projectno = p.projectno
-		where 1=1 and i.projectno = p.projectno and i.email = #{email} order by S.SUPPORTOR desc
+		where 1=1 and i.projectno = p.projectno and i.email = #{email} and (select trunc(deadlinedate - sysdate) from project_funding f where p.projectno = f.projectno)  <![CDATA[>]]> 1 order by S.SUPPORTOR desc
 	</select>
 		
 	<select id="interestList3" resultType="list_project_view">
@@ -271,7 +271,7 @@
 	        (select trunc(deadlinedate - sysdate) from project_funding f where p.projectno = f.projectno) deadlineday,
 	        s.supportmoney, s.supportpercent
 		from (select * from project_outline where projectconfirmyn='Y' and projectdeadlineyn='N' order by projectdate desc) p join project_summary s on p.projectno = s.projectno join interest i on i.projectno = p.projectno
-		where 1=1 and i.projectno = p.projectno and i.email = #{email} order by deadlineday
+		where 1=1 and i.projectno = p.projectno and i.email = #{email} and (select trunc(deadlinedate - sysdate) from project_funding f where p.projectno = f.projectno)  <![CDATA[>]]> 1 order by deadlineday
 	</select>
 		
 	<select id="interestList4" resultType="list_project_view">
@@ -280,7 +280,7 @@
 	        (select trunc(deadlinedate - sysdate) from project_funding f where p.projectno = f.projectno) deadlineday,
 	        s.supportmoney, s.supportpercent
 		from (select * from project_outline where projectconfirmyn='Y' and projectdeadlineyn='N' order by projectdate desc) p join project_summary s on p.projectno = s.projectno join interest i on i.projectno = p.projectno
-		where 1=1 and i.projectno = p.projectno and i.email = #{email} order by p.projectdate desc
+		where 1=1 and i.projectno = p.projectno and i.email = #{email} and (select trunc(deadlinedate - sysdate) from project_funding f where p.projectno = f.projectno)  <![CDATA[>]]> 1 order by p.projectdate desc
 	</select>
 	
 	<select id="makeProject" resultType="profile">

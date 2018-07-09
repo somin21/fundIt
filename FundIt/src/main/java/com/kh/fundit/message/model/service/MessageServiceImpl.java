@@ -94,6 +94,18 @@ public class MessageServiceImpl implements MessageService {
 		return messageDAO.imagereadyn(email);
 	}
 
+	@Override
+	public List<Message> selectMessageList6(Map<String, Object> map, int cPage, int numPerPage) {
+		return messageDAO.selectMessageList6(map,cPage,numPerPage);
+	
+	}
+
+	@Override
+	public int totalMessageCount6(Map<String, Object> map) {
+		return messageDAO.totalMessageCount6(map);
+		
+	}
+
 
 
 

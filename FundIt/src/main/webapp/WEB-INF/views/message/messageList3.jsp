@@ -80,10 +80,10 @@ window.onload = function () {
 	<tr>
 	<!-- 	<th>번호</th> -->
 		<th class="content">내용</th>
-		<th>수신 여부</th>
-		<th>보낸이</th>
+		<th>읽음 여부</th>
+		<th>보낸 사람</th>
 		<!-- <th>받은사람</th> -->
-		<th>받은시간</th>
+		<th>받은 시간</th>
 	</tr>
 	
 	<c:forEach items="${list}" var="message" varStatus="status">

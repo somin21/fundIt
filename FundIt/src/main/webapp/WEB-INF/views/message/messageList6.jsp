@@ -72,7 +72,7 @@ window.onload = function () {
 <input type="text" name="email" value="${memberLoggedIn.email}" style="display: none;" />
 </form>
 <form action="${pageContext.request.contextPath}/message/messageList5.do" method="post">
-<input type="submit" value="안읽은 메세지함" id="readyn" class="btn btn-outline-success" />
+<input type="submit" value="읽은 메세지함" id="readyn" class="btn btn-outline-success" />
 <input type="text" name="email" value="${memberLoggedIn.email}" style="display: none;" />
 </form>
 <br /><br />
@@ -81,35 +81,36 @@ window.onload = function () {
 	<!-- 	<th>번호</th> -->
 		<th class="content">내용</th>
 		<th>읽음 여부</th>
-		<th>받은 사람</th>
+		<th>보낸 사람</th>
 		<!-- <th>받은사람</th> -->
-		<th>보낸 시간</th>
+		<th>받은 시간</th>
 	</tr>
 	
 	<c:forEach items="${list}" var="message" varStatus="status">
 		<tr>
-		<form action="messageModal3.do" method="post">
+		<form action="messageModal2.do" method="post">
 			<%-- <td>${message.messageNo}</td> --%>
-			<td><input type="submit" id="sss${status.count }" style="display: none;"  /><a href="#" class="content" onclick="me(${status.count});">${message.messageContent } </a></td>
+			<td><input type="submit" id="sss${status.count }" style="display: none;"  /><a href="#"  class="content" onclick="me(${status.count});">${message.messageContent } </a></td>
 			<td>${message.readyn }</td>
-			<td>${message.receiveEmail }</td>
+			<td>${message.sendEmail }</td>
 			<input type="text" name=email value="${message.receiveEmail }" style="display: none;" />
 			<input type="text" name=email2 value="${message.sendEmail }" style="display: none;"/>
 			<input type="text" name=messageNo value="${message.messageNo }" style="display: none;"/>
-		
+			
 			</form>
 			<%-- <td>${message.receiveEmail }</td> --%>
 			<td>${message.messageDate }</td>
 		</tr>
 	</c:forEach>
 <c:if test="${empty list }">
-	
+		
 		</c:if>
-		<form action="messageSelect2.do" method="post">
+		<form action="messageSelect3.do" method="post">
 <input type="text" value="${param.email }" name="email" id="loggedinemail" style="display: none;"/> 
 <input type="text" placeholder="메일검색" onkeydown="JavaScript:Enter_Check();" name="messageSelect" value="" />
 <input type="submit" value="검색" />
 </form>
+
 </table>
 </div>
 <script>
@@ -132,6 +133,10 @@ function me(a){
 		
 	}
 %>
-<%=com.kh.fundit.message.util.Utils.getPageBar(count,cPage,numPerPage,"messageList2.do",email) %>
+
+<%=com.kh.fundit.message.util.Utils.getPageBar(count,cPage,numPerPage,"messageSelect3.do",email) %>
+
+
+
 </section>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
