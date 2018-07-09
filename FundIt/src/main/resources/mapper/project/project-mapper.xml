@@ -385,7 +385,7 @@
 	   select * from  
      (select a.projectno, a.projecttitle, a.projectimage, a.projectconfirmyn as "confirmYn", (select nvl(name,'') from member m where a.email = m.email) "name",
        (select to_char(trunc(deadlinedate - sysdate)) from project_funding f where a.projectno = f.projectno) deadlineday,nvl(b.SUPPORTMONEY,0),nvl(b.SUPPORTPERCENT,0)
-        from (select * from  project_outline where email = '${email}' and projectconfirmyn = 'I') a
+        from (select * from  project_outline where email = #{email} and projectconfirmyn = 'I') a
         left join project_summary b on a.projectno = b.projectno order by deadlineday)
 	</select>
 	

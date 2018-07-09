@@ -536,9 +536,12 @@ font-weight : bolder;
 	        if(confirmYn =="Y"){
 	        console.log(projectNo);
 	        location.href="${pageContext.request.contextPath}/project/projectView.do?projectNo="+projectNo+"&email="+email;
-	        }else if(confirmYn == "I" || confirmYn == "F" || confirmYn == "N" ){
+	        }else if(confirmYn == "I"){
 	        console.log(projectNo);
 		    location.href="${pageContext.request.contextPath}/project/updateProject/outline?projectNo="+projectNo;	
+	        } else if(confirmYn == "F" || confirmYn == "N"){
+	        console.log(projectNo)
+	        location.href="${pageContext.request.contextPath}/project/projectPreview?projectNo="+projectNo;
 	        }
 	}
 	
