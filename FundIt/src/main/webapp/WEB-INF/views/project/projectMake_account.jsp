@@ -72,10 +72,9 @@ input#phone::-webkit-inner-spin-button {
 
 <script>
 //인증번호시작
-function fn_emailAtion(){//인증메일발송
+function fn_emailAtion(emailId){//인증메일발송
 	
 	var email = $("#confirmEmail").val();
-	var emailId= 'asd@co.kr';
 	/* 이메일 유효성 확인 */
 	var emailRegExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
 	
@@ -213,7 +212,7 @@ $(function(){
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/x.png" />
 						닫기
 					</button>
-					<button type="button" id="sendEmailBtn" onclick="fn_emailAtion();">
+					<button type="button" id="sendEmailBtn" onclick="fn_emailAtion(${memberLoggedIn.email});">
 						<img src="${pageContext.request.contextPath }/resources/images/makeProject/ok.png" />
 						인증
 					</button>

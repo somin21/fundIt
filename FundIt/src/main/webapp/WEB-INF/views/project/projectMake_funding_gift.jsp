@@ -566,6 +566,12 @@ function funding_validate(){
 		return false;
 	}
 	
+	if($(this).val() > 100000000){
+
+		alert("목표 금액은 100,000,000원 이하입니다");
+		return false;
+	}
+	
 	if($("#date-warning").text() != ""){
 		
 		alert("프로젝트 마감일은 내일부터 60일 후의 날짜 중 선택 가능합니다");
