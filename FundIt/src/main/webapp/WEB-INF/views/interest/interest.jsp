@@ -153,36 +153,19 @@ select#select {
   border: 1px solid white;
   border-radius: 0px;
 }
+div.maincontainer{
+    margin-top: 50px;
+    text-align: center;
+}
+
 
 </style>
 
     <!-- 프로젝트 -->
     <hr />
     <div class="maincontainer">
-        <h1>
-        <c:if test="${empty categoryCode }">
-           관심 프로젝트
-        </c:if>
-        <c:if test="${categoryCode eq 'C1' }">
-           게임
-        </c:if>
-        <c:if test="${categoryCode eq 'C2' }">
-           푸드
-        </c:if>
-        <c:if test="${categoryCode eq 'C3' }">
-           예술
-        </c:if>
-        <c:if test="${categoryCode eq 'C4' }">
-           패션
-        </c:if>
-        <c:if test="${categoryCode eq 'C5' }">
-           출판
-        </c:if>
-        <c:if test="${categoryCode eq 'C6' }">
-           테크놀리지
-        </c:if>
-          
-        </h1>
+    <h1> 관심 프로젝트</h1>
+
     </div>
     <hr />
     <div class="maincontainer2">
@@ -198,11 +181,19 @@ select#select {
     </div>
     <hr />
     
+    <form action="${pageContext.request.contextPath }/interest/interestselect.do" method="post">
+    <input type="text" name="email" value="${memberLoggedIn.email }" style="display: none;" />
+    <input type="text" name="a" id="interestSelect" value="" style="display: none;"  />
+    <input type="submit" id="selectSubmit" style="display: none;" />
+    
+    
+    </form>
+    
     <script>
     $("#select").change(function() {
     	var a=($(this).val());
-    	console.log(a);
-    	location.href="${pageContext.request.contextPath }/interest/interestselect.do?email=${memberLoggedIn.email}&a="+a
+    	$("#interestSelect").val(a);
+    	$("#selectSubmit").click();
     	});
 
     	
@@ -248,11 +239,14 @@ select#select {
       </c:forEach>
       </c:if>
       <c:if test="${empty list }">
-         <h1>아직 프로젝트가 등록되지 않았습니다~~~~ㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎ</h1>
+       
       </c:if>
    </div>
- 
-
+   <form action="${pageContext.request.contextPath}/interest/interestDelete.do" method="post">
+ <input type="text" name="projectNo" id="projectNo1" style="display: none;" />
+ <input type="text" name="email" value="${memberLoggedIn.email }" style="display: none;"/>
+ <input type="submit" id="aaaaa" style="display: none;" />
+</form>
 <script>
    $(function(){
       $(".project").click(function(){
@@ -265,8 +259,11 @@ select#select {
    $(function(){
 	      $(".aaa").click(function(){
 	         var projectNo = $(this).val();
-	         console.log(projectNo);
-	         location.href="${pageContext.request.contextPath}/interest/interestDelete.do?projectNo="+projectNo+"&"+"email="+"${memberLoggedIn.email }";
+	         $("#projectNo1").val(projectNo);
+	         $("#aaaaa").click();
+	   
+	     	
+	         
 	      });
 	   });
 	  

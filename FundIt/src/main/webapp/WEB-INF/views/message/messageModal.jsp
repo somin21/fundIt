@@ -16,8 +16,22 @@ window.onload = function () {
 }
 
 
+
+
 </script>
 
+
+<script>
+function check(){
+	var a = $("#messagearea").val();
+	if(a==''){
+		alert("내용을 입력하세요");
+		return false;
+	}else{
+		return true;
+	}
+	}
+</script>
 <style>
 
 body{
@@ -46,7 +60,7 @@ width:100%;
         <div class="modal-header">
           <h4 class="modal-title">창작자에게 문의하기</h4>
         </div>
-       	<form action="messageModalEnd.do">
+       	<form action="messageModalEnd.do" onsubmit ="return check()" method="post">
         <div class="modal-body">
         <div >
          	받는사람 :<input type="text" value="${param.email }" name="receiveEmail" readonly />

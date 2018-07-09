@@ -138,9 +138,27 @@ window.onload = function () {
 	</div>
 	
 	<div id="profile-click-div">
-		<p><a href="${pageContext.request.contextPath }/message/messageList.do?email=${memberLoggedIn.email }">메시지</a></p>
+	<form action="${pageContext.request.contextPath }/message/messageList.do" method="post">
+		<p><a href="#" onclick="messageList();">메시지</a></p>
+		<input type="text" value="${memberLoggedIn.email }" name="email" style="display: none;" />
+		<input type="submit" id="aaaa" style="display: none;"/>
+		</form>
+		<script>
+		function messageList(){
+			$("#aaaa").click();
+		}
+		</script>
 		<hr />
-		<p><a href="${pageContext.request.contextPath }/interest/interest.do?email=${memberLoggedIn.email }">관심 프로젝트</a></p>
+		<form action="${pageContext.request.contextPath }/interest/interest.do" method="post">
+		<p><a href="#" onclick="interestList();">관심 프로젝트</a></p>
+		<input type="text" value="${memberLoggedIn.email }" name="email"  style="display: none;"/>
+		<input type="submit" id="bbbb" style="display: none;" />
+		</form>
+		<script>
+		function interestList(){
+			$("#bbbb").click();
+		}
+		</script>
 		<p><a href="${pageContext.request.contextPath}/member/mySupport.do?email=${memberLoggedIn.email} ">후원 현황</a></p>
 		<p><a href="${pageContext.request.contextPath}/gift/giftDeliveryList.do?email="+${memberLoggedIn.email}>내가 받을 선물 리스트</a></p>
 		<p><a href="${pageContext.request.contextPath}/gift/giftGiveDeliveryList.do?email="+${memberLoggedIn.email}>내가 보낼 선물 리스트</a></p>
