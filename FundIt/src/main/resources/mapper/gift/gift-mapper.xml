@@ -7,14 +7,13 @@
 	<select id="selectMyGiftList" resultType="gift">
 		select a.supportno, a.email as myemail, a.projectno, b.address, nvl(b.postnum,'등록안됨') postnum,
 			(select  to_char(calculateduedate + 2,'YYYY-MM-dd') from project_funding d where a.PROJECTNO = d.projectno) as "deliveryduedate",
-			(select projecttitle from project_outline e where a.projectno = e.projectno ) as "projecttitle",
+			(select nvl(projecttitle,'아이템명 지정오류') from project_outline e where a.projectno = e.projectno ) as "projecttitle",
 			(select email from project_outline f where a.projectno = f.projectno) as "projectwriter",
  			b.ITEMNAME,
  			b.ITEMNUM,
  			b.deliveryyn
 		from support a 
 		join delivery b on a.supportno = b.supportno
-		join project_deadline g on a.projectno = g.projectno
 		where a.email = #{email}
 		<if test = "searchType eq 'All'">
 		and 1=1
@@ -31,7 +30,6 @@
 			(select  to_date(calculateduedate + 2,'YYYY-MM-dd') from project_funding i where a.PROJECTNO = i.projectno)  <![CDATA[>=]]> 0
 		</if>
 	</if>
-	and g.SUCCESSYN = 'Y'
 	and a.PAYYN='Y'
 	order by deliveryduedate
 	 

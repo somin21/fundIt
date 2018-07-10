@@ -12,7 +12,7 @@ public class GiveGift {
 	private String address;
 	private String postNum;
 	private String itemName;
-	private int itemNum;
+	private String itemNum;
 	private String deliveryYn;
 	private String deliveryDueDate;
 	
@@ -22,7 +22,7 @@ public class GiveGift {
 
 	public GiveGift(int projectno, String projectWriter, String projectTitle, String projectConfirmYn, int supportNo,
 			String supportor, int supportMoney, String payYn, String address, String postNum, String itemName,
-			int itemNum, String deliveryYn, String deliveryDueDate) {
+			String itemNum, String deliveryYn, String deliveryDueDate) {
 		
 		this.projectno = projectno;
 		this.projectWriter = projectWriter;
@@ -128,11 +128,11 @@ public class GiveGift {
 		this.itemName = itemName;
 	}
 
-	public int getItemNum() {
+	public String getItemNum() {
 		return itemNum;
 	}
 
-	public void setItemNum(int itemNum) {
+	public void setItemNum(String itemNum) {
 		this.itemNum = itemNum;
 	}
 

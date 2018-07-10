@@ -369,7 +369,7 @@ public class MemberController {
 	                helper.setFrom("flyingboy147@naver.com");
 	                helper.setTo(email);
 	                helper.setSubject("fundit에서 비밀번호 링크를 보내드립니다.");
-	                helper.setText("http://192.168.10.155:9090/fundit/member/changePwd.do?email="+email+"&token="+token);
+	                helper.setText("http://192.168.10.33:9090/fundit/member/changePwd.do?email="+email+"&token="+token);
 	            }
 	        };
 

@@ -111,11 +111,13 @@ var email = $("#email").val().trim();
 function htmlAppend(gift, div_name){
 	var html = '';
 	
-	html += '<div class="div-gift" id="shown" onclick="fn_shownSlide(this);">';  /* div-gift #shown  */
-	html += '<input type="hidden" name="projectNo" id ="projectNo" value="'+gift.projectNo+'" />';
+
+
+	html += '<div class="div-gift" id="shown">';  /* div-gift #shown  */
+	html += '<input type="hidden" name="projectNo" id ="projectNo" value="'+gift.projectno+'" />';
 	html += '<div id="left-content">'
-	html += '<h5><a href="${pageContext.request.contextPath}/project/projectView.do?projectNo='+gift.projectNo+'" style = "text-decoration : none; font-weight : bolder; color : gray;">'
-		 +gift.projectTitle+'<img src="${pageContext.request.contextPath }/resources/images/right-arrow-gray.png" style="width:15px; height: 15px;"/></a></h5>';
+	 html += '<h5><a href="${pageContext.request.contextPath}/project/projectView.do?projectNo='+gift.projectno+'&email='+gift.projectWriter+'" style = "text-decoration : none; font-weight : bolder; color : gray;">'
+		 +gift.projectTitle+'<img src="${pageContext.request.contextPath }/resources/images/right-arrow-gray.png" style="width:15px; height: 15px;"/></a></h5>'; 
 	html += '<p style = "color : lightgray;">'+gift.supportor+'</p>';
 	html += '</hr>';
 	if(gift.deliveryYn.includes("Y")){
@@ -158,7 +160,7 @@ function htmlAppendNone(startIndex, div_name){
 		html += '</span>';
 		
 		
-		div_name.append(html);	
+		div_name.append(html);	 
 	
 }
 
@@ -228,12 +230,12 @@ function toNextAjax(){
 <div class="myGiftList-container">
 
 <p class="title">
-	선물리스트  	
+	내가 보낼 선물리스트  	
 </p>
 <div class="gift-project" id="div-giftList">
 
 </div>
-<input type="button" value="더보기" class = "btn btn-success" style = "width:1024px; margin: auto; margin-top : 200px;"  onclick = "toNextAjax('${pageContext.request.contextPath}/project/selectMyProjectYet','${memberLoggedIn.email}','div-giftList','div-giftList');" />
+<input type="button" value="더보기" class = "btn btn-success" style = "width:1024px; margin: auto; margin-top : 200px;"  onclick = "toNextAjax();" />
 
 </div>
 

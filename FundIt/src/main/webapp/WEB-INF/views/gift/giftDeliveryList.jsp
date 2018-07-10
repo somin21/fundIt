@@ -193,7 +193,7 @@ function htmlAppend(gift, div_name){
 	html += '<div class="div-gift" id="shown" onclick="fn_shownSlide(this);">';  /* div-gift #shown  */
 	html += '<input type="hidden" name="projectNo" id ="projectNo" value="'+gift.projectNo+'" />';
 	html += '<div id="left-content">'
-	html += '<h5><a href="${pageContext.request.contextPath}/project/projectView.do?projectNo='+gift.projectNo+'" style = "text-decoration : none; font-weight : bolder; color : gray;">'
+	html += '<h5><a href="${pageContext.request.contextPath}/project/projectView.do?projectNo='+gift.projectNo+'&email='+gift.projectWriter+'" style = "text-decoration : none; font-weight : bolder; color : gray;">'
 		 +gift.projectTitle+'<img src="${pageContext.request.contextPath }/resources/images/right-arrow-gray.png" style="width:15px; height: 15px;"/></a></h5>';
 	html += '<p style = "color : lightgray;">'+gift.projectWriter+'</p>';
 	html += '</hr>';
@@ -203,7 +203,7 @@ function htmlAppend(gift, div_name){
 	}else{
 	html += '<span style = "font-size:20px; font-weight: 20px; color : yellowgreen;>'+gift.itemName+'</span>(비 배송상품)';	
 	}
-	html += '<p><span style="color : lightseagreen; font-size:20px;">'+gift.itemNumber+'</span> 개</p>';
+	html += '<p><span style="color : lightseagreen; font-size:20px;">'+gift.itemNum+'</span> 개</p>';
 	html += '<p style="margin-top : 5px;">'+gift.postNum+' || '+gift.address+'</p>';
 	html += '</div>';
 	html += '<div id="right-content">'
@@ -312,7 +312,7 @@ function toNextAjax(){
 <div class="myGiftList-container">
 
 <p class="title">
-	선물리스트  	
+	내가 받을 선물리스트  	
 </p>
 <div class="gift-project" id="div-giftList">
 
