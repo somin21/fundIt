@@ -6,14 +6,14 @@
 	<![CDATA[
 		select  o.projectno, o.projecttitle, o.projectimage,
 		        (select name from member m where o.email = m.email) name,
-		        trunc(f.deadlinedate - sysdate)+1 deadlineday,
+		        trunc(f.deadlinedate+1 - sysdate) deadlineday,
 		        sp.supportmoney, sp.supportpercent
 		    from project_outline o 
 		        join project_funding f on o.projectno = f.projectno 
 		        join project_story s on o.projectno = s.projectno
 		        join project_account a on o.projectno = a.projectno
 		        join project_summary sp on o.projectno = sp.projectno
-		    where o.projectconfirmyn='Y' and o.projectdeadlineyn='N'
+		    where o.projectconfirmyn='Y' and o.projectdeadlineyn='N' and trunc(deadlinedate - sysdate)+1>=1
 		    order by o.projectdate desc
 	 ]]>
 	</select>
@@ -33,7 +33,7 @@
 	<![CDATA[
 		select  o.projectno, o.projecttitle, o.projectimage,
 		        (select name from member m where o.email = m.email) name,
-		        trunc(f.deadlinedate - sysdate)+1 deadlineday
+		        trunc(f.deadlinedate+1 - sysdate) deadlineday
 		    from project_outline o 
 		        join project_funding f on o.projectno = f.projectno 
 		        join project_story s on o.projectno = s.projectno
@@ -46,7 +46,7 @@
 		select o.projectno, o.email, o.projectimage, o.projecttitle, o.categorycode, 
                     (select categoryname from category c where o.categorycode = c.categorycode) categoryname,
                     (select name from member m where o.email = m.email) name, f.deadlinedate,
-                    trunc(f.deadlinedate - sysdate)+1 deadlineday, f.supportgoal, f.refund, f.calculateduedate as calculatedueddate, s.introducemovie as movie, s.projectstory as story
+                    trunc(f.deadlinedate+1 - sysdate) deadlineday, f.supportgoal, f.refund, f.calculateduedate as calculatedueddate, s.introducemovie as movie, s.projectstory as story
             from project_outline o join project_funding f on o.projectno = f.projectno join project_story s on o.projectno = s.projectno
             where o.projectconfirmyn='N' and o.projectdeadlineyn='N' and o.projectno=#{projectNo}
 	</select>
@@ -84,7 +84,7 @@
 		select o.projectno, o.email, o.projectimage, o.projecttitle, o.categorycode, 
                 (select categoryname from category c where o.categorycode = c.categorycode) categoryname,
                 (select name from member m where o.email = m.email) name, f.deadlinedate,
-                trunc(f.deadlinedate - sysdate)+1 deadlineday, f.supportgoal, f.refund, f.calculateduedate as calculatedueddate, s.introducemovie as movie, s.projectstory as story
+                trunc(f.deadlinedate+1 - sysdate) deadlineday, f.supportgoal, f.refund, f.calculateduedate as calculatedueddate, s.introducemovie as movie, s.projectstory as story
         from project_outline o join project_funding f on o.projectno = f.projectno join project_story s on o.projectno = s.projectno
         where o.projectconfirmyn='Y' and o.projectdeadlineyn='Y' 
 	 ]]>
