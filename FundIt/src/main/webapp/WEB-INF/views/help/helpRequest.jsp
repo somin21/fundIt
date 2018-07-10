@@ -221,7 +221,7 @@ select option:checked, select option:hover {
         <p class="a1">*문의하실 내용을 알려주세요.*</p>
         <form action="${pageContext.request.contextPath}/help/helpRequestEnd.do">
         	<input type="hidden" name="userId" value="${memberLoggedIn.email }"/>
-        	<input type="hidden" name="reciver" value="hoyjung34@naver.com"/>
+        	<input type="hidden" name="reciver" value="admin@naver.com"/>
 	        <p><span id="counter">0</span>/700</p>
 	        <textarea id="textarea" name="context" rows="10" style="width:100%;" placeholder = "700자 이하로  입력하시오..."></textarea>
 	        <input class="inp" type="submit" value="제출"/>
